@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd" xmlns:tx="http://www.springframework.org/schema/tx">
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/jinzht2016">
+		</property>
+		<property name="username" value="root"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">
+					true
+				</prop>
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>com.jinzht.web.domain.Team</value>
+				<value>com.jinzht.web.domain.Authentic</value>
+				<value>com.jinzht.web.domain.Publiccontent</value>
+				<value>com.jinzht.web.domain.Contentprise</value>
+				<value>com.jinzht.web.domain.Member</value>
+				<value>
+					com.jinzht.web.domain.Projectcommitrecord
+				</value>
+				<value>com.jinzht.web.domain.Traderecord</value>
+				<value>com.jinzht.web.domain.Autrhrecord</value>
+				<value>com.jinzht.web.domain.Tradetype</value>
+				<value>com.jinzht.web.domain.Financingexit</value>
+				<value>com.jinzht.web.domain.Identiytype</value>
+				<value>com.jinzht.web.domain.Audiorecord</value>
+				<value>com.jinzht.web.domain.Businessplan</value>
+				<value>com.jinzht.web.domain.Status</value>
+				<value>com.jinzht.web.domain.Industoryarea</value>
+				<value>com.jinzht.web.domain.Comment</value>
+				<value>com.jinzht.web.domain.Financingcase</value>
+				<value>com.jinzht.web.domain.Actionprise</value>
+				<value>com.jinzht.web.domain.Capitalaccount</value>
+				<value>com.jinzht.web.domain.Userstatus</value>
+				<value>com.jinzht.web.domain.Projectimages</value>
+				<value>com.jinzht.web.domain.Roadshowplan</value>
+				<value>com.jinzht.web.domain.Messagetype</value>
+				<value>com.jinzht.web.domain.Actionshare</value>
+				<value>com.jinzht.web.domain.Inviterecord</value>
+				<value>com.jinzht.web.domain.Province</value>
+				<value>com.jinzht.web.domain.Users</value>
+				<value>com.jinzht.web.domain.Actioncomment</value>
+				<value>com.jinzht.web.domain.Contentimages</value>
+				<value>com.jinzht.web.domain.Rewardtrade</value>
+				<value>com.jinzht.web.domain.Roadshow</value>
+				<value>com.jinzht.web.domain.City</value>
+				<value>com.jinzht.web.domain.Controlreport</value>
+				<value>com.jinzht.web.domain.Action</value>
+				<value>com.jinzht.web.domain.Systemcode</value>
+				<value>com.jinzht.web.domain.Communion</value>
+				<value>com.jinzht.web.domain.Attention</value>
+				<value>com.jinzht.web.domain.Chargetype</value>
+				<value>com.jinzht.web.domain.Rewardtradetype</value>
+				<value>com.jinzht.web.domain.Loginfailrecord</value>
+				<value>com.jinzht.web.domain.Projectcomment</value>
+				<value>com.jinzht.web.domain.Rewardsystem</value>
+				<value>com.jinzht.web.domain.Collection</value>
+				<value>com.jinzht.web.domain.Financestatus</value>
+				<value>com.jinzht.web.domain.Systemmessage</value>
+				<value>
+					com.jinzht.web.domain.Financialstanding
+				</value>
+				<value>com.jinzht.web.domain.Industorytype</value>
+				<value>com.jinzht.web.domain.Investmentrecord</value>
+				<value>com.jinzht.web.domain.Project</value>
+				<value>com.jinzht.web.domain.Scene</value>
+				<value>com.jinzht.web.domain.Sharetype</value>
+				<value>com.jinzht.web.domain.Sustomservice</value>
+				<value>com.jinzht.web.domain.Notice</value>
+				<value>com.jinzht.web.domain.Versioncontroll</value>
+				<value>com.jinzht.web.domain.Banner</value>
+				<value>com.jinzht.web.domain.Share</value>
+				<value>com.jinzht.web.domain.Preloadingpage</value>
+				<value>com.jinzht.web.domain.Systemuser</value>
+				<value>com.jinzht.web.domain.Roletype</value></list>
+		</property></bean>
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate" p:sessionFactory-ref="sessionFactory">
+		
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" /><bean
+		id="TeamDAO" class="com.jinzht.web.dao.TeamDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+</bean>
+	<bean id="AuthenticDAO"
+		class="com.jinzht.web.dao.AuthenticDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="PubliccontentDAO"
+		class="com.jinzht.web.dao.PubliccontentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ContentpriseDAO"
+		class="com.jinzht.web.dao.ContentpriseDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="MemberDAO" class="com.jinzht.web.dao.MemberDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ProjectcommitrecordDAO"
+		class="com.jinzht.web.dao.ProjectcommitrecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TraderecordDAO"
+		class="com.jinzht.web.dao.TraderecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="AutrhrecordDAO"
+		class="com.jinzht.web.dao.AutrhrecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TradetypeDAO"
+		class="com.jinzht.web.dao.TradetypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="FinancingexitDAO"
+		class="com.jinzht.web.dao.FinancingexitDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="IdentiytypeDAO"
+		class="com.jinzht.web.dao.IdentiytypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="AudiorecordDAO"
+		class="com.jinzht.web.dao.AudiorecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessplanDAO"
+		class="com.jinzht.web.dao.BusinessplanDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="StatusDAO" class="com.jinzht.web.dao.StatusDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="IndustoryareaDAO"
+		class="com.jinzht.web.dao.IndustoryareaDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="CommentDAO" class="com.jinzht.web.dao.CommentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="FinancingcaseDAO"
+		class="com.jinzht.web.dao.FinancingcaseDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ActionpriseDAO"
+		class="com.jinzht.web.dao.ActionpriseDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="CapitalaccountDAO"
+		class="com.jinzht.web.dao.CapitalaccountDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="UserstatusDAO"
+		class="com.jinzht.web.dao.UserstatusDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ProjectimagesDAO"
+		class="com.jinzht.web.dao.ProjectimagesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="RoadshowplanDAO"
+		class="com.jinzht.web.dao.RoadshowplanDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="MessagetypeDAO"
+		class="com.jinzht.web.dao.MessagetypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ActionshareDAO"
+		class="com.jinzht.web.dao.ActionshareDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="InviterecordDAO"
+		class="com.jinzht.web.dao.InviterecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ProvinceDAO"
+		class="com.jinzht.web.dao.ProvinceDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="UsersDAO" class="com.jinzht.web.dao.UsersDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ActioncommentDAO"
+		class="com.jinzht.web.dao.ActioncommentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ContentimagesDAO"
+		class="com.jinzht.web.dao.ContentimagesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="RewardtradeDAO"
+		class="com.jinzht.web.dao.RewardtradeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="RoadshowDAO"
+		class="com.jinzht.web.dao.RoadshowDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="CityDAO" class="com.jinzht.web.dao.CityDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ControlreportDAO"
+		class="com.jinzht.web.dao.ControlreportDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ActionDAO" class="com.jinzht.web.dao.ActionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SystemcodeDAO"
+		class="com.jinzht.web.dao.SystemcodeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="CommunionDAO"
+		class="com.jinzht.web.dao.CommunionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="AttentionDAO"
+		class="com.jinzht.web.dao.AttentionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ChargetypeDAO"
+		class="com.jinzht.web.dao.ChargetypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="RewardtradetypeDAO"
+		class="com.jinzht.web.dao.RewardtradetypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="LoginfailrecordDAO"
+		class="com.jinzht.web.dao.LoginfailrecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ProjectcommentDAO"
+		class="com.jinzht.web.dao.ProjectcommentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="RewardsystemDAO"
+		class="com.jinzht.web.dao.RewardsystemDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="CollectionDAO"
+		class="com.jinzht.web.dao.CollectionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="FinancestatusDAO"
+		class="com.jinzht.web.dao.FinancestatusDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SystemmessageDAO"
+		class="com.jinzht.web.dao.SystemmessageDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="FinancialstandingDAO"
+		class="com.jinzht.web.dao.FinancialstandingDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="IndustorytypeDAO"
+		class="com.jinzht.web.dao.IndustorytypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="InvestmentrecordDAO"
+		class="com.jinzht.web.dao.InvestmentrecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ProjectDAO" class="com.jinzht.web.dao.ProjectDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SceneDAO" class="com.jinzht.web.dao.SceneDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SharetypeDAO"
+		class="com.jinzht.web.dao.SharetypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SustomserviceDAO"
+		class="com.jinzht.web.dao.SustomserviceDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="NoticeDAO" class="com.jinzht.web.dao.NoticeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="VersioncontrollDAO"
+		class="com.jinzht.web.dao.VersioncontrollDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BannerDAO" class="com.jinzht.web.dao.BannerDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ShareDAO" class="com.jinzht.web.dao.ShareDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="PreloadingpageDAO"
+		class="com.jinzht.web.dao.PreloadingpageDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SystemuserDAO"
+		class="com.jinzht.web.dao.SystemuserDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="RoletypeDAO"
+		class="com.jinzht.web.dao.RoletypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean></beans>
