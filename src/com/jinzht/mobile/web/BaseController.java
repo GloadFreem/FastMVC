@@ -10,21 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Users;
 
-public class BaseController {
+public class BaseController  {
 	protected Map result ;
 	protected String message = "";
 	protected int status = 401; // 状态码
 	
-	@RequestMapping("/noLogoInfo")
-	@ResponseBody
-	public Map noLogoInfo(ModelMap mm)
-	{
-		this.result = new HashMap();
-		this.status = 401;
-		this.message = Config.STRING_LOGING_TIP;
-		this.result.put("data", "");
-		return getResult();
-	}
 	
 	public Map getResult() {
 //		this.result = new HashMap();

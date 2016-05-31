@@ -14,17 +14,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jinzht.web.entity.Sustomservice;
+import com.jinzht.web.entity.Customservice;
 
 /**
  * A data access object (DAO) providing persistence and search support for
- * Sustomservice entities. Transaction control of the save(), update() and
+ * Customservice entities. Transaction control of the save(), update() and
  * delete() operations can directly support Spring container-managed
  * transactions or they can be augmented to handle user-managed Spring
  * transactions. Each of these methods provides additional information for how
  * to configure it for the desired type of transaction control.
  * 
- * @see com.jinzht.web.entity.Sustomservice
+ * @see com.jinzht.web.entity.Customservice
  * @author MyEclipse Persistence Tools
  */
 @Transactional
@@ -48,8 +48,8 @@ public class SustomserviceDAO {
 		// do nothing
 	}
 
-	public void save(Sustomservice transientInstance) {
-		log.debug("saving Sustomservice instance");
+	public void save(Customservice transientInstance) {
+		log.debug("saving Customservice instance");
 		try {
 			getCurrentSession().save(transientInstance);
 			log.debug("save successful");
@@ -59,8 +59,8 @@ public class SustomserviceDAO {
 		}
 	}
 
-	public void delete(Sustomservice persistentInstance) {
-		log.debug("deleting Sustomservice instance");
+	public void delete(Customservice persistentInstance) {
+		log.debug("deleting Customservice instance");
 		try {
 			getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
@@ -70,10 +70,10 @@ public class SustomserviceDAO {
 		}
 	}
 
-	public Sustomservice findById(java.lang.Integer id) {
-		log.debug("getting Sustomservice instance with id: " + id);
+	public Customservice findById(java.lang.Integer id) {
+		log.debug("getting Customservice instance with id: " + id);
 		try {
-			Sustomservice instance = (Sustomservice) getCurrentSession().get(
+			Customservice instance = (Customservice) getCurrentSession().get(
 					"com.jinzht.web.hibernate.Sustomservice", id);
 			return instance;
 		} catch (RuntimeException re) {
@@ -82,10 +82,10 @@ public class SustomserviceDAO {
 		}
 	}
 
-	public List<Sustomservice> findByExample(Sustomservice instance) {
-		log.debug("finding Sustomservice instance by example");
+	public List<Customservice> findByExample(Customservice instance) {
+		log.debug("finding Customservice instance by example");
 		try {
-			List<Sustomservice> results = (List<Sustomservice>) getCurrentSession()
+			List<Customservice> results = (List<Customservice>) getCurrentSession()
 					.createCriteria("com.jinzht.web.hibernate.Sustomservice")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
@@ -98,10 +98,10 @@ public class SustomserviceDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Sustomservice instance with property: "
+		log.debug("finding Customservice instance with property: "
 				+ propertyName + ", value: " + value);
 		try {
-			String queryString = "from Sustomservice as model where model."
+			String queryString = "from Customservice as model where model."
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
@@ -112,14 +112,14 @@ public class SustomserviceDAO {
 		}
 	}
 
-	public List<Sustomservice> findByName(Object name) {
+	public List<Customservice> findByName(Object name) {
 		return findByProperty(NAME, name);
 	}
 
 	public List findAll() {
-		log.debug("finding all Sustomservice instances");
+		log.debug("finding all Customservice instances");
 		try {
-			String queryString = "from Sustomservice";
+			String queryString = "from Customservice";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -128,10 +128,10 @@ public class SustomserviceDAO {
 		}
 	}
 
-	public Sustomservice merge(Sustomservice detachedInstance) {
-		log.debug("merging Sustomservice instance");
+	public Customservice merge(Customservice detachedInstance) {
+		log.debug("merging Customservice instance");
 		try {
-			Sustomservice result = (Sustomservice) getCurrentSession().merge(
+			Customservice result = (Customservice) getCurrentSession().merge(
 					detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -141,8 +141,8 @@ public class SustomserviceDAO {
 		}
 	}
 
-	public void attachDirty(Sustomservice instance) {
-		log.debug("attaching dirty Sustomservice instance");
+	public void attachDirty(Customservice instance) {
+		log.debug("attaching dirty Customservice instance");
 		try {
 			getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
@@ -152,8 +152,8 @@ public class SustomserviceDAO {
 		}
 	}
 
-	public void attachClean(Sustomservice instance) {
-		log.debug("attaching clean Sustomservice instance");
+	public void attachClean(Customservice instance) {
+		log.debug("attaching clean Customservice instance");
 		try {
 			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(
 					instance);

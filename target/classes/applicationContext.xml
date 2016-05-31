@@ -95,7 +95,7 @@
 				<value>com.jinzht.web.entity.Project</value>
 				<value>com.jinzht.web.entity.Scene</value>
 				<value>com.jinzht.web.entity.Sharetype</value>
-				<value>com.jinzht.web.entity.Sustomservice</value>
+				<value>com.jinzht.web.entity.Customservice</value>
 				<value>com.jinzht.web.entity.Notice</value>
 				<value>com.jinzht.web.entity.Versioncontroll</value>
 				<value>com.jinzht.web.entity.Banner</value>

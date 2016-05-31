@@ -50,4 +50,6 @@
 	</bean>
 	
 	<bean id="userManager" class="com.jinzht.web.manager.UserManager"></bean>
+	<bean id="systemManager" class="com.jinzht.web.manager.SystemManager"></bean>
+
 </beans>

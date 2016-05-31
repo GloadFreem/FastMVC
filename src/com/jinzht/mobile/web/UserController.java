@@ -69,5 +69,16 @@ public class UserController extends BaseController {
 		return getResult();
 	}
 	
+	@RequestMapping("/noLogoInfo")
+	@ResponseBody
+	public Map noLogoInfo(ModelMap mm)
+	{
+		this.result = new HashMap();
+		this.status = 401;
+		this.message = Config.STRING_LOGING_TIP;
+		this.result.put("data", "");
+		return getResult();
+	}
+	
 
 }

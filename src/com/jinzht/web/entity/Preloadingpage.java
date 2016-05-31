@@ -1,12 +1,19 @@
 package com.jinzht.web.entity;
 
 import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Preloadingpage entity. @author MyEclipse Persistence Tools
@@ -77,6 +84,8 @@ public class Preloadingpage implements java.io.Serializable {
 	}
 
 	@Column(name = "update_time", nullable = false, length = 0)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8") 
 	public Timestamp getUpdateTime() {
 		return this.updateTime;
 	}
@@ -86,6 +95,8 @@ public class Preloadingpage implements java.io.Serializable {
 	}
 
 	@Column(name = "show_time", nullable = false, length = 0)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8") 
 	public Timestamp getShowTime() {
 		return this.showTime;
 	}

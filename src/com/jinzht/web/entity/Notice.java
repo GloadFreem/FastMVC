@@ -1,26 +1,37 @@
 package com.jinzht.web.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Notice entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "notice", catalog = "jinzht2016")
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Notice implements java.io.Serializable {
 
 	// Fields
 
 	private Integer noticeId;
-	private String description;
-	private String noticeType;
-	private Timestamp nodiceTime;
+	private String description="";
+	private String noticeType="";
+	private Date nodiceTime;
 	private Short platform;
 
 	// Constructors
@@ -30,7 +41,7 @@ public class Notice implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Notice(String description, String noticeType, Timestamp nodiceTime,
+	public Notice(String description, String noticeType, Date nodiceTime,
 			Short platform) {
 		this.description = description;
 		this.noticeType = noticeType;
@@ -69,11 +80,13 @@ public class Notice implements java.io.Serializable {
 	}
 
 	@Column(name = "nodice_time", length = 0)
-	public Timestamp getNodiceTime() {
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
+	public Date getNodiceTime() {
 		return this.nodiceTime;
 	}
 
-	public void setNodiceTime(Timestamp nodiceTime) {
+	public void setNodiceTime(Date nodiceTime) {
 		this.nodiceTime = nodiceTime;
 	}
 
