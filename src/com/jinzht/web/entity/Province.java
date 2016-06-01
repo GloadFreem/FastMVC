@@ -27,7 +27,6 @@ public class Province implements java.io.Serializable {
 	private Integer provinceId;
 	private String name;
 	private Boolean isInvlid;
-	private Set<City> cities = new HashSet<City>(0);
 
 	// Constructors
 
@@ -36,10 +35,9 @@ public class Province implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Province(String name, Boolean isInvlid, Set<City> cities) {
+	public Province(String name, Boolean isInvlid) {
 		this.name = name;
 		this.isInvlid = isInvlid;
-		this.cities = cities;
 	}
 
 	// Property accessors
@@ -70,15 +68,6 @@ public class Province implements java.io.Serializable {
 
 	public void setIsInvlid(Boolean isInvlid) {
 		this.isInvlid = isInvlid;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "province")
-	public Set<City> getCities() {
-		return this.cities;
-	}
-
-	public void setCities(Set<City> cities) {
-		this.cities = cities;
 	}
 
 }

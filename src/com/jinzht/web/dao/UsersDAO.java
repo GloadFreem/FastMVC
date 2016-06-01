@@ -54,14 +54,28 @@ public class UsersDAO {
 		// do nothing
 	}
 
-	public void save(Users transientInstance) {
+	public Users save(Users transientInstance) {
 		log.debug("saving Users instance");
 		try {
 			getCurrentSession().save(transientInstance);
 			log.debug("save successful");
+			return transientInstance;
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
-			throw re;
+//			throw re;
+			return null;
+		}
+	}
+	public Users saveOrUpdate(Users transientInstance) {
+		log.debug("saving Users instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+			return transientInstance;
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+//			throw re;
+			return null;
 		}
 	}
 
@@ -80,7 +94,7 @@ public class UsersDAO {
 		log.debug("getting Users instance with id: " + id);
 		try {
 			Users instance = (Users) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Users", id);
+					"com.jinzht.web.entity.Users", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

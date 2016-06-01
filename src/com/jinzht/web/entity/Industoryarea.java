@@ -27,7 +27,7 @@ public class Industoryarea implements java.io.Serializable {
 	private Integer areaId;
 	private String name;
 	private Boolean isvalid;
-	private Set<Authentic> authentics = new HashSet<Authentic>(0);
+//	private Set<Authentic> authentics = new HashSet<Authentic>(0);
 
 	// Constructors
 
@@ -36,11 +36,15 @@ public class Industoryarea implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Industoryarea(String name, Boolean isvalid, Set<Authentic> authentics) {
+	public Industoryarea(String name, Boolean isvalid) {
 		this.name = name;
 		this.isvalid = isvalid;
-		this.authentics = authentics;
 	}
+//	public Industoryarea(String name, Boolean isvalid, Set<Authentic> authentics) {
+//		this.name = name;
+//		this.isvalid = isvalid;
+//		this.authentics = authentics;
+//	}
 
 	// Property accessors
 	@Id
@@ -71,14 +75,4 @@ public class Industoryarea implements java.io.Serializable {
 	public void setIsvalid(Boolean isvalid) {
 		this.isvalid = isvalid;
 	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "industoryarea")
-	public Set<Authentic> getAuthentics() {
-		return this.authentics;
-	}
-
-	public void setAuthentics(Set<Authentic> authentics) {
-		this.authentics = authentics;
-	}
-
 }

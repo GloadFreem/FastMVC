@@ -12,6 +12,7 @@ public class Config {
 	public static String SMS_VERIFY_CODE = "验证码 %d , 十分钟内有效【金指投投融资】";
 	public static String SMS_VERIFY_STRING = "【金指投投融资】";
 	public static String SMS_HAVE_SEND_STRING = "验证码发送成功，请注意查收!";
+	public static String SMS_FAIL_SEND_STRING = "验证码发送失败，请稍后重试!";
 	
 	
 	
@@ -37,6 +38,7 @@ public class Config {
 	//身份认证
 	public static String  STRING_AUTH_IDENTIY_TYPE_NOT_NULL = "用户身份不能为空!";
 	public static String  STRING_AUTH_IDENTIY_SUCCESS = "投资人身份添加成功!";
+	public static String  STRING_AUTH_IDENTIY_FAIL = "投资人身份添加失败!";
 	public static List<String> STRING_AUTH_QUALIFICATION = Arrays.asList("1, '(一)《私募投资基金监督管理暂行办法》规定的合格投资者'", 
 			"2, '(二)投资单个融资项目的最低金额不低于100万元人民币的单位或个人", 
 			"3, '(三)社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，以及依法设立并在中国证券投资基金业协会备案的投资计划",

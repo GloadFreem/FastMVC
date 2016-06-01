@@ -2,6 +2,7 @@ package com.jinzht.web.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -60,6 +61,16 @@ public class LoginfailrecordDAO {
 			throw re;
 		}
 	}
+	public void update(Loginfailrecord transientInstance) {
+		log.debug("saving Loginfailrecord instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Loginfailrecord persistentInstance) {
 		log.debug("deleting Loginfailrecord instance");
@@ -107,6 +118,31 @@ public class LoginfailrecordDAO {
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	public List findByProperties(Map requestMap) {
+		try {
+//			String debugInfo= "finding Loginfailrecord instance with property: ";
+			String queryString = "from Loginfailrecord as model where";
+			Object[] keys= requestMap.keySet().toArray();
+			for(int i = 0;i<requestMap.size();i++){
+//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
+				if(i==0){
+					queryString+=" model."+keys[i].toString()+" =? ";
+				}else{
+					queryString+="and model."+keys[i].toString()+" =? ";
+				}
+			}
+//			log.debug(debugInfo);
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<requestMap.size();i++){
+				queryObject.setParameter(i, requestMap.get(keys[i]));
+			}
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);

@@ -87,7 +87,7 @@ public class IndustorytypeDAO {
 		log.debug("finding Industorytype instance by example");
 		try {
 			List<Industorytype> results = (List<Industorytype>) getCurrentSession()
-					.createCriteria("com.jinzht.web.hibernate.Industorytype")
+					.createCriteria("com.jinzht.web.entity.Industorytype")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

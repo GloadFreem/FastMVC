@@ -75,7 +75,7 @@ public class IdentiytypeDAO {
 		log.debug("getting Identiytype instance with id: " + id);
 		try {
 			Identiytype instance = (Identiytype) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Identiytype", id);
+					"com.jinzht.web.entity.Identiytype", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -87,7 +87,7 @@ public class IdentiytypeDAO {
 		log.debug("finding Identiytype instance by example");
 		try {
 			List<Identiytype> results = (List<Identiytype>) getCurrentSession()
-					.createCriteria("com.jinzht.web.hibernate.Identiytype")
+					.createCriteria("com.jinzht.web.entity.Identiytype")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

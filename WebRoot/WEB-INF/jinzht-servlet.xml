@@ -51,5 +51,6 @@
 	
 	<bean id="userManager" class="com.jinzht.web.manager.UserManager"></bean>
 	<bean id="systemManager" class="com.jinzht.web.manager.SystemManager"></bean>
+	<bean id="authenticManager" class="com.jinzht.web.manager.AuthenticManager"></bean>
 
 </beans>

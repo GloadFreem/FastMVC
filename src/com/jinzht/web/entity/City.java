@@ -27,10 +27,9 @@ public class City implements java.io.Serializable {
 	// Fields
 
 	private Integer cityId;
-	private Province province;
 	private String name;
 	private Boolean isInvlid;
-	private Set<Authentic> authentics = new HashSet<Authentic>(0);
+//	private Set<Authentic> authentics = new HashSet<Authentic>(0);
 
 	// Constructors
 
@@ -39,13 +38,17 @@ public class City implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public City(Province province, String name, Boolean isInvlid,
-			Set<Authentic> authentics) {
-		this.province = province;
+	public City( String name, Boolean isInvlid) {
 		this.name = name;
 		this.isInvlid = isInvlid;
-		this.authentics = authentics;
 	}
+//	public City(Province province, String name, Boolean isInvlid,
+//			Set<Authentic> authentics) {
+//		this.province = province;
+//		this.name = name;
+//		this.isInvlid = isInvlid;
+//		this.authentics = authentics;
+//	}
 
 	// Property accessors
 	@Id
@@ -57,16 +60,6 @@ public class City implements java.io.Serializable {
 
 	public void setCityId(Integer cityId) {
 		this.cityId = cityId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "province_id")
-	public Province getProvince() {
-		return this.province;
-	}
-
-	public void setProvince(Province province) {
-		this.province = province;
 	}
 
 	@Column(name = "name")
@@ -85,15 +78,6 @@ public class City implements java.io.Serializable {
 
 	public void setIsInvlid(Boolean isInvlid) {
 		this.isInvlid = isInvlid;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city")
-	public Set<Authentic> getAuthentics() {
-		return this.authentics;
-	}
-
-	public void setAuthentics(Set<Authentic> authentics) {
-		this.authentics = authentics;
 	}
 
 }

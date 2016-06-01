@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.servlet.http.HttpSession;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -27,11 +29,11 @@ public class MsgUtil {
 		this.setMsgType(msgType);
 	}
 
-	public static boolean send(Map session) {
+	public static boolean send(HttpSession session) {
 		try {
 			if (msgType == MessageType.VerifyCode) {
 				int code = (int) (Math.random() * 9000+1000);
-				session.put("code", code);
+				session.setAttribute("code", code);
 				content = String.format(Config.SMS_VERIFY_CODE, code);
 			} else {
 				content+= Config.SMS_VERIFY_STRING;

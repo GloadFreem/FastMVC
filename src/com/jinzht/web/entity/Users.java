@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,6 +21,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Users entity. @author MyEclipse Persistence Tools
@@ -32,7 +40,13 @@ public class Users implements java.io.Serializable {
 
 	private Integer userId;
 	private Userstatus userstatus;
+	
+	@NotNull(message="{Pattern.messagebean.telephone.notnull}")
+	@Length(min=11,max=11,message="{Pattern.messagebean.telephone.error}")
+	@Pattern(regexp="^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$", message="{Pattern.messagebean.telephone.pattern}")
 	private String telephone;
+	
+	@NotNull(message="{Pattern.password.notnull}")
 	private String password;
 	private String headSculpture;
 	private Date lastLoginDate;
@@ -111,7 +125,7 @@ public class Users implements java.io.Serializable {
 
 	// Property accessors
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id", unique = true, nullable = false)
 	public Integer getUserId() {
 		return this.userId;
@@ -158,8 +172,9 @@ public class Users implements java.io.Serializable {
 		this.headSculpture = headSculpture;
 	}
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "last_login_date", length = 0)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
 	public Date getLastLoginDate() {
 		return this.lastLoginDate;
 	}

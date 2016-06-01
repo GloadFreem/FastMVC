@@ -26,7 +26,7 @@ public class Industorytype implements java.io.Serializable {
 
 	private Integer industoryId;
 	private String name;
-	private Set<Authentic> authentics = new HashSet<Authentic>(0);
+//	private Set<Authentic> authentics = new HashSet<Authentic>(0);
 
 	// Constructors
 
@@ -35,10 +35,13 @@ public class Industorytype implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Industorytype(String name, Set<Authentic> authentics) {
+	public Industorytype(String name) {
 		this.name = name;
-		this.authentics = authentics;
 	}
+//	public Industorytype(String name, Set<Authentic> authentics) {
+//		this.name = name;
+//		this.authentics = authentics;
+//	}
 
 	// Property accessors
 	@Id
@@ -61,13 +64,13 @@ public class Industorytype implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "industorytype")
-	public Set<Authentic> getAuthentics() {
-		return this.authentics;
-	}
-
-	public void setAuthentics(Set<Authentic> authentics) {
-		this.authentics = authentics;
-	}
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "industorytype")
+//	public Set<Authentic> getAuthentics() {
+//		return this.authentics;
+//	}
+//
+//	public void setAuthentics(Set<Authentic> authentics) {
+//		this.authentics = authentics;
+//	}
 
 }
