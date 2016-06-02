@@ -2,7 +2,6 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-String tip = request.getAttribute("tip").toString();
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -22,7 +21,6 @@ String tip = request.getAttribute("tip").toString();
   </head>
   
   <body>
-    This is my JSP page. <br>
-    ${tip}
+    金指投团队. <br>
   </body>
 </html>

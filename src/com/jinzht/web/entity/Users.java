@@ -43,9 +43,8 @@ public class Users implements java.io.Serializable {
 	
 	@NotNull(message="{Pattern.messagebean.telephone.notnull}")
 	@Length(min=11,max=11,message="{Pattern.messagebean.telephone.error}")
-	@Pattern(regexp="^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$", message="{Pattern.messagebean.telephone.pattern}")
+	@Pattern(regexp="^((1[3,5,8][0-9])|(14[5,7])|(17[,0,6,7,8]))\\d{8}$", message="{Pattern.messagebean.telephone.pattern}")
 	private String telephone;
-	
 	@NotNull(message="{Pattern.password.notnull}")
 	private String password;
 	private String headSculpture;
@@ -135,7 +134,7 @@ public class Users implements java.io.Serializable {
 		this.userId = userId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_status_id")
 	public Userstatus getUserstatus() {
 		return this.userstatus;
@@ -201,7 +200,7 @@ public class Users implements java.io.Serializable {
 		this.wechatId = wechatId;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Comment> getComments() {
 		return this.comments;
 	}
@@ -210,7 +209,7 @@ public class Users implements java.io.Serializable {
 		this.comments = comments;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Collection> getCollections() {
 		return this.collections;
 	}
@@ -219,7 +218,7 @@ public class Users implements java.io.Serializable {
 		this.collections = collections;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Communion> getCommunions() {
 		return this.communions;
 	}
@@ -228,7 +227,7 @@ public class Users implements java.io.Serializable {
 		this.communions = communions;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Inviterecord> getInviterecords() {
 		return this.inviterecords;
 	}
@@ -237,7 +236,7 @@ public class Users implements java.io.Serializable {
 		this.inviterecords = inviterecords;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Authentic> getAuthentics() {
 		return this.authentics;
 	}
@@ -246,7 +245,7 @@ public class Users implements java.io.Serializable {
 		this.authentics = authentics;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Attention> getAttentions() {
 		return this.attentions;
 	}
@@ -255,7 +254,7 @@ public class Users implements java.io.Serializable {
 		this.attentions = attentions;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Systemmessage> getSystemmessages() {
 		return this.systemmessages;
 	}
@@ -264,7 +263,7 @@ public class Users implements java.io.Serializable {
 		this.systemmessages = systemmessages;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Rewardsystem> getRewardsystems() {
 		return this.rewardsystems;
 	}
@@ -273,7 +272,7 @@ public class Users implements java.io.Serializable {
 		this.rewardsystems = rewardsystems;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Actionprise> getActionprises() {
 		return this.actionprises;
 	}
@@ -282,7 +281,7 @@ public class Users implements java.io.Serializable {
 		this.actionprises = actionprises;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Capitalaccount> getCapitalaccounts() {
 		return this.capitalaccounts;
 	}
@@ -291,7 +290,7 @@ public class Users implements java.io.Serializable {
 		this.capitalaccounts = capitalaccounts;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "users")
 	public Publiccontent getPubliccontent() {
 		return this.publiccontent;
 	}
@@ -300,7 +299,7 @@ public class Users implements java.io.Serializable {
 		this.publiccontent = publiccontent;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Investmentrecord> getInvestmentrecords() {
 		return this.investmentrecords;
 	}
@@ -309,7 +308,7 @@ public class Users implements java.io.Serializable {
 		this.investmentrecords = investmentrecords;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Contentprise> getContentprises() {
 		return this.contentprises;
 	}
@@ -318,7 +317,7 @@ public class Users implements java.io.Serializable {
 		this.contentprises = contentprises;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "users")
 	public Projectcommitrecord getProjectcommitrecord() {
 		return this.projectcommitrecord;
 	}
@@ -327,7 +326,7 @@ public class Users implements java.io.Serializable {
 		this.projectcommitrecord = projectcommitrecord;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Traderecord> getTraderecords() {
 		return this.traderecords;
 	}
@@ -336,7 +335,7 @@ public class Users implements java.io.Serializable {
 		this.traderecords = traderecords;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Systemcode> getSystemcodes() {
 		return this.systemcodes;
 	}
@@ -345,7 +344,7 @@ public class Users implements java.io.Serializable {
 		this.systemcodes = systemcodes;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "users")
 	public Actionshare getActionshare() {
 		return this.actionshare;
 	}
@@ -354,7 +353,7 @@ public class Users implements java.io.Serializable {
 		this.actionshare = actionshare;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Actioncomment> getActioncomments() {
 		return this.actioncomments;
 	}
@@ -363,7 +362,7 @@ public class Users implements java.io.Serializable {
 		this.actioncomments = actioncomments;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Loginfailrecord> getLoginfailrecords() {
 		return this.loginfailrecords;
 	}

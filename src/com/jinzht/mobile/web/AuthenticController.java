@@ -32,6 +32,8 @@ import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Authentic;
+import com.jinzht.web.entity.AuthenticEntity;
+import com.jinzht.web.entity.Authenticstatus;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.MessageBean;
@@ -80,7 +82,6 @@ public class AuthenticController extends BaseController {
 					.findIdentityTypeById(ideniyType);
 			// 生成认证记录
 			Authentic authentic = new Authentic();
-			authentic.setUsers(user);
 			authentic.setIdentiytype(identityType);
 
 			// 更新用户登录信息
@@ -114,6 +115,7 @@ public class AuthenticController extends BaseController {
 	 */
 	public Map getProtocolAuthentic(HttpSession session) {
 		this.result = new HashMap();
+		this.status=200;
 		this.result.put("data",  Config.STRING_AUTH_QUALIFICATION);
 
 		return getResult();
@@ -127,6 +129,7 @@ public class AuthenticController extends BaseController {
 	 */
 	public Map getIndustoryTypeAuthentic(HttpSession session) {
 		this.result = new HashMap();
+		this.status=200;
 		
 		List list = this.authenticManager.findAllIndustoryType();
 		this.result.put("data",  list);
@@ -142,6 +145,7 @@ public class AuthenticController extends BaseController {
 	 */
 	public Map getProvinceListAuthentic(HttpSession session) {
 		this.result = new HashMap();
+		this.status=200;
 		
 		List list = this.authenticManager.findAllProvinceList();
 		this.result.put("data",  list);
@@ -157,9 +161,145 @@ public class AuthenticController extends BaseController {
 	 */
 	public Map getCityListAuthentic(HttpSession session) {
 		this.result = new HashMap();
+		this.status=200;
 		
 		List list = this.authenticManager.findAllCityList();
 		this.result.put("data",  list);
+		
+		return getResult();
+	}
+	@RequestMapping("/getIndustoryAreaListAuthentic")
+	@ResponseBody
+	/***
+	 * 获取行业类型
+	 * @param session
+	 * @return
+	 */
+	public Map getIndustoryAreaListAuthentic(HttpSession session) {
+		this.result = new HashMap();
+		this.status=200;
+		
+		List list = this.authenticManager.findAllIndustoryList();
+		this.result.put("data",  list);
+		
+		return getResult();
+	}
+	@RequestMapping("/getCityListByProvinceIdAuthentic")
+	@ResponseBody
+	/***
+	 * 根据省份id获取城市
+	 * @param session
+	 * @return
+	 */
+	public Map getCityListByProvinceIdAuthentic(@RequestParam(value="provinceId",required = false) Integer provinceId, HttpSession session) {
+		this.result = new HashMap();
+		this.status=200;
+		
+		List list = this.authenticManager.findCitiesByProvinceId(provinceId);
+		this.result.put("data",  list);
+		
+		return getResult();
+	}
+	
+	
+	@RequestMapping("/requestAuthentic")
+	@ResponseBody
+	/***
+	 * 获取省份列表
+	 * @param session
+	 * @return
+	 */
+	public Map requestAuthentic(@Valid AuthenticEntity entity ,BindingResult bindingResult,HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		this.status=200;
+		if (bindingResult.hasErrors()) {
+			this.status = 400;
+			this.message = bindingResult.getFieldError().getDefaultMessage();
+		}else{
+			Users user = this.findUserInSession(session);
+			if(user!=null){
+				//获取区域
+				//获取行业
+				//获取城市
+				List list = this.authenticManager.findAllCityList();
+				this.result.put("data",  list);
+			}else{
+				this.message=Config.STRING_LOGING_TIP;
+			}
+		}
+		
+		
+		return getResult();
+	}
+	@RequestMapping("/authenticInfoUser")
+	@ResponseBody
+	/***
+	 * 身份认证信息
+	 * @param session
+	 * @return
+	 */
+	public Map authenticInfoUser(HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		this.status=200;
+		
+		Users user = this.findUserInSession(session);
+		if(user!=null){
+			this.status=200;
+			this.result.put("data",  user.getAuthentics());
+			this.message="";
+		}else{
+			this.message=Config.STRING_LOGING_TIP;
+		}
+		
+		
+		return getResult();
+	}
+	
+	@RequestMapping("/checkAuthenticStatusUser")
+	@ResponseBody
+	/***
+	 * 检查身份认证状态
+	 * @param session
+	 * @return
+	 */
+	public Map checkAuthenticStatusUser(HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		this.status=200;
+		
+		Users user = this.findUserInSession(session);
+		if(user!=null){
+			Object[] list = user.getAuthentics().toArray();
+			
+			Map map =new  HashMap();
+			map.put("status", "0");
+			map.put("name", "未认证");
+			
+			
+			//获取认证状态
+			Authenticstatus status = null;
+			Authentic authentic = null;
+			if(list!=null && list.length>0){
+				if(list.length>1){
+					status = new Authenticstatus();
+					status.setStatusId(3);
+					status.setName("认证通过");
+				}else{
+					authentic = (Authentic) list[0];
+					status =authentic.getAuthenticstatus();
+					status.setStatusId(Config.STRING_AUTH_STATUS.get(status.getName()));
+				}
+			}
+			
+			this.status=200;
+			this.result.put("data",  status);
+			this.message="";
+		}else{
+			this.message=Config.STRING_LOGING_TIP;
+		}
+		
 		
 		return getResult();
 	}

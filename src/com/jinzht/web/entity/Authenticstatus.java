@@ -1,4 +1,5 @@
 package com.jinzht.web.entity;
+// default package
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,27 +19,27 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * Identiytype entity. @author MyEclipse Persistence Tools
+ * Authenticstatus entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "identiytype", catalog = "jinzht2016")
+@Table(name = "authenticstatus", catalog = "jinzht2016")
 @JsonIgnoreProperties(value={"authentics"})
-public class Identiytype implements java.io.Serializable {
+public class Authenticstatus implements java.io.Serializable {
 
 	// Fields
 
-	private Short identiyTypeId;
+	private Integer statusId;
 	private String name;
 	private Set<Authentic> authentics = new HashSet<Authentic>(0);
 
 	// Constructors
 
 	/** default constructor */
-	public Identiytype() {
+	public Authenticstatus() {
 	}
 
 	/** full constructor */
-	public Identiytype(String name, Set<Authentic> authentics) {
+	public Authenticstatus(String name, Set<Authentic> authentics) {
 		this.name = name;
 		this.authentics = authentics;
 	}
@@ -46,16 +47,16 @@ public class Identiytype implements java.io.Serializable {
 	// Property accessors
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "identiy_type_id", unique = true, nullable = false)
-	public Short getIdentiyTypeId() {
-		return this.identiyTypeId;
+	@Column(name = "status_id", unique = true, nullable = false)
+	public Integer getStatusId() {
+		return this.statusId;
 	}
 
-	public void setIdentiyTypeId(Short identiyTypeId) {
-		this.identiyTypeId = identiyTypeId;
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
 
-	@Column(name = "name", length = 200)
+	@Column(name = "name", length = 45)
 	public String getName() {
 		return this.name;
 	}
@@ -64,7 +65,7 @@ public class Identiytype implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "identiytype")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "authenticstatus")
 	public Set<Authentic> getAuthentics() {
 		return this.authentics;
 	}
