@@ -39,7 +39,7 @@ public class LogInterceptor implements HandlerInterceptor {
 		System.out.println("过滤结束...");
 		// 获取客户请求页面路径
 		String requestPath = hrequest.getServletPath();
-		if (session.getAttribute("userId") == null&& !requestPath.endsWith("registUser.action") && !requestPath.endsWith("noLogoInfo.action")&& !requestPath.endsWith("verifyCode.action")
+		if (session.getAttribute("userId") == null && !requestPath.endsWith("noLogoInfo.action")&& !requestPath.endsWith("verifyCode.action")
 				&& !requestPath.endsWith("loginUser.action")&& !requestPath.endsWith("resetPassWordUser.action")&& !requestPath.endsWith("wechatLoginUserw.action")) {
 			// 重定位到登录页面
 			hrequest.setAttribute("tip", "您没有登录！");

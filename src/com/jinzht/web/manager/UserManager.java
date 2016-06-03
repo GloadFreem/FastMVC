@@ -139,7 +139,7 @@ public class UserManager {
 			//更新信息
 			getLoginfailrecordDao().update(record);
 		}else{
-			record = recordInstance;
+			record = getLoginfailrecordDao().merge(recordInstance);
 		}
 		
 		return record;

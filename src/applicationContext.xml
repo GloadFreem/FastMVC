@@ -18,13 +18,8 @@
 			<value>root</value>
 		</property>
 		<property name="password">
-			<value>Changeme_123</value>
+			<value></value>
 		</property>
-		<!-- 
-		<property name="password">
-			<value>Changeme_123</value>
-		</property> 
-		-->
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -51,7 +46,6 @@
 				<value>com.jinzht.web.entity.Publiccontent</value>
 				<value>com.jinzht.web.entity.Contentprise</value>
 				<value>com.jinzht.web.entity.Member</value>
-				<value>com.jinzht.web.entity.Authenticstatus</value>
 				<value>
 					com.jinzht.web.entity.Projectcommitrecord
 				</value>
@@ -418,8 +412,4 @@
 		</property>
 	</bean>
 	
-	<bean id="AuthenticstatusDAO" class="com.jinzht.web.dao.AuthenticstatusDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean></beans>
+</beans>

@@ -1,6 +1,5 @@
 package com.jinzht.web.manager;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +12,7 @@ import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.IndustoryareaDAO;
 import com.jinzht.web.dao.IndustorytypeDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
-import com.jinzht.web.dao.ProvinceDAO;
 import com.jinzht.web.dao.UsersDAO;
-import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Users;
@@ -25,7 +22,6 @@ public class AuthenticManager {
 	private IdentiytypeDAO identitytypeDao;
 	private IndustorytypeDAO industorytypeDao;
 	private IndustoryareaDAO industoryareaDao;
-	private ProvinceDAO provinceDao;
 	private CityDAO cityDao;
 	
 	/***
@@ -52,7 +48,7 @@ public class AuthenticManager {
 	 */
 	public List findAllProvinceList()
 	{
-		return getProvinceDao().findAll();
+		return getIndustoryareaDao().findAll();
 	}
 	
 	/***
@@ -62,31 +58,6 @@ public class AuthenticManager {
 	public List findAllCityList()
 	{
 		return getCityDao().findAll();
-	}
-	
-	public List findCitiesByProvinceId(Integer provinceId){
-		List list = this.findAllCityList();
-		List result = new ArrayList();
-		Map map =null;
-		for(int i = 0; i<list.size();i++){
-			City city = (City) list.get(i);
-			if(city.getProvince().getProvinceId()==provinceId){
-				map = new HashMap();
-				map.put("cityId", city.getCityId());
-				map.put("name", city.getName());
-				result.add(map);
-			}
-		}
-		return result;
-	}
-	
-	/***
-	 * 获取行业类类型
-	 * @return
-	 */
-	public List findAllIndustoryList()
-	{
-		return getIndustoryareaDao().findAll();
 	}
 	
 
@@ -124,13 +95,5 @@ public class AuthenticManager {
 	@Autowired
 	public void setCityDao(CityDAO cityDao) {
 		this.cityDao = cityDao;
-	}
-
-	public ProvinceDAO getProvinceDao() {
-		return provinceDao;
-	}
-	@Autowired
-	public void setProvinceDao(ProvinceDAO provinceDao) {
-		this.provinceDao = provinceDao;
 	}
 }

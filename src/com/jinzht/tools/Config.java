@@ -2,9 +2,7 @@ package com.jinzht.tools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class Config {
@@ -19,8 +17,6 @@ public class Config {
 	
 	
 	//登录常量
-	public static String  STRING_LOGING_STATUS_ONLINE = "用戶已登录！";
-	public static String  STRING_LOGING_STATUS_OFFLINE = "用户未登录！";
 	public static String  STRING_LOGING_OUT = "注销登录成功！";
 	public static String  STRING_LOGING_FAIL = "登录失败！";
 	public static String  STRING_LOGING_SUCCESS = "登录成功！";
@@ -53,14 +49,7 @@ public class Config {
 	public static String STRING_AUTH_PARAM_NAME_NOT_NULL = "用户真实姓名不能为空!";
 	public static String STRING_AUTH_PARAM_IDENTIYCARA_NOT_NULL = "身份证正面照片不能为空!";
 	public static String STRING_AUTH_PARAM_IDENTIYCARB_NOT_NULL = "身份证反面照片不能为空!";
-	public static HashMap<String,Integer> STRING_AUTH_STATUS = new HashMap<String,Integer>() {
-	    {
-	        put( "未认证",0); 
-	        put( "认证中",1); 
-	        put( "认证失败",2); 
-	        put( "认证通过",3); 
-	    }
-	};
+	
 
 	
 	//注册常量
@@ -85,6 +74,6 @@ public class Config {
 	public static String  STRING_SMS_PARTICIPATE_VALID_FALSE = "尊贵的金指投用户，您于[%s]申请参加[%s]来现场申请未通过审核。 请打开【金指投】APP->个人中心->进度查看->来现场 查看详情。如有疑问请致电 18691883712";
 	public static String  STRING_SMS_INVEST_VALID_TRUE = "尊贵的金指投用户，您于[%s]投资[%s][%s]万。如有问题请致电 18681838312, 或致邮 kf@jinzht.com。我们的工作人员将会第一时间联系您，请您保持手机畅通。您也可以打开【金指投】APP->个人>中心->我的投融资->我投资的项目 查看详情。";
 	
-	//系统
+	
 	
 }

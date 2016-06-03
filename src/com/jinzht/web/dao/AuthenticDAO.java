@@ -1,5 +1,4 @@
 package com.jinzht.web.dao;
-// default package
 
 import java.util.List;
 import java.util.Set;
@@ -26,7 +25,7 @@ import com.jinzht.web.entity.Authentic;
  * methods provides additional information for how to configure it for the
  * desired type of transaction control.
  * 
- * @see .Authentic
+ * @see com.jinzht.web.entity.Authentic
  * @author MyEclipse Persistence Tools
  */
 @Transactional
@@ -87,7 +86,7 @@ public class AuthenticDAO {
 		log.debug("getting Authentic instance with id: " + id);
 		try {
 			Authentic instance = (Authentic) getCurrentSession().get(
-					"Authentic", id);
+					"com.jinzht.web.hibernate.Authentic", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -99,7 +98,8 @@ public class AuthenticDAO {
 		log.debug("finding Authentic instance by example");
 		try {
 			List<Authentic> results = (List<Authentic>) getCurrentSession()
-					.createCriteria("Authentic").add(create(instance)).list();
+					.createCriteria("com.jinzht.web.hibernate.Authentic")
+					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;

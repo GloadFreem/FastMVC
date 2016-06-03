@@ -27,6 +27,7 @@ public class Industoryarea implements java.io.Serializable {
 	private Integer areaId;
 	private String name;
 	private Boolean isvalid;
+//	private Set<Authentic> authentics = new HashSet<Authentic>(0);
 
 	// Constructors
 
