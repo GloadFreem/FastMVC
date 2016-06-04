@@ -2,21 +2,27 @@ package com.jinzht.web.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Userstatus entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "userstatus", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"userses"})
 public class Userstatus implements java.io.Serializable {
 
 	// Fields
@@ -63,7 +69,7 @@ public class Userstatus implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userstatus")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userstatus")
 	public Set<Users> getUserses() {
 		return this.userses;
 	}

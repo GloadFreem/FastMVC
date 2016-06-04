@@ -14,7 +14,9 @@ public class AuthenticEntity {
 	private Short identiyTypeId = 0 ;
 	@Min(value=1,message="{Pattern.authentic.industoryId.notnull}")
 	private Integer industoryId = 0;
-	private City city;
+	@Min(value=1,message="{Pattern.authentic.cityId.notnull}")
+	private Integer cityId = 0;
+	@NotNull(message="{Pattern.user.reaalname.notnull}")
 	private String name;
 	private File identiyCarA;
 	private File identiyCarB;
@@ -29,12 +31,6 @@ public class AuthenticEntity {
 	private Short optional;
 	
 	
-	public City getCity() {
-		return city;
-	}
-	public void setCity(City city) {
-		this.city = city;
-	}
 	public String getName() {
 		return name;
 	}
@@ -125,6 +121,12 @@ public class AuthenticEntity {
 	}
 	public void setIndustoryId(Integer industoryId) {
 		this.industoryId = industoryId;
+	}
+	public Integer getCityId() {
+		return cityId;
+	}
+	public void setCityId(Integer cityId) {
+		this.cityId = cityId;
 	}
 	
 }

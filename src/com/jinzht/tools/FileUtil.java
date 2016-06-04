@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class FileUtil {
-	public static boolean saveFile(String fileName,File file,String filePath)
+	public static boolean saveFile(String fileName,MultipartFile file,String filePath)
 	{
 		//获取文件存储路径  
         String path =System.getProperty("jinzht.root")+filePath;
@@ -19,7 +21,7 @@ public class FileUtil {
 		try {
 			os = new FileOutputStream(new File(path,fileName));
 			//输入流  
-	        is = new FileInputStream(file);  
+	        is = file.getInputStream();
 	          
 	        byte[] buf = new byte[1024];  
 	        int length = 0 ;  

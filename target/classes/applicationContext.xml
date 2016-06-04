@@ -18,8 +18,13 @@
 			<value>root</value>
 		</property>
 		<property name="password">
-			<value></value>
+			<value>Changeme_123</value>
 		</property>
+		<!-- 
+		<property name="password">
+			<value>Changeme_123</value>
+		</property> 
+		-->
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -41,11 +46,13 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
+				<value>com.jinzht.web.entity.Actionimages</value>
 				<value>com.jinzht.web.entity.Team</value>
 				<value>com.jinzht.web.entity.Authentic</value>
 				<value>com.jinzht.web.entity.Publiccontent</value>
 				<value>com.jinzht.web.entity.Contentprise</value>
 				<value>com.jinzht.web.entity.Member</value>
+				<value>com.jinzht.web.entity.Authenticstatus</value>
 				<value>
 					com.jinzht.web.entity.Projectcommitrecord
 				</value>
@@ -412,4 +419,13 @@
 		</property>
 	</bean>
 	
-</beans>
+	<bean id="AuthenticstatusDAO" class="com.jinzht.web.dao.AuthenticstatusDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.jinzht.web.dao.ActionimagesDAO" class="com.jinzht.web.dao.ActionimagesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean></beans>
