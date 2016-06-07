@@ -211,8 +211,12 @@ public class UserController extends BaseController {
 			this.status = 400;
 			this.message = bindingResult.getFieldError().getDefaultMessage();
 		} else {
-			Users user = this.userManger.findUserByTelephone(userInstance
-					.getTelephone());
+			Users user = this.findUserInSession(session);
+
+			if (user == null) {
+				user = this.userManger.findUserByTelephone(userInstance
+						.getTelephone());
+			}
 
 			if (user == null) {
 				this.status = 400;
@@ -438,26 +442,6 @@ public class UserController extends BaseController {
 		
 		this.message = Config.STRING_LOGING_OUT;
 		this.result.put("data", "");
-		return getResult();
-	}
-	
-	@RequestMapping("/isLoginUser")
-	@ResponseBody
-	public Map isLoginUser(ModelMap mm,HttpSession session) {
-		this.result = new HashMap();
-		
-		this.status = 200;
-		this.result.put("data", "");
-		this.message = Config.STRING_LOGING_STATUS_ONLINE;
-		
-		//检测用户是否已登录
-		session.setAttribute("userId", null);
-		if(session.getAttribute("userId")==null)
-		{
-			this.status = 400;
-			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
-		}
-		
 		return getResult();
 	}
 

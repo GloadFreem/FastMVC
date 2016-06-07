@@ -15,14 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * Identiytype entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "identiytype", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"authentics"})
 public class Identiytype implements java.io.Serializable {
 
 	// Fields
@@ -64,7 +61,7 @@ public class Identiytype implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "identiytype")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "identiytype")
 	public Set<Authentic> getAuthentics() {
 		return this.authentics;
 	}

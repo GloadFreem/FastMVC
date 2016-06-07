@@ -1,5 +1,4 @@
 package com.jinzht.web.entity;
-// default package
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,19 +12,16 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Publiccontent entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "publiccontent", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"users"})
 public class Publiccontent implements java.io.Serializable {
 
 	// Fields
@@ -41,6 +37,11 @@ public class Publiccontent implements java.io.Serializable {
 
 	/** default constructor */
 	public Publiccontent() {
+	}
+
+	/** minimal constructor */
+	public Publiccontent(Users users) {
+		this.users = users;
 	}
 
 	/** full constructor */
@@ -66,8 +67,8 @@ public class Publiccontent implements java.io.Serializable {
 		this.publicContentId = publicContentId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn
 	public Users getUsers() {
 		return this.users;
 	}
@@ -85,7 +86,7 @@ public class Publiccontent implements java.io.Serializable {
 		this.content = content;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "publiccontent")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "publiccontent")
 	public Set<Contentimages> getContentimageses() {
 		return this.contentimageses;
 	}
@@ -94,7 +95,7 @@ public class Publiccontent implements java.io.Serializable {
 		this.contentimageses = contentimageses;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "publiccontent")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "publiccontent")
 	public Set<Comment> getComments() {
 		return this.comments;
 	}
@@ -103,7 +104,7 @@ public class Publiccontent implements java.io.Serializable {
 		this.comments = comments;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "publiccontent")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "publiccontent")
 	public Set<Contentprise> getContentprises() {
 		return this.contentprises;
 	}

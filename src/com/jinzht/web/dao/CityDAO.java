@@ -75,7 +75,7 @@ public class CityDAO {
 		log.debug("getting City instance with id: " + id);
 		try {
 			City instance = (City) getCurrentSession().get(
-					"com.jinzht.web.entity.City", id);
+					"com.jinzht.web.hibernate.City", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -87,7 +87,7 @@ public class CityDAO {
 		log.debug("finding City instance by example");
 		try {
 			List<City> results = (List<City>) getCurrentSession()
-					.createCriteria("com.jinzht.web.entity.City")
+					.createCriteria("com.jinzht.web.hibernate.City")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

@@ -12,14 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * Actionprise entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "actionprise", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"users","action"})
 public class Actionprise implements java.io.Serializable {
 
 	// Fields
@@ -52,7 +49,7 @@ public class Actionprise implements java.io.Serializable {
 		this.priseId = priseId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
@@ -62,7 +59,7 @@ public class Actionprise implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "action_id")
 	public Action getAction() {
 		return this.action;
