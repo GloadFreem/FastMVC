@@ -15,11 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Identiytype entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "identiytype", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"authentics"})
 public class Identiytype implements java.io.Serializable {
 
 	// Fields

@@ -1,5 +1,7 @@
 package com.jinzht.web.entity;
+// default package
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,47 +14,45 @@ import javax.persistence.GeneratedValue;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jinzht.tools.Config;
 
 /**
  * Users entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "users", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"publiccontents","collections"
+		,"communions","inviterecords","attentions","systemmessages",
+		"rewardsystems","actionprises","capitalaccounts","investmentrecords",
+		"contentprises","projectcommitrecord","traderecords","systemcodes",
+		"actionshare","actioncomments","loginfailrecords","projectcomments"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Users implements java.io.Serializable {
 
 	// Fields
-
+	private String name;
 	private Integer userId;
 	private Userstatus userstatus;
-	
-	@NotNull(message="{Pattern.messagebean.telephone.notnull}")
-	@Length(min=11,max=11,message="{Pattern.messagebean.telephone.error}")
-	@Pattern(regexp="^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$", message="{Pattern.messagebean.telephone.pattern}")
 	private String telephone;
-	
-	@NotNull(message="{Pattern.password.notnull}")
 	private String password;
 	private String headSculpture;
 	private Date lastLoginDate;
 	private Short platform;
 	private String wechatId;
-	private Set<Comment> comments = new HashSet<Comment>(0);
+	private Set<Publiccontent> publiccontents = new HashSet<Publiccontent>(0);
 	private Set<Collection> collections = new HashSet<Collection>(0);
 	private Set<Communion> communions = new HashSet<Communion>(0);
 	private Set<Inviterecord> inviterecords = new HashSet<Inviterecord>(0);
@@ -62,7 +62,6 @@ public class Users implements java.io.Serializable {
 	private Set<Rewardsystem> rewardsystems = new HashSet<Rewardsystem>(0);
 	private Set<Actionprise> actionprises = new HashSet<Actionprise>(0);
 	private Set<Capitalaccount> capitalaccounts = new HashSet<Capitalaccount>(0);
-	private Publiccontent publiccontent;
 	private Set<Investmentrecord> investmentrecords = new HashSet<Investmentrecord>(
 			0);
 	private Set<Contentprise> contentprises = new HashSet<Contentprise>(0);
@@ -73,6 +72,7 @@ public class Users implements java.io.Serializable {
 	private Set<Actioncomment> actioncomments = new HashSet<Actioncomment>(0);
 	private Set<Loginfailrecord> loginfailrecords = new HashSet<Loginfailrecord>(
 			0);
+	private Set<Projectcomment> projectcomments = new HashSet<Projectcomment>(0);
 
 	// Constructors
 
@@ -83,17 +83,19 @@ public class Users implements java.io.Serializable {
 	/** full constructor */
 	public Users(Userstatus userstatus, String telephone, String password,
 			String headSculpture, Date lastLoginDate, Short platform,
-			String wechatId, Set<Comment> comments,
-			Set<Collection> collections, Set<Communion> communions,
-			Set<Inviterecord> inviterecords, Set<Authentic> authentics,
-			Set<Attention> attentions, Set<Systemmessage> systemmessages,
-			Set<Rewardsystem> rewardsystems, Set<Actionprise> actionprises,
-			Set<Capitalaccount> capitalaccounts, Publiccontent publiccontent,
+			String wechatId, Set<Publiccontent> publiccontents,
+		    Set<Collection> collections,
+		    Set<Projectcomment> projectcomments,
+			Set<Communion> communions, Set<Inviterecord> inviterecords,
+			Set<Authentic> authentics, Set<Attention> attentions,
+			Set<Systemmessage> systemmessages, Set<Rewardsystem> rewardsystems,
+			Set<Actionprise> actionprises, Set<Capitalaccount> capitalaccounts,
 			Set<Investmentrecord> investmentrecords,
 			Set<Contentprise> contentprises,
 			Projectcommitrecord projectcommitrecord,
 			Set<Traderecord> traderecords, Set<Systemcode> systemcodes,
-			Actionshare actionshare, Set<Actioncomment> actioncomments,
+			Actionshare actionshare,
+			Set<Actioncomment> actioncomments,
 			Set<Loginfailrecord> loginfailrecords) {
 		this.userstatus = userstatus;
 		this.telephone = telephone;
@@ -102,17 +104,17 @@ public class Users implements java.io.Serializable {
 		this.lastLoginDate = lastLoginDate;
 		this.platform = platform;
 		this.wechatId = wechatId;
-		this.comments = comments;
+		this.publiccontents = publiccontents;
 		this.collections = collections;
 		this.communions = communions;
 		this.inviterecords = inviterecords;
+		this.projectcomments = projectcomments;
 		this.authentics = authentics;
 		this.attentions = attentions;
 		this.systemmessages = systemmessages;
 		this.rewardsystems = rewardsystems;
 		this.actionprises = actionprises;
 		this.capitalaccounts = capitalaccounts;
-		this.publiccontent = publiccontent;
 		this.investmentrecords = investmentrecords;
 		this.contentprises = contentprises;
 		this.projectcommitrecord = projectcommitrecord;
@@ -125,7 +127,7 @@ public class Users implements java.io.Serializable {
 
 	// Property accessors
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "user_id", unique = true, nullable = false)
 	public Integer getUserId() {
 		return this.userId;
@@ -135,7 +137,7 @@ public class Users implements java.io.Serializable {
 		this.userId = userId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_status_id")
 	public Userstatus getUserstatus() {
 		return this.userstatus;
@@ -172,7 +174,7 @@ public class Users implements java.io.Serializable {
 		this.headSculpture = headSculpture;
 	}
 
-	@Column(name = "last_login_date", length = 0)
+	@Column(name = "last_login_date", length = 19)
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
 	public Date getLastLoginDate() {
@@ -202,13 +204,14 @@ public class Users implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
-	public Set<Comment> getComments() {
-		return this.comments;
+	public Set<Publiccontent> getPubliccontents() {
+		return this.publiccontents;
 	}
 
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
+	public void setPubliccontents(Set<Publiccontent> publiccontents) {
+		this.publiccontents = publiccontents;
 	}
+
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
 	public Set<Collection> getCollections() {
@@ -237,7 +240,7 @@ public class Users implements java.io.Serializable {
 		this.inviterecords = inviterecords;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Authentic> getAuthentics() {
 		return this.authentics;
 	}
@@ -291,15 +294,6 @@ public class Users implements java.io.Serializable {
 		this.capitalaccounts = capitalaccounts;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "users")
-	public Publiccontent getPubliccontent() {
-		return this.publiccontent;
-	}
-
-	public void setPubliccontent(Publiccontent publiccontent) {
-		this.publiccontent = publiccontent;
-	}
-
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
 	public Set<Investmentrecord> getInvestmentrecords() {
 		return this.investmentrecords;
@@ -345,6 +339,7 @@ public class Users implements java.io.Serializable {
 		this.systemcodes = systemcodes;
 	}
 
+
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "users")
 	public Actionshare getActionshare() {
 		return this.actionshare;
@@ -354,7 +349,7 @@ public class Users implements java.io.Serializable {
 		this.actionshare = actionshare;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usersByUserId")
 	public Set<Actioncomment> getActioncomments() {
 		return this.actioncomments;
 	}
@@ -370,6 +365,24 @@ public class Users implements java.io.Serializable {
 
 	public void setLoginfailrecords(Set<Loginfailrecord> loginfailrecords) {
 		this.loginfailrecords = loginfailrecords;
+	}
+
+	public String getName() {
+		
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	public Set<Projectcomment> getProjectcomments() {
+		return this.projectcomments;
+	}
+
+	public void setProjectcomments(Set<Projectcomment> projectcomments) {
+		this.projectcomments = projectcomments;
 	}
 
 }

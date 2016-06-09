@@ -2,21 +2,29 @@ package com.jinzht.web.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Sharetype entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "sharetype", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"shares"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Sharetype implements java.io.Serializable {
 
 	// Fields

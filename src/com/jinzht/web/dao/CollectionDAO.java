@@ -1,6 +1,7 @@
 package com.jinzht.web.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -96,6 +97,32 @@ public class CollectionDAO {
 			throw re;
 		}
 	}
+	
+	public Integer counterByProperties(Map map) {
+		try {
+			String queryString = "select count(model.collectionId) as count from Collection as model where model.";
+			Object[] keys = map.keySet().toArray();
+			for(int i = 0;i<keys.length;i++){
+				if(i==0){
+					queryString += keys[i] + "= ?";
+				}else{
+					queryString +=" and " + keys[i] + "= ?";
+				}
+			}
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<keys.length;i++){
+				queryObject.setParameter(i,map.get( keys[i]));
+			}
+					
+			return  ((Number) queryObject.iterate().next())
+			         .intValue();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 
 	public List findByProperty(String propertyName, Object value) {
 		log.debug("finding Collection instance with property: " + propertyName
@@ -115,6 +142,33 @@ public class CollectionDAO {
 	public List<Collection> findByProjectId(Object projectId) {
 		return findByProperty(PROJECT_ID, projectId);
 	}
+	
+	public List findByProperties(Map requestMap) {
+		try {
+//			String debugInfo= "finding Loginfailrecord instance with property: ";
+			String queryString = "from Collection as model where";
+			Object[] keys= requestMap.keySet().toArray();
+			for(int i = 0;i<requestMap.size();i++){
+//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
+				if(i==0){
+					queryString+=" model."+keys[i].toString()+" =? ";
+				}else{
+					queryString+="and model."+keys[i].toString()+" =? ";
+				}
+			}
+//			log.debug(debugInfo);
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<requestMap.size();i++){
+				queryObject.setParameter(i, requestMap.get(keys[i]));
+			}
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 
 	public List findAll() {
 		log.debug("finding all Collection instances");

@@ -15,11 +15,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Financestatus entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "financestatus", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"projects","statusId","isvalid"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Financestatus implements java.io.Serializable {
 
 	// Fields

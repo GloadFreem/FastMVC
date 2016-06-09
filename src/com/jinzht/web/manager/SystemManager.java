@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.jinzht.web.dao.BannerDAO;
 import com.jinzht.web.dao.NoticeDAO;
 import com.jinzht.web.dao.PreloadingpageDAO;
+import com.jinzht.web.dao.ShareDAO;
 import com.jinzht.web.dao.SustomserviceDAO;
 import com.jinzht.web.dao.VersioncontrollDAO;
 import com.jinzht.web.entity.Notice;
 import com.jinzht.web.entity.Preloadingpage;
 import com.jinzht.web.entity.Customservice;
+import com.jinzht.web.entity.Share;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Versioncontroll;
 
@@ -22,6 +24,8 @@ public class SystemManager {
 	private BannerDAO bannerDao; //Banner 信息
 	private SustomserviceDAO sustomserviceDao; //客服信息
 	private VersioncontrollDAO versioncontrollDao; // 版本更新信息
+	private ShareDAO shareDao;
+	
 
 	/***
 	 * 根据设备类型获取系统公告信息
@@ -99,7 +103,15 @@ public class SystemManager {
 	public NoticeDAO getNoticeDao() {
 		return noticeDao;
 	}
-
+	
+	/***
+	 * 保存分享记录
+	 * @param share
+	 */
+	public void saveShareRecord(Share share)
+	{
+		getShareDao().save(share);
+	}
 	@Autowired
 	public void setNoticeDao(NoticeDAO noticeDao) {
 		this.noticeDao = noticeDao;
@@ -137,6 +149,14 @@ public class SystemManager {
 	@Autowired
 	public void setBannerDao(BannerDAO bannerDao) {
 		this.bannerDao = bannerDao;
+	}
+
+	public ShareDAO getShareDao() {
+		return shareDao;
+	}
+	@Autowired
+	public void setShareDao(ShareDAO shareDao) {
+		this.shareDao = shareDao;
 	}
 
 }

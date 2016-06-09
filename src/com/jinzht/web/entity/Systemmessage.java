@@ -16,11 +16,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Systemmessage entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "systemmessage", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"messagetype","users"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Systemmessage implements java.io.Serializable {
 
 	// Fields

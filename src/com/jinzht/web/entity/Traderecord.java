@@ -14,11 +14,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Traderecord entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "traderecord", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"Tradetype","users","chargetype"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Traderecord implements java.io.Serializable {
 
 	// Fields

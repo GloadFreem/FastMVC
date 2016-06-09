@@ -1,30 +1,42 @@
 package com.jinzht.web.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Roadshowplan entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "roadshowplan", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"roadshows"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Roadshowplan implements java.io.Serializable {
 
 	// Fields
 
 	private Integer financingId;
-	private Timestamp beginDate;
-	private Timestamp endDate;
+	private Date beginDate;
+	private Date endDate;
 	private Integer financeTotal;
 	private Integer financedMount;
 	private Set<Roadshow> roadshows = new HashSet<Roadshow>(0);
@@ -64,7 +76,9 @@ public class Roadshowplan implements java.io.Serializable {
 	}
 
 	@Column(name = "begin_date", nullable = false, length = 0)
-	public Timestamp getBeginDate() {
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
+	public Date getBeginDate() {
 		return this.beginDate;
 	}
 
@@ -73,7 +87,9 @@ public class Roadshowplan implements java.io.Serializable {
 	}
 
 	@Column(name = "end_date", nullable = false, length = 0)
-	public Timestamp getEndDate() {
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
+	public Date getEndDate() {
 		return this.endDate;
 	}
 

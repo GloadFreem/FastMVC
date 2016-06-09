@@ -16,11 +16,21 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.mapping.List;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Action entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "action", catalog = "jinzht2016")
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonIgnoreProperties(value={"actionshares"})
+
 public class Action implements java.io.Serializable {
 
 	// Fields
@@ -37,6 +47,8 @@ public class Action implements java.io.Serializable {
 	private Set<Attention> attentions = new HashSet<Attention>(0);
 	private Set<Actioncomment> actioncomments = new HashSet<Actioncomment>(0);
 	private Set<Actionshare> actionshares = new HashSet<Actionshare>(0);
+	private Set<Actionimages> actionimages = new HashSet<Actionimages>(0);
+	private short type;
 
 	// Constructors
 
@@ -121,6 +133,9 @@ public class Action implements java.io.Serializable {
 	}
 
 	@Column(name = "start_time", length = 0)
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+
 	public Timestamp getStartTime() {
 		return this.startTime;
 	}
@@ -130,6 +145,9 @@ public class Action implements java.io.Serializable {
 	}
 
 	@Column(name = "end_time", length = 0)
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+
 	public Timestamp getEndTime() {
 		return this.endTime;
 	}
@@ -173,5 +191,26 @@ public class Action implements java.io.Serializable {
 	public void setActionshares(Set<Actionshare> actionshares) {
 		this.actionshares = actionshares;
 	}
+
+	@Column(name = "type", length = 0)
+	public short getType() {
+		return type;
+	}
+
+	public void setType(short type) {
+		this.type = type;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "action")
+	public Set<Actionimages> getActionimages() {
+		return actionimages;
+	}
+
+	public void setActionimages(Set<Actionimages> actionimages) {
+		this.actionimages = actionimages;
+	}
+
+
+
 
 }

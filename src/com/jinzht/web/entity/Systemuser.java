@@ -12,11 +12,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Systemuser entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "systemuser", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"roletype"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Systemuser implements java.io.Serializable {
 
 	// Fields

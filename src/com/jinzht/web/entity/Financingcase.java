@@ -12,11 +12,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Financingcase entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "financingcase", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"project"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Financingcase implements java.io.Serializable {
 
 	// Fields

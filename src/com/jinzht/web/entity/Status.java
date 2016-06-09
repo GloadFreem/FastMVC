@@ -15,11 +15,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Status entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "status", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"projectcommitrecords"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Status implements java.io.Serializable {
 
 	// Fields

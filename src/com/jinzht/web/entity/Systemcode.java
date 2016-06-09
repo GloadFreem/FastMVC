@@ -17,11 +17,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Systemcode entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "systemcode", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"inviterecords","users"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Systemcode implements java.io.Serializable {
 
 	// Fields

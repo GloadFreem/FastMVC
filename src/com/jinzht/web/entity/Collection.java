@@ -1,4 +1,5 @@
 package com.jinzht.web.entity;
+// default package
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,15 +11,22 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Collection entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "collection", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"publiccontents","collections"
+		,"communions","inviterecords","attentions","systemmessages",
+		"rewardsystems","actionprises","capitalaccounts","investmentrecords",
+		"contentprises","projectcommitrecord","traderecords","systemcodes",
+		"actionshare","actioncomments","loginfailrecords"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Collection implements java.io.Serializable {
 
 	// Fields
@@ -26,7 +34,6 @@ public class Collection implements java.io.Serializable {
 	private Integer collectionId;
 	private Users users;
 	private Project project;
-	private String projectId;
 
 	// Constructors
 
@@ -34,16 +41,10 @@ public class Collection implements java.io.Serializable {
 	public Collection() {
 	}
 
-	/** minimal constructor */
-	public Collection(Project project) {
-		this.project = project;
-	}
-
 	/** full constructor */
-	public Collection(Users users, Project project, String projectId) {
+	public Collection(Users users, Project project) {
 		this.users = users;
 		this.project = project;
-		this.projectId = projectId;
 	}
 
 	// Property accessors
@@ -68,23 +69,14 @@ public class Collection implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;
 	}
 
 	public void setProject(Project project) {
 		this.project = project;
-	}
-
-	@Column(name = "project_id")
-	public String getProjectId() {
-		return this.projectId;
-	}
-
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
 	}
 
 }

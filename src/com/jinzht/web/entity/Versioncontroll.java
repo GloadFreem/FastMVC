@@ -1,18 +1,26 @@
 package com.jinzht.web.entity;
 
 import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Versioncontroll entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "versioncontroll", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={""})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Versioncontroll implements java.io.Serializable {
 
 	// Fields

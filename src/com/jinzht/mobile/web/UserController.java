@@ -19,6 +19,7 @@ import org.hibernate.type.IdentifierType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.jinzht.tools.Config;
 import com.jinzht.tools.MessageType;
@@ -41,6 +43,7 @@ import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.test.User;
 
 @Controller
+@SessionAttributes("code")
 public class UserController extends BaseController {
 
 	@Autowired
@@ -95,29 +98,34 @@ public class UserController extends BaseController {
 	 */
 	public Map verifyCode(
 			@Valid @ModelAttribute("messagebean") MessageBean message,
-			BindingResult bindingResult, HttpSession session) {
+			BindingResult bindingResult,Model model, HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
 		if (bindingResult.hasErrors()) {
 			this.status = 400;
 			this.message = bindingResult.getFieldError().getDefaultMessage();
 		} else {
-
-			// 仅在调试阶段使用
-			if (session.getAttribute("code") != null) {
-				System.out.println("发送的验证码为:" + session.getAttribute("code"));
-			}
-			// 仅在调试阶段使用
-
 			String content = Config.STRING_SMS_REGISTE;
 			MsgUtil SMS = new MsgUtil(message.getTelephone(), content,
 					MessageType.VerifyCode);
-			if (MsgUtil.send(session)) {
+			
+			//发送验证码
+			Integer code = MsgUtil.send();
+			
+			if (code != 0) {
 				this.status = 200;
 				this.message = Config.SMS_HAVE_SEND_STRING;
+				//将code加入到session会话
+				
+				session.setAttribute("code", code);
+				//model.addAttribute("code", code);
 			} else {
 				this.status = 400;
 				this.message = Config.SMS_FAIL_SEND_STRING;
+			}
+			
+			if(session.getAttribute("code")!=null){
+				System.out.println("获取到验证码:"+session.getAttribute("code"));
 			}
 		}
 		return getResult();
@@ -211,12 +219,8 @@ public class UserController extends BaseController {
 			this.status = 400;
 			this.message = bindingResult.getFieldError().getDefaultMessage();
 		} else {
-			Users user = this.findUserInSession(session);
-
-			if (user == null) {
-				user = this.userManger.findUserByTelephone(userInstance
-						.getTelephone());
-			}
+			Users user = this.userManger.findUserByTelephone(userInstance
+					.getTelephone());
 
 			if (user == null) {
 				this.status = 400;
@@ -313,7 +317,10 @@ public class UserController extends BaseController {
 			String code = "";
 			if (session.getAttribute("code") != null) {
 				code = session.getAttribute("code").toString();
+				System.out.println("获取到验证码:"+session.getAttribute("code"));
 			}
+			
+			
 			if (!code.equals("")) {
 				if (!verifyCode.equals(code)) {
 					this.status = 400;
@@ -442,6 +449,26 @@ public class UserController extends BaseController {
 		
 		this.message = Config.STRING_LOGING_OUT;
 		this.result.put("data", "");
+		return getResult();
+	}
+	
+	@RequestMapping("/isLoginUser")
+	@ResponseBody
+	public Map isLoginUser(ModelMap mm,HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		//检测用户是否已登录
+		session.setAttribute("userId", null);
+		if(session.getAttribute("userId")==null)
+		{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}
+		
 		return getResult();
 	}
 

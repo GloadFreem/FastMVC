@@ -16,11 +16,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Inviterecord entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "inviterecord", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"users","systemcode","inviteDate"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Inviterecord implements java.io.Serializable {
 
 	// Fields

@@ -1,20 +1,28 @@
 package com.jinzht.web.entity;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Projectcomment entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "projectcomment", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"project","users"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Projectcomment implements java.io.Serializable {
 
 	// Fields
@@ -22,6 +30,7 @@ public class Projectcomment implements java.io.Serializable {
 	private Integer commentId;
 	private Project project;
 	private String content;
+	private Users users;
 
 	// Constructors
 
@@ -64,6 +73,16 @@ public class Projectcomment implements java.io.Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	public Users getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 
 }

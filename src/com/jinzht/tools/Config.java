@@ -2,7 +2,9 @@ package com.jinzht.tools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Config {
@@ -17,6 +19,8 @@ public class Config {
 	
 	
 	//登录常量
+	public static String  STRING_LOGING_STATUS_ONLINE = "用戶已登录！";
+	public static String  STRING_LOGING_STATUS_OFFLINE = "用户未登录！";
 	public static String  STRING_LOGING_OUT = "注销登录成功！";
 	public static String  STRING_LOGING_FAIL = "登录失败！";
 	public static String  STRING_LOGING_SUCCESS = "登录成功！";
@@ -38,18 +42,27 @@ public class Config {
 	//身份认证
 	public static String  STRING_AUTH_IDENTIY_TYPE_NOT_NULL = "用户身份不能为空!";
 	public static String  STRING_AUTH_IDENTIY_SUCCESS = "投资人身份添加成功!";
+	public static String  STRING_AUTH_CONFIRM_FAIL = "无法修改认证中身份信息!";
 	public static String  STRING_AUTH_IDENTIY_FAIL = "投资人身份添加失败!";
-	public static List<String> STRING_AUTH_QUALIFICATION = Arrays.asList("1, '(一)《私募投资基金监督管理暂行办法》规定的合格投资者'", 
-			"2, '(二)投资单个融资项目的最低金额不低于100万元人民币的单位或个人", 
-			"3, '(三)社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，以及依法设立并在中国证券投资基金业协会备案的投资计划",
-			"4, '(四)净资产不低于1000万元人民币的单位",
-			"5, '(五)金融资产不低于300万元人民币或最近三年个人年均收入不低于50万元人民币的个人。上述个人除能提供相关财产、收入证明外，还应当能辨识、判断和承担相应投资风险",
-			"6, '(六)证券业协会规定的其他投资者");
+	public static List<String> STRING_AUTH_QUALIFICATION = Arrays.asList("'(一)《私募投资基金监督管理暂行办法》规定的合格投资者'", 
+			"'(二)投资单个融资项目的最低金额不低于100万元人民币的单位或个人", 
+			"'(三)社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，以及依法设立并在中国证券投资基金业协会备案的投资计划",
+			"'(四)净资产不低于1000万元人民币的单位",
+			"'(五)金融资产不低于300万元人民币或最近三年个人年均收入不低于50万元人民币的个人。上述个人除能提供相关财产、收入证明外，还应当能辨识、判断和承担相应投资风险",
+			"'(六)证券业协会规定的其他投资者");
 	public static String STRING_AUTH_SUBMMIT_SUCCESS = "认证信息提交成功";
 	public static String STRING_AUTH_PARAM_NAME_NOT_NULL = "用户真实姓名不能为空!";
 	public static String STRING_AUTH_PARAM_IDENTIYCARA_NOT_NULL = "身份证正面照片不能为空!";
-	public static String STRING_AUTH_PARAM_IDENTIYCARB_NOT_NULL = "身份证反面照片不能为空!";
-	
+	public static String STRING_AUTH_PARAM_IDENTIYCARB_NOT_NULL = "身份证反面照片不能为空!"; 
+	public static String STRING_AUTH_HAS = "该身份已认证通过，无需重新认证!"; 
+	public static HashMap<String,Integer> STRING_AUTH_STATUS = new HashMap<String,Integer>() {
+	    {
+	        put( "未认证",0); 
+	        put( "认证中",1); 
+	        put( "认证失败",2); 
+	        put( "认证通过",3); 
+	    }
+	};
 
 	
 	//注册常量
@@ -74,6 +87,39 @@ public class Config {
 	public static String  STRING_SMS_PARTICIPATE_VALID_FALSE = "尊贵的金指投用户，您于[%s]申请参加[%s]来现场申请未通过审核。 请打开【金指投】APP->个人中心->进度查看->来现场 查看详情。如有疑问请致电 18691883712";
 	public static String  STRING_SMS_INVEST_VALID_TRUE = "尊贵的金指投用户，您于[%s]投资[%s][%s]万。如有问题请致电 18681838312, 或致邮 kf@jinzht.com。我们的工作人员将会第一时间联系您，请您保持手机畅通。您也可以打开【金指投】APP->个人>中心->我的投融资->我投资的项目 查看详情。";
 	
+	//系统
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.102:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
+	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
+	public static String  STRING_USER_IDENTITY_PICTUREA_FORMAT = "jinzht_user_identiy_a_%d";
+	public static String  STRING_USER_IDENTITY_PICTUREB_FORMAT = "jinzht_user_identiy_b_%d";
+	public static String  STRING_USER__IDENTITY_BUINESS_FORMAT = "jinzht_user_identiy_buiness_%d";
 	
+	//圈子
+	public static Integer STRING_FEELING_PAGESIZE = 100;  //圈子列表每页加载数量
+	public static String STRING_FEELING_NO_DATA = "已加载全部数据!";
+	public static String STRING_FEELING_ADD_SUCCESS = "圈子发布成功!";
+	public static String STRING_FEELING_PRISE_ADD_SUCCESS = "点赞成功!";
+	public static String STRING_FEELING_PRISE_EREASE_SUCCESS = "取消点赞成功!";
+	public static String STRING_FEELING_REPLY_SUCCESS = "回复成功!";
+	public static String STRING_FEELING_COMMENT_SUCCESS = "评论成功!";
+	public static String  STRING_USER_FEELING_PICTUREA_FORMAT = "jinzht_feeling_a_%d%d";
 	
+	//分享
+	public static String STRING_SHARE_APP_URL ="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro";
+	
+	//活动
+	public static String STRING_ACTION_ADD_SUCCESS = "报名信息提交成功!";
+	public static String STRING_ACTION_ADD_REPEAT = "报名信息已提交，无须重复报名!";
+	
+	//邀请码
+	public static String STRING_SYSTEM_CODE_GENERATE_FORMAT ="JZT%s%d%s";
+	public static int INTEGER_SYSTEM_CODE_GENERATE_MAX_VALUE = 6;
+	
+	//项目
+	public static String STRING_PROJECT_NO_DETAIL = "该项目无具体信息";
+	public static String STRING_PROJECT_COLLECT_ADD = "关注成功";
+	public static String STRING_PROJECT_COLLECT_CANCEL = "取消关注";
+	public static String STRING_PROJECT_COMMENT_SUCCESS = "评论成功!";
+	public static String STRING_PROJECT_SCENE_SUCCESS = "项目现场获取成功!";
 }

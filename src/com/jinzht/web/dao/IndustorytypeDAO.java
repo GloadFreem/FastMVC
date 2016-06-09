@@ -75,7 +75,7 @@ public class IndustorytypeDAO {
 		log.debug("getting Industorytype instance with id: " + id);
 		try {
 			Industorytype instance = (Industorytype) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Industorytype", id);
+					"com.jinzht.web.entity.Industorytype", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

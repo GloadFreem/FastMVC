@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class MessageBean {
 	@NotNull(message="{Pattern.messagebean.telephone.notnull}")
 	@Length(min=11,max=11,message="{Pattern.messagebean.telephone.error}")
-	@Pattern(regexp="^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$", message="{Pattern.messagebean.telephone.pattern}")
+	@Pattern(regexp="^((1[3,5,8][0-9])|(14[5,7])|(17[,0,6,7,8]))\\d{8}$", message="{Pattern.messagebean.telephone.pattern}")
 	private String telephone;
 
 	public String getTelephone() {

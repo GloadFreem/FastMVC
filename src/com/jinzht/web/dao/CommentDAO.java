@@ -1,6 +1,7 @@
 package com.jinzht.web.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -95,9 +96,9 @@ public class CommentDAO {
 			throw re;
 		}
 	}
-
+	
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Comment instance with property: " + propertyName
+		log.debug("finding Comment instance with page property: " + propertyName
 				+ ", value: " + value);
 		try {
 			String queryString = "from Comment as model where model."
@@ -105,6 +106,49 @@ public class CommentDAO {
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+
+	public List findByPropertyByPage(String propertyName, Object value,Integer page) {
+		log.debug("finding Comment instance with page property: " + propertyName
+				+ ", value: " + value);
+		try {
+			String queryString = "from Comment as model where model."
+					+ propertyName + "= ?";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setParameter(0, value);
+			queryObject.setMaxResults(10);
+			queryObject.setFirstResult(page);
+			
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public Integer counterByProperties(Map map) {
+		try {
+			String queryString = "select count(model.shareId) as count from Comment as model where model.";
+			Object[] keys = map.keySet().toArray();
+			for(int i = 0;i<keys.length;i++){
+				if(i==0){
+					queryString += keys[i] + "= ?";
+				}else{
+					queryString +=" and " + keys[i] + "= ?";
+				}
+			}
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<keys.length;i++){
+				queryObject.setParameter(i,map.get( keys[i]));
+			}
+					
+			return  ((Number) queryObject.iterate().next())
+			         .intValue();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
 			throw re;

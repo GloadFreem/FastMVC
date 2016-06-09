@@ -12,11 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Contentprise entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "contentprise", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"publiccontent","authentics"})
 public class Contentprise implements java.io.Serializable {
 
 	// Fields

@@ -4,17 +4,24 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Rewardtrade entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "rewardtrade", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"rewardtradetype","rewardsystem"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Rewardtrade implements java.io.Serializable {
 
 	// Fields

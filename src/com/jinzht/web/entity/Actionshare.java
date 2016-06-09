@@ -14,11 +14,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Actionshare entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "actionshare", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"action","users"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Actionshare implements java.io.Serializable {
 
 	// Fields

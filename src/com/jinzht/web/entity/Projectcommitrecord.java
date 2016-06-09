@@ -18,11 +18,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Projectcommitrecord entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "projectcommitrecord", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"users","status"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Projectcommitrecord implements java.io.Serializable {
 
 	// Fields

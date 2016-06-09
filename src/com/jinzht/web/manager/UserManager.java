@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
+import com.jinzht.web.dao.SystemcodeDAO;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
+import com.jinzht.web.entity.Systemcode;
 import com.jinzht.web.entity.Users;
 
 public class UserManager {
@@ -20,10 +22,10 @@ public class UserManager {
 	private UsersDAO userDao;
 	private LoginfailrecordDAO loginfailrecordDao;
 	private IdentiytypeDAO identitytypeDao;
+	private SystemcodeDAO systemCodeDao;
 	
 	
 	/***
-	 * 获取所有用户
 	 * @return 用户列表
 	 */
 	public List<Users> findAllUsers()
@@ -139,7 +141,7 @@ public class UserManager {
 			//更新信息
 			getLoginfailrecordDao().update(record);
 		}else{
-			record = getLoginfailrecordDao().merge(recordInstance);
+			record = recordInstance;
 		}
 		
 		return record;
@@ -153,6 +155,30 @@ public class UserManager {
 	public Identiytype findIdentityTypeById(short typeId)
 	{
 		return getIdentitytypeDao().findById(typeId);
+	}
+	
+	/***
+	 * 生成邀请码
+	 * @param code
+	 */
+	public void saveSystemCode(Systemcode code){
+		getSystemCodeDao().save(code);
+	}
+	
+	/***
+	 * 根据用户获取用户邀请码
+	 * @param user
+	 * @return
+	 */
+	public Systemcode findSystemCodeByUser(Users user){
+		List list =  getSystemCodeDao().findByProperty("users", user);
+		
+		if(list!=null && list.size()>0)
+		{
+			return (Systemcode) list.get(0);
+		}
+		
+		return null;
 	}
 	
 	public UsersDAO getUserDao() {
@@ -178,5 +204,14 @@ public class UserManager {
 	@Autowired
 	public void setIdentitytypeDao(IdentiytypeDAO identitytypeDao) {
 		this.identitytypeDao = identitytypeDao;
+	}
+
+	public SystemcodeDAO getSystemCodeDao() {
+		return systemCodeDao;
+	}
+
+	@Autowired
+	public void setSystemCodeDao(SystemcodeDAO systemCodeDao) {
+		this.systemCodeDao = systemCodeDao;
 	}
 }

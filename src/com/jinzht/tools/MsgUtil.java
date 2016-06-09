@@ -29,11 +29,11 @@ public class MsgUtil {
 		this.setMsgType(msgType);
 	}
 
-	public static boolean send(HttpSession session) {
+	public static Integer  send() {
+		Integer code = 0;
 		try {
 			if (msgType == MessageType.VerifyCode) {
-				int code = (int) (Math.random() * 9000+1000);
-				session.setAttribute("code", code);
+				code = (int) (Math.random() * 9000+1000);
 				content = String.format(Config.SMS_VERIFY_CODE, code);
 			} else {
 				content+= Config.SMS_VERIFY_STRING;
@@ -46,15 +46,15 @@ public class MsgUtil {
 			Element root = document.getRootElement();
 			Element element = root.element("State");
 			if (Integer.parseInt(element.getText()) == 0) {
-				return true;
+				return code;
 			} else {
-				return false;
+				return 0;
 			}
 		} catch (DocumentException | UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
+		return 0;
 	}
 
 	public String getTelePhone() {

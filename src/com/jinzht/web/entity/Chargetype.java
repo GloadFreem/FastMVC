@@ -13,11 +13,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Chargetype entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "chargetype", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"traderecord"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Chargetype implements java.io.Serializable {
 
 	// Fields
