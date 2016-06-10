@@ -60,6 +60,16 @@ public class ShareDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Share transientInstance) {
+		log.debug("saving or updating Share instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Share persistentInstance) {
 		log.debug("deleting Share instance");

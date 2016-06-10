@@ -19,6 +19,7 @@ import com.jinzht.web.dao.FinancingcaseDAO;
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.IndustoryareaDAO;
 import com.jinzht.web.dao.IndustorytypeDAO;
+import com.jinzht.web.dao.InvestmentrecordDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
 import com.jinzht.web.dao.ProjectDAO;
 import com.jinzht.web.dao.ProjectcommentDAO;
@@ -26,6 +27,7 @@ import com.jinzht.web.dao.ProvinceDAO;
 import com.jinzht.web.dao.PubliccontentDAO;
 import com.jinzht.web.dao.RoadshowDAO;
 import com.jinzht.web.dao.SceneDAO;
+import com.jinzht.web.dao.ScenecommentDAO;
 import com.jinzht.web.dao.ShareDAO;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Authentic;
@@ -42,6 +44,7 @@ import com.jinzht.web.entity.Financingexit;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Industoryarea;
 import com.jinzht.web.entity.Industorytype;
+import com.jinzht.web.entity.Investmentrecord;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Projectcomment;
@@ -49,12 +52,14 @@ import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Roadshow;
 import com.jinzht.web.entity.Roadshowplan;
 import com.jinzht.web.entity.Scene;
+import com.jinzht.web.entity.Scenecomment;
 import com.jinzht.web.entity.Users;
 
 public class ProjectManager {
 
 	private SceneDAO sceneDao;
 	private ShareDAO shareDao;
+	private ScenecommentDAO sceneCommentDao;
 	private ProjectDAO projectDao;
 	private CollectionDAO collectionDao;
 	private AudiorecordDAO audioRecordDao;
@@ -63,6 +68,7 @@ public class ProjectManager {
 	private ContentpriseDAO contentPriseDao;
 	private FinancestatusDAO financestatusDao;
 	private ProjectcommentDAO projectCommentDao;
+	private InvestmentrecordDAO investmentRecordDao;
 	public Publiccontent findPublicContentById(Integer contentId) {
 		return getPublicContentDao().findById(contentId);
 	}
@@ -312,6 +318,57 @@ public class ProjectManager {
 		}
 		return null;
 	}
+	
+	/***
+	 * 现场交流评论
+	 * @param sceneId 现场id
+	 * @param user 评论用户
+	 * @param content 内容
+	 */
+	public void saveSceneComment(Integer sceneId, Users user,String content)
+	{
+		//获取当前现场
+		Scene scene = getSceneDao().findById(sceneId);
+		//现场评论
+		Scenecomment comment = new Scenecomment();
+		//设置属性
+		comment.setContent(content);
+		comment.setUsers(user);
+		comment.setScene(scene);
+		
+		scene.getScenecomments().add(comment);
+		//添加评论
+//		getSceneDao().save(scene);
+		getSceneCommentDao().save(comment);
+		
+	}
+	/***
+	 * 投资交易
+	 * @param projectId 项目id
+	 * @param user 投资用户
+	 * @param amount 投资金额
+	 * @param investCode 投资编号
+	 */
+	public void saveProjectInvest(Integer projectId, Users user,float amount,String investCode)
+	{
+		//获取项目
+		Project project = this.findProjectById(projectId);
+		//生成投资订单
+		Investmentrecord investmentRecord = new Investmentrecord();
+		
+		//设置属性
+		investmentRecord.setUsers(user);
+		investmentRecord.setStatusId(0);
+		investmentRecord.setProject(project);
+		investmentRecord.setInvestAmount(amount);
+		investmentRecord.setInvestCode(investCode);
+		
+		
+		project.getInvestmentrecords().add(investmentRecord);
+		//添加交易
+		getInvestmentRecordDao().save(investmentRecord);
+	}
+	
 
 
 	public PubliccontentDAO getPublicContentDao() {
@@ -398,6 +455,22 @@ public class ProjectManager {
 	@Autowired
 	public void setRoadShowDao(RoadshowDAO roadShowDao) {
 		this.roadShowDao = roadShowDao;
+	}
+
+	public ScenecommentDAO getSceneCommentDao() {
+		return sceneCommentDao;
+	}
+	@Autowired
+	public void setSceneCommentDao(ScenecommentDAO sceneCommentDao) {
+		this.sceneCommentDao = sceneCommentDao;
+	}
+
+	public InvestmentrecordDAO getInvestmentRecordDao() {
+		return investmentRecordDao;
+	}
+	@Autowired
+	public void setInvestmentRecordDao(InvestmentrecordDAO investmentRecordDao) {
+		this.investmentRecordDao = investmentRecordDao;
 	}
 
 }

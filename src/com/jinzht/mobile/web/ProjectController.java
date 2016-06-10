@@ -34,6 +34,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jinzht.tools.Config;
 import com.jinzht.tools.FileUtil;
+import com.jinzht.tools.Tools;
+import com.jinzht.tools.YeePayUtil;
 import com.jinzht.web.dao.FinancialstandingDAO;
 import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Businessplan;
@@ -284,101 +286,57 @@ public class ProjectController extends BaseController {
 		return getResult();
 	}
 
-	@RequestMapping(value = "/requestCommentProject")
+	@RequestMapping(value = "/signVerify")
 	@ResponseBody
 	/***
-	 * 点赞/取消点赞
-	 * @param contentId
-	 * @param bindingResult
+	 * 易宝支付
+	 * @param req 请求加密xml 格式数据
+	 * @param method 加密/校验
+	 * @param sign 密文
 	 * @param session
-	 * @return
+	 * @return 加密后密文
 	 */
-	public Map requestCommentProject(
-			@RequestParam(value = "contentId") Integer contentId,
-			@RequestParam(value = "content") String content,
-			@RequestParam(value = "atUserId") Integer userId,
-			@RequestParam(value = "flag") short flag, HttpSession session) {
+	public Map signVerify(
+			@RequestParam(value = "req") String req,
+			@RequestParam(value = "method") String method,
+			@RequestParam(value = "sign") String sign,
+		    HttpSession session) {
 
 		this.result = new HashMap();
 		this.result.put("data", "");
+		
+		if(method.equals("sign")){
+			String result = YeePayUtil.sign(req);
+			if(!result.equals(""))
+			{
+				this.status = 200;
+				
+				Map map = new HashMap();
+				map.put("sign", result);
+				
+				this.result.put("data", map);
+				this.message = Config.STRING_YEEPAY_ENCRYPT_SUCCESS;
+			}else{
+				this.status = 400;
+				this.message = Config.STRING_YEEPAY_ENCRYPT_FAIL;
+			}
+		}else{
+			String result = YeePayUtil.verify(req, sign);
+			if(!result.equals("FAIL"))
+			{
+				this.status = 200;
+				this.message = Config.STRING_YEEPAY_VERIFY_SUCCESS;
+			}else{
+				this.status = 400;
+				this.message = Config.STRING_YEEPAY_VERIFY_FAIL;
+			}
+			
+			Map map = new HashMap();
+			map.put("verify", result);
+			
+			this.result.put("data", map);
+		}
 
-		// // 获取当前发布内容用户
-		// Users user = this.findUserInSession(session);
-		//
-		// if (user == null) {
-		// this.status = 400;
-		// this.message = Config.STRING_LOGING_FAIL_NO_USER;
-		// } else {
-		// // 查看当前操作状态，1:评论,2:回复
-		// Publiccontent publicContent = this.ProjectManager
-		// .findPublicContentById(contentId);
-		//
-		// Comment comment = new Comment();
-		// comment.setContent(content);
-		// comment.setUsersByUserId(user);
-		// if (flag != 1) {
-		// Users atUser = this.userManager.findUserById(userId);
-		// comment.setUsersByAtUserId(atUser);
-		// }
-		// // 保存回复
-		// publicContent.getComments().add(comment);
-		//
-		// this.ProjectManager.saveOrUpdate(publicContent);
-		//
-		// // 处理返回值
-		// Users user1 = comment.getUsersByUserId();
-		// if (user1.getAuthentics() != null) {
-		// Object[] l = user.getAuthentics().toArray();
-		// if (l.length > 0) {
-		// Authentic authentic = (Authentic) l[0];
-		// user1.setName(authentic.getName());
-		// } else {
-		// user1.setName("");
-		// }
-		//
-		// } else {
-		// user1.setName("");
-		// }
-		// user1.setAuthentics(null);
-		// user1.setUserstatus(null);
-		// user1.setTelephone(null);
-		// user1.setPassword(null);
-		// user1.setPlatform(null);
-		// user1.setLastLoginDate(null);
-		// comment.setUsersByUserId(user1);
-		//
-		// user1 = comment.getUsersByAtUserId();
-		// if (user1 != null) {
-		// if (user.getAuthentics() != null) {
-		// Object[] l = user.getAuthentics().toArray();
-		// if (l.length > 0) {
-		// Authentic authentic = (Authentic) l[0];
-		// user1.setName(authentic.getName());
-		// } else {
-		// user1.setName("");
-		// }
-		//
-		// } else {
-		// user1.setName("");
-		// }
-		// user1.setAuthentics(null);
-		// user1.setUserstatus(null);
-		// user1.setTelephone(null);
-		// user1.setPassword(null);
-		// user1.setPlatform(null);
-		// user1.setLastLoginDate(null);
-		// comment.setUsersByAtUserId(user1);
-		// }
-		//
-		// // 封装返回结果
-		// this.status = 200;
-		// this.result.put("data", comment);
-		// if (flag != 1) {
-		// this.message = Config.STRING_FEELING_REPLY_SUCCESS;
-		// } else {
-		// this.message = Config.STRING_FEELING_COMMENT_SUCCESS;
-		// }
-		// }
 
 		return getResult();
 	}
@@ -612,6 +570,113 @@ public class ProjectController extends BaseController {
 			this.result.put("data", roadShow);
 			this.message = Config.STRING_PROJECT_SCENE_SUCCESS;
 		}
+		return getResult();
+	}
+	@RequestMapping(value = "/requestSceneComment")
+	@ResponseBody
+	/***
+	 * 现场交流
+	 * @param sceneId
+	 * @param content
+	 * @param session
+	 * @return
+	 */
+	public Map requestSceneComment(
+			@RequestParam(value = "sceneId", required = true) Integer sceneId,
+			@RequestParam(value = "content", required = true) String content,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+		
+		if (user == null) {
+			this.status = 400;
+			this.result.put("data", "");
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+			
+			//添加评论
+			this.ProjectManager.saveSceneComment(sceneId, user, content);
+			//封装返回数据
+			this.status = 200;
+			this.result.put("data", "");
+			this.message = Config.STRING_PROJECT_SCENE_ADD_SUCCESS;
+		}
+		return getResult();
+	}
+	@RequestMapping(value = "/requestProjectFinance")
+	@ResponseBody
+	/***
+	 * 现场交流
+	 * @param sceneId
+	 * @param content
+	 * @param session
+	 * @return
+	 */
+	public Map requestProjectFinance(
+			@RequestParam(value = "projectId", required = true) Integer projectId,
+			@RequestParam(value = "amount", required = true) float amount,
+			@RequestParam(value = "investCode", required = true) String investCode,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+		
+		if (user == null) {
+			this.status = 400;
+			this.result.put("data", "");
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+			
+			//添加评论
+			this.ProjectManager.saveProjectInvest(projectId, user, amount,investCode);
+			//封装返回数据
+			this.status = 200;
+			this.result.put("data", "");
+			this.message = Config.STRING_PROJECT_INVEST_ADD_SUCCESS;
+		}
+		return getResult();
+	}
+	@RequestMapping(value = "/requestProjectShare")
+	@ResponseBody
+	/***
+	 * 现场交流
+	 * @param sceneId
+	 * @param content
+	 * @param session
+	 * @return
+	 */
+	public Map requestProjectShare(
+			@RequestParam(value = "projectId", required = true) Integer projectId,
+			HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+//			 查看当前操作状态，1:评论,2:回复
+//			Project project = this.ProjectManager.findProjectById(projectId);
+			// 生成分享链接
+			Share share = Tools.generateShareContent(projectId, 1);
+
+			// 保存分享记录
+			this.systemManager.saveShareRecord(share);
+
+			share.setSharetype(null);
+			share.setShareDate(null);
+			// 封装返回结果
+			this.status = 200;
+			this.result.put("data", share);
+			this.message = "";
+		}
+
 		return getResult();
 	}
 

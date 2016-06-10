@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jinzht.tools.Config;
 import com.jinzht.tools.FileUtil;
+import com.jinzht.tools.Tools;
 import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Comment;
 import com.jinzht.web.entity.Contentimages;
@@ -173,7 +174,7 @@ public class FeelingController extends BaseController {
 							file = images[i];
 							fileName = String.format(
 									Config.STRING_USER_FEELING_PICTUREA_FORMAT,
-									user.getUserId());
+									new Date().getTime(),i);
 							result = FileUtil.savePicture(
 									file, fileName,
 									"upload/feelingImages/");
@@ -391,9 +392,9 @@ public class FeelingController extends BaseController {
 	 * @param session
 	 * @return
 	 */
-	public Map requestShareFeeling(@RequestParam(value = "type") int type,
+	public Map requestShareFeeling(
 			@RequestParam(value = "contentId") Integer contentId,
-			@RequestParam(value = "content") String content, HttpSession session) {
+			HttpSession session) {
 
 		this.result = new HashMap();
 		this.result.put("data", "");
@@ -405,35 +406,15 @@ public class FeelingController extends BaseController {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			// 查看当前操作状态，1:评论,2:回复
-			Publiccontent publicContent = this.feelingManager
-					.findPublicContentById(contentId);
-			// 生成分享链接
-			Share share = new Share();
-			Sharetype shareType = new Sharetype();
-			shareType.setShareTypeId(type);
-			share.setSharetype(shareType);
-			share.setShareDate(new Date());
-			share.setContent(content);
-			share.setContentId(contentId);
-
-			String url = ""; // 生成分享链接
-			switch (type) {
-			case 3:
-				url = Config.STRING_SHARE_APP_URL;
-				break;
-			default:
-				url = String.format("%s%d/%d", Config.STRING_SYSTEM_ADDRESS,
-						type, contentId);
-				break;
-			}
-
-			share.setUrl(url);
+//			// 查看当前操作状态，1:评论,2:回复
+//			Publiccontent publicContent = this.feelingManager
+//					.findPublicContentById(contentId);
+			
+			Share share = Tools.generateShareContent(contentId, 2);
 
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
 
-			share.setShareId(null);
 			share.setSharetype(null);
 			share.setShareDate(null);
 			// 封装返回结果
@@ -442,6 +423,46 @@ public class FeelingController extends BaseController {
 			this.message = "";
 		}
 
+		return getResult();
+	}
+	@RequestMapping(value = "/requestUpdateShareFeeling")
+	@ResponseBody
+	/***
+	 * 状态分享
+	 * @param contentId
+	 * @param content
+	 * @param session
+	 * @return
+	 */
+	public Map requestUpdateShareFeeling(@RequestParam(value = "type") int type,
+			@RequestParam(value = "shareId") Integer shareId,
+			@RequestParam(value = "content") String content,
+			HttpSession session) {
+		
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+		
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+			// 生成分享链接
+			Share share = this.feelingManager.findShareFeelingById(shareId);
+			if(share!=null)
+			{
+				share.setContent(content);
+				this.feelingManager.updateShare(share);
+			}
+			
+			// 封装返回结果
+			this.status = 200;
+			this.result.put("data", "");
+			this.message = Config.STRING_FEELING_SHARE_UPDATE;
+		}
+		
 		return getResult();
 	}
 

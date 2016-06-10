@@ -76,7 +76,7 @@ public class ScenecommentDAO {
 		log.debug("getting Scenecomment instance with id: " + id);
 		try {
 			Scenecomment instance = (Scenecomment) getCurrentSession().get(
-					"Scenecomment", id);
+					"com.jinzht.web.Scenecomment", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

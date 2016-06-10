@@ -29,6 +29,7 @@ import com.jinzht.web.entity.Industoryarea;
 import com.jinzht.web.entity.Industorytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Publiccontent;
+import com.jinzht.web.entity.Share;
 import com.jinzht.web.entity.Sharetype;
 import com.jinzht.web.entity.Users;
 
@@ -442,6 +443,24 @@ public class FeelingManager {
 		getContentPriseDao().delete(prise);
 	}
 
+	/***
+	 * 获取分享记录
+	 * @param shareId
+	 * @return
+	 */
+	public Share findShareFeelingById(Integer shareId)
+	{
+		return getShareDao().findById(shareId);
+	}
+	
+	/***
+	 * 更新分享记录
+	 * @param share
+	 */
+	public void updateShare(Share share)
+	{
+		getShareDao().saveOrUpdate(share);
+	}
 	public PubliccontentDAO getPublicContentDao() {
 		return publicContentDao;
 	}

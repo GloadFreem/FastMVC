@@ -71,7 +71,7 @@ public class Projectcommitrecord implements java.io.Serializable {
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
 	}

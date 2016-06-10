@@ -1,6 +1,8 @@
 package com.jinzht.web.entity;
 // default package
 
+
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
@@ -65,7 +67,8 @@ public class Users implements java.io.Serializable {
 	private Set<Investmentrecord> investmentrecords = new HashSet<Investmentrecord>(
 			0);
 	private Set<Contentprise> contentprises = new HashSet<Contentprise>(0);
-	private Projectcommitrecord projectcommitrecord;
+	private Set<Projectcommitrecord> projectcommitrecords = new HashSet<Projectcommitrecord>(
+			0);
 	private Set<Traderecord> traderecords = new HashSet<Traderecord>(0);
 	private Set<Systemcode> systemcodes = new HashSet<Systemcode>(0);
 	private Actionshare actionshare;
@@ -73,6 +76,11 @@ public class Users implements java.io.Serializable {
 	private Set<Loginfailrecord> loginfailrecords = new HashSet<Loginfailrecord>(
 			0);
 	private Set<Projectcomment> projectcomments = new HashSet<Projectcomment>(0);
+	
+	private Set<Investorcollect> investorcollectsForUserCollectedId = new HashSet<Investorcollect>(
+			0);
+	private Set<Investorcollect> investorcollectsForUserId = new HashSet<Investorcollect>(
+			0);
 
 	// Constructors
 
@@ -92,10 +100,13 @@ public class Users implements java.io.Serializable {
 			Set<Actionprise> actionprises, Set<Capitalaccount> capitalaccounts,
 			Set<Investmentrecord> investmentrecords,
 			Set<Contentprise> contentprises,
-			Projectcommitrecord projectcommitrecord,
+			Set<Projectcommitrecord> projectcommitrecords,
 			Set<Traderecord> traderecords, Set<Systemcode> systemcodes,
 			Actionshare actionshare,
 			Set<Actioncomment> actioncomments,
+			Set<Investorcollect> investorcollectsForUserCollectedId,
+			Set<Investorcollect> investorcollectsForUserId,
+			Set<Investorcollect> investorcollectsForUsersByUserCollectedId,
 			Set<Loginfailrecord> loginfailrecords) {
 		this.userstatus = userstatus;
 		this.telephone = telephone;
@@ -117,12 +128,14 @@ public class Users implements java.io.Serializable {
 		this.capitalaccounts = capitalaccounts;
 		this.investmentrecords = investmentrecords;
 		this.contentprises = contentprises;
-		this.projectcommitrecord = projectcommitrecord;
+		this.projectcommitrecords = projectcommitrecords;
 		this.traderecords = traderecords;
 		this.systemcodes = systemcodes;
 		this.actionshare = actionshare;
 		this.actioncomments = actioncomments;
 		this.loginfailrecords = loginfailrecords;
+		this.investorcollectsForUserId = investorcollectsForUserId;
+		this.investorcollectsForUserCollectedId = investorcollectsForUserCollectedId;
 	}
 
 	// Property accessors
@@ -312,13 +325,14 @@ public class Users implements java.io.Serializable {
 		this.contentprises = contentprises;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "users")
-	public Projectcommitrecord getProjectcommitrecord() {
-		return this.projectcommitrecord;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	public Set<Projectcommitrecord> getProjectcommitrecords() {
+		return this.projectcommitrecords;
 	}
 
-	public void setProjectcommitrecord(Projectcommitrecord projectcommitrecord) {
-		this.projectcommitrecord = projectcommitrecord;
+	public void setProjectcommitrecords(
+			Set<Projectcommitrecord> projectcommitrecords) {
+		this.projectcommitrecords = projectcommitrecords;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
@@ -384,5 +398,27 @@ public class Users implements java.io.Serializable {
 	public void setProjectcomments(Set<Projectcomment> projectcomments) {
 		this.projectcomments = projectcomments;
 	}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usersByUserCollectedId")
+	public Set<Investorcollect> getInvestorcollectsForUserCollectedId() {
+		return this.investorcollectsForUserCollectedId;
+	}
+
+	public void setInvestorcollectsForUserCollectedId(
+			Set<Investorcollect> investorcollectsForUserCollectedId) {
+		this.investorcollectsForUserCollectedId = investorcollectsForUserCollectedId;
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usersByUserId")
+	public Set<Investorcollect> getInvestorcollectsForUserId() {
+		return this.investorcollectsForUserId;
+	}
+
+	public void setInvestorcollectsForUserId(
+			Set<Investorcollect> investorcollectsForUserId) {
+		this.investorcollectsForUserId = investorcollectsForUserId;
+	}
+
+	
 
 }

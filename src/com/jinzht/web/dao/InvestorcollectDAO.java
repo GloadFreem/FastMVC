@@ -1,8 +1,8 @@
 package com.jinzht.web.dao;
 // default package
 
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -16,26 +16,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jinzht.tools.Config;
-import com.jinzht.web.entity.Publiccontent;
+import com.jinzht.web.entity.Investorcollect;
 
 /**
  * A data access object (DAO) providing persistence and search support for
- * Publiccontent entities. Transaction control of the save(), update() and
+ * Investorcollect entities. Transaction control of the save(), update() and
  * delete() operations can directly support Spring container-managed
  * transactions or they can be augmented to handle user-managed Spring
  * transactions. Each of these methods provides additional information for how
  * to configure it for the desired type of transaction control.
  * 
- * @see .Publiccontent
+ * @see .Investorcollect
  * @author MyEclipse Persistence Tools
  */
 @Transactional
-public class PubliccontentDAO {
+public class InvestorcollectDAO {
 	private static final Logger log = LoggerFactory
-			.getLogger(PubliccontentDAO.class);
+			.getLogger(InvestorcollectDAO.class);
 	// property constants
-	public static final String CONTENT = "content";
 
 	private SessionFactory sessionFactory;
 
@@ -51,8 +49,8 @@ public class PubliccontentDAO {
 		// do nothing
 	}
 
-	public void save(Publiccontent transientInstance) {
-		log.debug("saving Publiccontent instance");
+	public void save(Investorcollect transientInstance) {
+		log.debug("saving Investorcollect instance");
 		try {
 			getCurrentSession().save(transientInstance);
 			log.debug("save successful");
@@ -61,19 +59,9 @@ public class PubliccontentDAO {
 			throw re;
 		}
 	}
-	public void saveOrUpdate(Publiccontent transientInstance) {
-		log.debug("saving Publiccontent instance");
-		try {
-			getCurrentSession().saveOrUpdate(transientInstance);
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
 
-	public void delete(Publiccontent persistentInstance) {
-		log.debug("deleting Publiccontent instance");
+	public void delete(Investorcollect persistentInstance) {
+		log.debug("deleting Investorcollect instance");
 		try {
 			getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
@@ -83,11 +71,11 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public Publiccontent findById(java.lang.Integer id) {
-		log.debug("getting Publiccontent instance with id: " + id);
+	public Investorcollect findById(java.lang.Integer id) {
+		log.debug("getting Investorcollect instance with id: " + id);
 		try {
-			Publiccontent instance = (Publiccontent) getCurrentSession().get(
-					"com.jinzht.web.entity.Publiccontent", id);
+			Investorcollect instance = (Investorcollect) getCurrentSession()
+					.get("Investorcollect", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -95,11 +83,11 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public List<Publiccontent> findByExample(Publiccontent instance) {
-		log.debug("finding Publiccontent instance by example");
+	public List<Investorcollect> findByExample(Investorcollect instance) {
+		log.debug("finding Investorcollect instance by example");
 		try {
-			List<Publiccontent> results = (List<Publiccontent>) getCurrentSession()
-					.createCriteria("Publiccontent").add(create(instance))
+			List<Investorcollect> results = (List<Investorcollect>) getCurrentSession()
+					.createCriteria("Investorcollect").add(create(instance))
 					.list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -111,10 +99,10 @@ public class PubliccontentDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Publiccontent instance with property: "
+		log.debug("finding Investorcollect instance with property: "
 				+ propertyName + ", value: " + value);
 		try {
-			String queryString = "from Publiccontent as model where model."
+			String queryString = "from Investorcollect as model where model."
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
@@ -125,14 +113,10 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public List<Publiccontent> findByContent(Object content) {
-		return findByProperty(CONTENT, content);
-	}
-
 	public List findAll() {
-		log.debug("finding all Publiccontent instances");
+		log.debug("finding all Investorcollect instances");
 		try {
-			String queryString = "from Publiccontent";
+			String queryString = "from Investorcollect";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -140,27 +124,12 @@ public class PubliccontentDAO {
 			throw re;
 		}
 	}
-	
-	public List findByCursor(int cursor){
-		log.debug("finding Publiccontent instances by cursor");
-		try {
-			String queryString = "from Publiccontent  order by publicContentId desc";
-			Query queryObject = getCurrentSession().createQuery(queryString)
-					.setFirstResult(cursor)
-					.setMaxResults(Config.STRING_FEELING_PAGESIZE)
-					;
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
 
-	public Publiccontent merge(Publiccontent detachedInstance) {
-		log.debug("merging Publiccontent instance");
+	public Investorcollect merge(Investorcollect detachedInstance) {
+		log.debug("merging Investorcollect instance");
 		try {
-			Publiccontent result = (Publiccontent) getCurrentSession().merge(
-					detachedInstance);
+			Investorcollect result = (Investorcollect) getCurrentSession()
+					.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -169,8 +138,8 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public void attachDirty(Publiccontent instance) {
-		log.debug("attaching dirty Publiccontent instance");
+	public void attachDirty(Investorcollect instance) {
+		log.debug("attaching dirty Investorcollect instance");
 		try {
 			getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
@@ -180,8 +149,8 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public void attachClean(Publiccontent instance) {
-		log.debug("attaching clean Publiccontent instance");
+	public void attachClean(Investorcollect instance) {
+		log.debug("attaching clean Investorcollect instance");
 		try {
 			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(
 					instance);
@@ -192,8 +161,8 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public static PubliccontentDAO getFromApplicationContext(
+	public static InvestorcollectDAO getFromApplicationContext(
 			ApplicationContext ctx) {
-		return (PubliccontentDAO) ctx.getBean("PubliccontentDAO");
+		return (InvestorcollectDAO) ctx.getBean("InvestorcollectDAO");
 	}
 }

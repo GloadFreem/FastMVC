@@ -88,7 +88,7 @@ public class Config {
 	public static String  STRING_SMS_INVEST_VALID_TRUE = "尊贵的金指投用户，您于[%s]投资[%s][%s]万。如有问题请致电 18681838312, 或致邮 kf@jinzht.com。我们的工作人员将会第一时间联系您，请您保持手机畅通。您也可以打开【金指投】APP->个人>中心->我的投融资->我投资的项目 查看详情。";
 	
 	//系统
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.102:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.106:8080/jinzht/";
 //	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
 	public static String  STRING_USER_IDENTITY_PICTUREA_FORMAT = "jinzht_user_identiy_a_%d";
@@ -103,7 +103,8 @@ public class Config {
 	public static String STRING_FEELING_PRISE_EREASE_SUCCESS = "取消点赞成功!";
 	public static String STRING_FEELING_REPLY_SUCCESS = "回复成功!";
 	public static String STRING_FEELING_COMMENT_SUCCESS = "评论成功!";
-	public static String  STRING_USER_FEELING_PICTUREA_FORMAT = "jinzht_feeling_a_%d%d";
+	public static String  STRING_USER_FEELING_PICTUREA_FORMAT = "jinzht_feeling_%d%d";
+	public static String STRING_FEELING_SHARE_UPDATE = "分享信息更新成功！";
 	
 	//分享
 	public static String STRING_SHARE_APP_URL ="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro";
@@ -122,4 +123,18 @@ public class Config {
 	public static String STRING_PROJECT_COLLECT_CANCEL = "取消关注";
 	public static String STRING_PROJECT_COMMENT_SUCCESS = "评论成功!";
 	public static String STRING_PROJECT_SCENE_SUCCESS = "项目现场获取成功!";
+	public static String STRING_PROJECT_SCENE_ADD_SUCCESS = "发送成功!";
+	public static String STRING_PROJECT_INVEST_ADD_SUCCESS = "投资信息提交成功!";
+	
+	
+	//易宝支付
+	public static String STRING_YEEPAY_VERIFY_ADDRESS = "http://127.0.0.1:8088/";
+	public static String STRING_YEEPAY_ENCRYPT_SUCCESS ="加密成功!";
+	public static String STRING_YEEPAY_ENCRYPT_FAIL ="加密失败!";
+	public static String STRING_YEEPAY_VERIFY_SUCCESS ="校验成功!";
+	public static String STRING_YEEPAY_VERIFY_FAIL ="校验失败!";
+	
+	//投资人
+	public static int STRING_INVESTOR_LIST_MAX_SIZE = 10;
+	public static String STRING_INVESTOR_PROJECT_COMMIT_SUCCESS ="项目提交成功！投资人处理后第一时间联系您！";
 }

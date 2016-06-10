@@ -2,6 +2,7 @@ package com.jinzht.web.entity;
 // default package
 
 
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,7 +56,8 @@ public class Project implements java.io.Serializable {
 	private Financingexit financingexit;
 	private Financialstanding financialstanding;
 	private Financingcase financingcase;
-	private Investmentrecord investmentrecord;
+	private Set<Investmentrecord> investmentrecords = new HashSet<Investmentrecord>(
+			0);
 	private Set<Projectcommitrecord> projectcommitrecords = new HashSet<Projectcommitrecord>(
 			0);
 	private Set<Team> teams = new HashSet<Team>(0);
@@ -78,7 +80,7 @@ public class Project implements java.io.Serializable {
 			Integer timeLeft, Scene scene, Set<Communion> communions,
 			Set<Projectcomment> projectcomments, Controlreport controlreport,
 			Financingexit financingexit, Financialstanding financialstanding,
-			Financingcase financingcase, Investmentrecord investmentrecord,
+			Financingcase financingcase, Set<Investmentrecord> investmentrecords,
 			Set<Projectcommitrecord> projectcommitrecords, Set<Team> teams,
 			Businessplan businessplan, Set<Collection> collections,
 			Set<Member> members, Set<Roadshow> roadshows,
@@ -99,7 +101,7 @@ public class Project implements java.io.Serializable {
 		this.financingexit = financingexit;
 		this.financialstanding = financialstanding;
 		this.financingcase = financingcase;
-		this.investmentrecord = investmentrecord;
+		this.investmentrecords = investmentrecords;
 		this.projectcommitrecords = projectcommitrecords;
 		this.teams = teams;
 		this.businessplan = businessplan;
@@ -266,13 +268,13 @@ public class Project implements java.io.Serializable {
 		this.financingcase = financingcase;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "project")
-	public Investmentrecord getInvestmentrecord() {
-		return this.investmentrecord;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+	public Set<Investmentrecord> getInvestmentrecords() {
+		return this.investmentrecords;
 	}
 
-	public void setInvestmentrecord(Investmentrecord investmentrecord) {
-		this.investmentrecord = investmentrecord;
+	public void setInvestmentrecords(Set<Investmentrecord> investmentrecords) {
+		this.investmentrecords = investmentrecords;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")

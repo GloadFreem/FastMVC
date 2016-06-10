@@ -2,6 +2,7 @@ package com.jinzht.web.dao;
 // default package
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Authentic;
 
 /**
@@ -123,6 +125,35 @@ public class AuthenticDAO {
 			throw re;
 		}
 	}
+	
+	public List findByProperties(Map requestMap,Integer page) {
+		try {
+//			String debugInfo= "finding Authentic instance with property: ";
+			String queryString = "from Authentic as model where";
+			Object[] keys= requestMap.keySet().toArray();
+			for(int i = 0;i<requestMap.size();i++){
+//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
+				if(i==0){
+					queryString+=" model."+keys[i].toString()+" =? ";
+				}else{
+					queryString+="and model."+keys[i].toString()+" =? ";
+				}
+			}
+//			log.debug(debugInfo);
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<requestMap.size();i++){
+				queryObject.setParameter(i, requestMap.get(keys[i]));
+			}
+			queryObject.setFirstResult(page);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 
 	public List<Authentic> findByName(Object name) {
 		return findByProperty(NAME, name);

@@ -46,6 +46,7 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
+				<value>com.jinzht.web.entity.Investorcollect</value>
 				<value>com.jinzht.web.entity.Scenecomment</value>
 				<value>com.jinzht.web.entity.Actionimages</value>
 				<value>com.jinzht.web.entity.Team</value>
@@ -431,6 +432,11 @@
 		</property>
 	</bean>
 	<bean id="com.jinzht.web.entity.ScenecommentDAO" class="com.jinzht.web.dao.ScenecommentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.jinzht.web.dao.InvestorcollectDAO" class="com.jinzht.web.dao.InvestorcollectDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
