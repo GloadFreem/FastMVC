@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Attention;
 
 /**
@@ -106,6 +107,22 @@ public class AttentionDAO {
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	public List findByPropertyWithPage(String propertyName, Object value,Integer page) {
+		log.debug("finding Attention instance with property: " + propertyName
+				+ ", value: " + value);
+		try {
+			String queryString = "from Attention as model where model."
+					+ propertyName + "= ?";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setParameter(0, value);
+			queryObject.setFirstResult(page);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);

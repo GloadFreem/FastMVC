@@ -28,17 +28,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jinzht.tools.Config;
+import com.jinzht.tools.FileUtil;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Authentic;
+import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.MessageBean;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
+import com.jinzht.web.manager.AuthenticManager;
 import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.test.User;
 
@@ -48,6 +52,8 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private UserManager userManger;
+	@Autowired
+	private AuthenticManager authenticManager;
 
 	@RequestMapping(value = "createUser")
 	public String createUser(@ModelAttribute("user") Users user) {
@@ -471,6 +477,279 @@ public class UserController extends BaseController {
 		
 		return getResult();
 	}
+	@RequestMapping("/requestChangeHeaderPicture")
+	@ResponseBody
+	/***
+	 * 更新用户头像
+	 * @param file 图片文件
+	 * @param session
+	 * @return
+	 */
+	public Map requestChangeHeaderPicture(
+			@RequestParam(value = "file", required = false) MultipartFile file,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		
+		if(user==null)
+		{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}else{
+			// 保存图片
+			String fileName = String.format(
+					Config.STRING_USER_HEADER_PICTURE_FORMAT, user.getUserId());
+			String result = FileUtil.savePicture(file, fileName,
+					"upload/headerImages/");
+			if (!result.equals("")) {
+				fileName = Config.STRING_SYSTEM_ADDRESS + "upload/headerImages/"
+						+ result;
+				user.setHeadSculpture(fileName);
+				
+				//更新信息
+				this.userManger.saveOrUpdateUser(user);
+				//返回信息
+				this.status = 200;
+				this.message = Config.STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS;
+			} else {
+				this.status = 200;
+				this.message = Config.STRING_USER_HEADER_PICTURE_UPDATE_FAIL;
+			}
+			
+		}
+		
+		return getResult();
+	}
+	@RequestMapping("/requestModifyCompany")
+	@ResponseBody
+	/***
+	 * 更新公司名称
+	 * @param name 公司名称
+	 * @param session
+	 * @return
+	 */
+	public Map requestModifyCompany(
+			@RequestParam(value = "name", required = false) String name,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		
+		if(user==null)
+		{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}else{
+
+			//更新信息
+			Object[] authentics = user.getAuthentics().toArray();
+			
+			Authentic authentic = null;
+			for(int i = 0;i<authentics.length;i++){
+				authentic = (Authentic) authentics[i];
+				authentic.setCompanyName(name);
+			}
+			this.userManger.saveOrUpdateUser(user);
+			//返回信息
+			this.status = 200;
+			this.message = Config.STRING_USER_COMPNY_UPDATE_SUCCESS;
+		}
+		
+		return getResult();
+	}
+	@RequestMapping("/requestModifyPosition")
+	@ResponseBody
+	/***
+	 * 更新职位
+	 * @param position 职位
+	 * @param session
+	 * @return
+	 */
+	public Map requestModifyPosition(
+			@RequestParam(value = "position", required = false) String position,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		
+		if(user==null)
+		{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}else{
+			
+			//更新信息
+			Object[] authentics = user.getAuthentics().toArray();
+			
+			Authentic authentic = null;
+			for(int i = 0;i<authentics.length;i++){
+				authentic = (Authentic) authentics[i];
+				authentic.setPosition(position);
+			}
+			this.userManger.saveOrUpdateUser(user);
+			//返回信息
+			this.status = 200;
+			this.message = Config.STRING_USER_POSITION_UPDATE_SUCCESS;
+		}
+		
+		return getResult();
+	}
+	@RequestMapping("/requestModifyCity")
+	@ResponseBody
+	/***
+	 * 更新地址
+	 * @param cityId 城市id
+	 * @param session
+	 * @return
+	 */
+	public Map requestModifyCity(
+			@RequestParam(value = "cityId", required = false) Integer cityId,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		
+		if(user==null)
+		{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}else{
+			
+			//更新信息
+			Object[] authentics = user.getAuthentics().toArray();
+			
+			Authentic authentic = null;
+			City city  = this.authenticManager.findCityByCityId(cityId);
+			for(int i = 0;i<authentics.length;i++){
+				authentic = (Authentic) authentics[i];
+				authentic.setCity(city);
+			}
+			this.userManger.saveOrUpdateUser(user);
+			//返回信息
+			this.status = 200;
+			this.message = Config.STRING_USER_ADDRESS_UPDATE_SUCCESS;
+		}
+		
+		return getResult();
+	}
+	@RequestMapping("/requestModifyPassword")
+	@ResponseBody
+	/***
+	 * 更新密码
+	 * @param passwordOld 旧密码
+	 * @param passwordNew 新密码
+	 * @param session
+	 * @return
+	 */
+	public Map requestModifyPassword	(
+			@RequestParam(value = "passwordOld", required = false) String passwordOld,
+			@RequestParam(value = "passwordNew", required = false) String passwordNew,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		
+		if(user==null)
+		{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}else{
+			
+			//旧密码比对
+			if(user.getPassword().equals(passwordOld)){
+				//更新信息
+				this.userManger.saveOrUpdateUser(user);
+				
+				//返回信息
+				this.status = 200;
+				this.message = Config.STRING_USER_PASSWORD_UPDATE_SUCCESS;
+			}else{
+				this.status = 400;
+				this.message = Config.STRING_USER_PASSWORD_COMPARE_FAIL;
+			}
+		}
+		
+		return getResult();
+	}
+	@RequestMapping("/requestChangeBindTelephone")
+	@ResponseBody
+	/***
+	 * 更新密码
+	 * @param telephone 手机号码
+	 * @param code 短信验证码
+	 * @param session
+	 * @return
+	 */
+	public Map requestChangeBindTelephone	(
+			@RequestParam(value = "telephone", required = false) String telephone,
+			@RequestParam(value = "code", required = false) int code,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		//检验验证码
+		if(session.getAttribute("code")!=null){
+			//比对验证码
+			int codeSession = (int) session.getAttribute("code");
+			if(codeSession == code)
+			{
+				// 获取用户
+				Users user = this.findUserInSession(session);
+				
+				if(user==null)
+				{
+					this.status = 400;
+					this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+				}else{
+					//设置手机号码
+					user.setTelephone(telephone);
+					//保存信息
+					this.userManger.saveOrUpdateUser(user);
+					
+					//返回信息
+					this.status = 200;
+					this.message = Config.STRING_USER_TELEPHONE_UPDATE_SUCCESS;
+				}
+			}else{
+				this.status = 400;
+				this.message = Config.STRING_LOGING_CODE_ERROR;
+			}
+		}else{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_CODE_NOT_GET;
+		}
+		
+		return getResult();
+	}
 
 	/***
 	 * 从当前session获取用户对象
@@ -487,5 +766,7 @@ public class UserController extends BaseController {
 
 		return user;
 	}
+	
+	
 
 }

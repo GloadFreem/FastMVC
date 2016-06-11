@@ -40,7 +40,8 @@ import com.jinzht.tools.Config;
 		,"communions","inviterecords","attentions","systemmessages",
 		"rewardsystems","actionprises","capitalaccounts","investmentrecords",
 		"contentprises","projectcommitrecord","traderecords","systemcodes",
-		"actionshare","actioncomments","loginfailrecords","projectcomments"})
+		"actionshare","actioncomments","loginfailrecords","projectcomments",
+		"projectcommitrecords","investorcollectsForUserCollectedId","investorcollectsForUserId"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Users implements java.io.Serializable {
 
@@ -216,7 +217,7 @@ public class Users implements java.io.Serializable {
 		this.wechatId = wechatId;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Publiccontent> getPubliccontents() {
 		return this.publiccontents;
 	}
@@ -344,7 +345,7 @@ public class Users implements java.io.Serializable {
 		this.traderecords = traderecords;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<Systemcode> getSystemcodes() {
 		return this.systemcodes;
 	}

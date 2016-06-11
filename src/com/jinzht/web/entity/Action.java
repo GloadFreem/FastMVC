@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Entity
 @Table(name = "action", catalog = "jinzht2016")
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-@JsonIgnoreProperties(value={"actionshares","actionprises","attentions","actioncomments","actionshares","actionimages","initiateUser"})
+@JsonIgnoreProperties(value={"actionshares","attentions","actioncomments","actionshares","initiateUser"})
 
 public class Action implements java.io.Serializable {
 
@@ -50,6 +50,7 @@ public class Action implements java.io.Serializable {
 	private Set<Actionshare> actionshares = new HashSet<Actionshare>(0);
 	private Set<Actionimages> actionimages = new HashSet<Actionimages>(0);
 	private short type;
+	private short flag; //是否参加报名
 
 	// Constructors
 
@@ -157,7 +158,7 @@ public class Action implements java.io.Serializable {
 		this.endTime = endTime;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "action")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
 	public Set<Actionprise> getActionprises() {
 		return this.actionprises;
 	}
@@ -209,6 +210,15 @@ public class Action implements java.io.Serializable {
 
 	public void setActionimages(Set<Actionimages> actionimages) {
 		this.actionimages = actionimages;
+	}
+
+	@Column(name = "flag", length = 1)
+	public short getFlag() {
+		return flag;
+	}
+
+	public void setFlag(short flag) {
+		this.flag = flag;
 	}
 
 

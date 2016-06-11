@@ -35,6 +35,7 @@ public class Systemmessage implements java.io.Serializable {
 	private Messagetype messagetype;
 	private String content;
 	private Date messageDate;
+	private short isRead;
 
 	// Constructors
 
@@ -100,6 +101,15 @@ public class Systemmessage implements java.io.Serializable {
 
 	public void setMessageDate(Date messageDate) {
 		this.messageDate = messageDate;
+	}
+	
+	@Column(name = "is_read")
+	public short isRead() {
+		return isRead;
+	}
+
+	public void setRead(short isRead) {
+		this.isRead = isRead;
 	}
 
 }

@@ -9,11 +9,13 @@ import com.jinzht.web.dao.NoticeDAO;
 import com.jinzht.web.dao.PreloadingpageDAO;
 import com.jinzht.web.dao.ShareDAO;
 import com.jinzht.web.dao.SustomserviceDAO;
+import com.jinzht.web.dao.SystemmessageDAO;
 import com.jinzht.web.dao.VersioncontrollDAO;
 import com.jinzht.web.entity.Notice;
 import com.jinzht.web.entity.Preloadingpage;
 import com.jinzht.web.entity.Customservice;
 import com.jinzht.web.entity.Share;
+import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Versioncontroll;
 
@@ -25,6 +27,7 @@ public class SystemManager {
 	private SustomserviceDAO sustomserviceDao; //客服信息
 	private VersioncontrollDAO versioncontrollDao; // 版本更新信息
 	private ShareDAO shareDao;
+	private SystemmessageDAO systemMessageDao;
 	
 
 	/***
@@ -112,6 +115,46 @@ public class SystemManager {
 	{
 		getShareDao().save(share);
 	}
+	
+	/***
+	 * 获取用户站内信list
+	 * @param user
+	 * @param page
+	 * @return
+	 */
+	public List findSystemMessageListByUser(Users user,Integer page)
+	{
+		List list =null;
+		list = getSystemMessageDao().findByPropertyWithPage("users", user,page);
+		return list;
+	}
+	
+	/***
+	 * 根据id获取站内信
+	 * @param messageId
+	 * @return
+	 */
+	public Systemmessage findMessageById(Integer messageId)
+	{
+		return getSystemMessageDao().findById(messageId);
+	}
+	
+	/***
+	 * 删除站内信
+	 * @param message 站内信
+	 */
+	public void deleteSystemMessage(Systemmessage message){
+		getSystemMessageDao().delete(message);
+	}
+	
+	/***
+	 * 更新信息
+	 * @param message
+	 */
+	public void saveOrUpdate(Systemmessage message)
+	{
+		getSystemMessageDao().saveOrUpdate(message);
+	}
 	@Autowired
 	public void setNoticeDao(NoticeDAO noticeDao) {
 		this.noticeDao = noticeDao;
@@ -157,6 +200,14 @@ public class SystemManager {
 	@Autowired
 	public void setShareDao(ShareDAO shareDao) {
 		this.shareDao = shareDao;
+	}
+
+	public SystemmessageDAO getSystemMessageDao() {
+		return systemMessageDao;
+	}
+	@Autowired
+	public void setSystemMessageDao(SystemmessageDAO systemMessageDao) {
+		this.systemMessageDao = systemMessageDao;
 	}
 
 }

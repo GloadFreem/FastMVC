@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Systemmessage;
 
 /**
@@ -59,6 +60,16 @@ public class SystemmessageDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Systemmessage transientInstance) {
+		log.debug("saving or updating Systemmessage instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Systemmessage persistentInstance) {
 		log.debug("deleting Systemmessage instance");
@@ -75,7 +86,7 @@ public class SystemmessageDAO {
 		log.debug("getting Systemmessage instance with id: " + id);
 		try {
 			Systemmessage instance = (Systemmessage) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Systemmessage", id);
+					"com.jinzht.web.entity.Systemmessage", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -106,6 +117,22 @@ public class SystemmessageDAO {
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	public List findByPropertyWithPage(String propertyName, Object value,Integer page) {
+		log.debug("finding Systemmessage instance with property: "
+				+ propertyName + ", value: " + value);
+		try {
+			String queryString = "from Systemmessage as model where model."
+					+ propertyName + "= ?";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setParameter(0, value);
+			queryObject.setFirstResult(page);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);

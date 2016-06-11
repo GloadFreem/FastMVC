@@ -88,12 +88,27 @@ public class Config {
 	public static String  STRING_SMS_INVEST_VALID_TRUE = "尊贵的金指投用户，您于[%s]投资[%s][%s]万。如有问题请致电 18681838312, 或致邮 kf@jinzht.com。我们的工作人员将会第一时间联系您，请您保持手机畅通。您也可以打开【金指投】APP->个人>中心->我的投融资->我投资的项目 查看详情。";
 	
 	//系统
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.106:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.107:8080/jinzht/";
+	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.107:8080/jinzht/";
 //	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
+	public static String  STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS = "头像更新成功！";
+	public static String  STRING_USER_HEADER_PICTURE_UPDATE_FAIL = "头像更新失败！";
+	public static String  STRING_USER_COMPNY_UPDATE_SUCCESS = "公司更新成功！";
+	public static String  STRING_USER_POSITION_UPDATE_SUCCESS = "职位更新成功！";
+	public static String  STRING_USER_ADDRESS_UPDATE_SUCCESS = "地址更新成功！";
+	public static String  STRING_USER_TELEPHONE_UPDATE_SUCCESS = "手机绑定成功！";
+	public static String  STRING_USER_PASSWORD_COMPARE_FAIL = "旧密码输入错误，请重新输入！";
+	public static String  STRING_USER_PASSWORD_UPDATE_SUCCESS = "重新设置密码成功！";
 	public static String  STRING_USER_IDENTITY_PICTUREA_FORMAT = "jinzht_user_identiy_a_%d";
 	public static String  STRING_USER_IDENTITY_PICTUREB_FORMAT = "jinzht_user_identiy_b_%d";
 	public static String  STRING_USER__IDENTITY_BUINESS_FORMAT = "jinzht_user_identiy_buiness_%d";
+	
+	//站内信
+	public static String STRING_SYSTEM_MESSAGE_DELETE_SUCCESS ="信息删除成功！";
+	public static String STRING_SYSTEM_MESSAGE_DELETE_FAIL ="信息删除失败！";
+	public static String STRING_SYSTEM_MESSAGE_READ_SUCCESS ="设置已读状态成功！";
+	public static String STRING_SYSTEM_MESSAGE_READ_FAIL ="设置已读状态失败！";
 	
 	//圈子
 	public static Integer STRING_FEELING_PAGESIZE = 100;  //圈子列表每页加载数量

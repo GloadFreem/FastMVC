@@ -62,13 +62,19 @@ public class ActionManager {
 	 *            当前页
 	 * @return
 	 */
-	public List findActionByCursor(int currentPage) {
+	public List findActionByCursor(int currentPage,Users user) {
 		List list = getActionDao().findByCursor(currentPage);
 		if (list != null && list.size() > 0) {
 			Action action = null;
 			for (int i = 0; i < list.size(); i++) {
 				action = (Action) list.get(i);
 				
+				Attention attention = this.findAttentionByActionIdAndUser(action, user);
+				if(attention!=null)
+				{
+					short flag = 1;
+					action.setFlag(flag);
+				}
 			}
 		}
 
@@ -155,8 +161,8 @@ public class ActionManager {
 	 * @return
 	 */
 	
-	public List findAttentionListByAction(Action action){
-		return getAttentionDao().findByProperty("action", action);
+	public List findAttentionListByAction(Action action,Integer page){
+		return getAttentionDao().findByPropertyWithPage("action", action,page);
 	}
 	
 	/***
@@ -164,8 +170,8 @@ public class ActionManager {
 	 * @param action
 	 * @return
 	 */
-	public List findCommentListByAction(Action action){
-		return getActionCommentDao().findByProperty("action", action);
+	public List findCommentListByAction(Action action,Integer page){
+		return getActionCommentDao().findByPropertyWithPage("action", action,page);
 	}
 	
 	/***
