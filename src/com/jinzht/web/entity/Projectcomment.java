@@ -56,7 +56,7 @@ public class Projectcomment implements java.io.Serializable {
 		this.commentId = commentId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;

@@ -679,6 +679,70 @@ public class ProjectController extends BaseController {
 
 		return getResult();
 	}
+	@RequestMapping(value = "/requestProjectCenter")
+	@ResponseBody
+	/***
+	 * 项目中心
+	 * @param type 类型，0：项目方，1：投资人，2：投资机构，3：智囊团
+	 * @param page 当前页
+	 * @param session
+	 * @return
+	 */
+	public Map requestProjectCenter(
+			@RequestParam(value = "type", required = true) short type,
+			@RequestParam(value = "page", required = true) Integer page,
+			HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+		
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+			//根据请求类型获取相应数据
+			List list = null;
+			switch (type) {
+			case 0:
+				list = this.ProjectManager.findProjectsByUser(user, page);
+				this.result.put("data", list);
+				break;
+			case 3:
+				Map map = new HashMap();
+				//获取投资人
+				list = this.ProjectManager.findProjectsInvestmentWithUser(user, page);
+				//加入到返回数据中
+				map.put("invest", list);
+				//获取投资收到提交项目
+				list = this.ProjectManager.findCommentProjectByUser(user, page);
+				//加入到返回数据中
+				map.put("comment", list);
+				this.result.put("data", map);
+				break;
+			default:
+				map = new HashMap();
+				//获取投资人
+				list = this.ProjectManager.findProjectsInvestmentWithUser(user, page);
+				//加入到返回数据中
+				map.put("invest", list);
+				//获取投资收到提交项目
+				list = this.ProjectManager.findRecivedProjectCommitByUser(user, page);
+				//加入到返回数据中
+				map.put("commit", list);
+				this.result.put("data", map);
+				break;
+			}
+//			Project project = this.ProjectManager.findProjectById(projectId);
+
+			// 封装返回结果
+			this.status = 200;
+			this.message = "";
+		}
+		
+		return getResult();
+	}
 
 	/***
 	 * 从当前session获取用户对象

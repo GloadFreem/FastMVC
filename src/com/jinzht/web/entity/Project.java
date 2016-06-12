@@ -33,13 +33,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 		,"communions","inviterecords","attentions","systemmessages",
 		"rewardsystems","actionprises","capitalaccounts","investmentrecords",
 		"contentprises","projectcommitrecord","traderecords","systemcodes",
-		"actionshare","actioncomments","loginfailrecords"})
+		"actionshare","actioncomments","loginfailrecords","scenes","projectcomments"
+		,"projectcommitrecords","teams","members","projectimageses"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Project implements java.io.Serializable {
 
 	// Fields
 
 	private Integer projectId;
+	private Integer userId;
 	private Financestatus financestatus;
 	private String abbrevName;
 	private String fullName;
@@ -123,7 +125,7 @@ public class Project implements java.io.Serializable {
 		this.projectId = projectId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "status_id")
 	public Financestatus getFinancestatus() {
 		return this.financestatus;
@@ -339,6 +341,15 @@ public class Project implements java.io.Serializable {
 
 	public void setProjectimageses(Set<Projectimages> projectimageses) {
 		this.projectimageses = projectimageses;
+	}
+	
+	@Column(name="user_id")
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 }

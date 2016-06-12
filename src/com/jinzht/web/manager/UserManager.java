@@ -7,13 +7,23 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.jinzht.web.dao.ActionDAO;
+import com.jinzht.web.dao.CollectionDAO;
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
+import com.jinzht.web.dao.RewardsystemDAO;
+import com.jinzht.web.dao.RewardtradeDAO;
 import com.jinzht.web.dao.SystemcodeDAO;
+import com.jinzht.web.dao.UsercollectDAO;
 import com.jinzht.web.dao.UsersDAO;
+import com.jinzht.web.entity.Action;
+import com.jinzht.web.entity.Collection;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
+import com.jinzht.web.entity.Project;
+import com.jinzht.web.entity.Rewardsystem;
 import com.jinzht.web.entity.Systemcode;
+import com.jinzht.web.entity.Usercollect;
 import com.jinzht.web.entity.Users;
 
 public class UserManager {
@@ -23,6 +33,10 @@ public class UserManager {
 	private LoginfailrecordDAO loginfailrecordDao;
 	private IdentiytypeDAO identitytypeDao;
 	private SystemcodeDAO systemCodeDao;
+	private CollectionDAO collectionDao;
+	private UsercollectDAO userCollectDao;
+	private ActionDAO actionDao;
+	private RewardtradeDAO rewardSystemDao;
 	
 	
 	/***
@@ -181,6 +195,95 @@ public class UserManager {
 		return null;
 	}
 	
+	public List findUserCollectionProjects(Users user,Integer page)
+	{
+		List list = null;
+		Map map = new HashMap();
+		map.put("initiateUser", user.getUserId().toString());
+		list = getActionDao().findByPropertiesWithPage(map, page);
+		if(list!=null && list.size()>0)
+		{
+			Action action = null;
+			for(int i = 0;i<list.size();i++){
+				action = (Action) list.get(i);
+				action.setActionprises(null);
+				action.setActionimages(null);
+			}
+		}
+		
+		return list;
+	}
+	
+	/***
+	 * 获取用户活动
+	 * @param user
+	 * @param page
+	 * @return
+	 */
+	public List findUserAttendActions(Users user,Integer page)
+	{
+		List list = null;
+		Map map = new HashMap();
+		map.put("users", user);
+		list = getActionDao().findByPropertiesWithPage(map, page);
+		if(list!=null && list.size()>0)
+		{
+			Collection collection = null;
+			for(int i = 0;i<list.size();i++){
+				collection = (Collection) list.get(i);
+				Project project = collection.getProject();
+				
+				project.setCommunions(null);
+				project.setMembers(null);
+				project.setTeams(null);
+				project.setFinancingexit(null);
+				project.setFinancialstanding(null);
+				project.setControlreport(null);
+				project.setFinancingcase(null);
+				project.setBusinessplan(null);
+				project.setProjectcomments(null);
+				project.setProjectcommitrecords(null);
+				project.setProjectimageses(null);
+			}
+		}
+		
+		return list;
+	}
+	public List findUserCollectionUsers(Users user,Integer page)
+	{
+		List list = null;
+		Map map = new HashMap();
+		map.put("usersByUserId", user);
+		list = getUserCollectDao().findByPropertiesWithPage(map, page);
+		if(list!=null && list.size()>0)
+		{
+			Usercollect collect = null;
+			for(int i = 0;i<list.size();i++){
+				collect = (Usercollect) list.get(i);
+				Users u = collect.getUsersByUserId();
+				u.setUserstatus(null);
+				u.setTelephone(null);
+				u.setPassword(null);
+				u.setPlatform(null);
+//				u.setAuthentics(null);
+				u.setLastLoginDate(null);
+				u.setHeadSculpture(user.getHeadSculpture());
+			}
+		}
+		
+		return list;
+	}
+	
+	public List findGoldTradList(Rewardsystem rewardSystem,Integer page)
+	{
+		List list =null;
+		Map map = new HashMap();
+		map.put("rewardsystem", rewardSystem);
+		
+		list  = getRewardSystemDao().findByPropertiesWithPage(map, page);
+		return list;
+	}
+	
 	public UsersDAO getUserDao() {
 		return userDao;
 	}
@@ -214,4 +317,39 @@ public class UserManager {
 	public void setSystemCodeDao(SystemcodeDAO systemCodeDao) {
 		this.systemCodeDao = systemCodeDao;
 	}
+
+	public CollectionDAO getCollectionDao() {
+		return collectionDao;
+	}
+	@Autowired
+	public void setCollectionDao(CollectionDAO collectionDao) {
+		this.collectionDao = collectionDao;
+	}
+
+	public UsercollectDAO getUserCollectDao() {
+		return userCollectDao;
+	}
+	@Autowired
+	public void setUserCollectDao(UsercollectDAO userCollectDao) {
+		this.userCollectDao = userCollectDao;
+	}
+
+	public ActionDAO getActionDao() {
+		return actionDao;
+	}
+	@Autowired
+	public void setActionDao(ActionDAO actionDao) {
+		this.actionDao = actionDao;
+	}
+
+	public RewardtradeDAO getRewardSystemDao() {
+		return rewardSystemDao;
+	}
+	@Autowired
+	public void setRewardSystemDao(RewardtradeDAO rewardSystemDao) {
+		this.rewardSystemDao = rewardSystemDao;
+	}
+
+
+
 }

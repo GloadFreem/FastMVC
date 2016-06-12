@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "projectcommitrecord", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"users","status"})
+@JsonIgnoreProperties(value={"users","status","project"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Projectcommitrecord implements java.io.Serializable {
 
@@ -80,7 +80,7 @@ public class Projectcommitrecord implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;

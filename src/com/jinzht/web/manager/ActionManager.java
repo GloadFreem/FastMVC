@@ -72,13 +72,33 @@ public class ActionManager {
 				Attention attention = this.findAttentionByActionIdAndUser(action, user);
 				if(attention!=null)
 				{
-					short flag = 1;
-					action.setFlag(flag);
+					action.setAttended(true);
+				}
+				
+				Actionprise prise = this.findActionPrise(action, user);
+				if(prise!=null){
+					action.setFlag(true);
 				}
 			}
 		}
 
 		return list;
+	}
+	
+	public Actionprise findActionPrise(Action action,Users user)
+	{
+		Actionprise prise = null;
+		
+		//参数封装
+		Map map  = new HashMap();
+		map.put("users", user);
+		map.put("action", action);
+		
+		List list = getActionPriseDao().findByProperties(map, 0);
+		if(list!=null && list.size()>0){
+			prise = (Actionprise)list.get(0);
+		}
+		return prise;
 	}
 	
 	/***

@@ -59,5 +59,6 @@
 	<bean id="actionManager" class="com.jinzht.web.manager.ActionManager"></bean>
 	<bean id="projectManager" class="com.jinzht.web.manager.ProjectManager"></bean>
 	<bean id="investortManager" class="com.jinzht.web.manager.InvestorManager"></bean>
+	<bean id="tradeManager" class="com.jinzht.web.manager.TradeManager"></bean>
  
 </beans>

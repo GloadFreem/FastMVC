@@ -1,5 +1,7 @@
 package com.jinzht.web.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -20,7 +25,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "rewardtrade", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"rewardtradetype","rewardsystem"})
+@JsonIgnoreProperties(value={"rewardsystem"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Rewardtrade implements java.io.Serializable {
 
@@ -31,6 +36,7 @@ public class Rewardtrade implements java.io.Serializable {
 	private Rewardsystem rewardsystem;
 	private Integer tradeType;
 	private Integer count;
+	private Date tradeDate;
 
 	// Constructors
 
@@ -59,7 +65,7 @@ public class Rewardtrade implements java.io.Serializable {
 		this.rewardTradeId = rewardTradeId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reward_type_id")
 	public Rewardtradetype getRewardtradetype() {
 		return this.rewardtradetype;
@@ -95,6 +101,17 @@ public class Rewardtrade implements java.io.Serializable {
 
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+
+	@Column(name = "trade_date", length = 19)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	public Date getTradeDate() {
+		return tradeDate;
+	}
+
+	public void setTradeDate(Date tradeDate) {
+		this.tradeDate = tradeDate;
 	}
 
 }

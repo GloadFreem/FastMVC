@@ -2,6 +2,7 @@ package com.jinzht.web.dao;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
@@ -137,6 +138,35 @@ public class ActionDAO {
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public List findByPropertiesWithPage(Map requestMap,Integer page) {
+		try {
+//			String debugInfo= "finding Loginfailrecord instance with property: ";
+			String queryString = "from Action as model where";
+			Object[] keys= requestMap.keySet().toArray();
+			for(int i = 0;i<requestMap.size();i++){
+//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
+				if(i==0){
+					queryString+=" model."+keys[i].toString()+" =? ";
+				}else{
+					queryString+="and model."+keys[i].toString()+" =? ";
+				}
+			}
+//			log.debug(debugInfo);
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<requestMap.size();i++){
+				queryObject.setParameter(i, requestMap.get(keys[i]));
+			}
+			queryObject.setFirstResult(page);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);

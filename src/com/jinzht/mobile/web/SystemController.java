@@ -338,6 +338,42 @@ public class SystemController extends BaseController {
 
 		return getResult();
 	}
+	@RequestMapping("/requestGoldGetRule")
+	@ResponseBody
+	/***
+	 * 金条积累规则
+	 * @return Map 返回值
+	 */
+	public Map requestGoldGetRule(HttpSession session) {
+		this.result = new HashMap();
+		
+		Map map = new HashMap();
+		map.put("url", Config.STRING_SYSTEM_INTRODUCE);
+		
+		this.status = 200;
+		this.result.put("data", map);
+		this.message = "";
+		
+		return getResult();
+	}
+	@RequestMapping("/requestGoldUseRule")
+	@ResponseBody
+	/***
+	 * 金条使用规则
+	 * @return Map 返回值
+	 */
+	public Map requestGoldUseRule(HttpSession session) {
+		this.result = new HashMap();
+		
+		Map map = new HashMap();
+		map.put("url", Config.STRING_SYSTEM_INTRODUCE);
+		
+		this.status = 200;
+		this.result.put("data", map);
+		this.message = "";
+		
+		return getResult();
+	}
 
 	@RequestMapping("/requestInviteCode")
 	@ResponseBody

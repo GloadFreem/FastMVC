@@ -117,7 +117,7 @@ public class ActioncommentDAO {
 				+ propertyName + ", value: " + value);
 		try {
 			String queryString = "from Actioncomment as model where model."
-					+ propertyName + "= ?";
+					+ propertyName + "= ? order by model.commentId desc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			queryObject.setFirstResult(page);

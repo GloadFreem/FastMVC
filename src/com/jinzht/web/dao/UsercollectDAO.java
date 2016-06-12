@@ -1,4 +1,5 @@
 package com.jinzht.web.dao;
+// default package
 
 import java.util.List;
 import java.util.Map;
@@ -16,25 +17,24 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jinzht.tools.Config;
-import com.jinzht.web.entity.Projectcomment;
+import com.jinzht.web.entity.Usercollect;
 
 /**
  * A data access object (DAO) providing persistence and search support for
- * Projectcomment entities. Transaction control of the save(), update() and
+ * Usercollect entities. Transaction control of the save(), update() and
  * delete() operations can directly support Spring container-managed
  * transactions or they can be augmented to handle user-managed Spring
  * transactions. Each of these methods provides additional information for how
  * to configure it for the desired type of transaction control.
  * 
- * @see com.jinzht.web.entity.Projectcomment
+ * @see .Usercollect
  * @author MyEclipse Persistence Tools
  */
 @Transactional
-public class ProjectcommentDAO {
+public class UsercollectDAO {
 	private static final Logger log = LoggerFactory
-			.getLogger(ProjectcommentDAO.class);
+			.getLogger(UsercollectDAO.class);
 	// property constants
-	public static final String CONTENT = "content";
 
 	private SessionFactory sessionFactory;
 
@@ -50,8 +50,8 @@ public class ProjectcommentDAO {
 		// do nothing
 	}
 
-	public void save(Projectcomment transientInstance) {
-		log.debug("saving Projectcomment instance");
+	public void save(Usercollect transientInstance) {
+		log.debug("saving Usercollect instance");
 		try {
 			getCurrentSession().save(transientInstance);
 			log.debug("save successful");
@@ -61,8 +61,8 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public void delete(Projectcomment persistentInstance) {
-		log.debug("deleting Projectcomment instance");
+	public void delete(Usercollect persistentInstance) {
+		log.debug("deleting Usercollect instance");
 		try {
 			getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
@@ -72,11 +72,11 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public Projectcomment findById(java.lang.Integer id) {
-		log.debug("getting Projectcomment instance with id: " + id);
+	public Usercollect findById(java.lang.Integer id) {
+		log.debug("getting Usercollect instance with id: " + id);
 		try {
-			Projectcomment instance = (Projectcomment) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Projectcomment", id);
+			Usercollect instance = (Usercollect) getCurrentSession().get(
+					"Usercollect", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -84,12 +84,11 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public List<Projectcomment> findByExample(Projectcomment instance) {
-		log.debug("finding Projectcomment instance by example");
+	public List<Usercollect> findByExample(Usercollect instance) {
+		log.debug("finding Usercollect instance by example");
 		try {
-			List<Projectcomment> results = (List<Projectcomment>) getCurrentSession()
-					.createCriteria("com.jinzht.web.hibernate.Projectcomment")
-					.add(create(instance)).list();
+			List<Usercollect> results = (List<Usercollect>) getCurrentSession()
+					.createCriteria("Usercollect").add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
@@ -100,10 +99,10 @@ public class ProjectcommentDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Projectcomment instance with property: "
-				+ propertyName + ", value: " + value);
+		log.debug("finding Usercollect instance with property: " + propertyName
+				+ ", value: " + value);
 		try {
-			String queryString = "from Projectcomment as model where model."
+			String queryString = "from Usercollect as model where model."
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
@@ -114,10 +113,10 @@ public class ProjectcommentDAO {
 		}
 	}
 	
-	public List findByProperties(Map requestMap,Integer page) {
+	public List findByPropertiesWithPage(Map requestMap,Integer page) {
 		try {
-//			String debugInfo= "finding Authentic instance with property: ";
-			String queryString = "from Projectcomment as model where";
+//			String debugInfo= "finding Loginfailrecord instance with property: ";
+			String queryString = "from Usercollect as model where";
 			Object[] keys= requestMap.keySet().toArray();
 			for(int i = 0;i<requestMap.size();i++){
 //				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
@@ -135,6 +134,7 @@ public class ProjectcommentDAO {
 			}
 			queryObject.setFirstResult(page);
 			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
@@ -142,14 +142,10 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public List<Projectcomment> findByContent(Object content) {
-		return findByProperty(CONTENT, content);
-	}
-
 	public List findAll() {
-		log.debug("finding all Projectcomment instances");
+		log.debug("finding all Usercollect instances");
 		try {
-			String queryString = "from Projectcomment";
+			String queryString = "from Usercollect";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -158,10 +154,10 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public Projectcomment merge(Projectcomment detachedInstance) {
-		log.debug("merging Projectcomment instance");
+	public Usercollect merge(Usercollect detachedInstance) {
+		log.debug("merging Usercollect instance");
 		try {
-			Projectcomment result = (Projectcomment) getCurrentSession().merge(
+			Usercollect result = (Usercollect) getCurrentSession().merge(
 					detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -171,8 +167,8 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public void attachDirty(Projectcomment instance) {
-		log.debug("attaching dirty Projectcomment instance");
+	public void attachDirty(Usercollect instance) {
+		log.debug("attaching dirty Usercollect instance");
 		try {
 			getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
@@ -182,8 +178,8 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public void attachClean(Projectcomment instance) {
-		log.debug("attaching clean Projectcomment instance");
+	public void attachClean(Usercollect instance) {
+		log.debug("attaching clean Usercollect instance");
 		try {
 			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(
 					instance);
@@ -194,8 +190,8 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public static ProjectcommentDAO getFromApplicationContext(
+	public static UsercollectDAO getFromApplicationContext(
 			ApplicationContext ctx) {
-		return (ProjectcommentDAO) ctx.getBean("ProjectcommentDAO");
+		return (UsercollectDAO) ctx.getBean("UsercollectDAO");
 	}
 }

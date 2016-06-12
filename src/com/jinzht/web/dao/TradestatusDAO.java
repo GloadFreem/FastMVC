@@ -1,7 +1,8 @@
 package com.jinzht.web.dao;
+// default package
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -15,26 +16,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jinzht.tools.Config;
-import com.jinzht.web.entity.Projectcomment;
+import com.jinzht.web.entity.Tradestatus;
 
 /**
  * A data access object (DAO) providing persistence and search support for
- * Projectcomment entities. Transaction control of the save(), update() and
+ * Tradestatus entities. Transaction control of the save(), update() and
  * delete() operations can directly support Spring container-managed
  * transactions or they can be augmented to handle user-managed Spring
  * transactions. Each of these methods provides additional information for how
  * to configure it for the desired type of transaction control.
  * 
- * @see com.jinzht.web.entity.Projectcomment
+ * @see .Tradestatus
  * @author MyEclipse Persistence Tools
  */
 @Transactional
-public class ProjectcommentDAO {
+public class TradestatusDAO {
 	private static final Logger log = LoggerFactory
-			.getLogger(ProjectcommentDAO.class);
+			.getLogger(TradestatusDAO.class);
 	// property constants
-	public static final String CONTENT = "content";
+	public static final String NAME = "name";
+	public static final String IS_VALID = "isValid";
 
 	private SessionFactory sessionFactory;
 
@@ -50,8 +51,8 @@ public class ProjectcommentDAO {
 		// do nothing
 	}
 
-	public void save(Projectcomment transientInstance) {
-		log.debug("saving Projectcomment instance");
+	public void save(Tradestatus transientInstance) {
+		log.debug("saving Tradestatus instance");
 		try {
 			getCurrentSession().save(transientInstance);
 			log.debug("save successful");
@@ -61,8 +62,8 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public void delete(Projectcomment persistentInstance) {
-		log.debug("deleting Projectcomment instance");
+	public void delete(Tradestatus persistentInstance) {
+		log.debug("deleting Tradestatus instance");
 		try {
 			getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
@@ -72,11 +73,11 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public Projectcomment findById(java.lang.Integer id) {
-		log.debug("getting Projectcomment instance with id: " + id);
+	public Tradestatus findById(java.lang.Integer id) {
+		log.debug("getting Tradestatus instance with id: " + id);
 		try {
-			Projectcomment instance = (Projectcomment) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Projectcomment", id);
+			Tradestatus instance = (Tradestatus) getCurrentSession().get(
+					"Tradestatus", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -84,12 +85,11 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public List<Projectcomment> findByExample(Projectcomment instance) {
-		log.debug("finding Projectcomment instance by example");
+	public List<Tradestatus> findByExample(Tradestatus instance) {
+		log.debug("finding Tradestatus instance by example");
 		try {
-			List<Projectcomment> results = (List<Projectcomment>) getCurrentSession()
-					.createCriteria("com.jinzht.web.hibernate.Projectcomment")
-					.add(create(instance)).list();
+			List<Tradestatus> results = (List<Tradestatus>) getCurrentSession()
+					.createCriteria("Tradestatus").add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
@@ -100,10 +100,10 @@ public class ProjectcommentDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Projectcomment instance with property: "
-				+ propertyName + ", value: " + value);
+		log.debug("finding Tradestatus instance with property: " + propertyName
+				+ ", value: " + value);
 		try {
-			String queryString = "from Projectcomment as model where model."
+			String queryString = "from Tradestatus as model where model."
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
@@ -113,43 +113,19 @@ public class ProjectcommentDAO {
 			throw re;
 		}
 	}
-	
-	public List findByProperties(Map requestMap,Integer page) {
-		try {
-//			String debugInfo= "finding Authentic instance with property: ";
-			String queryString = "from Projectcomment as model where";
-			Object[] keys= requestMap.keySet().toArray();
-			for(int i = 0;i<requestMap.size();i++){
-//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
-				if(i==0){
-					queryString+=" model."+keys[i].toString()+" =? ";
-				}else{
-					queryString+="and model."+keys[i].toString()+" =? ";
-				}
-			}
-//			log.debug(debugInfo);
-			
-			Query queryObject = getCurrentSession().createQuery(queryString);
-			for(int i = 0;i<requestMap.size();i++){
-				queryObject.setParameter(i, requestMap.get(keys[i]));
-			}
-			queryObject.setFirstResult(page);
-			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find by property name failed", re);
-			throw re;
-		}
+
+	public List<Tradestatus> findByName(Object name) {
+		return findByProperty(NAME, name);
 	}
 
-	public List<Projectcomment> findByContent(Object content) {
-		return findByProperty(CONTENT, content);
+	public List<Tradestatus> findByIsValid(Object isValid) {
+		return findByProperty(IS_VALID, isValid);
 	}
 
 	public List findAll() {
-		log.debug("finding all Projectcomment instances");
+		log.debug("finding all Tradestatus instances");
 		try {
-			String queryString = "from Projectcomment";
+			String queryString = "from Tradestatus";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -158,10 +134,10 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public Projectcomment merge(Projectcomment detachedInstance) {
-		log.debug("merging Projectcomment instance");
+	public Tradestatus merge(Tradestatus detachedInstance) {
+		log.debug("merging Tradestatus instance");
 		try {
-			Projectcomment result = (Projectcomment) getCurrentSession().merge(
+			Tradestatus result = (Tradestatus) getCurrentSession().merge(
 					detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -171,8 +147,8 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public void attachDirty(Projectcomment instance) {
-		log.debug("attaching dirty Projectcomment instance");
+	public void attachDirty(Tradestatus instance) {
+		log.debug("attaching dirty Tradestatus instance");
 		try {
 			getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
@@ -182,8 +158,8 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public void attachClean(Projectcomment instance) {
-		log.debug("attaching clean Projectcomment instance");
+	public void attachClean(Tradestatus instance) {
+		log.debug("attaching clean Tradestatus instance");
 		try {
 			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(
 					instance);
@@ -194,8 +170,8 @@ public class ProjectcommentDAO {
 		}
 	}
 
-	public static ProjectcommentDAO getFromApplicationContext(
+	public static TradestatusDAO getFromApplicationContext(
 			ApplicationContext ctx) {
-		return (ProjectcommentDAO) ctx.getBean("ProjectcommentDAO");
+		return (TradestatusDAO) ctx.getBean("TradestatusDAO");
 	}
 }

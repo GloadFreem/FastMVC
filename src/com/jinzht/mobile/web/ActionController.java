@@ -201,6 +201,7 @@ public class ActionController extends BaseController {
 
 			Map map = new HashMap();
 			map.put("flag", flag);
+			map.put("name", user.getName());
 
 			this.result.put("data", map);
 			if (flag == 2) {
@@ -243,6 +244,7 @@ public class ActionController extends BaseController {
 
 			Actioncomment comment = new Actioncomment();
 			comment.setContent(content);
+			comment.setAction(action);
 			comment.setUsersByUserId(user);
 			if (flag != 1) {
 				Users atUser = this.userManager.findUserById(userId);
@@ -322,7 +324,7 @@ public class ActionController extends BaseController {
 	 */
 	public Map requestShareAction(@RequestParam(value = "type") int type,
 			@RequestParam(value = "contentId") Integer contentId,
-			@RequestParam(value = "content") String content, HttpSession session) {
+			 HttpSession session) {
 
 		this.result = new HashMap();
 		this.result.put("data", "");
@@ -342,7 +344,6 @@ public class ActionController extends BaseController {
 			shareType.setShareTypeId(type);
 			share.setSharetype(shareType);
 			share.setShareDate(new Date());
-			share.setContent(content);
 
 			String url = ""; // 生成分享链接
 			switch (type) {
@@ -404,15 +405,15 @@ public class ActionController extends BaseController {
 			}
 			action.setActionimages(set);
 			// // 报名人数
-			// list = this.actionManager.findAttentionListByAction(action,0);
-			// set = new HashSet();
-			//
-			// for (int i = 0; i < list.size(); i++) {
-			// Attention attention = (Attention) list.get(i);
-			// if(attention.getUsers().getUserId() == user.getUserId()){
-			// short flag = 1;
-			// action.setFlag(flag);
-			// }
+			list = this.actionManager.findAttentionListByAction(action, 0);
+			set = new HashSet();
+
+			for (int i = 0; i < list.size(); i++) {
+				Attention attention = (Attention) list.get(i);
+				if (attention.getUsers().getUserId() == user.getUserId()) {
+					action.setAttended(true);
+				}
+			}
 			// Users u = attention.getUsers();
 			//
 			// Object[] objs = u.getAuthentics().toArray();
@@ -494,8 +495,8 @@ public class ActionController extends BaseController {
 			// 点赞
 			list = this.actionManager.findPriseListByAction(action);
 			set = new HashSet();
-			for (int i = 0; i < list.size(); i++) {
-				Actionprise prise = (Actionprise) list.get(i);
+			for (int j = 0; j < list.size(); j++) {
+				Actionprise prise = (Actionprise) list.get(j);
 				Users u = prise.getUsers();
 
 				Object[] objs = u.getAuthentics().toArray();
@@ -504,6 +505,11 @@ public class ActionController extends BaseController {
 					u.setName(authentic.getName());
 				} else {
 					u.setName("匿名用户");
+				}
+				
+				if(u.getUserId() == user.getUserId())
+				{
+					action.setFlag(true);
 				}
 
 				set.add(u.getName());
@@ -548,7 +554,7 @@ public class ActionController extends BaseController {
 			// 评论
 			List list = this.actionManager
 					.findCommentListByAction(action, page);
-			Set set = new HashSet();
+			List l = new ArrayList();
 			Map map = new HashMap();
 
 			for (int i = 0; i < list.size(); i++) {
@@ -567,6 +573,11 @@ public class ActionController extends BaseController {
 				} else {
 					u.setName("匿名用户");
 				}
+				Users temp = new Users();
+				temp.setName(null);
+				temp.setAuthentics(null);
+				temp.setUserId(u.getUserId());
+				comment.setUsersByUserId(temp);
 				comment.setUserName(u.getName());
 
 				u = comment.getUsersByAtUserId();
@@ -583,14 +594,13 @@ public class ActionController extends BaseController {
 				}
 
 				comment.setUsersByAtUserId(null);
-				comment.setUsersByUserId(null);
-				set.add(comment);
+				l.add(comment);
 			}
-			map.put("comments", set);
+			map.put("comments", l);
 
 			// 点赞
 			list = this.actionManager.findPriseListByAction(action);
-			set = new HashSet();
+			Set set = new HashSet();
 			for (int i = 0; i < list.size(); i++) {
 				Actionprise prise = (Actionprise) list.get(i);
 				Users u = prise.getUsers();

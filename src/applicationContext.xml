@@ -46,6 +46,8 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
+				<value>com.jinzht.web.entity.Usercollect</value>
+				<value>com.jinzht.web.entity.Tradestatus</value>
 				<value>com.jinzht.web.entity.Investorcollect</value>
 				<value>com.jinzht.web.entity.Scenecomment</value>
 				<value>com.jinzht.web.entity.Actionimages</value>
@@ -89,7 +91,6 @@
 				<value>com.jinzht.web.entity.Systemcode</value>
 				<value>com.jinzht.web.entity.Communion</value>
 				<value>com.jinzht.web.entity.Attention</value>
-				<value>com.jinzht.web.entity.Chargetype</value>
 				<value>com.jinzht.web.entity.Rewardtradetype</value>
 				<value>com.jinzht.web.entity.Loginfailrecord</value>
 				<value>com.jinzht.web.entity.Projectcomment</value>
@@ -310,11 +311,6 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	<bean id="ChargetypeDAO" class="com.jinzht.web.dao.ChargetypeDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
 	<bean id="RewardtradetypeDAO" class="com.jinzht.web.dao.RewardtradetypeDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -437,6 +433,16 @@
 		</property>
 	</bean>
 	<bean id="com.jinzht.web.dao.InvestorcollectDAO" class="com.jinzht.web.dao.InvestorcollectDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.jinzht.web.dao.TradestatusDAO" class="com.jinzht.web.dao.TradestatusDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.jinzht.web.dao.UsercollectDAO" class="com.jinzht.web.dao.UsercollectDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

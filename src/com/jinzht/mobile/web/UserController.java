@@ -40,6 +40,7 @@ import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.MessageBean;
+import com.jinzht.web.entity.Rewardsystem;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.AuthenticManager;
@@ -746,6 +747,184 @@ public class UserController extends BaseController {
 		}else{
 			this.status = 400;
 			this.message = Config.STRING_LOGING_CODE_NOT_GET;
+		}
+		
+		return getResult();
+	}
+	@RequestMapping("/requestMineCollection")
+	@ResponseBody
+	/***
+	 * 获取用户关注
+	 * @param page 当前页
+	 * @param type 类型,0:项目，1：投资人
+	 * @param session
+	 * @return
+	 */
+	public Map requestMineCollection	(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "type", required = false) short type,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		
+		if(user==null)
+		{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}else{
+			//获取列表
+			List list = null;
+			if(type==0)
+			{
+				list = this.userManger.findUserCollectionProjects(user, page);
+			}else{
+				list = this.userManger.findUserCollectionUsers(user, page);
+			}
+			
+			if(list!=null )
+			{
+				this.result.put("data",list);
+			}else{
+				this.result.put("data","");
+			}
+			
+			//返回信息
+			this.status = 200;
+			
+			this.message = "";
+		}
+		
+		return getResult();
+	}
+	@RequestMapping("/requestMineAction")
+	@ResponseBody
+	/***
+	 * 获取用户参加活动
+	 * @param page 当前页
+	 * @param session
+	 * @return
+	 */
+	public Map requestMineAction	(
+			@RequestParam(value = "page", required = false) Integer page,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		
+		if(user==null)
+		{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}else{
+			//获取列表
+			List list = null;
+			list = this.userManger.findUserCollectionProjects(user, page);
+			
+			if(list!=null )
+			{
+				this.result.put("data",list);
+			}else{
+				this.result.put("data","");
+			}
+			
+			//返回信息
+			this.status = 200;
+			
+			this.message = "";
+		}
+		
+		return getResult();
+	}
+	@RequestMapping("/requestGoldTradList")
+	@ResponseBody
+	/***
+	 * 金条交易记录
+	 * @param page 当前页
+	 * @param session
+	 * @return
+	 */
+	public Map requestGoldTradList	(
+			@RequestParam(value = "page", required = false) Integer page,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		
+		if(user==null)
+		{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}else{
+			//获取列表
+			List list = null;
+			Object[] l = user.getRewardsystems().toArray();
+			Rewardsystem system = (Rewardsystem) l[0];
+			
+			list = this.userManger.findGoldTradList(system, page);
+			
+			if(list!=null )
+			{
+				this.result.put("data",list);
+			}else{
+				this.result.put("data","");
+			}
+			
+			//返回信息
+			this.status = 200;
+			
+			this.message = "";
+		}
+		
+		return getResult();
+	}
+	@RequestMapping("/requestGoldAccount")
+	@ResponseBody
+	/***
+	 * 金条账户
+	 * @param page 当前页
+	 * @param session
+	 * @return
+	 */
+	public Map requestGoldAccount(
+			@RequestParam(value = "page", required = false) Integer page,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		
+		if(user==null)
+		{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}else{
+			//获取列表
+			this.result.put("data",user.getRewardsystems());
+			
+			//返回信息
+			this.status = 200;
+			
+			this.message = "";
 		}
 		
 		return getResult();

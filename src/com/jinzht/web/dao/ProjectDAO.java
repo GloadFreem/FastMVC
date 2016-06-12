@@ -154,6 +154,22 @@ public class ProjectDAO {
 			throw re;
 		}
 	}
+	public List findByPropertyWithPage(String propertyName, Object value,Integer page) {
+		log.debug("finding Project instance with property: " + propertyName
+				+ ", value: " + value);
+		try {
+			String queryString = "from Project as model where model."
+					+ propertyName + "= ?";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setParameter(0, value);
+			queryObject.setFirstResult(page);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 
 	public List<Project> findByAbbrevName(Object abbrevName) {
 		return findByProperty(ABBREV_NAME, abbrevName);

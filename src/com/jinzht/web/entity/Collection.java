@@ -21,11 +21,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "collection", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"publiccontents","collections"
-		,"communions","inviterecords","attentions","systemmessages",
-		"rewardsystems","actionprises","capitalaccounts","investmentrecords",
-		"contentprises","projectcommitrecord","traderecords","systemcodes",
-		"actionshare","actioncomments","loginfailrecords"})
+@JsonIgnoreProperties(value={"users"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Collection implements java.io.Serializable {
 
@@ -59,7 +55,7 @@ public class Collection implements java.io.Serializable {
 		this.collectionId = collectionId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
@@ -69,7 +65,7 @@ public class Collection implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;

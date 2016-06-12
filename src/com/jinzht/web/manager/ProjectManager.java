@@ -23,6 +23,7 @@ import com.jinzht.web.dao.InvestmentrecordDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
 import com.jinzht.web.dao.ProjectDAO;
 import com.jinzht.web.dao.ProjectcommentDAO;
+import com.jinzht.web.dao.ProjectcommitrecordDAO;
 import com.jinzht.web.dao.ProvinceDAO;
 import com.jinzht.web.dao.PubliccontentDAO;
 import com.jinzht.web.dao.RoadshowDAO;
@@ -48,6 +49,7 @@ import com.jinzht.web.entity.Investmentrecord;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Projectcomment;
+import com.jinzht.web.entity.Projectcommitrecord;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Roadshow;
 import com.jinzht.web.entity.Roadshowplan;
@@ -69,6 +71,8 @@ public class ProjectManager {
 	private FinancestatusDAO financestatusDao;
 	private ProjectcommentDAO projectCommentDao;
 	private InvestmentrecordDAO investmentRecordDao;
+	private ProjectcommitrecordDAO projectCommitRecordDao;
+	
 	public Publiccontent findPublicContentById(Integer contentId) {
 		return getPublicContentDao().findById(contentId);
 	}
@@ -88,6 +92,11 @@ public class ProjectManager {
 				project.setCommunions(null);
 				project.setMembers(null);
 				project.setTeams(null);
+				project.setFinancingexit(null);
+				project.setFinancialstanding(null);
+				project.setControlreport(null);
+				project.setFinancingcase(null);
+				project.setBusinessplan(null);
 				project.setProjectcomments(null);
 				project.setProjectcommitrecords(null);
 				project.setProjectimageses(null);
@@ -369,6 +378,147 @@ public class ProjectManager {
 		getInvestmentRecordDao().save(investmentRecord);
 	}
 	
+	/***
+	 * 获取用户所发布项目
+	 * @param user
+	 * @param page
+	 * @return
+	 */
+	public List findProjectsByUser(Users user,Integer page)
+	{
+		List list  = getProjectDao().findByPropertyWithPage("userId", user.getUserId(),page);
+		
+		if(list != null && list.size()>0)
+		{
+			Project project = null;
+			for(int i = 0;i<list.size();i++)
+			{
+				project = (Project) list.get(i);
+				project.setControlreport(null);
+				project.setFinancingexit(null);
+				project.setFinancialstanding(null);
+				project.setFinancingcase(null);
+				project.setFinancingcase(null);
+				project.setBusinessplan(null);
+			}
+			return list;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 获取投资人所投资的项目
+	 * @param user 用户
+	 * @param page 当前页
+	 * @return
+	 */
+	public List findProjectsInvestmentWithUser(Users user,Integer page)
+	{
+		List list = new ArrayList();
+		
+		//封装
+		Map map = new HashMap();
+		map.put("users", user);
+		
+		List result = getInvestmentRecordDao().findByProperties(map, 0);
+		
+		if(result!=null && result.size()>0){
+			for(int i=0;i<result.size();i++)
+			{
+				Investmentrecord record = (Investmentrecord) result.get(i);
+				Project project = record.getProject();
+				
+				//过滤
+				project.setControlreport(null);
+				project.setFinancingexit(null);
+				project.setFinancialstanding(null);
+				project.setFinancingcase(null);
+				project.setFinancingcase(null);
+				project.setBusinessplan(null);
+				
+				list.add(project);
+			}
+			
+		}
+		
+		return list;
+	}
+	
+	/***
+	 * 获取用户收到项目提交
+	 * @param user
+	 * @param page
+	 * @return
+	 */
+	public List findRecivedProjectCommitByUser(Users user ,Integer page)
+	{
+		List list = new ArrayList();
+		
+		//封装
+		Map map = new HashMap();
+		map.put("users", user);
+				
+		List result = getProjectCommitRecordDao().findByProperties(map,page);
+		
+		if(result!=null && result.size()>0){
+			for(int i=0;i<result.size();i++)
+			{
+				Projectcommitrecord record = (Projectcommitrecord) result.get(i);
+				Project project = record.getProject();
+				
+				//过滤
+				project.setBusinessplan(null);
+				project.setControlreport(null);
+				project.setFinancingexit(null);
+				project.setFinancingcase(null);
+				project.setFinancingcase(null);
+				project.setFinancialstanding(null);
+				
+				list.add(project);
+			}
+			
+		}
+		
+		return list;
+	}
+	/***
+	 * 获取用户评论过项目
+	 * @param user
+	 * @param page
+	 * @return
+	 */
+	public List findCommentProjectByUser(Users user ,Integer page)
+	{
+		List list = new ArrayList();
+		
+		//封装
+		Map map = new HashMap();
+		map.put("users", user);
+		
+		List result = getProjectCommentDao().findByProperties(map, page);
+		
+		if(result!=null && result.size()>0){
+			for(int i=0;i<result.size();i++)
+			{
+				Projectcomment record = (Projectcomment) result.get(i);
+				Project project = record.getProject();
+				
+				//过滤
+				project.setBusinessplan(null);
+				project.setControlreport(null);
+				project.setFinancingexit(null);
+				project.setFinancingcase(null);
+				project.setFinancingcase(null);
+				project.setFinancialstanding(null);
+				
+				list.add(project);
+			}
+			
+		}
+		
+		return list;
+	}
 
 
 	public PubliccontentDAO getPublicContentDao() {
@@ -471,6 +621,14 @@ public class ProjectManager {
 	@Autowired
 	public void setInvestmentRecordDao(InvestmentrecordDAO investmentRecordDao) {
 		this.investmentRecordDao = investmentRecordDao;
+	}
+
+	public ProjectcommitrecordDAO getProjectCommitRecordDao() {
+		return projectCommitRecordDao;
+	}
+	@Autowired
+	public void setProjectCommitRecordDao(ProjectcommitrecordDAO projectCommitRecordDao) {
+		this.projectCommitRecordDao = projectCommitRecordDao;
 	}
 
 }

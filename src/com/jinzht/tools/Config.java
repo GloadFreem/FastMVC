@@ -88,8 +88,8 @@ public class Config {
 	public static String  STRING_SMS_INVEST_VALID_TRUE = "尊贵的金指投用户，您于[%s]投资[%s][%s]万。如有问题请致电 18681838312, 或致邮 kf@jinzht.com。我们的工作人员将会第一时间联系您，请您保持手机畅通。您也可以打开【金指投】APP->个人>中心->我的投融资->我投资的项目 查看详情。";
 	
 	//系统
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.107:8080/jinzht/";
-	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.107:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.108:8080/jinzht/";
+	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.108:8080/jinzht/";
 //	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS = "头像更新成功！";
@@ -152,4 +152,8 @@ public class Config {
 	//投资人
 	public static int STRING_INVESTOR_LIST_MAX_SIZE = 10;
 	public static String STRING_INVESTOR_PROJECT_COMMIT_SUCCESS ="项目提交成功！投资人处理后第一时间联系您！";
+	
+	//交易
+	public static String STRING_TRADE__ADD_SUCCESS="信息提交成功";
+	public static String STRING_TRADE__ADD_FAIl="信息提交失败";
 }

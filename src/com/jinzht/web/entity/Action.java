@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OrderBy;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -50,7 +51,8 @@ public class Action implements java.io.Serializable {
 	private Set<Actionshare> actionshares = new HashSet<Actionshare>(0);
 	private Set<Actionimages> actionimages = new HashSet<Actionimages>(0);
 	private short type;
-	private short flag; //是否参加报名
+	private boolean flag; //是否参加报名
+	private boolean attended;
 
 	// Constructors
 
@@ -159,6 +161,7 @@ public class Action implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
+	@OrderBy(value = "priseId desc")
 	public Set<Actionprise> getActionprises() {
 		return this.actionprises;
 	}
@@ -176,7 +179,8 @@ public class Action implements java.io.Serializable {
 		this.attentions = attentions;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "action")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
+	@OrderBy(value="commentId desc")
 	public Set<Actioncomment> getActioncomments() {
 		return this.actioncomments;
 	}
@@ -213,12 +217,21 @@ public class Action implements java.io.Serializable {
 	}
 
 	@Column(name = "flag", length = 1)
-	public short getFlag() {
+	public boolean getFlag() {
 		return flag;
 	}
 
-	public void setFlag(short flag) {
+	public void setFlag(boolean flag) {
 		this.flag = flag;
+	}
+
+	public boolean isAttended() {
+		
+		return attended;
+	}
+
+	public void setAttended(boolean attended) {
+		this.attended = attended;
 	}
 
 
