@@ -101,7 +101,6 @@
 				<value>
 					com.jinzht.web.entity.Financialstanding
 				</value>
-				<value>com.jinzht.web.entity.Industorytype</value>
 				<value>com.jinzht.web.entity.Investmentrecord</value>
 				<value>com.jinzht.web.entity.Project</value>
 				<value>com.jinzht.web.entity.Scene</value>
@@ -347,11 +346,6 @@
 		</property>
 	</bean>
 	<bean id="FinancialstandingDAO" class="com.jinzht.web.dao.FinancialstandingDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="IndustorytypeDAO" class="com.jinzht.web.dao.IndustorytypeDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

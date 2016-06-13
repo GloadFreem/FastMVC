@@ -390,7 +390,7 @@ public class Users implements java.io.Serializable {
 	}
 
 	public String getName() {
-		if(this.getAuthentics()!=null){
+		if(this.getAuthentics()!=null && this.name!=null){
 			Object[] list = this.getAuthentics().toArray();
 			if(list!=null && list.length>0){
 				Authentic authentic = (Authentic) list[0];
@@ -398,7 +398,7 @@ public class Users implements java.io.Serializable {
 			}
 		}
 		
-		return null;
+		return this.name;
 	}
 
 	public void setName(String name) {

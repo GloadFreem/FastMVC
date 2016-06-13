@@ -156,4 +156,17 @@ public class Config {
 	//交易
 	public static String STRING_TRADE__ADD_SUCCESS="信息提交成功";
 	public static String STRING_TRADE__ADD_FAIl="信息提交失败";
+	
+	//邮件系统
+	public static String STRING_MAIL_SERVER_NAME = "smtp.qq.com";
+	public static String STRING_MAIL_SERVER_USER = "chenshengzhu@jinzht.com";
+	public static String STRING_MAIL_SERVER_PASSWD = "Csz1126@0314";
+	
+	//友盟推送
+	public static String STRING_JAK = "cc3fdb255d49497c5fd3d402"; // access key
+	public static String STRING_JMS = "4bcf1021c013e29b4f77a7b7"; //master secret
+	public static String STRING_PUSH_ALERT = "alert";	
+	public static String STRING_PUSH_TITLE = "極光推送";	
+	public static String STRING_PUSH_CONTENT = "極光推送";	
+
 }

@@ -14,7 +14,6 @@ import com.jinzht.web.dao.CommentDAO;
 import com.jinzht.web.dao.ContentpriseDAO;
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.IndustoryareaDAO;
-import com.jinzht.web.dao.IndustorytypeDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
 import com.jinzht.web.dao.ProvinceDAO;
 import com.jinzht.web.dao.PubliccontentDAO;
@@ -26,7 +25,6 @@ import com.jinzht.web.entity.Comment;
 import com.jinzht.web.entity.Contentprise;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Industoryarea;
-import com.jinzht.web.entity.Industorytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Share;
@@ -68,8 +66,6 @@ public class FeelingManager {
 					Authentic authentic = (Authentic) authentices[0];
 
 					authentic.setAuthenticstatus(null);
-					authentic.setIndustoryarea(null);
-					authentic.setIndustorytype(null);
 					authentic.setIdentiytype(null);
 					authentic.setIdentiyCarA(null);
 					authentic.setIdentiyCarB(null);
@@ -223,8 +219,6 @@ public class FeelingManager {
 			Authentic authentic = (Authentic) authentices[0];
 
 			authentic.setAuthenticstatus(null);
-			authentic.setIndustoryarea(null);
-			authentic.setIndustorytype(null);
 			authentic.setIdentiytype(null);
 			authentic.setIdentiyCarA(null);
 			authentic.setIdentiyCarB(null);
@@ -303,18 +297,18 @@ public class FeelingManager {
 				Contentprise contentprise = iterator.next();
 				Users temp = new Users();
 				user = contentprise.getUsers();
-				if (user.getAuthentics() != null) {
-					Object[] l = user.getAuthentics().toArray();
-					if (l.length > 0) {
-						Authentic authentic = (Authentic) l[0];
-						user.setName(authentic.getName());
-					} else {
-						user.setName("");
-					}
-
-				} else {
-					user.setName("");
-				}
+//				if (user.getAuthentics() != null) {
+//					Object[] l = user.getAuthentics().toArray();
+//					if (l.length > 0) {
+//						Authentic authentic = (Authentic) l[0];
+//						user.setName(authentic.getName());
+//					} else {
+//						user.setName("");
+//					}
+//
+//				} else {
+//					user.setName("");
+//				}
 
 				if (user.getUserId() == userId) {
 					content.setFlag(true);

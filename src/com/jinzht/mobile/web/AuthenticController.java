@@ -42,7 +42,6 @@ import com.jinzht.web.entity.Authenticstatus;
 import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Industoryarea;
-import com.jinzht.web.entity.Industorytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.MessageBean;
 import com.jinzht.web.entity.Systemcode;
@@ -178,22 +177,6 @@ public class AuthenticController extends BaseController {
 		return getResult();
 	}
 
-	@RequestMapping("/getIndustoryTypeAuthentic")
-	@ResponseBody
-	/***
-	 * 获取行业列表
-	 * @param session
-	 * @return
-	 */
-	public Map getIndustoryTypeAuthentic(HttpSession session) {
-		this.result = new HashMap();
-		this.status = 200;
-
-		List list = this.authenticManager.findAllIndustoryType();
-		this.result.put("data", list);
-
-		return getResult();
-	}
 
 	@RequestMapping("/getProvinceListAuthentic")
 	@ResponseBody
@@ -325,10 +308,11 @@ public class AuthenticController extends BaseController {
 								authentic.setIdentiyCarNo(entity
 										.getIdentiyCarNo());
 								authentic.setCity(city);
+								authentic.setIndustoryArea(entity.getAreaId());
 								// authentic.setIndustoryarea(industoryArea);
 								// authentic.setIndustorytype(industoryType);
 								authentic.setName(entity.getName());
-								// authentic.setOptional(entity.getOptional());
+								 authentic.setOptional(entity.getOptional());
 								// authentic.setOptional(1);
 							} else {
 								this.status = 400;
@@ -359,7 +343,8 @@ public class AuthenticController extends BaseController {
 							// authentic.setIndustoryarea(industoryArea);
 							// authentic.setIndustorytype(industoryType);
 							authentic.setName(entity.getName());
-							// authentic.setOptional(entity.getOptional());
+							authentic.setIndustoryArea(entity.getAreaId());
+							 authentic.setOptional(entity.getOptional());
 
 						} else {
 							this.status = 400;
@@ -379,10 +364,11 @@ public class AuthenticController extends BaseController {
 					authentic.setCompanyName(entity.getCompanyName());
 					authentic.setIdentiyCarNo(entity.getIdentiyCarNo());
 					authentic.setCity(city);
+					authentic.setIndustoryArea(entity.getAreaId());
 					// authentic.setIndustoryarea(industoryArea);
 					// authentic.setIndustorytype(industoryType);
 					authentic.setName(entity.getName());
-					// authentic.setOptional(entity.getOptional());
+					 authentic.setOptional(entity.getOptional());
 				}
 
 				// 保存图片

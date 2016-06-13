@@ -324,7 +324,7 @@ public class ActionController extends BaseController {
 	 */
 	public Map requestShareAction(@RequestParam(value = "type") int type,
 			@RequestParam(value = "contentId") Integer contentId,
-			 HttpSession session) {
+			HttpSession session) {
 
 		this.result = new HashMap();
 		this.result.put("data", "");
@@ -506,9 +506,8 @@ public class ActionController extends BaseController {
 				} else {
 					u.setName("匿名用户");
 				}
-				
-				if(u.getUserId() == user.getUserId())
-				{
+
+				if (u.getUserId() == user.getUserId()) {
 					action.setFlag(true);
 				}
 
@@ -598,27 +597,34 @@ public class ActionController extends BaseController {
 			}
 			map.put("comments", l);
 
-			// 点赞
-			list = this.actionManager.findPriseListByAction(action);
-			Set set = new HashSet();
-			for (int i = 0; i < list.size(); i++) {
-				Actionprise prise = (Actionprise) list.get(i);
-				Users u = prise.getUsers();
+			if (page == 0) {
+				// 点赞
+				list = this.actionManager.findPriseListByAction(action);
+				Set set = new HashSet();
+				for (int i = 0; i < list.size(); i++) {
+					Actionprise prise = (Actionprise) list.get(i);
+					Users u = prise.getUsers();
 
-				Object[] objs = u.getAuthentics().toArray();
-				if (objs != null && objs.length > 0) {
-					Authentic authentic = (Authentic) objs[0];
-					u.setName(authentic.getName());
-				} else {
-					u.setName("匿名用户");
+					Object[] objs = u.getAuthentics().toArray();
+					if (objs != null && objs.length > 0) {
+						Authentic authentic = (Authentic) objs[0];
+						u.setName(authentic.getName());
+					} else {
+						u.setName("匿名用户");
+					}
+
+					set.add(u.getName());
 				}
-
-				set.add(u.getName());
+				map.put("prises", set);
 			}
-			map.put("prises", set);
 
 			// 封装返回结果
-			this.status = 200;
+			if(l==null)
+			{
+				this.status = 200;
+			}else{
+				this.status = 200;
+			}
 			this.result.put("data", map);
 			this.message = "";
 		}

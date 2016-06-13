@@ -12,7 +12,6 @@ import com.jinzht.web.dao.AuthenticDAO;
 import com.jinzht.web.dao.CityDAO;
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.IndustoryareaDAO;
-import com.jinzht.web.dao.IndustorytypeDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
 import com.jinzht.web.dao.ProvinceDAO;
 import com.jinzht.web.dao.UsersDAO;
@@ -20,14 +19,12 @@ import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Industoryarea;
-import com.jinzht.web.entity.Industorytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Users;
 
 public class AuthenticManager {
 	
 	private IdentiytypeDAO identitytypeDao;
-	private IndustorytypeDAO industorytypeDao;
 	private IndustoryareaDAO industoryareaDao;
 	private ProvinceDAO provinceDao;
 	private CityDAO cityDao;
@@ -51,24 +48,7 @@ public class AuthenticManager {
 		return getIdentitytypeDao().findById(typeId);
 	}
 	
-	/***
-	 * 获取所有的行业类型
-	 * @return
-	 */
-	public List findAllIndustoryType()
-	{
-		return getIndustorytypeDao().findAll();
-	}
 	
-	/***
-	 * 根据id获取行业类型
-	 * @param industoryTypeId
-	 * @return
-	 */
-	public Industorytype findIndustorytypeById(Integer industoryTypeId)
-	{
-		return getIndustorytypeDao().findById(industoryTypeId);
-	}
 	
 	/***
 	 * 获取省份列表
@@ -154,15 +134,6 @@ public class AuthenticManager {
 		this.industoryareaDao = industoryareaDao;
 	}
 
-
-	public IndustorytypeDAO getIndustorytypeDao() {
-		return industorytypeDao;
-	}
-
-	@Autowired
-	public void setIndustorytypeDao(IndustorytypeDAO industorytypeDao) {
-		this.industorytypeDao = industorytypeDao;
-	}
 
 	public CityDAO getCityDao() {
 		return cityDao;

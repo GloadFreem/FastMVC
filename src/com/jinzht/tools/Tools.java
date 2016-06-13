@@ -63,5 +63,15 @@ public class Tools {
 		
 		return share;
 	}
+	
+	public static String objToStr(String obj)
+	{
+		if(obj!=null && obj!="")
+		{
+			return obj.trim();
+		}
+		return "";
+		
+	}
 
 }

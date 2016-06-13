@@ -1,4 +1,5 @@
 package com.jinzht.web.entity;
+
 // default package
 
 import java.util.HashSet;
@@ -26,17 +27,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "authentic", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"users"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonIgnoreProperties(value = { "users" })
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Authentic implements java.io.Serializable {
 
 	// Fields
 
 	private Integer authId;
-	private Industoryarea industoryarea;
 	private Users users;
 	private Identiytype identiytype;
-	private Industorytype industorytype;
 	private Authenticstatus authenticstatus;
 	private City city;
 	private String name;
@@ -50,7 +49,8 @@ public class Authentic implements java.io.Serializable {
 	private String buinessLicenceNo;
 	private String introduce;
 	private String companyIntroduce;
-	private Short optional;
+	private String optional;
+	private String industoryArea;
 	private Set<Autrhrecord> autrhrecords = new HashSet<Autrhrecord>(0);
 
 	// Constructors
@@ -60,18 +60,15 @@ public class Authentic implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Authentic(Industoryarea industoryarea, Users users,
-			Identiytype identiytype, Industorytype industorytype,
+	public Authentic(Users users, Identiytype identiytype,
 			Authenticstatus authenticstatus, City city, String name,
 			String identiyCarA, String identiyCarB, String identiyCarNo,
 			String companyName, String companyAddress, String position,
 			String buinessLicence, String buinessLicenceNo, String introduce,
-			String companyIntroduce, Short optional,
+			String companyIntroduce, String optional,
 			Set<Autrhrecord> autrhrecords) {
-		this.industoryarea = industoryarea;
 		this.users = users;
 		this.identiytype = identiytype;
-		this.industorytype = industorytype;
 		this.authenticstatus = authenticstatus;
 		this.city = city;
 		this.name = name;
@@ -102,16 +99,6 @@ public class Authentic implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "area_id")
-	public Industoryarea getIndustoryarea() {
-		return this.industoryarea;
-	}
-
-	public void setIndustoryarea(Industoryarea industoryarea) {
-		this.industoryarea = industoryarea;
-	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
@@ -129,16 +116,6 @@ public class Authentic implements java.io.Serializable {
 
 	public void setIdentiytype(Identiytype identiytype) {
 		this.identiytype = identiytype;
-	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "industory_id")
-	public Industorytype getIndustorytype() {
-		return this.industorytype;
-	}
-
-	public void setIndustorytype(Industorytype industorytype) {
-		this.industorytype = industorytype;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -261,11 +238,11 @@ public class Authentic implements java.io.Serializable {
 	}
 
 	@Column(name = "optional")
-	public Short getOptional() {
+	public String getOptional() {
 		return this.optional;
 	}
 
-	public void setOptional(Short optional) {
+	public void setOptional(String optional) {
 		this.optional = optional;
 	}
 
@@ -276,6 +253,15 @@ public class Authentic implements java.io.Serializable {
 
 	public void setAutrhrecords(Set<Autrhrecord> autrhrecords) {
 		this.autrhrecords = autrhrecords;
+	}
+
+	public String getIndustoryArea() {
+		return industoryArea;
+	}
+
+	@Column(name = "industory_area")
+	public void setIndustoryArea(String industoryArea) {
+		this.industoryArea = industoryArea;
 	}
 
 }
