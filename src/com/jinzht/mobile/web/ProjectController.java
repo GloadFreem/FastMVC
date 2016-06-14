@@ -33,7 +33,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jinzht.tools.Config;
+import com.jinzht.tools.DateUtils;
 import com.jinzht.tools.FileUtil;
+import com.jinzht.tools.MessageType;
+import com.jinzht.tools.MsgUtil;
 import com.jinzht.tools.Tools;
 import com.jinzht.tools.YeePayUtil;
 import com.jinzht.web.dao.FinancialstandingDAO;
@@ -113,7 +116,7 @@ public class ProjectController extends BaseController {
 		return getResult();
 	}
 
-	@RequestMapping(value = "/ 	")
+	@RequestMapping(value = "/requestInvestProject")
 	@ResponseBody
 	/***
 	 * 财务状况
@@ -121,8 +124,10 @@ public class ProjectController extends BaseController {
 	 * @param session
 	 * @return
 	 */
-	public Map requestProjectFinance(
+	public Map requestInvestProject(
 			@RequestParam(value = "projectId", required = true) Integer projectId,
+			@RequestParam(value = "amount", required = true) float amount,
+			@RequestParam(value = "tradeCode", required = true) String tradeCode,
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
@@ -135,6 +140,19 @@ public class ProjectController extends BaseController {
 		this.result.put("data", financialStanding);
 
 		if (financialStanding != null) {
+			Users user = this.findUserInSession(session);
+			if(user!=null){
+				//发送短信
+				String message = String.format(Config.STRING_SMS_INVEST_VALID_TRUE, DateUtils.formatDate(new Date()),"xxx项目",amount);
+				MsgUtil SMS = new MsgUtil();
+				SMS.setTelePhone(user.getTelephone());
+				SMS.setMsgType(MessageType.NormalMessage);
+				SMS.setContent(message);
+				//发送验证码
+				MsgUtil.send();
+			}
+			
+			
 			this.message = "";
 		} else {
 			this.status = 400;

@@ -182,6 +182,14 @@ public class UserController extends BaseController {
 						user = this.userManger.addUser(user);
 
 						if (user != null) {
+							//发送短信
+							MsgUtil SMS = new MsgUtil();
+							SMS.setTelePhone(user.getTelephone());
+							SMS.setMsgType(MessageType.NormalMessage);
+							SMS.setContent(Config.STRING_SMS_INVEST_VALID_TRUE);
+							//发送验证码
+							MsgUtil.send();
+							
 							Map map = new HashMap();
 							map.put("userId", user.getUserId());
 

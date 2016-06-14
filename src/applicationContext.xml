@@ -46,6 +46,7 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
+				<value>com.jinzht.web.entity.Foundation</value>
 				<value>com.jinzht.web.entity.Usercollect</value>
 				<value>com.jinzht.web.entity.Tradestatus</value>
 				<value>com.jinzht.web.entity.Investorcollect</value>
@@ -437,6 +438,11 @@
 		</property>
 	</bean>
 	<bean id="com.jinzht.web.dao.UsercollectDAO" class="com.jinzht.web.dao.UsercollectDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.jinzht.web.dao.FoundationDAO" class="com.jinzht.web.dao.FoundationDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

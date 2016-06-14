@@ -414,7 +414,7 @@ public class Users implements java.io.Serializable {
 		this.projectcomments = projectcomments;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usersByUserCollectedId")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usersByUserCollectedId")
 	public Set<Investorcollect> getInvestorcollectsForUserCollectedId() {
 		return this.investorcollectsForUserCollectedId;
 	}

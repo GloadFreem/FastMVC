@@ -3,6 +3,7 @@ package com.jinzht.web.entity;
 
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * Investorcollect entity. @author MyEclipse Persistence Tools
  */
@@ -28,7 +33,7 @@ public class Investorcollect implements java.io.Serializable {
 	private Integer collectId;
 	private Users usersByUserId;
 	private Users usersByUserCollectedId;
-	private Timestamp collectedDate;
+	private Date collectedDate;
 
 	// Constructors
 
@@ -38,7 +43,7 @@ public class Investorcollect implements java.io.Serializable {
 
 	/** full constructor */
 	public Investorcollect(Users usersByUserId, Users usersByUserCollectedId,
-			Timestamp collectedDate) {
+			Date collectedDate) {
 		this.usersByUserId = usersByUserId;
 		this.usersByUserCollectedId = usersByUserCollectedId;
 		this.collectedDate = collectedDate;
@@ -77,11 +82,14 @@ public class Investorcollect implements java.io.Serializable {
 	}
 
 	@Column(name = "collected_date", length = 19)
-	public Timestamp getCollectedDate() {
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+
+	public Date getCollectedDate() {
 		return this.collectedDate;
 	}
 
-	public void setCollectedDate(Timestamp collectedDate) {
+	public void setCollectedDate(Date collectedDate) {
 		this.collectedDate = collectedDate;
 	}
 

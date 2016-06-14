@@ -13,8 +13,10 @@ import com.jinzht.web.dao.AuthenticDAO;
 import com.jinzht.web.dao.CityDAO;
 import com.jinzht.web.dao.CommentDAO;
 import com.jinzht.web.dao.ContentpriseDAO;
+import com.jinzht.web.dao.FoundationDAO;
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.IndustoryareaDAO;
+import com.jinzht.web.dao.InvestorcollectDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
 import com.jinzht.web.dao.ProjectDAO;
 import com.jinzht.web.dao.ProjectcommitrecordDAO;
@@ -28,6 +30,7 @@ import com.jinzht.web.entity.Comment;
 import com.jinzht.web.entity.Contentprise;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Industoryarea;
+import com.jinzht.web.entity.Investorcollect;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Projectcommitrecord;
@@ -39,11 +42,14 @@ import com.jinzht.web.entity.Users;
 
 public class InvestorManager {
 
+	private ShareDAO shareDao;
 	private UsersDAO usersDao;
+	private FoundationDAO foundationDao;
 	private ProjectcommitrecordDAO projectCommitRecordDao;
 	private AuthenticDAO authenticDao;
 	private ProjectDAO projectDao;
 	private IndustoryareaDAO industoryAreaDao;
+	private InvestorcollectDAO investorCollectDao;
 
 	/***
 	 * 分页查询投资人信息
@@ -83,16 +89,17 @@ public class InvestorManager {
 				authentic.setBuinessLicenceNo(null);
 				authentic.setAutrhrecords(null);
 				authentic.setOptional(null);
-				
+
 				List l = new ArrayList();
 				String industoryArea = authentic.getIndustoryArea();
-				if (industoryArea != null && industoryArea!= "") {
+				if (industoryArea != null && industoryArea != "") {
 					String[] aa = industoryArea.split(",");
-		            
+
 					String str = "";
 					for (int j = 0; j < aa.length; j++) {
 						System.out.println("--" + aa[j]);
-						Industoryarea area = getIndustoryAreaDao().findById(Integer.parseInt(aa[j].toString()));
+						Industoryarea area = getIndustoryAreaDao().findById(
+								Integer.parseInt(aa[j].toString()));
 						l.add(area.getName());
 					}
 				}
@@ -105,12 +112,30 @@ public class InvestorManager {
 				u.setHeadSculpture(u.getHeadSculpture());
 				u.setName(authentic.getName());
 
+				Investorcollect collect = this.findInvestCollectByUser(user, u);
+				if (collect != null) {
+					map.put("collected", true);
+				} else {
+					map.put("collected", false);
+				}
+
+				Map requestMap = new HashMap();
+//				map.put("users", user);
+
+//				List li = getProjectCommitRecordDao().findByProperties(
+//						requestMap, 0);
+//				if (li != null && li.size() > 0) {
+//					map.put("commited", true);
+//				} else {
+//					map.put("commited", false);
+//				}
+				map.put("commited", false);
+				map.put("collectCount", u
+						.getInvestorcollectsForUserCollectedId().size());
+
 				map.put("user", u);
 				map.put("areas", l);
-				map.put("collectCount", 1000);
-				map.put("collected", true);
-				map.put("commited", true);
-				
+
 				listResult.add(map);
 
 			}
@@ -152,6 +177,49 @@ public class InvestorManager {
 
 	}
 
+	/***
+	 * 获取投资人关注
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public Investorcollect findInvestCollectByUser(Users user, Users collectUser) {
+		Map map = new HashMap();
+		map.put("usersByUserId", user);
+		map.put("usersByUserCollectedId", collectUser);
+
+		List list = getInvestorCollectDao().findByPropertiesWithPage(map, 0);
+		if (list != null && list.size() > 0) {
+			return (Investorcollect) list.get(0);
+		}
+		return null;
+	}
+
+	public void addInvestCollectByUser(Users user, Users collectUser) {
+		Investorcollect collect = new Investorcollect();
+		collect.setUsersByUserCollectedId(collectUser);
+		collect.setUsersByUserId(user);
+		collect.setCollectedDate(new Date());
+
+		getInvestorCollectDao().save(collect);
+
+	}
+	
+	/***
+	 * 保存分享记录
+	 * @param share
+	 */
+	public void saveShareRecord(Share share)
+	{
+		getShareDao().save(share);
+	}
+	
+	public List findDefaultFoundations()
+	{
+		return getFoundationDao().findDefault();
+	}
+	
+
 	public UsersDAO getUsersDao() {
 		return usersDao;
 	}
@@ -192,9 +260,35 @@ public class InvestorManager {
 	public IndustoryareaDAO getIndustoryAreaDao() {
 		return industoryAreaDao;
 	}
+
 	@Autowired
 	public void setIndustoryAreaDao(IndustoryareaDAO industoryAreaDao) {
 		this.industoryAreaDao = industoryAreaDao;
+	}
+
+	public InvestorcollectDAO getInvestorCollectDao() {
+		return investorCollectDao;
+	}
+
+	@Autowired
+	public void setInvestorCollectDao(InvestorcollectDAO investorCollectDao) {
+		this.investorCollectDao = investorCollectDao;
+	}
+
+	public ShareDAO getShareDao() {
+		return shareDao;
+	}
+	@Autowired
+	public void setShareDao(ShareDAO shareDao) {
+		this.shareDao = shareDao;
+	}
+
+	public FoundationDAO getFoundationDao() {
+		return foundationDao;
+	}
+	@Autowired
+	public void setFoundationDao(FoundationDAO foundationDao) {
+		this.foundationDao = foundationDao;
 	}
 
 }

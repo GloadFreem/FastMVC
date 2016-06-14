@@ -37,8 +37,10 @@ public class MsgUtil {
 				content = String.format(Config.SMS_VERIFY_CODE, code);
 			} else {
 				content+= Config.SMS_VERIFY_STRING;
+				System.out.println(content);
 				content = java.net.URLEncoder.encode(content, "utf-8");
 			}
+			
 			String PostData = String.format("sname=%s&spwd=%s&scorpid=&sprdid=%s&sdst=%s&smsg=%s",Config.SMS_ACCOUNT, Config.SMS_PASSWORD, Config.SMS_USERID,telePhone, content);
 			String ret = Send.SMS(PostData,"http://cf.51welink.com/submitdata/Service.asmx/g_Submit");
 			System.out.println(ret);

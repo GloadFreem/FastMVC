@@ -40,6 +40,7 @@ import com.jinzht.web.entity.Comment;
 import com.jinzht.web.entity.Contentimages;
 import com.jinzht.web.entity.Contentprise;
 import com.jinzht.web.entity.Industoryarea;
+import com.jinzht.web.entity.Investorcollect;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Share;
@@ -74,27 +75,47 @@ public class InvestorController extends BaseController {
 			HttpSession session) {
 		this.result = new HashMap();
 
-		//获取投资人信息
+		// 获取投资人信息
 		Users user = this.findUserInSession(session);
 		if (user == null) {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			//获取列表
-			List list = this.investorManager.findInvestorByCursor(user,page,
+			// 获取列表
+			List list = this.investorManager.findInvestorByCursor(user, page,
 					type);
 			if (list != null && list.size() > 0) {
 				this.status = 200;
 				this.message = "";
-				this.result.put("data", list);
+				if (type != 3) {
+					this.result.put("data", list);
+				} else {
+
+					Map map = new HashMap();
+					map.put("investors", list);
+
+					if (page == 0) {
+						List l = this.investorManager.findDefaultFoundations();
+						if (l == null) {
+							l = new ArrayList();
+						}
+
+						map.put("founddations", l);
+					}
+
+					this.result.put("data", map);
+				}
 			} else {
+				
+				Map map = new HashMap();
+				map.put("investors", list);
+				
 				this.status = 201;
-				this.result.put("data", new ArrayList());
+				this.result.put("data",map);
 				this.message = "";
 			}
 		}
-				
-		
+
 		return getResult();
 	}
 
@@ -107,17 +128,16 @@ public class InvestorController extends BaseController {
 	 * @return
 	 */
 	public Map requestInvestorDetail(
-			@RequestParam(value = "investorId", required = true) Integer investorId, 
+			@RequestParam(value = "investorId", required = true) Integer investorId,
 			HttpSession session) {
 		this.result = new HashMap();
 
-		//获取投资人信息
+		// 获取投资人信息
 		Users user = this.userManager.findUserById(investorId);
-		//获取投资领域
+		// 获取投资领域
 		List l = new ArrayList();
 		// 获取认证信息
-		if (user.getAuthentics() != null
-				&& user.getAuthentics().size() > 0) {
+		if (user.getAuthentics() != null && user.getAuthentics().size() > 0) {
 			Object[] authentices = user.getAuthentics().toArray();
 			Authentic authentic = (Authentic) authentices[0];
 
@@ -131,39 +151,40 @@ public class InvestorController extends BaseController {
 			authentic.setBuinessLicenceNo(null);
 			authentic.setAutrhrecords(null);
 			authentic.setOptional(null);
-			
+
 			String industoryArea = authentic.getIndustoryArea();
-			if (industoryArea != null && industoryArea!= "") {
+			if (industoryArea != null && industoryArea != "") {
 				String[] aa = industoryArea.split(",");
 				for (int j = 0; j < aa.length; j++) {
 					System.out.println("--" + aa[j]);
-					Industoryarea area =this.investorManager.getIndustoryAreaDao().findById(Integer.parseInt(aa[j].toString()));
+					Industoryarea area = this.investorManager
+							.getIndustoryAreaDao().findById(
+									Integer.parseInt(aa[j].toString()));
 					l.add(area.getName());
 				}
 			}
-			
+
 		}
-		
+
 		Map map = new HashMap();
-		
-		//过滤信息
+
+		// 过滤信息
 		user.setUserstatus(null);
 		user.setTelephone(null);
 		user.setPassword(null);
 		user.setPlatform(null);
 		user.setLastLoginDate(null);
-		
-		map.put("user",	 user);
-		map.put("areas",l);
-		
+
+		map.put("user", user);
+		map.put("areas", l);
+
 		this.result.put("data", map);
-		
+
 		this.status = 200;
 		this.message = "";
 
 		return getResult();
 	}
-	
 
 	@RequestMapping(value = "/requestProjectCommit")
 	@ResponseBody
@@ -174,15 +195,16 @@ public class InvestorController extends BaseController {
 	 * @return
 	 */
 	public Map requestProjectCommit(
-			@RequestParam(value = "projectId", required = true) Integer projectId, 
-			@RequestParam(value = "content", required = true) String content, 
-			@RequestParam(value = "userId", required = true) Integer userId, 
+			@RequestParam(value = "projectId", required = true) Integer projectId,
+			@RequestParam(value = "content", required = true) String content,
+			@RequestParam(value = "userId", required = true) Integer userId,
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
-		
-		this.investorManager.projectCommitToInvestor(userId, content, projectId);
-		
+
+		this.investorManager
+				.projectCommitToInvestor(userId, content, projectId);
+
 		this.status = 200;
 		this.message = Config.STRING_INVESTOR_PROJECT_COMMIT_SUCCESS;
 		return getResult();
@@ -199,11 +221,72 @@ public class InvestorController extends BaseController {
 	 */
 	public Map requestInvestorCollect(
 			@RequestParam(value = "userId") Integer userId,
-			HttpSession session) {
+			@RequestParam(value = "flag") short flag, HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
 
-		
+		// 获取投资人信息
+		Users user = this.findUserInSession(session);
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+			Users collectUser = this.userManager.findUserById(userId);
+
+			Investorcollect collect = this.investorManager
+					.findInvestCollectByUser(user, collectUser);
+			Map map = new HashMap();
+			if (collect != null) {
+				this.investorManager.getInvestorCollectDao().delete(collect);
+				map.put("flag", 2);
+				this.status = 200;
+			} else {
+				this.investorManager.addInvestCollectByUser(user, collectUser);
+				map.put("flag", 1);
+				this.status = 200;
+			}
+			this.result.put("data", map);
+		}
+
+		return getResult();
+	}
+
+	@RequestMapping(value = "/requestShareInvestor")
+	@ResponseBody
+	/***
+	 * 状态分享
+	 * @param contentId
+	 * @param content
+	 * @param session
+	 * @return
+	 */
+	public Map requestShareInvestor(
+			@RequestParam(value = "investorId") Integer investorId,
+			HttpSession session) {
+
+		this.result = new HashMap();
+		this.result.put("data", "");
+
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+
+			Share share = Tools.generateShareContent(investorId, 5);
+
+			// 保存分享记录
+			this.investorManager.saveShareRecord(share);
+
+			share.setSharetype(null);
+			share.setShareDate(null);
+			// 封装返回结果
+			this.status = 200;
+			this.result.put("data", share);
+			this.message = "";
+		}
 
 		return getResult();
 	}
