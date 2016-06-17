@@ -30,6 +30,7 @@ public class Financingcase implements java.io.Serializable {
 	private Project project;
 	private String url;
 	private String content;
+	private String icon;
 
 	// Constructors
 
@@ -43,10 +44,11 @@ public class Financingcase implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Financingcase(Project project, String url, String content) {
+	public Financingcase(Project project, String url, String content,String icon) {
 		this.project = project;
 		this.url = url;
 		this.content = content;
+		this.setIcon(icon);
 	}
 
 	// Property accessors
@@ -87,6 +89,15 @@ public class Financingcase implements java.io.Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@Column(name="icon")
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 }

@@ -246,9 +246,10 @@ public class ActionController extends BaseController {
 			comment.setContent(content);
 			comment.setAction(action);
 			comment.setUsersByUserId(user);
-			if (flag != 1) {
+			if (flag != 1 && userId!= null) {
 				Users atUser = this.userManager.findUserById(userId);
 				comment.setUsersByAtUserId(atUser);
+				comment.setAtUserName(atUser.getName());
 			}
 			// 保存回复
 			action.getActioncomments().add(comment);
@@ -257,18 +258,18 @@ public class ActionController extends BaseController {
 
 			// 处理返回值
 			Users user1 = comment.getUsersByUserId();
-			if (user1.getAuthentics() != null) {
-				Object[] l = user.getAuthentics().toArray();
-				if (l.length > 0) {
-					Authentic authentic = (Authentic) l[0];
-					user1.setName(authentic.getName());
-				} else {
-					user1.setName("");
-				}
-
-			} else {
-				user1.setName("");
-			}
+//			if (user1.getAuthentics() != null) {
+//				Object[] l = user.getAuthentics().toArray();
+//				if (l.length > 0) {
+//					Authentic authentic = (Authentic) l[0];
+//					user1.setName(authentic.getName());
+//				} else {
+//					user1.setName("");
+//				}
+//
+//			} else {
+//				user1.setName("");
+//			}
 			user1.setAuthentics(null);
 			user1.setUserstatus(null);
 			user1.setTelephone(null);
@@ -279,18 +280,18 @@ public class ActionController extends BaseController {
 
 			user1 = comment.getUsersByAtUserId();
 			if (user1 != null) {
-				if (user.getAuthentics() != null) {
-					Object[] l = user.getAuthentics().toArray();
-					if (l.length > 0) {
-						Authentic authentic = (Authentic) l[0];
-						user1.setName(authentic.getName());
-					} else {
-						user1.setName("");
-					}
-
-				} else {
-					user1.setName("");
-				}
+//				if (user.getAuthentics() != null) {
+//					Object[] l = user.getAuthentics().toArray();
+//					if (l.length > 0) {
+//						Authentic authentic = (Authentic) l[0];
+//						user1.setName(authentic.getName());
+//					} else {
+//						user1.setName("");
+//					}
+//
+//				} else {
+//					user1.setName("");
+//				}
 				user1.setAuthentics(null);
 				user1.setUserstatus(null);
 				user1.setTelephone(null);
@@ -373,7 +374,7 @@ public class ActionController extends BaseController {
 		return getResult();
 	}
 
-	@RequestMapping(value = "/requestDetailAction")
+	@RequestMapping(value = "/")
 	@ResponseBody
 	/***
 	 * 活动详情
@@ -414,85 +415,7 @@ public class ActionController extends BaseController {
 					action.setAttended(true);
 				}
 			}
-			// Users u = attention.getUsers();
-			//
-			// Object[] objs = u.getAuthentics().toArray();
-			// if (objs != null && objs.length > 0) {
-			// Set setAuthentic = new HashSet();
-			// Authentic authentic = (Authentic) objs[0];
-			// u.setName(authentic.getName());
-			//
-			// authentic.setAuthenticstatus(null);
-			// authentic.setAuthId(null);
-			// authentic.setAutrhrecords(null);
-			// authentic.setBuinessLicence(null);
-			// authentic.setBuinessLicenceNo(null);
-			// authentic.setCity(null);
-			// authentic.setCompanyAddress(null);
-			// authentic.setCompanyIntroduce(null);
-			// authentic.setIdentiyCarA(null);
-			// authentic.setIdentiyCarB(null);
-			// authentic.setIdentiyCarNo(null);
-			// authentic.setIdentiytype(null);
-			//
-			// setAuthentic.add(authentic);
-			//
-			// u.setAuthentics(setAuthentic);
-			//
-			// } else {
-			// u.setName("匿名用户");
-			// }
-			//
-			// System.out.println(u.getName());
-			// attention.setUsers(u);
-			// attention.setContent(null);
-			// attention.setUserName(u.getName());
-			// attention.setHeaderPicture(u.getHeadSculpture());
-			//
-			// set.add(attention);
-			// }
-			// action.setAttentions(set);
-			// // 评论
-			// list = this.actionManager.findCommentListByAction(action);
-			// set = new HashSet();
-			// for (int i = 0; i < list.size(); i++) {
-			// Actioncomment comment = (Actioncomment) list.get(i);
-			// Users u = comment.getUsersByUserId();
-			//
-			// if (u.getAuthentics() != null) {
-			// Object[] objs = u.getAuthentics().toArray();
-			// objs = u.getAuthentics().toArray();
-			// if (objs != null && objs.length > 0) {
-			// Authentic authentic = (Authentic) objs[0];
-			// u.setName(authentic.getName());
-			// } else {
-			// u.setName("匿名用户");
-			// }
-			// } else {
-			// u.setName("匿名用户");
-			// }
-			// comment.setUsersByAtUserId(null);
-			// comment.setUsersByUserId(null);
-			// comment.setUserName(u.getName());
-			//
-			// u = comment.getUsersByAtUserId();
-			// if (u != null && u.getAuthentics() != null) {
-			// Object[] objs = u.getAuthentics().toArray();
-			// objs = u.getAuthentics().toArray();
-			// if (objs != null && objs.length > 0) {
-			// Authentic authentic = (Authentic) objs[0];
-			// u.setName(authentic.getName());
-			// } else {
-			// u.setName("匿名用户");
-			// }
-			// comment.setUsersByAtUserId(null);
-			// comment.setUsersByUserId(null);
-			// comment.setAtUserName(u.getName());
-			// }
-			// set.add(comment);
-			// }
-			// action.setActioncomments(set);
-			// 点赞
+			
 			list = this.actionManager.findPriseListByAction(action);
 			set = new HashSet();
 			for (int j = 0; j < list.size(); j++) {

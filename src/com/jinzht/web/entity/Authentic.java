@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "authentic", catalog = "jinzht2016")
-@JsonIgnoreProperties(value = { "users" })
+@JsonIgnoreProperties(value = { "users","autrhrecords" })
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Authentic implements java.io.Serializable {
 

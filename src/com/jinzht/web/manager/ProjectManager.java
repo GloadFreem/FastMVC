@@ -116,6 +116,12 @@ public class ProjectManager {
 			// 人气指数
 			Integer count = this.findCountProjectCollection(project);
 			project.setCollectionCount(count);
+			
+			//评论数量
+			count  = this.findCountProjectComment(project);
+			project.setCommentCount(count);
+			//用户是否已关注
+			
 
 			// 剩余时间
 			Object[] roadshows = project.getRoadshows().toArray();
@@ -153,6 +159,48 @@ public class ProjectManager {
 		Map map = new HashMap();
 		map.put("project", project);
 		return getCollectionDao().counterByProperties(map);
+	}
+	/***
+	 * 获取项目评论数量
+	 * 
+	 * @param project
+	 * @return
+	 */
+	public Integer findCountProjectComment(Project project) {
+		Map map = new HashMap();
+		map.put("project", project);
+		return getProjectCommentDao().counterByProperties(map);
+	}
+	/***
+	 * 获取项目评论列表
+	 * 
+	 * @param project
+	 * @return
+	 */
+	public List findProjectComment(Project project,Integer page) {
+		Map map = new HashMap();
+		map.put("project", project);
+		List list =  getProjectCommentDao().findByProperties(map, page);
+		if(list!=null && list.size()>0)
+		{
+			Projectcomment comment =null;
+			Users user = null;
+			Users  commentUser = null;
+			for(int i =0;i<list.size();i++)
+			{
+				comment =(Projectcomment)list.get(i);
+				
+				commentUser = comment.getUsers();
+				
+				user = new Users();
+				user.setName(commentUser.getName());
+				user.setHeadSculpture(commentUser.getHeadSculpture());
+				user.setAuthentics(null);
+				
+				comment.setUsers(user);
+			}
+		}
+		return list;
 	}
 
 	/***
@@ -274,6 +322,8 @@ public class ProjectManager {
 		Projectcomment comment = new Projectcomment();
 		comment.setUsers(user);
 		comment.setProject(project);
+		comment.setContent(content);
+		comment.setCommentDate(new Date());
 		
 		//保存
 		getProjectCommentDao().save(comment);
@@ -403,6 +453,28 @@ public class ProjectManager {
 		}
 		
 		return null;
+	}
+	
+	/***
+	 * 获取用户是否已关注项目
+	 * @param project
+	 * @param user
+	 * @return
+	 */
+	public Collection findProjectCollectionByUser(Project project,Users user)
+	{
+		Collection collection = null;
+		//获取
+		Map map = new HashMap();
+		map.put("users", user);
+		map.put("project", project);
+		
+		List list = getCollectionDao().findByProperties(map);
+		if(list!=null  && list.size()>0)
+		{
+			return (Collection) list.get(0);
+		}
+		return collection;
 	}
 	
 	/**

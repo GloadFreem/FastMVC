@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.jinzht.tools.Config;
 
 /**
  * Authenticstatus entity. @author MyEclipse Persistence Tools

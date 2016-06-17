@@ -31,6 +31,7 @@ public class Financialstanding implements java.io.Serializable {
 	private Integer projectId;
 	private String url;
 	private String content;
+	private String icon;
 
 	// Constructors
 
@@ -45,11 +46,12 @@ public class Financialstanding implements java.io.Serializable {
 
 	/** full constructor */
 	public Financialstanding(Project project, Integer projectId, String url,
-			String content) {
+			String content,String icon) {
 		this.project = project;
 		this.projectId = projectId;
 		this.url = url;
 		this.content = content;
+		this.icon = icon;
 	}
 
 	// Property accessors
@@ -99,6 +101,14 @@ public class Financialstanding implements java.io.Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	@Column(name="icon")
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 }

@@ -391,10 +391,12 @@ public class SystemController extends BaseController {
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
 		} else {
 			Map map = new HashMap();
-			map.put("inviteCode", user.getSystemcodes());
+			
+			Object[] objs = user.getSystemcodes().toArray();
+			
 
 			this.status = 200;
-			this.result.put("data", map);
+			this.result.put("data", objs[0]);
 			this.message = "";
 		}
 

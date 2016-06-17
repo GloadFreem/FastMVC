@@ -30,7 +30,8 @@ public class Financingexit implements java.io.Serializable {
 	private Project project;
 	private String url;
 	private Integer projectId;
-	private String context;
+	private String content;
+	private String icon;
 
 	// Constructors
 
@@ -45,11 +46,12 @@ public class Financingexit implements java.io.Serializable {
 
 	/** full constructor */
 	public Financingexit(Project project, String url, Integer projectId,
-			String context) {
+			String content,String icon) {
 		this.project = project;
 		this.url = url;
 		this.projectId = projectId;
-		this.context = context;
+		this.content = content;
+		this.icon = icon;
 	}
 
 	// Property accessors
@@ -92,13 +94,21 @@ public class Financingexit implements java.io.Serializable {
 		this.projectId = projectId;
 	}
 
-	@Column(name = "context")
-	public String getContext() {
-		return this.context;
+	@Column(name = "content")
+	public String getContent() {
+		return this.content;
 	}
 
-	public void setContext(String context) {
-		this.context = context;
+	public void setContent(String content) {
+		this.content = content;
+	}
+	@Column(name="icon")
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 }

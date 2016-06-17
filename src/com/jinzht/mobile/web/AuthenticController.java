@@ -455,7 +455,13 @@ public class AuthenticController extends BaseController {
 		Users user = this.findUserInSession(session);
 		if (user != null) {
 			this.status = 200;
-			this.result.put("data", user.getAuthentics());
+			
+			Map map = new HashMap();
+			map.put("authentics", user.getAuthentics());
+			map.put("headSculpture", user.getHeadSculpture());
+			
+			
+			this.result.put("data", map);
 			this.message = "";
 		} else {
 			this.message = Config.STRING_LOGING_TIP;

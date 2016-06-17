@@ -31,6 +31,7 @@ public class Controlreport implements java.io.Serializable {
 	private String url;
 	private String content;
 	private Integer projectId;
+	private String icon;
 
 	// Constructors
 
@@ -45,11 +46,12 @@ public class Controlreport implements java.io.Serializable {
 
 	/** full constructor */
 	public Controlreport(Project project, String url, String content,
-			Integer projectId) {
+			Integer projectId,String icon) {
 		this.project = project;
 		this.url = url;
 		this.content = content;
 		this.projectId = projectId;
+		this.icon = icon;
 	}
 
 	// Property accessors
@@ -99,6 +101,14 @@ public class Controlreport implements java.io.Serializable {
 
 	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
+	}
+	@Column(name="icon")
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 }

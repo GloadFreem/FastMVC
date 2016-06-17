@@ -477,7 +477,7 @@ public class UserController extends BaseController {
 		this.message = Config.STRING_LOGING_STATUS_ONLINE;
 		
 		//检测用户是否已登录
-		session.setAttribute("userId", null);
+//		session.setAttribute("userId", null);
 		if(session.getAttribute("userId")==null)
 		{
 			this.status = 400;
@@ -693,6 +693,7 @@ public class UserController extends BaseController {
 			//旧密码比对
 			if(user.getPassword().equals(passwordOld)){
 				//更新信息
+				user.setPassword(passwordNew);
 				this.userManger.saveOrUpdateUser(user);
 				
 				//返回信息

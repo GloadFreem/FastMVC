@@ -28,6 +28,7 @@ public class Banner implements java.io.Serializable {
 	private String image;
 	private String bannerType;
 	private String url;
+	private String project;
 
 	// Constructors
 
@@ -100,6 +101,14 @@ public class Banner implements java.io.Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	@Column(name = "project")
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
 	}
 
 }

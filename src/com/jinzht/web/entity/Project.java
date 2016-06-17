@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 		"rewardsystems","actionprises","capitalaccounts","investmentrecords",
 		"contentprises","projectcommitrecord","traderecords","systemcodes",
 		"actionshare","actioncomments","loginfailrecords","scenes","projectcomments"
-		,"projectcommitrecords","teams","members","projectimageses"})
+		,"projectcommitrecords","members","projectcommitrecords"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Project implements java.io.Serializable {
 
@@ -48,9 +48,12 @@ public class Project implements java.io.Serializable {
 	private String description;
 	private Short projectType;
 	private String address;
+	private Boolean collected; //是否关注
 	private String startPageImage;
 	private Integer collectionCount;
+	private Integer commentCount;
 	private Integer timeLeft;
+	private String industoryType;
 	private Set<Scene> scenes = new HashSet<Scene>(0);
 	private Set<Communion> communions = new HashSet<Communion>(0);
 	private Set<Projectcomment> projectcomments = new HashSet<Projectcomment>(0);
@@ -289,7 +292,7 @@ public class Project implements java.io.Serializable {
 		this.projectcommitrecords = projectcommitrecords;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	public Set<Team> getTeams() {
 		return this.teams;
 	}
@@ -316,7 +319,7 @@ public class Project implements java.io.Serializable {
 		this.collections = collections;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	public Set<Member> getMembers() {
 		return this.members;
 	}
@@ -334,7 +337,7 @@ public class Project implements java.io.Serializable {
 		this.roadshows = roadshows;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	public Set<Projectimages> getProjectimageses() {
 		return this.projectimageses;
 	}
@@ -350,6 +353,30 @@ public class Project implements java.io.Serializable {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public String getIndustoryType() {
+		return industoryType;
+	}
+	@Column(name="industoryType")
+	public void setIndustoryType(String industoryType) {
+		this.industoryType = industoryType;
+	}
+
+	public Boolean getCollected() {
+		return collected;
+	}
+
+	public void setCollected(Boolean collected) {
+		this.collected = collected;
+	}
+
+	public Integer getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(Integer commentCount) {
+		this.commentCount = commentCount;
 	}
 
 }

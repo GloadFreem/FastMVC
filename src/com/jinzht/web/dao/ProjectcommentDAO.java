@@ -114,6 +114,31 @@ public class ProjectcommentDAO {
 		}
 	}
 	
+	public Integer counterByProperties(Map map) {
+		try {
+			String queryString = "select count(model.collectionId) as count from Collection as model where model.";
+			Object[] keys = map.keySet().toArray();
+			for(int i = 0;i<keys.length;i++){
+				if(i==0){
+					queryString += keys[i] + "= ?";
+				}else{
+					queryString +=" and " + keys[i] + "= ?";
+				}
+			}
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<keys.length;i++){
+				queryObject.setParameter(i,map.get( keys[i]));
+			}
+					
+			return  ((Number) queryObject.iterate().next())
+			         .intValue();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	public List findByProperties(Map requestMap,Integer page) {
 		try {
 //			String debugInfo= "finding Authentic instance with property: ";

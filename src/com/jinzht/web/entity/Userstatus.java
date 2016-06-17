@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jinzht.tools.Config;
 
 /**
  * Userstatus entity. @author MyEclipse Persistence Tools

@@ -36,7 +36,7 @@ public class UserManager {
 	private CollectionDAO collectionDao;
 	private UsercollectDAO userCollectDao;
 	private ActionDAO actionDao;
-	private RewardtradeDAO rewardSystemDao;
+	private RewardtradeDAO rewardTradeDao;
 	
 	
 	/***
@@ -199,15 +199,15 @@ public class UserManager {
 	{
 		List list = null;
 		Map map = new HashMap();
-		map.put("initiateUser", user.getUserId().toString());
-		list = getActionDao().findByPropertiesWithPage(map, page);
+		map.put("users", user);
+		
+		list = getCollectionDao().findByPropertiesWithPage(map, page);
 		if(list!=null && list.size()>0)
 		{
-			Action action = null;
+			Collection collection = null;
 			for(int i = 0;i<list.size();i++){
-				action = (Action) list.get(i);
-				action.setActionprises(null);
-				action.setActionimages(null);
+				collection = (Collection) list.get(i);
+				collection.setUsers(null);
 			}
 		}
 		
@@ -280,7 +280,7 @@ public class UserManager {
 		Map map = new HashMap();
 		map.put("rewardsystem", rewardSystem);
 		
-		list  = getRewardSystemDao().findByPropertiesWithPage(map, page);
+		list  = getRewardTradeDao().findByPropertiesWithPage(map, page);
 		return list;
 	}
 	
@@ -342,12 +342,20 @@ public class UserManager {
 		this.actionDao = actionDao;
 	}
 
-	public RewardtradeDAO getRewardSystemDao() {
-		return rewardSystemDao;
+//	public RewardtradeDAO getRewardSystemDao() {
+//		return rewardSystemDao;
+//	}
+//	@Autowired
+//	public void setRewardSystemDao(RewardtradeDAO rewardSystemDao) {
+//		this.rewardSystemDao = rewardSystemDao;
+//	}
+
+	public RewardtradeDAO getRewardTradeDao() {
+		return rewardTradeDao;
 	}
 	@Autowired
-	public void setRewardSystemDao(RewardtradeDAO rewardSystemDao) {
-		this.rewardSystemDao = rewardSystemDao;
+	public void setRewardTradeDao(RewardtradeDAO rewardTradeDao) {
+		this.rewardTradeDao = rewardTradeDao;
 	}
 
 

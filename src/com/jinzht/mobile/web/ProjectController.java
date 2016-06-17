@@ -2,7 +2,6 @@ package com.jinzht.mobile.web;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +41,7 @@ import com.jinzht.tools.YeePayUtil;
 import com.jinzht.web.dao.FinancialstandingDAO;
 import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Businessplan;
+import com.jinzht.web.entity.Collection;
 import com.jinzht.web.entity.Comment;
 import com.jinzht.web.entity.Contentprise;
 import com.jinzht.web.entity.Controlreport;
@@ -99,20 +99,123 @@ public class ProjectController extends BaseController {
 
 	@RequestMapping(value = "/requestProjectDetail")
 	@ResponseBody
+	/***
+	 * 项目有详情
+	 * @param projectId 项目id
+	 * @param session
+	 * @return
+	 */
 	public Map requestProjectDetail(
 			@RequestParam(value = "projectId", required = true) Integer projectId,
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
 
-		// 获取项目
-		Project project = this.ProjectManager.findProjectById(projectId);
-
-		// 封装返回结果
-		this.status = 200;
-		this.result.put("data", project);
-		this.message = Config.STRING_FEELING_ADD_SUCCESS;
-
+		//获取用户
+		Users user = this.findUserInSession(session);
+		if(user!=null){
+			// 获取项目
+			Project project = this.ProjectManager.findProjectById(projectId);
+			//获取用户是否已关注该项目
+			Collection collection = this.ProjectManager.findProjectCollectionByUser(project,user);
+			
+			if(collection!=null)
+			{
+				project.setCollected(true);
+			}else{
+				project.setCollected(false);
+			}
+			List list = new ArrayList();
+			list.add(project.getBusinessplan());
+			list.add(project.getControlreport());
+			list.add(project.getFinancialstanding());
+			list.add(project.getFinancingcase());
+			list.add(project.getFinancingexit());
+			
+			
+			Map map = new HashMap();
+			map.put("project", project);
+			map.put("extr", list);
+			
+			project.setBusinessplan(null);
+			project.setControlreport(null);
+			project.setFinancialstanding(null);
+			project.setFinancingcase(null);
+			project.setFinancingexit(null);
+			
+			// 封装返回结果
+			this.status = 200;
+			this.result.put("data", map);
+			this.message = "";
+		}else{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		}
+		
+		return getResult();
+	}
+	@RequestMapping(value = "/requestProjectMember")
+	@ResponseBody
+	/***
+	 * 项目成员
+	 * @param projectId 项目id
+	 * @param session
+	 * @return
+	 */
+	public Map requestProjectMember(
+			@RequestParam(value = "projectId", required = true) Integer projectId,
+			HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		//获取用户
+		Users user = this.findUserInSession(session);
+		if(user!=null){
+			
+			
+			// 获取项目
+			Project project = this.ProjectManager.findProjectById(projectId);
+			//返回数据
+			this.result.put("data", project.getMembers());
+		}else{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		}
+		
+		return getResult();
+	}
+	@RequestMapping(value = "/requestProjectCommentList")
+	@ResponseBody
+	/***
+	 * 评论列表
+	 * @param projectId 项目id
+	 * @param page 当前页码
+	 * @param session
+	 * @return
+	 */
+	public Map requestProjectCommentList(
+			@RequestParam(value = "projectId", required = true) Integer projectId,
+			@RequestParam(value = "page", required = true) Integer page,
+			HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		//获取用户
+		Users user = this.findUserInSession(session);
+		if(user!=null){
+			
+			// 获取项目
+			Project project = this.ProjectManager.findProjectById(projectId);
+			// 获取项目评论数量
+			List list = this.ProjectManager.findProjectComment(project, page);
+			//返回数据
+			this.status = 200;
+			this.result.put("data", list);
+		}else{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		}
+		
 		return getResult();
 	}
 
@@ -432,6 +535,7 @@ public class ProjectController extends BaseController {
 	 */
 	public Map requestProjectCollect(
 			@RequestParam(value = "projectId", required = true) Integer projectId,
+			@RequestParam(value = "flag", required = true) Integer flag,
 			HttpSession session) {
 		this.result = new HashMap();
 
@@ -443,7 +547,7 @@ public class ProjectController extends BaseController {
 			this.result.put("data", "");
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			int flag = this.ProjectManager.projectCollect(projectId, user);
+			flag = this.ProjectManager.projectCollect(projectId, user);
 			
 			Map map  = new HashMap();
 			map.put("flag", flag);
