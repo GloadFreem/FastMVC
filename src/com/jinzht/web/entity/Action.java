@@ -170,7 +170,7 @@ public class Action implements java.io.Serializable {
 		this.actionprises = actionprises;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "action")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
 	public Set<Attention> getAttentions() {
 		return this.attentions;
 	}

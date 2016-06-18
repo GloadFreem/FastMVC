@@ -621,7 +621,7 @@ public class ProjectController extends BaseController {
 		} else {
 			
 			//添加评论
-			List list = this.ProjectManager.findSceneByProjectId(projectId);
+			List list = this.ProjectManager.findSceneByProjectId(projectId,user);
 			
 			//封装返回数据
 			this.status = 200;

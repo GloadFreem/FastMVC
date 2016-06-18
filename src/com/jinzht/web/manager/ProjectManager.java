@@ -334,13 +334,45 @@ public class ProjectManager {
 	 * @param projectId
 	 * @return
 	 */
-	public List findSceneByProjectId(Integer projectId)
+	public List findSceneByProjectId(Integer projectId,Users user)
 	{
 		//项目
 		Project project = this.findProjectById(projectId);
 		//现场
 		List list = getSceneDao().findByProperty("project", project);
 		
+		if(list!=null && list.size()>0)
+		{
+			for(int i = 0 ; i<list.size();i++ )
+			{
+				Scene scene = (Scene) list.get(i);
+				if(scene!=null)
+				{
+					Object[] obj = scene.getScenecomments().toArray();
+					Scenecomment comment = null;
+					for(int j = 0 ; j<list.size();j++)
+					{
+						 comment= (Scenecomment)obj[j];
+						 Users commentUser = comment.getUsers();
+						 Integer userId = commentUser.getUserId();
+						 if(userId.equals(user.getUserId()))
+						 {
+							 comment.setFlag(true);
+						 }
+						 
+						 commentUser.getName();
+						 commentUser.getHeadSculpture();
+						 commentUser.setPassword(null);
+						 commentUser.setTelephone(null);
+						 commentUser.setAuthentics(null);
+						 commentUser.setLastLoginDate(null);
+						 commentUser.setPlatform(null);
+						 
+					}
+				}
+			}
+			
+		}
 		return list;
 	}
 	

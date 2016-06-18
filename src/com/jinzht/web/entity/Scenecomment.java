@@ -3,6 +3,8 @@ package com.jinzht.web.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -20,7 +25,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "scenecomment", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"users","scene"})
+@JsonIgnoreProperties(value={"scene"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Scenecomment implements java.io.Serializable {
 
@@ -31,6 +36,8 @@ public class Scenecomment implements java.io.Serializable {
 	private Scene scene;
 	private String content;
 	private Short isvalid;
+	private Date commentDate;
+	private boolean flag;
 
 	// Constructors
 
@@ -65,7 +72,7 @@ public class Scenecomment implements java.io.Serializable {
 		this.commentId = commentId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
@@ -101,6 +108,24 @@ public class Scenecomment implements java.io.Serializable {
 
 	public void setIsvalid(Short isvalid) {
 		this.isvalid = isvalid;
+	}
+	@Column(name = "commentDate")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+	public Date getCommentDate() {
+		return commentDate;
+	}
+
+	public void setCommentDate(Date commentDate) {
+		this.commentDate = commentDate;
+	}
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 
 }

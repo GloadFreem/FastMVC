@@ -35,6 +35,7 @@ public class Member implements java.io.Serializable {
 	private String industory;
 	private String emial;
 	private String icon;
+	private String telephone;
 
 	// Constructors
 
@@ -137,6 +138,14 @@ public class Member implements java.io.Serializable {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+	@Column(name="telephone",length=20)
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
 }
