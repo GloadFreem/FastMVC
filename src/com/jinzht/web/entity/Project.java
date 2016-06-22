@@ -42,6 +42,7 @@ public class Project implements java.io.Serializable {
 
 	private Integer projectId;
 	private Integer userId;
+	private String borrowerUserNumber;
 	private Financestatus financestatus;
 	private String abbrevName;
 	private String fullName;
@@ -377,6 +378,14 @@ public class Project implements java.io.Serializable {
 
 	public void setCommentCount(Integer commentCount) {
 		this.commentCount = commentCount;
+	}
+	@Column(name="borrower_user_number")
+	public String getBrrowUserNumber() {
+		return borrowerUserNumber;
+	}
+
+	public void setBrrowUserNumber(String brrowUserNumber) {
+		this.borrowerUserNumber = brrowUserNumber;
 	}
 
 }

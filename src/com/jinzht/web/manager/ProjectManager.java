@@ -346,30 +346,35 @@ public class ProjectManager {
 			for(int i = 0 ; i<list.size();i++ )
 			{
 				Scene scene = (Scene) list.get(i);
-				if(scene!=null)
-				{
-					Object[] obj = scene.getScenecomments().toArray();
-					Scenecomment comment = null;
-					for(int j = 0 ; j<list.size();j++)
-					{
-						 comment= (Scenecomment)obj[j];
-						 Users commentUser = comment.getUsers();
-						 Integer userId = commentUser.getUserId();
-						 if(userId.equals(user.getUserId()))
-						 {
-							 comment.setFlag(true);
-						 }
-						 
-						 commentUser.getName();
-						 commentUser.getHeadSculpture();
-						 commentUser.setPassword(null);
-						 commentUser.setTelephone(null);
-						 commentUser.setAuthentics(null);
-						 commentUser.setLastLoginDate(null);
-						 commentUser.setPlatform(null);
-						 
-					}
-				}
+				scene.setScenecomments(null);
+				scene.setAudiorecords(null);
+				scene.setBeginTime(null);
+				scene.setEndTime(null);
+				
+//				if(scene!=null)
+//				{
+//					Object[] obj = scene.getScenecomments().toArray();
+//					Scenecomment comment = null;
+//					for(int j = 0 ; j<list.size();j++)
+//					{
+//						 comment= (Scenecomment)obj[j];
+//						 Users commentUser = comment.getUsers();
+//						 Integer userId = commentUser.getUserId();
+//						 if(userId.equals(user.getUserId()))
+//						 {
+//							 comment.setFlag(true);
+//						 }
+//						 
+//						 commentUser.getName();
+//						 commentUser.getHeadSculpture();
+//						 commentUser.setPassword(null);
+//						 commentUser.setTelephone(null);
+//						 commentUser.setAuthentics(null);
+//						 commentUser.setLastLoginDate(null);
+//						 commentUser.setPlatform(null);
+//						 
+//					}
+//				}
 			}
 			
 		}
@@ -379,13 +384,14 @@ public class ProjectManager {
 	/***
 	 * 根据场景返回播放记录
 	 * @param sceneId
+	 * @param page
 	 * @return
 	 */
-	public List findAudioRecordBySceneId(Integer sceneId)
+	public List findAudioRecordBySceneId(Integer sceneId,Integer page)
 	{
 		Scene scene = getSceneDao().findById(sceneId);
 		
-		List list = getAudioRecordDao().findByProperty("scene", scene);
+		List list = getAudioRecordDao().findByPropertyWithPage("scene", scene,page);
 		
 		return list;
 	}
@@ -424,6 +430,7 @@ public class ProjectManager {
 		comment.setContent(content);
 		comment.setUsers(user);
 		comment.setScene(scene);
+		comment.setCommentDate(new Date());
 		
 		scene.getScenecomments().add(comment);
 		//添加评论
@@ -615,6 +622,53 @@ public class ProjectManager {
 				project.setFinancialstanding(null);
 				
 				list.add(project);
+			}
+			
+		}
+		
+		return list;
+	}
+	/***
+	 * 获取现场评论列表
+	 * @param sceneId
+	 * @param page
+	 * @return
+	 */
+	public List findProjectSceneCommentList(Integer sceneId ,Integer page,Integer userId)
+	{
+		List list = new ArrayList();
+		Scene scene = getSceneDao().findById(sceneId);
+		//封装
+		Map map = new HashMap();
+		map.put("scene", scene);
+//		
+		List result = getSceneCommentDao().findByPropertiesWithPage(map, page);
+		
+		if(result!=null && result.size()>0){
+			for(int i=0;i<result.size();i++)
+			{
+				Scenecomment record = (Scenecomment) result.get(i);
+				record.setIsvalid(null);
+				
+				Users user = record.getUsers();
+				Users userInstance = new Users();
+				if(user!=null && user.getUserId()!=null)
+				{
+					userInstance.setName(user.getName());
+					userInstance.setUserId(user.getUserId());
+					userInstance.setHeadSculpture(user.getHeadSculpture());
+					userInstance.setAuthentics(null);
+					
+					if(userId.equals(user.getUserId()))
+					{
+						record.setFlag(true);
+					}
+					
+					record.setUsers(userInstance);
+					
+					list.add(record);
+				}
+				
 			}
 			
 		}

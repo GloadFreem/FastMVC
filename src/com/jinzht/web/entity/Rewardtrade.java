@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "rewardtrade", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"rewardsystem"})
+@JsonIgnoreProperties(value={"rewardsystem","readed","tradeType","rewardTradeId","tradeType"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Rewardtrade implements java.io.Serializable {
 
@@ -37,6 +37,7 @@ public class Rewardtrade implements java.io.Serializable {
 	private Integer tradeType;
 	private Integer count;
 	private Date tradeDate;
+	private boolean readed;
 
 	// Constructors
 
@@ -112,6 +113,15 @@ public class Rewardtrade implements java.io.Serializable {
 
 	public void setTradeDate(Date tradeDate) {
 		this.tradeDate = tradeDate;
+	}
+
+	@Column(name="readed")
+	public boolean isReaded() {
+		return readed;
+	}
+
+	public void setReaded(boolean readed) {
+		this.readed = readed;
 	}
 
 }

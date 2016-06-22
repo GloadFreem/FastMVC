@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Comment;
 
 /**
@@ -121,7 +122,7 @@ public class CommentDAO {
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			queryObject.setMaxResults(10);
-			queryObject.setFirstResult(page);
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			
 			return queryObject.list();
 		} catch (RuntimeException re) {

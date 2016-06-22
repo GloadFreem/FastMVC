@@ -402,6 +402,8 @@ public class SystemController extends BaseController {
 
 		return getResult();
 	}
+	
+	
 
 	/***
 	 * 从当前session获取用户对象

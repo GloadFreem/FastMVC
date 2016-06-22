@@ -1,6 +1,7 @@
 package com.jinzht.web.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +21,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -37,7 +41,7 @@ public class Scene implements java.io.Serializable {
 	private Integer sceneId;
 	private Project project;
 	private String audioPath;
-	private Long totlalTime;
+	private long totlalTime;
 	private Timestamp beginTime;
 	private Timestamp endTime;
 	private Set<Scenecomment> scenecomments = new HashSet<Scenecomment>(0);
@@ -50,7 +54,7 @@ public class Scene implements java.io.Serializable {
 		}
 
 		/** full constructor */
-		public Scene(Project project, String audioPath, Long totlalTime,
+		public Scene(Project project, String audioPath, long totlalTime,
 				Timestamp beginTime, Timestamp endTime,
 				Set<Scenecomment> scenecomments, Set<Audiorecord> audiorecords) {
 			this.project = project;
@@ -94,16 +98,22 @@ public class Scene implements java.io.Serializable {
 		}
 
 		@Column(name = "totlal_time")
-		public Long getTotlalTime() {
+        @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
+        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+
+		public long getTotlalTime() {
 			return this.totlalTime;
 		}
 
-		public void setTotlalTime(Long totlalTime) {
+		public void setTotlalTime(long totlalTime) {
 			this.totlalTime = totlalTime;
 		}
 
 		@Column(name = "begin_time", length = 19)
-		public Timestamp getBeginTime() {
+        @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
+        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+
+		public Date getBeginTime() {
 			return this.beginTime;
 		}
 

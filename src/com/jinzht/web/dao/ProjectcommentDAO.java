@@ -158,7 +158,7 @@ public class ProjectcommentDAO {
 			for(int i = 0;i<requestMap.size();i++){
 				queryObject.setParameter(i, requestMap.get(keys[i]));
 			}
-			queryObject.setFirstResult(page);
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			return queryObject.list();
 		} catch (RuntimeException re) {

@@ -30,7 +30,10 @@ public class Audiorecord implements java.io.Serializable {
 
 	private Integer playId;
 	private Scene scene;
+	private Integer sortIndex;
 	private Integer playTime;
+	private int startTime;
+	private int endTime;
 	private String imageUrl;
 
 	// Constructors
@@ -84,6 +87,30 @@ public class Audiorecord implements java.io.Serializable {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+	@Column(name="sort_index")
+	public Integer getSortIndex() {
+		return sortIndex;
+	}
+
+	public void setSortIndex(Integer sortIndex) {
+		this.sortIndex = sortIndex;
+	}
+	@Column(name="start_time")
+	public int getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(int startTime) {
+		this.startTime = startTime;
+	}
+	@Column(name="end_time")
+	public int getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(int endTime) {
+		this.endTime = endTime;
 	}
 
 }

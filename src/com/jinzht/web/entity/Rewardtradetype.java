@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "rewardtradetype", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"rewardtradetype","rewardtrades"})
+@JsonIgnoreProperties(value={"rewardTypeId","rewardtrades"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Rewardtradetype implements java.io.Serializable {
 

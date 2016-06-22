@@ -24,7 +24,9 @@ public class PushUtil {
 		JPushClient jpushClient = new JPushClient(Config.STRING_JMS, Config.STRING_JAK, 3);
 
 		// For push, all you need do is to build PushPayload object.
-		PushPayload payload = buildPushObject_all_all_alert();
+//		PushPayload payload = buildPushObject_all_all_alert();
+//		PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
+		PushPayload payload = buildPushObject_android_tag_alertWithTitle();
 
 		try {
 			PushResult result = jpushClient.sendPush(payload);
@@ -68,7 +70,8 @@ public class PushUtil {
 	public static PushPayload buildPushObject_android_tag_alertWithTitle() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
-                .setAudience(Audience.tag("tag1"))
+//                .setAudience(Audience.tag("tag1"))
+                .setAudience(Audience.registrationId("010414de51a"))
                 .setNotification(Notification.android(Config.STRING_PUSH_ALERT, Config.STRING_PUSH_ALERT, null))
                 .build();
     }
@@ -76,7 +79,9 @@ public class PushUtil {
 	public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
-                .setAudience(Audience.tag_and("tag1", "tag_all"))
+//                .setAudience(Audience.tag_and("tag1", "tag_all"))
+//                .setAudience(Audience.registrationId("161a3797c8040aa43cc"))
+                .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(Config.STRING_PUSH_ALERT)
@@ -87,7 +92,8 @@ public class PushUtil {
                         .build())
                  .setMessage(Message.content(Config.STRING_PUSH_CONTENT))
                  .setOptions(Options.newBuilder()
-                         .setApnsProduction(true)
+//                         .setApnsProduction(true)
+                         .setApnsProduction(false)
                          .build())
                  .build();
     }

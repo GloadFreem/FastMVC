@@ -15,6 +15,9 @@ public class Config {
 	public static String SMS_VERIFY_STRING = "【金指投投融资】";
 	public static String SMS_HAVE_SEND_STRING = "验证码发送成功，请注意查收!";
 	public static String SMS_FAIL_SEND_STRING = "验证码发送失败，请稍后重试!";
+	public static String SMS_USERS_HAVE_REGISTED = "该手机号码已注册，请直接登录";
+	public static String SMS_USERS_HAVE_BIND = "该手机号码已绑定，请确认是否为本人操作！";
+	public static String SMS_USERS_NOT_REGISTED = "用户尚未注册，请先注册！";
 	
 	
 	
@@ -75,7 +78,7 @@ public class Config {
 
 	
 	//短信模板
-	public static String  STRING_SMS_REGISTE = "感谢你注册金指投--中国成长型企业股权投融资平台";
+	public static String  STRING_SMS_REGISTE = "感谢你注册金指投--专注中国成长型企业股权投融资";
 	public static String  STRING_SMS_ROADSHOW_SUBMIT = "尊贵的金指投用户, 你的项目申请提交成功。根据您项目的实际情况, 会有专门的顾问和你取得联系, 请保持手机畅通。如有疑问请致电 18691883712";
 	public static String  STRING_SMS_ROADSHOW_VALID_TRUE = "尊贵的金指投用户，您的路演申请提交成功，已进入项目审核阶段，我们的工作人员将会在第一时间联系您，请保持手机畅通。您可以打开【金指投】APP->个人中心->进度查看->我的路演 查看详情，感谢您长期以来的支持！";
 	public static String  STRING_SMS_ROADSHOW_VALID_FALSE = "尊贵的金指投用户, 您的路演申请未通过审核。请打开【金指投】APP->个人中心->进度查看->我的路演 查看原因。请您及时修改、完善信息并重新提交申请。如有疑问请致电 18691883712";
@@ -88,9 +91,10 @@ public class Config {
 	public static String  STRING_SMS_INVEST_VALID_TRUE = "尊贵的金指投用户，您于[%s]投资[%s][%s]万。如有问题请致电 18681838312, 或致邮 kf@jinzht.com。我们的工作人员将会第一时间联系您，请您保持手机畅通。您也可以打开【金指投】APP->个人>中心->我的投融资->我投资的项目 查看详情。";
 	
 	//系统
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.129:8080/jinzht/";
+	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.139:8080/jinzht/";
 //	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
-	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.129:8080/jinzht/";
+	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.139:8080/jinzht/";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS = "头像更新成功！";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_FAIL = "头像更新失败！";
@@ -138,6 +142,9 @@ public class Config {
 	public static String STRING_PROJECT_COLLECT_CANCEL = "取消关注";
 	public static String STRING_PROJECT_COMMENT_SUCCESS = "评论成功!";
 	public static String STRING_PROJECT_SCENE_SUCCESS = "项目现场获取成功!";
+	public static String STRING_PROJECT_SCENE_COMMENT_SUCCESS = "评论列表获取成功!";
+	public static String STRING_PROJECT_SCENE_COMMENT_FAIL = "评论列表获取失败!";
+	public static String STRING_PROJECT_SCENE_COMMENT_COMPLETED = "已加载全部数据!";
 	public static String STRING_PROJECT_SCENE_ADD_SUCCESS = "发送成功!";
 	public static String STRING_PROJECT_INVEST_ADD_SUCCESS = "投资信息提交成功!";
 	
@@ -166,8 +173,8 @@ public class Config {
 	//友盟推送
 	public static String STRING_JAK = "cc3fdb255d49497c5fd3d402"; // access key
 	public static String STRING_JMS = "4bcf1021c013e29b4f77a7b7"; //master secret
-	public static String STRING_PUSH_ALERT = "alert";	
-	public static String STRING_PUSH_TITLE = "極光推送";	
-	public static String STRING_PUSH_CONTENT = "極光推送";	
+	public static String STRING_PUSH_ALERT = "极光推送内容";	
+	public static String STRING_PUSH_TITLE = "极光推送";	
+	public static String STRING_PUSH_CONTENT = "极光推送";	
 
 }

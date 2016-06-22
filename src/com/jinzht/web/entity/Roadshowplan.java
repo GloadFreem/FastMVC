@@ -37,6 +37,8 @@ public class Roadshowplan implements java.io.Serializable {
 	private Integer financingId;
 	private Date beginDate;
 	private Date endDate;
+	private float profit;
+	private Double limitAmount;
 	private Integer financeTotal;
 	private Integer financedMount;
 	private Set<Roadshow> roadshows = new HashSet<Roadshow>(0);
@@ -122,6 +124,23 @@ public class Roadshowplan implements java.io.Serializable {
 
 	public void setRoadshows(Set<Roadshow> roadshows) {
 		this.roadshows = roadshows;
+	}
+
+	@Column(name = "limit_mount")
+	public Double getLimitMount() {
+		return limitAmount;
+	}
+
+	public void setLimitMount(Double limitMount) {
+		this.limitAmount = limitMount;
+	}
+	@Column(name="profit")
+	public float getProfits() {
+		return profit;
+	}
+
+	public void setProfits(float profits) {
+		this.profit = profits;
 	}
 
 }

@@ -105,7 +105,7 @@ public class ActionDAO {
 		try {
 			String queryString = "from Action";
 			Query queryObject = getCurrentSession().createQuery(queryString)
-					.setFirstResult(cursor)
+					.setFirstResult(cursor*Config.STRING_FEELING_PAGESIZE)
 					.setMaxResults(Config.STRING_FEELING_PAGESIZE)
 					;
 			return queryObject.list();
@@ -164,7 +164,7 @@ public class ActionDAO {
 			for(int i = 0;i<requestMap.size();i++){
 				queryObject.setParameter(i, requestMap.get(keys[i]));
 			}
-			queryObject.setFirstResult(page);
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			
 			return queryObject.list();

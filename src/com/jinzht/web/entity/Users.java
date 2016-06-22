@@ -41,12 +41,13 @@ import com.jinzht.tools.Config;
 		"contentprises","projectcommitrecord","traderecords","systemcodes",
 		"actionshare","actioncomments","loginfailrecords","projectcomments",
 		"projectcommitrecords","investorcollectsForUserCollectedId","investorcollectsForUserId",
-		"usercollectsForUserCollectedId","usercollectsForUserId","userstatus"})
+		"usercollectsForUserCollectedId","usercollectsForUserId","userstatus","sceneComments"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Users implements java.io.Serializable {
 
 	// Fields
 	private String name;
+	private String regId;
 	private Integer userId;
 	private Userstatus userstatus;
 	private String telephone;
@@ -55,9 +56,11 @@ public class Users implements java.io.Serializable {
 	private Date lastLoginDate;
 	private Short platform;
 	private String wechatId;
+	private Integer extUserId;
 	private Set<Publiccontent> publiccontents = new HashSet<Publiccontent>(0);
 	private Set<Collection> collections = new HashSet<Collection>(0);
 	private Set<Communion> communions = new HashSet<Communion>(0);
+	private Set<Scenecomment> sceneComments = new HashSet<Scenecomment>(0);
 	private Set<Inviterecord> inviterecords = new HashSet<Inviterecord>(0);
 	private Set<Authentic> authentics = new HashSet<Authentic>(0);
 	private Set<Attention> attentions = new HashSet<Attention>(0);
@@ -110,6 +113,7 @@ public class Users implements java.io.Serializable {
 			Set<Traderecord> traderecords, Set<Systemcode> systemcodes,
 			Actionshare actionshare,
 			Set<Actioncomment> actioncomments,
+			Set<Scenecomment> sceneComments,
 			Set<Investorcollect> investorcollectsForUserCollectedId,
 			Set<Investorcollect> investorcollectsForUserId,
 			Set<Investorcollect> investorcollectsForUsersByUserCollectedId,
@@ -142,6 +146,7 @@ public class Users implements java.io.Serializable {
 		this.actionshare = actionshare;
 		this.actioncomments = actioncomments;
 		this.loginfailrecords = loginfailrecords;
+		this.sceneComments = sceneComments;
 		this.investorcollectsForUserId = investorcollectsForUserId;
 		this.investorcollectsForUserCollectedId = investorcollectsForUserCollectedId;
 	}
@@ -452,6 +457,30 @@ public class Users implements java.io.Serializable {
 
 	public void setUsercollectsForUserId(Set<Usercollect> usercollectsForUserId) {
 		this.usercollectsForUserId = usercollectsForUserId;
+	}
+	@Column(name="regId")
+	public String getRegId() {
+		return regId;
+	}
+
+	public void setRegId(String regId) {
+		this.regId = regId;
+	}
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	public Set<Scenecomment> getSceneComments() {
+		return sceneComments;
+	}
+
+	public void setSceneComments(Set<Scenecomment> sceneComments) {
+		this.sceneComments = sceneComments;
+	}
+	@Column(name="ext_user_id")
+	public Integer getExtUserId() {
+		return extUserId;
+	}
+
+	public void setExtUserId(Integer extUserId) {
+		this.extUserId = extUserId;
 	}
 	
 	

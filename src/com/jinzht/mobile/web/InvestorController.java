@@ -106,7 +106,6 @@ public class InvestorController extends BaseController {
 					this.result.put("data", map);
 				}
 			} else {
-				
 				Map map = new HashMap();
 				map.put("investors", list);
 				
@@ -163,7 +162,6 @@ public class InvestorController extends BaseController {
 					l.add(area.getName());
 				}
 			}
-
 		}
 
 		Map map = new HashMap();

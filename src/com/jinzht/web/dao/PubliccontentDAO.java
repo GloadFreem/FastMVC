@@ -146,7 +146,7 @@ public class PubliccontentDAO {
 		try {
 			String queryString = "from Publiccontent  order by publicContentId desc";
 			Query queryObject = getCurrentSession().createQuery(queryString)
-					.setFirstResult(cursor)
+					.setFirstResult(cursor*Config.STRING_FEELING_PAGESIZE)
 					.setMaxResults(Config.STRING_FEELING_PAGESIZE)
 					;
 			return queryObject.list();

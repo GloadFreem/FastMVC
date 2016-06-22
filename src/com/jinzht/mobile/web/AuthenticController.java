@@ -459,6 +459,8 @@ public class AuthenticController extends BaseController {
 			Map map = new HashMap();
 			map.put("authentics", user.getAuthentics());
 			map.put("headSculpture", user.getHeadSculpture());
+			map.put("userId", user.getUserId());
+			map.put("telephone", user.getTelephone());
 			
 			
 			this.result.put("data", map);

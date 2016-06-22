@@ -111,18 +111,18 @@ public class ProjectController extends BaseController {
 		this.result = new HashMap();
 		this.result.put("data", "");
 
-		//获取用户
+		// 获取用户
 		Users user = this.findUserInSession(session);
-		if(user!=null){
+		if (user != null) {
 			// 获取项目
 			Project project = this.ProjectManager.findProjectById(projectId);
-			//获取用户是否已关注该项目
-			Collection collection = this.ProjectManager.findProjectCollectionByUser(project,user);
-			
-			if(collection!=null)
-			{
+			// 获取用户是否已关注该项目
+			Collection collection = this.ProjectManager
+					.findProjectCollectionByUser(project, user);
+
+			if (collection != null) {
 				project.setCollected(true);
-			}else{
+			} else {
 				project.setCollected(false);
 			}
 			List list = new ArrayList();
@@ -131,29 +131,29 @@ public class ProjectController extends BaseController {
 			list.add(project.getFinancialstanding());
 			list.add(project.getFinancingcase());
 			list.add(project.getFinancingexit());
-			
-			
+
 			Map map = new HashMap();
 			map.put("project", project);
 			map.put("extr", list);
-			
+
 			project.setBusinessplan(null);
 			project.setControlreport(null);
 			project.setFinancialstanding(null);
 			project.setFinancingcase(null);
 			project.setFinancingexit(null);
-			
+
 			// 封装返回结果
 			this.status = 200;
 			this.result.put("data", map);
 			this.message = "";
-		}else{
+		} else {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		}
-		
+
 		return getResult();
 	}
+
 	@RequestMapping(value = "/requestProjectMember")
 	@ResponseBody
 	/***
@@ -167,23 +167,23 @@ public class ProjectController extends BaseController {
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
-		
-		//获取用户
+
+		// 获取用户
 		Users user = this.findUserInSession(session);
-		if(user!=null){
-			
-			
+		if (user != null) {
+
 			// 获取项目
 			Project project = this.ProjectManager.findProjectById(projectId);
-			//返回数据
+			// 返回数据
 			this.result.put("data", project.getMembers());
-		}else{
+		} else {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		}
-		
+
 		return getResult();
 	}
+
 	@RequestMapping(value = "/requestProjectCommentList")
 	@ResponseBody
 	/***
@@ -199,23 +199,23 @@ public class ProjectController extends BaseController {
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
-		
-		//获取用户
+
+		// 获取用户
 		Users user = this.findUserInSession(session);
-		if(user!=null){
-			
+		if (user != null) {
+
 			// 获取项目
 			Project project = this.ProjectManager.findProjectById(projectId);
 			// 获取项目评论数量
 			List list = this.ProjectManager.findProjectComment(project, page);
-			//返回数据
+			// 返回数据
 			this.status = 200;
 			this.result.put("data", list);
-		}else{
+		} else {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		}
-		
+
 		return getResult();
 	}
 
@@ -244,18 +244,19 @@ public class ProjectController extends BaseController {
 
 		if (financialStanding != null) {
 			Users user = this.findUserInSession(session);
-			if(user!=null){
-				//发送短信
-				String message = String.format(Config.STRING_SMS_INVEST_VALID_TRUE, DateUtils.formatDate(new Date()),"xxx项目",amount);
+			if (user != null) {
+				// 发送短信
+				String message = String.format(
+						Config.STRING_SMS_INVEST_VALID_TRUE,
+						DateUtils.formatDate(new Date()), "xxx项目", amount);
 				MsgUtil SMS = new MsgUtil();
 				SMS.setTelePhone(user.getTelephone());
 				SMS.setMsgType(MessageType.NormalMessage);
 				SMS.setContent(message);
-				//发送验证码
+				// 发送验证码
 				MsgUtil.send();
 			}
-			
-			
+
 			this.message = "";
 		} else {
 			this.status = 400;
@@ -417,47 +418,42 @@ public class ProjectController extends BaseController {
 	 * @param session
 	 * @return 加密后密文
 	 */
-	public Map signVerify(
-			@RequestParam(value = "req") String req,
+	public Map signVerify(@RequestParam(value = "req") String req,
 			@RequestParam(value = "method") String method,
-			@RequestParam(value = "sign") String sign,
-		    HttpSession session) {
+			@RequestParam(value = "sign") String sign, HttpSession session) {
 
 		this.result = new HashMap();
 		this.result.put("data", "");
-		
-		if(method.equals("sign")){
+
+		if (method.equals("sign")) {
 			String result = YeePayUtil.sign(req);
-			if(!result.equals(""))
-			{
+			if (!result.equals("")) {
 				this.status = 200;
-				
+
 				Map map = new HashMap();
 				map.put("sign", result);
-				
+
 				this.result.put("data", map);
 				this.message = Config.STRING_YEEPAY_ENCRYPT_SUCCESS;
-			}else{
+			} else {
 				this.status = 400;
 				this.message = Config.STRING_YEEPAY_ENCRYPT_FAIL;
 			}
-		}else{
+		} else {
 			String result = YeePayUtil.verify(req, sign);
-			if(!result.equals("FAIL"))
-			{
+			if (!result.equals("FAIL")) {
 				this.status = 200;
 				this.message = Config.STRING_YEEPAY_VERIFY_SUCCESS;
-			}else{
+			} else {
 				this.status = 400;
 				this.message = Config.STRING_YEEPAY_VERIFY_FAIL;
 			}
-			
+
 			Map map = new HashMap();
 			map.put("verify", result);
-			
+
 			this.result.put("data", map);
 		}
-
 
 		return getResult();
 	}
@@ -548,22 +544,23 @@ public class ProjectController extends BaseController {
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
 			flag = this.ProjectManager.projectCollect(projectId, user);
-			
-			Map map  = new HashMap();
+
+			Map map = new HashMap();
 			map.put("flag", flag);
-			
-			//封装返回数据
+
+			// 封装返回数据
 			this.status = 200;
 			this.result.put("data", map);
-			if(flag==0){
+			if (flag == 0) {
 				this.message = Config.STRING_PROJECT_COLLECT_CANCEL;
-			}else{
+			} else {
 				this.message = Config.STRING_PROJECT_COLLECT_ADD;
 			}
 		}
 
 		return getResult();
 	}
+
 	@RequestMapping(value = "/requestProjectComment")
 	@ResponseBody
 	/***
@@ -577,27 +574,27 @@ public class ProjectController extends BaseController {
 			@RequestParam(value = "content", required = true) String content,
 			HttpSession session) {
 		this.result = new HashMap();
-		
+
 		// 获取当前发布内容用户
 		Users user = this.findUserInSession(session);
-		
+
 		if (user == null) {
 			this.status = 400;
 			this.result.put("data", "");
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			
-			//添加评论
+
+			// 添加评论
 			this.ProjectManager.projectComment(projectId, content, user);
-			
-			//封装返回数据
+
+			// 封装返回数据
 			this.status = 200;
 			this.result.put("data", "");
 			this.message = Config.STRING_PROJECT_COMMENT_SUCCESS;
 		}
 		return getResult();
 	}
-	
+
 	@RequestMapping(value = "/requestScene")
 	@ResponseBody
 	/***
@@ -610,62 +607,113 @@ public class ProjectController extends BaseController {
 			@RequestParam(value = "projectId", required = true) Integer projectId,
 			HttpSession session) {
 		this.result = new HashMap();
-		
+
 		// 获取当前发布内容用户
 		Users user = this.findUserInSession(session);
-		
+
 		if (user == null) {
 			this.status = 400;
 			this.result.put("data", "");
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			
-			//添加评论
-			List list = this.ProjectManager.findSceneByProjectId(projectId,user);
-			
-			//封装返回数据
+
+			// 添加评论
+			List list = this.ProjectManager.findSceneByProjectId(projectId,
+					user);
+
+			// 封装返回数据
 			this.status = 200;
 			this.result.put("data", list);
 			this.message = Config.STRING_PROJECT_SCENE_SUCCESS;
 		}
 		return getResult();
 	}
+
+	@RequestMapping(value = "/requestProjectSceneCommentList")
+	@ResponseBody
+	/***
+	 * 项目评论列表
+	 * @param sceneId
+	 * @param page
+	 * @param session
+	 * @return
+	 */
+	public Map requestProjectSceneCommentList(
+			@RequestParam(value = "sceneId", required = true) Integer sceneId,
+			@RequestParam(value = "page", required = true) Integer page,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		// 添加
+		if(session.getAttribute("userId")!=null)
+		{
+			Integer userId = Integer.parseInt(session.getAttribute("userId").toString());
+			List list = this.ProjectManager.findProjectSceneCommentList(
+					sceneId, page,userId);
+			
+			//封装返回数据
+			if(list!= null&& list.size()>0)
+			{
+				this.status = 200;
+				this.message = Config.STRING_PROJECT_SCENE_COMMENT_SUCCESS;
+			}else{
+				this.status = 201;
+				this.message = Config.STRING_PROJECT_SCENE_COMMENT_COMPLETED;
+			}
+			this.result.put("data", list);
+		}else{
+			this.status = 400;
+			this.result.put("data", "");
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		}
+					
+					
+		return getResult();
+	}
+
 	@RequestMapping(value = "/requestRecorData")
 	@ResponseBody
 	/***
-	 * 项目现场
+	 * 项目现场信息
 	 * @param sceneId
 	 * @param session
 	 * @return
 	 */
 	public Map requestRecorData(
 			@RequestParam(value = "sceneId", required = true) Integer sceneId,
+			@RequestParam(value = "page", required = true) Integer page,
 			HttpSession session) {
 		this.result = new HashMap();
-		
+
 		// 获取当前发布内容用户
 		Users user = this.findUserInSession(session);
-		
+
 		if (user == null) {
 			this.status = 400;
 			this.result.put("data", "");
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
+
+			// 添加评论
+			List list = this.ProjectManager.findAudioRecordBySceneId(sceneId,page);
+			if(list!=null && list.size()>0){
+				// 封装返回数据
+				this.status = 200;
+			}else{
+				// 封装返回数据
+				this.status = 201;
+			}
 			
-			//添加评论
-			List list = this.ProjectManager.findAudioRecordBySceneId(sceneId);
-			
-			//封装返回数据
-			this.status = 200;
 			this.result.put("data", list);
 			this.message = Config.STRING_PROJECT_SCENE_SUCCESS;
 		}
 		return getResult();
 	}
+
 	@RequestMapping(value = "/requestRoadShowByProjectId")
 	@ResponseBody
 	/***
-	 * 项目现场
+	 * 获取项目路演信息
 	 * @param projectId
 	 * @param session
 	 * @return
@@ -674,26 +722,28 @@ public class ProjectController extends BaseController {
 			@RequestParam(value = "projectId", required = true) Integer projectId,
 			HttpSession session) {
 		this.result = new HashMap();
-		
+
 		// 获取当前发布内容用户
 		Users user = this.findUserInSession(session);
-		
+
 		if (user == null) {
 			this.status = 400;
 			this.result.put("data", "");
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			
-			//添加评论
-			Roadshow roadShow = this.ProjectManager.findRoadShowByProject(projectId);
-			
-			//封装返回数据
+
+			// 添加评论
+			Roadshow roadShow = this.ProjectManager
+					.findRoadShowByProject(projectId);
+
+			// 封装返回数据
 			this.status = 200;
 			this.result.put("data", roadShow);
 			this.message = Config.STRING_PROJECT_SCENE_SUCCESS;
 		}
 		return getResult();
 	}
+
 	@RequestMapping(value = "/requestSceneComment")
 	@ResponseBody
 	/***
@@ -708,25 +758,26 @@ public class ProjectController extends BaseController {
 			@RequestParam(value = "content", required = true) String content,
 			HttpSession session) {
 		this.result = new HashMap();
-		
+
 		// 获取当前发布内容用户
 		Users user = this.findUserInSession(session);
-		
+
 		if (user == null) {
 			this.status = 400;
 			this.result.put("data", "");
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			
-			//添加评论
+
+			// 添加评论
 			this.ProjectManager.saveSceneComment(sceneId, user, content);
-			//封装返回数据
+			// 封装返回数据
 			this.status = 200;
 			this.result.put("data", "");
 			this.message = Config.STRING_PROJECT_SCENE_ADD_SUCCESS;
 		}
 		return getResult();
 	}
+
 	@RequestMapping(value = "/requestProjectFinance")
 	@ResponseBody
 	/***
@@ -742,32 +793,34 @@ public class ProjectController extends BaseController {
 			@RequestParam(value = "investCode", required = true) String investCode,
 			HttpSession session) {
 		this.result = new HashMap();
-		
+
 		// 获取当前发布内容用户
 		Users user = this.findUserInSession(session);
-		
+
 		if (user == null) {
 			this.status = 400;
 			this.result.put("data", "");
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			
-			//添加评论
-			this.ProjectManager.saveProjectInvest(projectId, user, amount,investCode);
-			//封装返回数据
+
+			// 添加评论
+			this.ProjectManager.saveProjectInvest(projectId, user, amount,
+					investCode);
+			// 封装返回数据
 			this.status = 200;
 			this.result.put("data", "");
 			this.message = Config.STRING_PROJECT_INVEST_ADD_SUCCESS;
 		}
 		return getResult();
 	}
+
 	@RequestMapping(value = "/requestProjectShare")
 	@ResponseBody
 	/***
-	 * 现场交流
-	 * @param sceneId
-	 * @param content
-	 * @param session
+	 * 项目分享
+	 * @param sceneId 现场id
+	 * @param content 内容
+	 * @param session 会话
 	 * @return
 	 */
 	public Map requestProjectShare(
@@ -783,8 +836,8 @@ public class ProjectController extends BaseController {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-//			 查看当前操作状态，1:评论,2:回复
-//			Project project = this.ProjectManager.findProjectById(projectId);
+			// 查看当前操作状态，1:评论,2:回复
+			// Project project = this.ProjectManager.findProjectById(projectId);
 			// 生成分享链接
 			Share share = Tools.generateShareContent(projectId, 1);
 
@@ -801,6 +854,7 @@ public class ProjectController extends BaseController {
 
 		return getResult();
 	}
+
 	@RequestMapping(value = "/requestProjectCenter")
 	@ResponseBody
 	/***
@@ -816,15 +870,15 @@ public class ProjectController extends BaseController {
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
-		
+
 		// 获取当前发布内容用户
 		Users user = this.findUserInSession(session);
-		
+
 		if (user == null) {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			//根据请求类型获取相应数据
+			// 根据请求类型获取相应数据
 			List list = null;
 			switch (type) {
 			case 0:
@@ -833,36 +887,39 @@ public class ProjectController extends BaseController {
 				break;
 			case 3:
 				Map map = new HashMap();
-				//获取投资人
-				list = this.ProjectManager.findProjectsInvestmentWithUser(user, page);
-				//加入到返回数据中
+				// 获取投资人
+				list = this.ProjectManager.findProjectsInvestmentWithUser(user,
+						page);
+				// 加入到返回数据中
 				map.put("invest", list);
-				//获取投资收到提交项目
+				// 获取投资收到提交项目
 				list = this.ProjectManager.findCommentProjectByUser(user, page);
-				//加入到返回数据中
+				// 加入到返回数据中
 				map.put("comment", list);
 				this.result.put("data", map);
 				break;
 			default:
 				map = new HashMap();
-				//获取投资人
-				list = this.ProjectManager.findProjectsInvestmentWithUser(user, page);
-				//加入到返回数据中
+				// 获取投资人
+				list = this.ProjectManager.findProjectsInvestmentWithUser(user,
+						page);
+				// 加入到返回数据中
 				map.put("invest", list);
-				//获取投资收到提交项目
-				list = this.ProjectManager.findRecivedProjectCommitByUser(user, page);
-				//加入到返回数据中
+				// 获取投资收到提交项目
+				list = this.ProjectManager.findRecivedProjectCommitByUser(user,
+						page);
+				// 加入到返回数据中
 				map.put("commit", list);
 				this.result.put("data", map);
 				break;
 			}
-//			Project project = this.ProjectManager.findProjectById(projectId);
+			// Project project = this.ProjectManager.findProjectById(projectId);
 
 			// 封装返回结果
 			this.status = 200;
 			this.message = "";
 		}
-		
+
 		return getResult();
 	}
 

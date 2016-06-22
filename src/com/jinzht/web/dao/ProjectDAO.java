@@ -162,7 +162,7 @@ public class ProjectDAO {
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
-			queryObject.setFirstResult(page);
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -212,7 +212,7 @@ public class ProjectDAO {
 		try {
 			String queryString = "from Project";
 			Query queryObject = getCurrentSession().createQuery(queryString)
-					.setFirstResult(cursor)
+					.setFirstResult(cursor*Config.STRING_FEELING_PAGESIZE)
 					.setMaxResults(Config.STRING_FEELING_PAGESIZE)
 					;
 			return queryObject.list();
