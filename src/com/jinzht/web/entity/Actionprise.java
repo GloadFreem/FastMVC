@@ -52,7 +52,7 @@ public class Actionprise implements java.io.Serializable {
 		this.priseId = priseId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;

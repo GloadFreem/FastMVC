@@ -55,7 +55,7 @@ public class Usercollect implements java.io.Serializable {
 		this.collecteId = collecteId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	public Users getUsersByUserId() {
 		return this.usersByUserId;

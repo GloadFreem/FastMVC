@@ -39,10 +39,6 @@ public class Actionshare implements java.io.Serializable {
 	public Actionshare() {
 	}
 
-	/** minimal constructor */
-	public Actionshare(Users users) {
-		this.users = users;
-	}
 
 	/** full constructor */
 	public Actionshare(Action action, Users users, String content) {
@@ -73,8 +69,8 @@ public class Actionshare implements java.io.Serializable {
 		this.action = action;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
 	}

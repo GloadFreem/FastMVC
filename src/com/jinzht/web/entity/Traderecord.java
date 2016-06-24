@@ -73,7 +73,7 @@ public class Traderecord implements java.io.Serializable {
 		this.tradeId = tradeId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
@@ -83,7 +83,7 @@ public class Traderecord implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "trade_type_id")
 	public Tradetype getTradetype() {
 		return this.tradetype;
@@ -130,7 +130,7 @@ public class Traderecord implements java.io.Serializable {
 		this.tradeCode = tradeCode;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "trade_status_id")
 	public Tradestatus getTradestatus() {
 		return this.tradestatus;

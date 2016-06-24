@@ -98,7 +98,7 @@ public class Authentic implements java.io.Serializable {
 		this.authId = authId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
@@ -246,7 +246,7 @@ public class Authentic implements java.io.Serializable {
 		this.optional = optional;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "authentic")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "authentic")
 	public Set<Autrhrecord> getAutrhrecords() {
 		return this.autrhrecords;
 	}

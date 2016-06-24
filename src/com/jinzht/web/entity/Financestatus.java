@@ -26,9 +26,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonIgnoreProperties(value={"projects","statusId","isvalid"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Financestatus implements java.io.Serializable {
-
 	// Fields
-
 	private Integer statusId;
 	private String name;
 	private Short isvalid;

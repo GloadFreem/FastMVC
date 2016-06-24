@@ -141,7 +141,7 @@ public class Config {
 	public static String STRING_PROJECT_COLLECT_ADD = "关注成功";
 	public static String STRING_PROJECT_COLLECT_CANCEL = "取消关注";
 	public static String STRING_PROJECT_COMMENT_SUCCESS = "评论成功!";
-	public static String STRING_PROJECT_SCENE_SUCCESS = "项目现场获取成功!";
+	public static String STRING_PROJECT_SCENE_SUCCESS = "信息获取成功!";
 	public static String STRING_PROJECT_SCENE_COMMENT_SUCCESS = "评论列表获取成功!";
 	public static String STRING_PROJECT_SCENE_COMMENT_FAIL = "评论列表获取失败!";
 	public static String STRING_PROJECT_SCENE_COMMENT_COMPLETED = "已加载全部数据!";

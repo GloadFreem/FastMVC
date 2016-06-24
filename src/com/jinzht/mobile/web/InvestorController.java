@@ -107,10 +107,23 @@ public class InvestorController extends BaseController {
 				}
 			} else {
 				Map map = new HashMap();
-				map.put("investors", list);
+				if(type != 3)
+				{
+					this.result.put("data", list);
+				}else{
+					map.put("investors", list);
+					map.put("founddations", new ArrayList());
+					this.result.put("data",map);
+				}
 				
-				this.status = 201;
-				this.result.put("data",map);
+				if(page!=0)
+				{
+					this.status = 201;
+				}else{
+					this.status = 200;
+				}
+				
+				
 				this.message = "";
 			}
 		}

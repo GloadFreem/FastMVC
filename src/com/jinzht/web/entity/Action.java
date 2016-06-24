@@ -179,7 +179,7 @@ public class Action implements java.io.Serializable {
 		this.attentions = attentions;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "action")
 	@OrderBy(value="commentId desc")
 	public Set<Actioncomment> getActioncomments() {
 		return this.actioncomments;

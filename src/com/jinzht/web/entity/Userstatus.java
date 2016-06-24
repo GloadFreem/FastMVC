@@ -74,7 +74,7 @@ public class Userstatus implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userstatus")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userstatus")
 	public Set<Users> getUserses() {
 		return this.userses;
 	}

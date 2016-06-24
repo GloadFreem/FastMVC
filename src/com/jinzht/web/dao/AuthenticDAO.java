@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -247,6 +248,24 @@ public class AuthenticDAO {
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
+			throw re;
+		}
+	}
+	
+	/**
+	 * 扩展方法
+	 * 根据authId获取用户id
+	 */
+	public Integer findUserIdByAuthId(Integer authId)
+	{
+		try {
+			String queryString = "select user_id from authentic where auth_id =?";
+			
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			queryObject.setParameter(0, authId);
+			return (Integer) queryObject.uniqueResult();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
 			throw re;
 		}
 	}

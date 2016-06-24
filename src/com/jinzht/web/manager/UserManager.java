@@ -61,7 +61,20 @@ public class UserManager {
 	{
 		List list = getUserDao().findByTelephone(telephone);
 		if(list!=null && list.size()>0){
-			return getUserDao().findByTelephone(telephone).get(0);
+			Users user = getUserDao().findByTelephone(telephone).get(0);
+			user.setAuthentics(null);
+			user.setActionshares(null);
+			user.setCollections(null);
+			user.setUserstatus(null);
+			user.setWechatId(null);
+			user.setRegId(null);
+			user.setPlatform(null);
+			user.setLastLoginDate(null);
+			user.setInvestmentrecords(null);
+			user.setInvestorcollectsForUserCollectedId(null);
+			user.setInvestorcollectsForUserId(null);
+			user.setInviterecords(null);
+			return user;
 		}
 		
 		return null;

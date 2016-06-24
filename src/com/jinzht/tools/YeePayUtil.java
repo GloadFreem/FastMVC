@@ -13,12 +13,14 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 public class YeePayUtil {
-	public static String sign(String req) {
+	public static String sign(String req,short type) {
 		String ret = "";
 
 		HttpClient client = new DefaultHttpClient();
+		req = URLEncoder.encode(req);
 		String path = Config.STRING_YEEPAY_VERIFY_ADDRESS + "sign" + "?req="
 				+ req;
+		
 		HttpPost post = new HttpPost(path);
 
 		StringEntity entity;
@@ -80,7 +82,8 @@ public class YeePayUtil {
 		String req = "<request platformNo=\"10040011137\"><platformUserNo>张三</platformUserNo></request>";
 		req = URLEncoder.encode(req);
 		System.out.println(req);
-		String sign = YeePayUtil.sign( req);
+		short i = 0;
+		String sign = YeePayUtil.sign( req,i);
 		
 		sign = URLEncoder.encode(sign);
 		String result = YeePayUtil.verify(req, sign);

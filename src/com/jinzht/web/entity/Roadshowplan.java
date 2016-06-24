@@ -37,7 +37,7 @@ public class Roadshowplan implements java.io.Serializable {
 	private Integer financingId;
 	private Date beginDate;
 	private Date endDate;
-	private float profit;
+	private String profit;
 	private Double limitAmount;
 	private Integer financeTotal;
 	private Integer financedMount;
@@ -135,12 +135,12 @@ public class Roadshowplan implements java.io.Serializable {
 		this.limitAmount = limitMount;
 	}
 	@Column(name="profit")
-	public float getProfits() {
+	public String getProfit() {
 		return profit;
 	}
 
-	public void setProfits(float profits) {
-		this.profit = profits;
+	public void setProfit(String profit) {
+		this.profit = profit;
 	}
 
 }

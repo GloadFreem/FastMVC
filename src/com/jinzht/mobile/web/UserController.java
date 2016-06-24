@@ -238,7 +238,6 @@ public class UserController extends BaseController {
 		} else {
 			Users user = this.userManger.findUserByTelephone(userInstance
 					.getTelephone());
-
 			if (user == null) {
 				this.status = 400;
 				this.message = Config.STRING_LOGING_FAIL_NO_USER;

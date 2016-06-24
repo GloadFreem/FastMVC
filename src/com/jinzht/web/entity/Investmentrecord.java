@@ -76,7 +76,7 @@ public class Investmentrecord implements java.io.Serializable {
 		this.investId = investId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
@@ -86,7 +86,7 @@ public class Investmentrecord implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 //	@PrimaryKeyJoinColumn
 	@JoinColumn(name = "project_id")
 	public Project getProject() {

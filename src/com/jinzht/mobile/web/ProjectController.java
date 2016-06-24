@@ -420,13 +420,14 @@ public class ProjectController extends BaseController {
 	 */
 	public Map signVerify(@RequestParam(value = "req") String req,
 			@RequestParam(value = "method") String method,
+			@RequestParam(value = "type") short type,
 			@RequestParam(value = "sign") String sign, HttpSession session) {
-
+		
 		this.result = new HashMap();
 		this.result.put("data", "");
 
 		if (method.equals("sign")) {
-			String result = YeePayUtil.sign(req);
+			String result = YeePayUtil.sign(req,type);
 			if (!result.equals("")) {
 				this.status = 200;
 

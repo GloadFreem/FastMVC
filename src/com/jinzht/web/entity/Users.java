@@ -39,7 +39,7 @@ import com.jinzht.tools.Config;
 		,"communions","inviterecords","attentions","systemmessages",
 		"rewardsystems","actionprises","capitalaccounts","investmentrecords",
 		"contentprises","projectcommitrecord","traderecords","systemcodes",
-		"actionshare","actioncomments","loginfailrecords","projectcomments",
+		"actionshares","actioncomments","loginfailrecords","projectcomments",
 		"projectcommitrecords","investorcollectsForUserCollectedId","investorcollectsForUserId",
 		"usercollectsForUserCollectedId","usercollectsForUserId","userstatus","sceneComments"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
@@ -75,7 +75,7 @@ public class Users implements java.io.Serializable {
 			0);
 	private Set<Traderecord> traderecords = new HashSet<Traderecord>(0);
 	private Set<Systemcode> systemcodes = new HashSet<Systemcode>(0);
-	private Actionshare actionshare;
+	private Set<Actionshare> actionshares = new HashSet<Actionshare>(0);
 	private Set<Actioncomment> actioncomments = new HashSet<Actioncomment>(0);
 	private Set<Loginfailrecord> loginfailrecords = new HashSet<Loginfailrecord>(
 			0);
@@ -111,7 +111,7 @@ public class Users implements java.io.Serializable {
 			Set<Contentprise> contentprises,
 			Set<Projectcommitrecord> projectcommitrecords,
 			Set<Traderecord> traderecords, Set<Systemcode> systemcodes,
-			Actionshare actionshare,
+			Set<Actionshare> actionshares,
 			Set<Actioncomment> actioncomments,
 			Set<Scenecomment> sceneComments,
 			Set<Investorcollect> investorcollectsForUserCollectedId,
@@ -143,7 +143,7 @@ public class Users implements java.io.Serializable {
 		this.projectcommitrecords = projectcommitrecords;
 		this.traderecords = traderecords;
 		this.systemcodes = systemcodes;
-		this.actionshare = actionshare;
+		this.actionshares = actionshares;
 		this.actioncomments = actioncomments;
 		this.loginfailrecords = loginfailrecords;
 		this.sceneComments = sceneComments;
@@ -151,7 +151,6 @@ public class Users implements java.io.Serializable {
 		this.investorcollectsForUserCollectedId = investorcollectsForUserCollectedId;
 	}
 
-	// Property accessors
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "user_id", unique = true, nullable = false)
@@ -164,7 +163,7 @@ public class Users implements java.io.Serializable {
 		this.userId = userId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_status_id")
 	public Userstatus getUserstatus() {
 		return this.userstatus;
@@ -230,7 +229,7 @@ public class Users implements java.io.Serializable {
 		this.wechatId = wechatId;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
 	public Set<Publiccontent> getPubliccontents() {
 		return this.publiccontents;
 	}
@@ -294,7 +293,7 @@ public class Users implements java.io.Serializable {
 		this.systemmessages = systemmessages;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
 	public Set<Rewardsystem> getRewardsystems() {
 		return this.rewardsystems;
 	}
@@ -358,7 +357,7 @@ public class Users implements java.io.Serializable {
 		this.traderecords = traderecords;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
 	public Set<Systemcode> getSystemcodes() {
 		return this.systemcodes;
 	}
@@ -367,15 +366,6 @@ public class Users implements java.io.Serializable {
 		this.systemcodes = systemcodes;
 	}
 
-
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "users")
-	public Actionshare getActionshare() {
-		return this.actionshare;
-	}
-
-	public void setActionshare(Actionshare actionshare) {
-		this.actionshare = actionshare;
-	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usersByUserId")
 	public Set<Actioncomment> getActioncomments() {
@@ -420,7 +410,7 @@ public class Users implements java.io.Serializable {
 		this.projectcomments = projectcomments;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usersByUserCollectedId")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usersByUserCollectedId")
 	public Set<Investorcollect> getInvestorcollectsForUserCollectedId() {
 		return this.investorcollectsForUserCollectedId;
 	}
@@ -481,6 +471,15 @@ public class Users implements java.io.Serializable {
 
 	public void setExtUserId(Integer extUserId) {
 		this.extUserId = extUserId;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+	public Set<Actionshare> getActionshares() {
+		return actionshares;
+	}
+	
+	public void setActionshares(Set<Actionshare> actionshares) {
+		this.actionshares = actionshares;
 	}
 	
 	

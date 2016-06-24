@@ -78,7 +78,9 @@ public class InvestorManager {
 			for (int i = 0; i < list.size(); i++) {
 				authentic = (Authentic) list.get(i);
 
-				Users u = authentic.getUsers();
+				Integer userId = getAuthenticDao().findUserIdByAuthId(authentic.getAuthId());
+				Users u = getUsersDao().findById(userId);
+//				Users u = authentic.getUsers();
 				authentic.setAuthenticstatus(null);
 				authentic.setIdentiytype(null);
 				authentic.setIdentiyCarA(null);
@@ -111,6 +113,7 @@ public class InvestorManager {
 				u.setLastLoginDate(null);
 				u.setHeadSculpture(u.getHeadSculpture());
 				u.setName(authentic.getName());
+				
 
 				Investorcollect collect = this.findInvestCollectByUser(user, u);
 				if (collect != null) {
@@ -119,19 +122,13 @@ public class InvestorManager {
 					map.put("collected", false);
 				}
 
+//				map.put("collectCount", u
+//						.getInvestorcollectsForUserCollectedId().size());
+				
 				Map requestMap = new HashMap();
-//				map.put("users", user);
-
-//				List li = getProjectCommitRecordDao().findByProperties(
-//						requestMap, 0);
-//				if (li != null && li.size() > 0) {
-//					map.put("commited", true);
-//				} else {
-//					map.put("commited", false);
-//				}
 				map.put("commited", false);
-				map.put("collectCount", u
-						.getInvestorcollectsForUserCollectedId().size());
+				
+				map.put("collectCount", 100);
 
 				map.put("user", u);
 				map.put("areas", l);

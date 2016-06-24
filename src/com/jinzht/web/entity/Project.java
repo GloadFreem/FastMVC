@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 		,"communions","inviterecords","attentions","systemmessages",
 		"rewardsystems","actionprises","capitalaccounts","investmentrecords",
 		"contentprises","projectcommitrecord","traderecords","systemcodes",
-		"actionshare","actioncomments","loginfailrecords","scenes","projectcomments"
+		"actioncomments","loginfailrecords","scenes","projectcomments"
 		,"projectcommitrecords","members","projectcommitrecords"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Project implements java.io.Serializable {
@@ -380,12 +380,12 @@ public class Project implements java.io.Serializable {
 		this.commentCount = commentCount;
 	}
 	@Column(name="borrower_user_number")
-	public String getBrrowUserNumber() {
+	public String getBorrowerUserNumber() {
 		return borrowerUserNumber;
 	}
 
-	public void setBrrowUserNumber(String brrowUserNumber) {
-		this.borrowerUserNumber = brrowUserNumber;
+	public void setBorrowerUserNumber(String borrowerUserNumber) {
+		this.borrowerUserNumber = borrowerUserNumber;
 	}
 
 }

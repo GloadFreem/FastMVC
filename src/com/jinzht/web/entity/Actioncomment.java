@@ -60,7 +60,7 @@ public class Actioncomment implements java.io.Serializable {
 		this.commentId = commentId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	public Users getUsersByUserId() {
 		return this.usersByUserId;
@@ -70,7 +70,7 @@ public class Actioncomment implements java.io.Serializable {
 		this.usersByUserId = usersByUserId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "at_user_id")
 	public Users getUsersByAtUserId() {
 		return this.usersByAtUserId;
