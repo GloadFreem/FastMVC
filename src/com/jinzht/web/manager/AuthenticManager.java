@@ -114,6 +114,23 @@ public class AuthenticManager {
 		return getIndustoryareaDao().findById(areaId);
 	}
 	
+	/***
+	 * 根据authId 获取认证记录
+	 * @param authId
+	 * @return
+	 */
+	public Authentic findAuthenticById(Integer authId)
+	{
+		List list = getAuthenticDao().findByProperty("authId", authId);
+		if(list!=null && list.size()>0)
+		{
+			return (Authentic) list.get(0);
+		}
+		return null;
+	}
+	
+
+	
 	
 	public IdentiytypeDAO getIdentitytypeDao() {
 		return identitytypeDao;

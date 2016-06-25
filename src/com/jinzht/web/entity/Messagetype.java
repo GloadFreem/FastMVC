@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "messagetype", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"systemmessage"})
+@JsonIgnoreProperties(value={"systemmessages"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Messagetype implements java.io.Serializable {
 

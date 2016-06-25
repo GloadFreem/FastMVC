@@ -2,6 +2,7 @@ package com.jinzht.web.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -71,6 +72,31 @@ public class SystemmessageDAO {
 		}
 	}
 
+	public Integer counterByProperties(Map map) {
+		try {
+			String queryString = "select count(model.messageId) as count from Systemmessage as model where model.";
+			Object[] keys = map.keySet().toArray();
+			for(int i = 0;i<keys.length;i++){
+				if(i==0){
+					queryString += keys[i] + "= ?";
+				}else{
+					queryString +=" and " + keys[i] + "= ?";
+				}
+			}
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<keys.length;i++){
+				queryObject.setParameter(i,map.get( keys[i]));
+			}
+					
+			return  ((Number) queryObject.iterate().next())
+			         .intValue();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	public void delete(Systemmessage persistentInstance) {
 		log.debug("deleting Systemmessage instance");
 		try {

@@ -28,6 +28,7 @@ import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Notice;
 import com.jinzht.web.entity.Preloadingpage;
 import com.jinzht.web.entity.Customservice;
+import com.jinzht.web.entity.Systemcode;
 import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Versioncontroll;
@@ -392,14 +393,61 @@ public class SystemController extends BaseController {
 		} else {
 			Map map = new HashMap();
 			
-			Object[] objs = user.getSystemcodes().toArray();
+			//Object[] objs = user.getSystemcodes().toArray();
+			String code = Tools.generateInviteCode(user.getUserId(), false);
 			
-
 			this.status = 200;
-			this.result.put("data", objs[0]);
+			this.result.put("data", code);
 			this.message = "";
 		}
 
+		return getResult();
+	}
+	@RequestMapping("/requestuploadProjectInfo")
+	@ResponseBody
+	/***
+	 * 上传项目信息获取
+	 * @return Map 返回值
+	 */
+	public Map requestuploadProjectInfo(HttpSession session) {
+		this.result = new HashMap();
+		
+		Map map = new HashMap();
+		map.put("email", Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+		map.put("tel", Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_TEL);
+		
+		this.status = 200;
+		this.result.put("data", map);
+		this.message = "";
+		
+		return getResult();
+	}
+	@RequestMapping("/requestHasMessageInfo")
+	@ResponseBody
+	/***
+	 * 站内信提醒数据获取
+	 * @return Map 返回值
+	 */
+	public Map requestHasMessageInfo(HttpSession session) {
+		this.result = new HashMap();
+		
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+
+			//获取未读
+			boolean flag = this.systemManger.findUserNotReadMessageFlag(user);
+			
+			Map map = new HashMap();
+			map.put("flag", flag);
+			
+			this.status = 200;
+			this.result.put("data", map);
+			this.message = "";
+		}
 		return getResult();
 	}
 	

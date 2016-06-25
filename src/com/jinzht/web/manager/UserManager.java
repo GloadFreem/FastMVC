@@ -297,6 +297,7 @@ public class UserManager {
 		return list;
 	}
 	
+	
 	public UsersDAO getUserDao() {
 		return userDao;
 	}

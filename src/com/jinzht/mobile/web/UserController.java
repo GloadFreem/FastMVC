@@ -282,13 +282,20 @@ public class UserController extends BaseController {
 
 					// 返回结果
 					Map map = new HashMap();
-					map.put("userId", user.getUserId());
+					if(user.getExtUserId()!=null)
+					{
+						map.put("userId", user.getExtUserId());
+					}else{
+						map.put("userId", user.getUserId());
+					}
 
 					this.status = 200;
 					this.result.put("data", map);
 					this.message = Config.STRING_LOGING_SUCCESS;
 
 					session.setAttribute("userId", user.getUserId());
+					
+					System.out.println("获取到UserId："+session.getAttribute("userId").toString());
 				} else {
 					// 更新登录失败信息
 					record = this.userManger.addOrUpdateLoginFailRecord(record,
@@ -414,7 +421,12 @@ public class UserController extends BaseController {
 
 			// 封装返回数据
 			Map map = new HashMap();
-			map.put("userId", user.getUserId());
+			if(user.getExtUserId()!=null)
+			{
+				map.put("userId", user.getExtUserId());
+			}else{
+				map.put("userId", user.getUserId());
+			}
 
 			this.status = 200;
 			session.setAttribute("userId", user.getUserId());
@@ -434,7 +446,12 @@ public class UserController extends BaseController {
 			if (user != null) {
 				// 封装返回数值
 				Map map = new HashMap();
-				map.put("userId", user.getUserId());
+				if(user.getExtUserId()!=null)
+				{
+					map.put("userId", user.getExtUserId());
+				}else{
+					map.put("userId", user.getUserId());
+				}
 
 				this.result.put("data", map);
 				session.setAttribute("userId", user.getUserId());
@@ -498,7 +515,7 @@ public class UserController extends BaseController {
 		this.message = Config.STRING_LOGING_STATUS_ONLINE;
 
 		// 检测用户是否已登录
-		// session.setAttribute("userId", null);
+		System.out.println("获取到Session :UserId："+session.getAttribute("userId"));
 		if (session.getAttribute("userId") == null) {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;

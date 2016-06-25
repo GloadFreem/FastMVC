@@ -46,6 +46,8 @@ public class Config {
 	public static String  STRING_AUTH_IDENTIY_TYPE_NOT_NULL = "用户身份不能为空!";
 	public static String  STRING_AUTH_IDENTIY_SUCCESS = "投资人身份添加成功!";
 	public static String  STRING_AUTH_CONFIRM_FAIL = "无法修改认证中身份信息!";
+	public static String  STRING_AUTH_SPEED_FAIL = "无认证中身份，无须催单!";
+	public static String  STRING_AUTH_SPEED_SUCCESS = "认证加速申请成功!";
 	public static String  STRING_AUTH_IDENTIY_FAIL = "投资人身份添加失败!";
 	public static List<String> STRING_AUTH_QUALIFICATION = Arrays.asList("'(一)《私募投资基金监督管理暂行办法》规定的合格投资者'", 
 			"'(二)投资单个融资项目的最低金额不低于100万元人民币的单位或个人", 
@@ -95,6 +97,7 @@ public class Config {
 	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.139:8080/jinzht/";
 //	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.139:8080/jinzht/";
+//	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS = "头像更新成功！";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_FAIL = "头像更新失败！";
@@ -107,6 +110,8 @@ public class Config {
 	public static String  STRING_USER_IDENTITY_PICTUREA_FORMAT = "jinzht_user_identiy_a_%d";
 	public static String  STRING_USER_IDENTITY_PICTUREB_FORMAT = "jinzht_user_identiy_b_%d";
 	public static String  STRING_USER__IDENTITY_BUINESS_FORMAT = "jinzht_user_identiy_buiness_%d";
+	public static String  STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL = "xiangmu@jinzht.com";
+	public static String  STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_TEL = "400-1234-5896";
 	
 	//站内信
 	public static String STRING_SYSTEM_MESSAGE_DELETE_SUCCESS ="信息删除成功！";

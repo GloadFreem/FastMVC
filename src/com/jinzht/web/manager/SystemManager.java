@@ -236,6 +236,26 @@ public class SystemManager {
 	{
 		getSystemMessageDao().saveOrUpdate(message);
 	}
+	
+	/***
+	 * 获取用户未读信息条数
+	 * @param user
+	 * @return
+	 */
+	public boolean findUserNotReadMessageFlag(Users user)
+	{
+		boolean flag = false;
+		short read = 0;
+		Map map = new HashMap();
+		map.put("users", user);
+		map.put("read", read);
+		Integer count = getSystemMessageDao().counterByProperties(map);
+		if(count>0)
+		{
+			flag = true;
+		}
+		return flag;
+	}
 	@Autowired
 	public void setNoticeDao(NoticeDAO noticeDao) {
 		this.noticeDao = noticeDao;

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.hibernate.type.IdentifierType;
+import org.hibernate.validator.internal.util.privilegedactions.GetAnnotationParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
@@ -517,6 +518,39 @@ public class AuthenticController extends BaseController {
 
 		return getResult();
 	}
+	@RequestMapping("/requestAuthenticQuick")
+	@ResponseBody
+	/***
+	 * 催一催
+	 * @param session
+	 * @return
+	 */
+	public Map requestAuthenticQuick(
+			@RequestParam(value = "authId", required = false) Integer authId,
+			HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		this.status = 200;
+		
+		Users user = this.findUserInSession(session);
+		if (user != null) {
+			Authentic  authentic = this.authenticManager.findAuthenticById(authId);
+			if(authentic!= null)
+			{
+				this.status = 200;
+				this.message = Config.STRING_AUTH_SPEED_SUCCESS;
+			}else{
+				this.status = 400;
+				this.message = "";
+				this.message = Config.STRING_AUTH_IDENTIY_FAIL;
+			}
+			
+		} else {
+			this.message = Config.STRING_LOGING_TIP;
+		}
+		
+		return getResult();
+	}
 
 	/***
 	 * 从当前session获取用户对象
@@ -524,7 +558,8 @@ public class AuthenticController extends BaseController {
 	 * @param session
 	 * @return
 	 */
-	private Users findUserInSession(HttpSession session) {
+	private Users findUserInSession(
+			HttpSession session) {
 		Users user = null;
 		if (session.getAttribute("userId") != null) {
 			Integer userId = (Integer) session.getAttribute("userId");

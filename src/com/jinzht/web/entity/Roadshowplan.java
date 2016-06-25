@@ -138,7 +138,7 @@ public class Roadshowplan implements java.io.Serializable {
 	public String getProfit() {
 		return profit;
 	}
-
+	
 	public void setProfit(String profit) {
 		this.profit = profit;
 	}

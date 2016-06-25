@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "systemmessage", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"messagetype","users"})
+@JsonIgnoreProperties(value={"users"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Systemmessage implements java.io.Serializable {
 
@@ -32,8 +32,10 @@ public class Systemmessage implements java.io.Serializable {
 
 	private Integer messageId;
 	private Users users;
+	private String title;
 	private Messagetype messagetype;
 	private String content;
+	private String url;
 	private Date messageDate;
 	private short isRead;
 
@@ -74,7 +76,7 @@ public class Systemmessage implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "message_type_id")
 	public Messagetype getMessagetype() {
 		return this.messagetype;
@@ -110,6 +112,22 @@ public class Systemmessage implements java.io.Serializable {
 
 	public void setRead(short isRead) {
 		this.isRead = isRead;
+	}
+	@Column(name = "url")
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	@Column(name = "title")
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }
