@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -98,6 +99,19 @@ public class ActionDAO {
 			log.error("get failed", re);
 			throw re;
 		}
+	}
+	
+	public List findByKeyWord(String keyword,Integer page,String name)
+	{
+		List list = null;
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery("select * from action model where model."+name+" like:keyword").addEntity(Action.class);
+		queryObject.setParameter("keyword", "%"+keyword+"%");
+		queryObject.setFirstResult(page*10);
+		queryObject.setMaxResults(10);
+		list = queryObject.list();
+		
+		return list;
 	}
 	
 	public List findByCursor(int cursor){

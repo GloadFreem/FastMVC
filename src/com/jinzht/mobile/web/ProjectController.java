@@ -1,6 +1,7 @@
 package com.jinzht.mobile.web;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -430,6 +431,13 @@ public class ProjectController extends BaseController {
 			String result = YeePayUtil.sign(req,type);
 			if (!result.equals("")) {
 				this.status = 200;
+				
+				//处理直连或者网关接口
+				if(type==0)
+				{
+					result = URLEncoder.encode(result);
+//					result = result.substring(5, result.length());
+				}
 
 				Map map = new HashMap();
 				map.put("sign", result);
@@ -449,7 +457,7 @@ public class ProjectController extends BaseController {
 				this.status = 400;
 				this.message = Config.STRING_YEEPAY_VERIFY_FAIL;
 			}
-
+			
 			Map map = new HashMap();
 			map.put("verify", result);
 

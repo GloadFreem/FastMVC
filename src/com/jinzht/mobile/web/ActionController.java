@@ -632,6 +632,38 @@ public class ActionController extends BaseController {
 
 		return getResult();
 	}
+	@RequestMapping(value = "/requestSearchAction")
+	@ResponseBody
+	/***
+	 * 搜索活动
+	 * @param keyword 关键字
+	 * @param page 当前页
+	 * @param session
+	 * @return
+	 */
+	public Map requestAttendListAction(
+			@RequestParam(value = "keyword") String keyword,
+			@RequestParam(value = "page") Integer page, HttpSession session) {
+		
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+		
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+			List list = this.actionManager.findActionByKeyWord(keyword, page);
+			
+			// 封装返回结果
+			this.result.put("data", list);
+			this.message = "";
+		}
+		
+		return getResult();
+	}
 
 	/***
 	 * 从当前session获取用户对象

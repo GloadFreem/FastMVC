@@ -1,5 +1,6 @@
 package com.jinzht.web.manager;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jinzht.web.dao.ActionDAO;
+import com.jinzht.web.dao.AttentionDAO;
 import com.jinzht.web.dao.CollectionDAO;
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
@@ -17,6 +19,8 @@ import com.jinzht.web.dao.SystemcodeDAO;
 import com.jinzht.web.dao.UsercollectDAO;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Action;
+import com.jinzht.web.entity.Attention;
+import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Collection;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
@@ -37,6 +41,7 @@ public class UserManager {
 	private UsercollectDAO userCollectDao;
 	private ActionDAO actionDao;
 	private RewardtradeDAO rewardTradeDao;
+	private AttentionDAO attentionDao;
 	
 	
 	/***
@@ -210,17 +215,33 @@ public class UserManager {
 	
 	public List findUserCollectionProjects(Users user,Integer page)
 	{
-		List list = null;
+		List list = new ArrayList();;
 		Map map = new HashMap();
 		map.put("users", user);
 		
-		list = getCollectionDao().findByPropertiesWithPage(map, page);
-		if(list!=null && list.size()>0)
+		List l = getCollectionDao().findByPropertiesWithPage(map, page);
+		if(l!=null && l.size()>0)
 		{
 			Collection collection = null;
-			for(int i = 0;i<list.size();i++){
-				collection = (Collection) list.get(i);
+			for(int i = 0;i<l.size();i++){
+				collection = (Collection) l.get(i);
+				Project project = collection.getProject();
+				project.setCommunions(null);
+				project.setMembers(null);
+				project.setTeams(null);
+				project.setBorrowerUserNumber(null);
+				project.setFinancingexit(null);
+				project.setFinancialstanding(null);
+				project.setControlreport(null);
+				project.setFinancingcase(null);
+				project.setBusinessplan(null);
+				project.setProjectcomments(null);
+				project.setProjectcommitrecords(null);
+				project.setProjectimageses(null);
+				
 				collection.setUsers(null);
+				
+				list.add(project);
 			}
 		}
 		
@@ -235,32 +256,20 @@ public class UserManager {
 	 */
 	public List findUserAttendActions(Users user,Integer page)
 	{
-		List list = null;
+		List result = new ArrayList();
 		Map map = new HashMap();
-		map.put("users", user);
-		list = getActionDao().findByPropertiesWithPage(map, page);
+		map.put("user_id", user.getUserId());
+		List list = getAttentionDao().findBySQLPropertiesWithPage(map, page);
 		if(list!=null && list.size()>0)
 		{
-			Collection collection = null;
+			Action action = null;
 			for(int i = 0;i<list.size();i++){
-				collection = (Collection) list.get(i);
-				Project project = collection.getProject();
-				
-				project.setCommunions(null);
-				project.setMembers(null);
-				project.setTeams(null);
-				project.setFinancingexit(null);
-				project.setFinancialstanding(null);
-				project.setControlreport(null);
-				project.setFinancingcase(null);
-				project.setBusinessplan(null);
-				project.setProjectcomments(null);
-				project.setProjectcommitrecords(null);
-				project.setProjectimageses(null);
+				action = getActionDao().findById(Integer.parseInt(list.get(i).toString()));
+				result.add(action);
 			}
 		}
 		
-		return list;
+		return result;
 	}
 	public List findUserCollectionUsers(Users user,Integer page)
 	{
@@ -273,14 +282,29 @@ public class UserManager {
 			Usercollect collect = null;
 			for(int i = 0;i<list.size();i++){
 				collect = (Usercollect) list.get(i);
-				Users u = collect.getUsersByUserId();
+				Users u = collect.getUsersByUserCollectedId();
 				u.setUserstatus(null);
 				u.setTelephone(null);
 				u.setPassword(null);
+				u.setRegId(null);
+				u.setName(null);
+				u.setWechatId(null);
+				u.setExtUserId(null);
 				u.setPlatform(null);
 //				u.setAuthentics(null);
 				u.setLastLoginDate(null);
 				u.setHeadSculpture(user.getHeadSculpture());
+				
+				Object[] objs = u.getAuthentics().toArray();
+				for(Object obj : objs)
+				{
+					Authentic authentic = (Authentic)obj;
+					authentic.setIdentiyCarA(null);
+					authentic.setIdentiyCarB(null);
+					authentic.setIdentiyCarNo(null);
+					authentic.setCompanyAddress(null);
+					authentic.setOptional(null);
+				}
 			}
 		}
 		
@@ -370,6 +394,14 @@ public class UserManager {
 	@Autowired
 	public void setRewardTradeDao(RewardtradeDAO rewardTradeDao) {
 		this.rewardTradeDao = rewardTradeDao;
+	}
+
+	public AttentionDAO getAttentionDao() {
+		return attentionDao;
+	}
+	@Autowired
+	public void setAttentionDao(AttentionDAO attentionDao) {
+		this.attentionDao = attentionDao;
 	}
 
 

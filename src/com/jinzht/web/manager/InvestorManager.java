@@ -25,6 +25,7 @@ import com.jinzht.web.dao.PubliccontentDAO;
 import com.jinzht.web.dao.ShareDAO;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Authentic;
+import com.jinzht.web.entity.Authenticstatus;
 import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Comment;
 import com.jinzht.web.entity.Contentprise;
@@ -67,7 +68,11 @@ public class InvestorManager {
 
 		// 封装数据
 		Map map = new HashMap();
+		Authenticstatus status = new Authenticstatus();
+		status.setStatusId(8);
+		
 		map.put("identiytype", identityType);
+		map.put("authenticstatus", status);
 
 		List list = getAuthenticDao().findByProperties(map, currentPage);
 
@@ -95,15 +100,15 @@ public class InvestorManager {
 				List l = new ArrayList();
 				String industoryArea = authentic.getIndustoryArea();
 				if (industoryArea != null && industoryArea != "") {
-					String[] aa = industoryArea.split(",");
-
-					String str = "";
+					String[] aa = industoryArea.split("，");
+//					String str = "";
 					for (int j = 0; j < aa.length; j++) {
-						System.out.println("--" + aa[j]);
-						Industoryarea area = getIndustoryAreaDao().findById(
-								Integer.parseInt(aa[j].toString()));
-						l.add(area.getName());
+//						System.out.println("--" + aa[j]);
+//						Industoryarea area = getIndustoryAreaDao().findById(
+//								Integer.parseInt(aa[j].toString()));
+						l.add(aa[j]);
 					}
+					
 				}
 
 				u.setUserstatus(null);
@@ -114,26 +119,23 @@ public class InvestorManager {
 				u.setHeadSculpture(u.getHeadSculpture());
 				u.setName(authentic.getName());
 				
+				Map requestMap = new HashMap();
 
 				Investorcollect collect = this.findInvestCollectByUser(user, u);
 				if (collect != null) {
-					map.put("collected", true);
+					requestMap.put("collected", true);
 				} else {
-					map.put("collected", false);
+					requestMap.put("collected", false);
 				}
 
-//				map.put("collectCount", u
-//						.getInvestorcollectsForUserCollectedId().size());
+				requestMap.put("commited", false);
 				
-				Map requestMap = new HashMap();
-				map.put("commited", false);
-				
-				map.put("collectCount", 100);
+				requestMap.put("collectCount", 100);
 
-				map.put("user", u);
-				map.put("areas", l);
+				requestMap.put("user", u);
+				requestMap.put("areas", l);
 
-				listResult.add(map);
+				listResult.add(requestMap);
 
 			}
 

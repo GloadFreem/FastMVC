@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "usercollect", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"usersByUserCollectedId"})
+@JsonIgnoreProperties(value={"usersByUserId"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Usercollect implements java.io.Serializable {
 
@@ -65,7 +65,7 @@ public class Usercollect implements java.io.Serializable {
 		this.usersByUserId = usersByUserId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_collected_id")
 	public Users getUsersByUserCollectedId() {
 		return this.usersByUserCollectedId;

@@ -112,7 +112,17 @@ public class InvestorController extends BaseController {
 					this.result.put("data", list);
 				}else{
 					map.put("investors", list);
-					map.put("founddations", new ArrayList());
+
+					if (page == 0) {
+						List l = this.investorManager.findDefaultFoundations();
+						if (l == null) {
+							l = new ArrayList();
+						}
+
+						map.put("founddations", l);
+					}
+
+					map.put("investors", list);
 					this.result.put("data",map);
 				}
 				

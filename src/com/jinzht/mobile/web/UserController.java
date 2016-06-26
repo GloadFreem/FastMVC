@@ -872,7 +872,7 @@ public class UserController extends BaseController {
 		} else {
 			// 获取列表
 			List list = null;
-			list = this.userManger.findUserCollectionProjects(user, page);
+			list = this.userManger.findUserAttendActions(user, page);
 
 			if (list != null) {
 				this.result.put("data", list);
@@ -935,41 +935,6 @@ public class UserController extends BaseController {
 		return getResult();
 	}
 
-	@RequestMapping("/requestGoldAccount")
-	@ResponseBody
-	/***
-	 * 金条账户
-	 * @param page 当前页
-	 * @param session
-	 * @return
-	 */
-	public Map requestGoldAccount(
-			@RequestParam(value = "page", required = false) Integer page,
-			HttpSession session) {
-		this.result = new HashMap();
-
-		this.status = 200;
-		this.result.put("data", "");
-		this.message = Config.STRING_LOGING_STATUS_ONLINE;
-
-		// 获取用户
-		Users user = this.findUserInSession(session);
-
-		if (user == null) {
-			this.status = 400;
-			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
-		} else {
-			// 获取列表
-			this.result.put("data", user.getRewardsystems());
-
-			// 返回信息
-			this.status = 200;
-
-			this.message = "";
-		}
-
-		return getResult();
-	}
 
 	/***
 	 * 从当前session获取用户对象

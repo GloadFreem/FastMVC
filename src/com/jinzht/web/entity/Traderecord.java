@@ -27,19 +27,19 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "traderecord", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"Tradetype","users","chargetype"})
+@JsonIgnoreProperties(value={"users"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Traderecord implements java.io.Serializable {
 
 	// Fields
 
-	private Integer tradeId;
+	private String ext;
 	private Users users;
-	private Tradetype tradetype;
-	private Float mount;
-	private Short tradeType;
+	private Float amount;
 	private Date tradeDate;
+	private Integer tradeId;
 	private String tradeCode;
+	private Tradetype tradetype;
 	private Tradestatus tradestatus;
 	
 
@@ -52,11 +52,10 @@ public class Traderecord implements java.io.Serializable {
 
 	/** full constructor */
 	public Traderecord(Users users ,Tradetype tradetype,
-			Float mount, Short tradeType,  Date tradeDate,Tradestatus tradestatus) {
+			Float amount,  Date tradeDate,Tradestatus tradestatus) {
 		this.users = users;
 		this.tradetype = tradetype;
-		this.mount = mount;
-		this.tradeType = tradeType;
+		this.amount = amount;
 		this.tradeDate = tradeDate;
 		this.tradestatus = tradestatus;
 	}
@@ -83,7 +82,7 @@ public class Traderecord implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "trade_type_id")
 	public Tradetype getTradetype() {
 		return this.tradetype;
@@ -93,22 +92,13 @@ public class Traderecord implements java.io.Serializable {
 		this.tradetype = tradetype;
 	}
 
-	@Column(name = "mount", precision = 12, scale = 0)
-	public Float getMount() {
-		return this.mount;
+	@Column(name = "amount", precision = 12, scale = 0)
+	public Float getAmount() {
+		return this.amount;
 	}
 
-	public void setMount(Float mount) {
-		this.mount = mount;
-	}
-
-	@Column(name = "trade_type")
-	public Short getTradeType() {
-		return this.tradeType;
-	}
-
-	public void setTradeType(Short tradeType) {
-		this.tradeType = tradeType;
+	public void setAmount(Float amount) {
+		this.amount = amount;
 	}
 
 	@Column(name = "trade_date")
@@ -130,7 +120,7 @@ public class Traderecord implements java.io.Serializable {
 		this.tradeCode = tradeCode;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "trade_status_id")
 	public Tradestatus getTradestatus() {
 		return this.tradestatus;
@@ -138,6 +128,16 @@ public class Traderecord implements java.io.Serializable {
 
 	public void setTradestatus(Tradestatus tradestatus) {
 		this.tradestatus = tradestatus;
+	}
+
+	@Column(name = "ext")
+	public String getExt() {
+		return ext;
+	}
+
+
+	public void setExt(String ext) {
+		this.ext = ext;
 	}
 
 }

@@ -83,6 +83,25 @@ public class ActionManager {
 		return list;
 	}
 	
+	public List findActionByKeyWord(String keyWord,Integer page)
+	{
+		List list = new ArrayList();
+		List reqList = new ArrayList();
+		reqList.add("name");
+		reqList.add("address");
+		reqList.add("description");
+		
+		for(Object str :reqList)
+		{
+			List l  = getActionDao().findByKeyWord(keyWord, page,str.toString());
+			for(Object item :l)
+			{
+				list.add(item);
+			}
+		}
+		return list;
+	}
+	
 	public Actionprise findActionPrise(Action action,Users user)
 	{
 		Actionprise prise = null;

@@ -62,6 +62,23 @@ public class RewardManager {
 		
 		return 0;
 	}
+	/***
+	 * 获取用户金条账户
+	 * @param user
+	 * @return
+	 */
+	public Rewardsystem findRewardByUser(Users user)
+	{
+		//获取用户金条系统
+		List list = getRewardSystemDao().findByProperty("users", user);
+		if(list!= null && list.size()>0)
+		{
+			Rewardsystem system = (Rewardsystem) list.get(0);
+			return system;
+		}
+		
+		return null;
+	}
 	
 	/***
 	 * 获取用户应该显示奖励信息

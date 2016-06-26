@@ -29,6 +29,7 @@ import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Notice;
 import com.jinzht.web.entity.Preloadingpage;
 import com.jinzht.web.entity.Customservice;
+import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Traderecord;
 import com.jinzht.web.entity.Tradestatus;
@@ -36,6 +37,7 @@ import com.jinzht.web.entity.Tradetype;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Versioncontroll;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
+import com.jinzht.web.manager.ProjectManager;
 import com.jinzht.web.manager.SystemManager;
 import com.jinzht.web.manager.TradeManager;
 import com.jinzht.web.manager.UserManager;
@@ -48,6 +50,8 @@ public class TradeController extends BaseController {
 	private TradeManager TradeManger;
 	@Autowired
 	private UserManager userManager;
+	@Autowired
+	private ProjectManager projectManager;
 
 	@RequestMapping("/requestTradeList")
 	@ResponseBody
@@ -73,9 +77,48 @@ public class TradeController extends BaseController {
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
 			List list = this.TradeManger.findTradeRecordByUser(user, page);
+			
+			
 
 			if (list != null && list.size() > 0) {
-				this.result.put("data", list);
+				List result = new ArrayList();
+				Map map  = null;
+				for(int i = 0;i<list.size();i++)
+				{
+					Traderecord record = (Traderecord) list.get(i);
+					//投资项目
+					if(record!=null)
+					{
+						if(record.getExt()!=null)
+						{
+							Integer projectId = Integer.parseInt(record.getExt());
+							//项目
+							Project project = this.projectManager.findProjectById(projectId);
+							if(project!=null)
+							{
+								map = new HashMap();
+								map.put("name", project.getAbbrevName());
+								map.put("img", project.getStartPageImage());
+								map.put("record", record);
+								
+								result.add(map);
+								
+								record.setExt(null);
+							}
+						}else{
+							map = new HashMap();
+							map.put("name", "");
+							map.put("img", "");
+							map.put("record", record);
+							
+							result.add(map);
+						}
+					
+					}
+				}
+				this.result.put("data", result);
+			}else{
+				this.result.put("data", new ArrayList());
 			}
 		}
 
@@ -121,7 +164,7 @@ public class TradeController extends BaseController {
 			//设置订单编号
 			record.setTradeCode(tradeCode);
 			//设置交易金额
-			record.setMount(amount);
+			record.setAmount(amount);
 			//设置交易时间 
 			record.setTradeDate(new Date());
 			//设置交易状态
@@ -179,7 +222,7 @@ public class TradeController extends BaseController {
 			//设置订单编号
 			record.setTradeCode(tradeCode);
 			//设置交易金额
-			record.setMount(amount);
+			record.setAmount(amount);
 			//设置交易时间 
 			record.setTradeDate(new Date());
 			//设置交易状态

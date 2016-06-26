@@ -127,12 +127,12 @@ public class Roadshowplan implements java.io.Serializable {
 	}
 
 	@Column(name = "limit_mount")
-	public Double getLimitMount() {
+	public Double getLimitAmount() {
 		return limitAmount;
 	}
 
-	public void setLimitMount(Double limitMount) {
-		this.limitAmount = limitMount;
+	public void setLimitAmount(Double limitAmount) {
+		this.limitAmount = limitAmount;
 	}
 	@Column(name="profit")
 	public String getProfit() {
