@@ -97,6 +97,7 @@ public class TradeController extends BaseController {
 							if(project!=null)
 							{
 								map = new HashMap();
+								
 								map.put("name", project.getAbbrevName());
 								map.put("img", project.getStartPageImage());
 								map.put("record", record);

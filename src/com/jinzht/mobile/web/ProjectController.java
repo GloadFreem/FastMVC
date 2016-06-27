@@ -1,6 +1,7 @@
 package com.jinzht.mobile.web;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,10 +53,12 @@ import com.jinzht.web.entity.Financingcase;
 import com.jinzht.web.entity.Financingexit;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Project;
+import com.jinzht.web.entity.Projectcommitrecord;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Roadshow;
 import com.jinzht.web.entity.Share;
 import com.jinzht.web.entity.Sharetype;
+import com.jinzht.web.entity.Status;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.ProjectManager;
@@ -127,11 +130,29 @@ public class ProjectController extends BaseController {
 				project.setCollected(false);
 			}
 			List list = new ArrayList();
-			list.add(project.getBusinessplan());
-			list.add(project.getControlreport());
-			list.add(project.getFinancialstanding());
-			list.add(project.getFinancingcase());
-			list.add(project.getFinancingexit());
+
+			// 商业计划书
+			if (project.getBusinessplan() != null) {
+				list.add(project.getBusinessplan());
+			}
+
+			// 风险报告
+			if (project.getControlreport() != null) {
+				list.add(project.getControlreport());
+			}
+
+			// 融资计划
+			if (project.getFinancialstanding() != null) {
+				list.add(project.getFinancialstanding());
+			}
+			// 融资案例
+			if (project.getFinancingcase() != null) {
+				list.add(project.getFinancingcase());
+			}
+			// 退出渠道
+			if (project.getFinancingexit() != null) {
+				list.add(project.getFinancingexit());
+			}
 
 			Map map = new HashMap();
 			map.put("project", project);
@@ -423,20 +444,25 @@ public class ProjectController extends BaseController {
 			@RequestParam(value = "method") String method,
 			@RequestParam(value = "type") short type,
 			@RequestParam(value = "sign") String sign, HttpSession session) {
-		
+
 		this.result = new HashMap();
 		this.result.put("data", "");
 
 		if (method.equals("sign")) {
-			String result = YeePayUtil.sign(req,type);
+			String result = YeePayUtil.sign(req, type);
 			if (!result.equals("")) {
 				this.status = 200;
-				
-				//处理直连或者网关接口
-				if(type==0)
-				{
-					result = URLEncoder.encode(result);
-//					result = result.substring(5, result.length());
+
+				// 处理直连或者网关接口
+				if (type == 0) {
+					;
+					try {
+						result = URLEncoder.encode(result, "utf-8");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					// result = result.substring(5, result.length());
 				}
 
 				Map map = new HashMap();
@@ -457,7 +483,7 @@ public class ProjectController extends BaseController {
 				this.status = 400;
 				this.message = Config.STRING_YEEPAY_VERIFY_FAIL;
 			}
-			
+
 			Map map = new HashMap();
 			map.put("verify", result);
 
@@ -652,31 +678,29 @@ public class ProjectController extends BaseController {
 			@RequestParam(value = "page", required = true) Integer page,
 			HttpSession session) {
 		this.result = new HashMap();
-		
+
 		// 添加
-		if(session.getAttribute("userId")!=null)
-		{
-			Integer userId = Integer.parseInt(session.getAttribute("userId").toString());
+		if (session.getAttribute("userId") != null) {
+			Integer userId = Integer.parseInt(session.getAttribute("userId")
+					.toString());
 			List list = this.ProjectManager.findProjectSceneCommentList(
-					sceneId, page,userId);
-			
-			//封装返回数据
-			if(list!= null&& list.size()>0)
-			{
+					sceneId, page, userId);
+
+			// 封装返回数据
+			if (list != null && list.size() > 0) {
 				this.status = 200;
 				this.message = Config.STRING_PROJECT_SCENE_COMMENT_SUCCESS;
-			}else{
+			} else {
 				this.status = 201;
 				this.message = Config.STRING_PROJECT_SCENE_COMMENT_COMPLETED;
 			}
 			this.result.put("data", list);
-		}else{
+		} else {
 			this.status = 400;
 			this.result.put("data", "");
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		}
-					
-					
+
 		return getResult();
 	}
 
@@ -704,15 +728,16 @@ public class ProjectController extends BaseController {
 		} else {
 
 			// 添加评论
-			List list = this.ProjectManager.findAudioRecordBySceneId(sceneId,page);
-			if(list!=null && list.size()>0){
+			List list = this.ProjectManager.findAudioRecordBySceneId(sceneId,
+					page);
+			if (list != null && list.size() > 0) {
 				// 封装返回数据
 				this.status = 200;
-			}else{
+			} else {
 				// 封装返回数据
 				this.status = 201;
 			}
-			
+
 			this.result.put("data", list);
 			this.message = Config.STRING_PROJECT_SCENE_SUCCESS;
 		}
@@ -828,7 +853,6 @@ public class ProjectController extends BaseController {
 	/***
 	 * 项目分享
 	 * @param sceneId 现场id
-	 * @param content 内容
 	 * @param session 会话
 	 * @return
 	 */
@@ -864,6 +888,49 @@ public class ProjectController extends BaseController {
 		return getResult();
 	}
 
+	@RequestMapping(value = "/requestIgorneProjectCommit")
+	@ResponseBody
+	/***
+	 * 项目分享
+	 * @param projectId 项目Id
+	 * @param session 会话
+	 * @return
+	 */
+	public Map requestIgorneProjectCommit(
+			@RequestParam(value = "projectId", required = true) Integer projectId,
+			HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+			Project project = this.ProjectManager.findProjectById(projectId);
+			// 获取项目提交记录
+			Projectcommitrecord commit = this.ProjectManager
+					.findProjectcommitByProject(project, user);
+
+			Status status = new Status();
+			status.setRecordId(4);
+
+			// 设置忽略状态
+			commit.setStatus(status);
+			// 保存分享记录
+			this.ProjectManager.getProjectCommitRecordDao()
+					.saveOrUpdate(commit);
+			// 封装返回结果
+			this.status = 200;
+			this.result.put("data", "");
+			this.message = "操作成功！";
+		}
+
+		return getResult();
+	}
+
 	@RequestMapping(value = "/requestProjectCenter")
 	@ResponseBody
 	/***
@@ -892,7 +959,11 @@ public class ProjectController extends BaseController {
 			switch (type) {
 			case 0:
 				list = this.ProjectManager.findProjectsByUser(user, page);
-				this.result.put("data", list);
+				if (list != null && list.size() > 0) {
+					this.result.put("data", list);
+				} else {
+					this.result.put("data", new ArrayList());
+				}
 				break;
 			case 3:
 				Map map = new HashMap();

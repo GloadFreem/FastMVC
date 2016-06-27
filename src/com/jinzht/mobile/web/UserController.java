@@ -44,6 +44,7 @@ import com.jinzht.web.entity.Rewardsystem;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.AuthenticManager;
+import com.jinzht.web.manager.InvestorManager;
 import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.test.User;
 
@@ -55,6 +56,8 @@ public class UserController extends BaseController {
 	private UserManager userManger;
 	@Autowired
 	private AuthenticManager authenticManager;
+	@Autowired
+	private InvestorManager investorManager;
 
 	@RequestMapping("/verifyCode")
 	@ResponseBody
@@ -828,17 +831,18 @@ public class UserController extends BaseController {
 			if (type == 0) {
 				list = this.userManger.findUserCollectionProjects(user, page);
 			} else {
-				list = this.userManger.findUserCollectionUsers(user, page);
+				list = this.investorManager.findUserCollectInvestor(user, page);
 			}
 
-			if (list != null) {
+			if (list != null && list.size()>0) {
+				// 返回信息
+				this.status = 200;
 				this.result.put("data", list);
 			} else {
-				this.result.put("data", "");
+				this.status = 201;
+				this.result.put("data", new ArrayList());
 			}
 
-			// 返回信息
-			this.status = 200;
 
 			this.message = "";
 		}

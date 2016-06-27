@@ -178,11 +178,7 @@ public class InvestorController extends BaseController {
 			if (industoryArea != null && industoryArea != "") {
 				String[] aa = industoryArea.split(",");
 				for (int j = 0; j < aa.length; j++) {
-					System.out.println("--" + aa[j]);
-					Industoryarea area = this.investorManager
-							.getIndustoryAreaDao().findById(
-									Integer.parseInt(aa[j].toString()));
-					l.add(area.getName());
+					l.add(aa[j]);
 				}
 			}
 		}
@@ -198,6 +194,19 @@ public class InvestorController extends BaseController {
 
 		map.put("user", user);
 		map.put("areas", l);
+		
+		Users u = this.findUserInSession(session);
+		Investorcollect collect = this.investorManager.findInvestCollectByUser(u, user);
+		if (collect != null) {
+			map.put("collected", true);
+		} else {
+			map.put("collected", false);
+		}
+
+		map.put("commited", false);
+		
+		map.put("collectCount", 100);
+
 
 		this.result.put("data", map);
 

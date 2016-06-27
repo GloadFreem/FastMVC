@@ -20,12 +20,16 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Investorcollect entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "investorcollect", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"usersByUserId"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Investorcollect implements java.io.Serializable {
 
 	// Fields
@@ -71,7 +75,7 @@ public class Investorcollect implements java.io.Serializable {
 		this.usersByUserId = usersByUserId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_collected_id")
 	public Users getUsersByUserCollectedId() {
 		return this.usersByUserCollectedId;

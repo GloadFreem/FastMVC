@@ -487,6 +487,9 @@ public class ProjectManager {
 				project.setFinancingcase(null);
 				project.setFinancingcase(null);
 				project.setBusinessplan(null);
+				project.setBorrowerUserNumber(null);
+				project.setTeams(null);
+				project.setProjectimageses(null);
 			}
 			return list;
 		}
@@ -536,17 +539,24 @@ public class ProjectManager {
 			for(int i=0;i<result.size();i++)
 			{
 				Investmentrecord record = (Investmentrecord) result.get(i);
-				Project project = record.getProject();
+				Integer projectId = getInvestmentRecordDao().findProjectIdByRecordId(record.getInvestId());
+				if(projectId!=null)
+				{
+					Project project = this.projectDao.findById(projectId);
+					
+					project.setControlreport(null);
+					project.setFinancingexit(null);
+					project.setFinancialstanding(null);
+					project.setFinancingcase(null);
+					project.setFinancingcase(null);
+					project.setBusinessplan(null);
+					project.setBorrowerUserNumber(null);
+					project.setTeams(null);
+					project.setProjectimageses(null);
+					
+					list.add(project);
+				}
 				
-				//过滤
-				project.setControlreport(null);
-				project.setFinancingexit(null);
-				project.setFinancialstanding(null);
-				project.setFinancingcase(null);
-				project.setFinancingcase(null);
-				project.setBusinessplan(null);
-				
-				list.add(project);
 			}
 			
 		}
@@ -577,12 +587,15 @@ public class ProjectManager {
 				Project project = record.getProject();
 				
 				//过滤
-				project.setBusinessplan(null);
+				project.setTeams(null);
 				project.setControlreport(null);
 				project.setFinancingexit(null);
 				project.setFinancingcase(null);
 				project.setFinancingcase(null);
+				project.setBusinessplan(null);
+				project.setProjectimageses(null);
 				project.setFinancialstanding(null);
+				project.setBorrowerUserNumber(null);
 				
 				list.add(project);
 			}
@@ -614,12 +627,15 @@ public class ProjectManager {
 				Project project = record.getProject();
 				
 				//过滤
-				project.setBusinessplan(null);
 				project.setControlreport(null);
 				project.setFinancingexit(null);
-				project.setFinancingcase(null);
-				project.setFinancingcase(null);
 				project.setFinancialstanding(null);
+				project.setFinancingcase(null);
+				project.setFinancingcase(null);
+				project.setBusinessplan(null);
+				project.setBorrowerUserNumber(null);
+				project.setTeams(null);
+				project.setProjectimageses(null);
 				
 				list.add(project);
 			}
@@ -676,6 +692,25 @@ public class ProjectManager {
 		return list;
 	}
 
+	/***
+	 * 根据用户 项目获取提交记录
+	 * @param project
+	 * @param user
+	 * @return
+	 */
+	public Projectcommitrecord findProjectcommitByProject(Project project,Users user)
+	{
+		List list = null;
+		Map map = new HashMap();
+		map.put("project", project);
+		map.put("users", user);
+		list = getProjectCommitRecordDao().findByProperties(map, 0);
+		if(list != null && list.size()>0)
+		{
+			return (Projectcommitrecord)list.get(0);
+		}
+		return null;
+	}
 
 	public PubliccontentDAO getPublicContentDao() {
 		return publicContentDao;

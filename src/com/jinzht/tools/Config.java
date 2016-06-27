@@ -94,10 +94,10 @@ public class Config {
 	
 	//系统
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.139:8080/jinzht/";
-	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
-//	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.139:8080/jinzht/";
-	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.139:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
+	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.139:8080/jinzht/";
+//	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS = "头像更新成功！";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_FAIL = "头像更新失败！";

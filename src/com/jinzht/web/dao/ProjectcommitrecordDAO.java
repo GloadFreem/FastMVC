@@ -60,6 +60,18 @@ public class ProjectcommitrecordDAO {
 			throw re;
 		}
 	}
+	public boolean saveOrUpdate(Projectcommitrecord transientInstance) {
+		log.debug("saving or updating Projectcommitrecord instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+			return true;
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			return false;
+//			throw re;
+		}
+	}
 
 	public void delete(Projectcommitrecord persistentInstance) {
 		log.debug("deleting Projectcommitrecord instance");

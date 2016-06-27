@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -115,6 +116,24 @@ public class InvestmentrecordDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+	}
+	
+	public Integer findProjectIdByRecordId(Integer recordId)
+	{
+		List list = null;
+		
+		//查询
+		String sqlString ="select project_id from Investmentrecord where invest_id=?";
+		//查询对象 	
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
+		queryObject.setParameter(0, recordId);
+		queryObject.setMaxResults(1);
+		list = queryObject.list();
+		if(list!=null && list.size()>0)
+		{
+			return (Integer)list.get(0);
+		}
+		return null;
 	}
 	
 	public List findByProperties(Map requestMap,Integer page) {

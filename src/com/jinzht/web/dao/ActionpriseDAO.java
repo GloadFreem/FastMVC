@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -138,6 +139,17 @@ public class ActionpriseDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+	}
+	
+	public List findUsersIdByPriseId(Integer priseId)
+	{
+		String sqlString = "select user_id from actionprise where prise_id = ?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
+		queryObject.setParameter(0, priseId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
+		
 	}
 
 	public List findAll() {

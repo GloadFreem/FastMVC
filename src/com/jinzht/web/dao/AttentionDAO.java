@@ -206,6 +206,18 @@ public class AttentionDAO {
 		}
 	}
 	
+	public List findUserIdByAttentionId(Integer attentionId)
+	{
+		log.debug("find userId by attentionId");
+		String sqlString = "select user_id from attention where attend_uid = ?";
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
+		queryObject.setParameter(0, attentionId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
+		
+	}
 	public Attention merge(Attention detachedInstance) {
 		log.debug("merging Attention instance");
 		try {

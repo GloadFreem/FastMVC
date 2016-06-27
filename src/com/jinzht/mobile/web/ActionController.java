@@ -374,7 +374,7 @@ public class ActionController extends BaseController {
 		return getResult();
 	}
 
-	@RequestMapping(value = "/")
+	@RequestMapping(value = "/requestDetailAction")
 	@ResponseBody
 	/***
 	 * 活动详情
@@ -420,7 +420,9 @@ public class ActionController extends BaseController {
 			set = new HashSet();
 			for (int j = 0; j < list.size(); j++) {
 				Actionprise prise = (Actionprise) list.get(j);
-				Users u = prise.getUsers();
+				
+				Integer userId = this.actionManager.findActionPriseUserId(prise);
+				Users u = this.userManager.findUserById(userId);
 
 				Object[] objs = u.getAuthentics().toArray();
 				if (objs != null && objs.length > 0) {
@@ -526,7 +528,10 @@ public class ActionController extends BaseController {
 				Set set = new HashSet();
 				for (int i = 0; i < list.size(); i++) {
 					Actionprise prise = (Actionprise) list.get(i);
-					Users u = prise.getUsers();
+					
+					Integer userId = this.actionManager.findActionPriseUserId(prise);
+					
+					Users u = this.userManager.findUserById(userId);
 
 					Object[] objs = u.getAuthentics().toArray();
 					if (objs != null && objs.length > 0) {
@@ -585,38 +590,47 @@ public class ActionController extends BaseController {
 			Set set = new HashSet();
 			for (int i = 0; i < list.size(); i++) {
 				Attention attention = (Attention) list.get(i);
-				Users u = attention.getUsers();
+				Integer userId = this.actionManager.findUserByAttention(attention);
+				if(userId!=null)
+				{
+					Users u = this.userManager.findUserById(userId);
+					Object[] objs = u.getAuthentics().toArray();
+					if (objs != null && objs.length > 0) {
+						Authentic authentic = (Authentic) objs[0];
+						authentic.setIdentiytype(null);
+						authentic.setIdentiyCarA(null);
+						authentic.setIdentiyCarB(null);
+						authentic.setIdentiyCarNo(null);
+						authentic.setAuthenticstatus(null);
+						authentic.setBuinessLicence(null);
+						authentic.setBuinessLicenceNo(null);
+						authentic.setCompanyIntroduce(null);
+						authentic.setCompanyAddress(null);
+						authentic.setOptional(null);
+						authentic.setIndustoryArea(null);
+						authentic.setIntroduce(null);
+						authentic.setAutrhrecords(null);
+						authentic.setCity(null);
+						authentic.setAuthId(null);
+						u.setLastLoginDate(null);
+						u.setName(null);
+						u.setTelephone(null);
+						u.setPlatform(null);
+						u.setPassword(null);
+						u.setExtUserId(null);
+						u.getAuthentics().clear();
+						u.getAuthentics().add(authentic);
+						
+						attention.setUsers(u);					} else {
+						u.setName("匿名用户");
+					}
 
-				Object[] objs = u.getAuthentics().toArray();
-				if (objs != null && objs.length > 0) {
-					Authentic authentic = (Authentic) objs[0];
-					authentic.setIdentiytype(null);
-					authentic.setIdentiyCarA(null);
-					authentic.setIdentiyCarB(null);
-					authentic.setIdentiyCarNo(null);
-					authentic.setAuthenticstatus(null);
-					authentic.setBuinessLicence(null);
-					authentic.setBuinessLicenceNo(null);
-					authentic.setCompanyIntroduce(null);
-					authentic.setIntroduce(null);
-					authentic.setAutrhrecords(null);
-					authentic.setCity(null);
-					authentic.setAuthId(null);
-					u.setLastLoginDate(null);
-					u.setName(null);
-					u.setTelephone(null);
-					u.setPlatform(null);
-					u.setPassword(null);
-					u.getAuthentics().clear();
-					u.getAuthentics().add(authentic);
-				} else {
-					u.setName("匿名用户");
+					attention.setUserName(u.getName());
+
+					set.add(attention);
 				}
 
-				System.out.println(u.getName());
-				attention.setUserName(u.getName());
-
-				set.add(attention);
+				
 			}
 
 			if (set != null && set.size() > 0) {

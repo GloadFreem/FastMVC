@@ -143,6 +143,51 @@ public class InvestorManager {
 
 		return listResult;
 	}
+	
+	/***
+	 * 获取用户关注投资人列表
+	 * @param user
+	 * @param page
+	 * @return
+	 */
+	public List findUserCollectInvestor(Users user,Integer page)
+	{
+		List list  = null;
+		Map map = new HashMap();
+		map.put("usersByUserId", user);
+		
+		list  = getInvestorCollectDao().findByPropertiesWithPage(map, page);
+		for(int i =0;i<list.size();i++)
+		{
+			Investorcollect collect = (Investorcollect) list.get(i);
+			Users u = collect.getUsersByUserCollectedId();
+			
+			if(u!=null)
+			{
+				u.setPassword(null);
+				u.setTelephone(null);
+				u.setRegId(null);
+				u.setWechatId(null);
+				u.setPlatform(null);
+				u.setExtUserId(null);
+				
+				if(u.getAuthentics()!=null)
+				{
+					Object[] objs = u.getAuthentics().toArray();
+					for(int j = 0;j<objs.length;j++)
+					{
+						Authentic authentic = (Authentic) objs[j];
+						authentic.setIdentiyCarA(null);
+						authentic.setIdentiyCarB(null);
+						authentic.setAuthenticstatus(null);
+						authentic.setIdentiyCarNo(null);
+						authentic.setOptional(null);
+					}
+				}
+			}
+		}
+		return list;
+	}
 
 	/***
 	 * 提交项目

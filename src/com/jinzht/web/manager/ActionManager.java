@@ -66,10 +66,10 @@ public class ActionManager {
 			Action action = null;
 			for (int i = 0; i < list.size(); i++) {
 				action = (Action) list.get(i);
-				
 				Attention attention = this.findAttentionByActionIdAndUser(action, user);
 				if(attention!=null)
 				{
+					attention.setUsers(null);
 					action.setAttended(true);
 				}
 				
@@ -219,10 +219,32 @@ public class ActionManager {
 	public List findPriseListByAction(Action action){
 		return getActionPriseDao().findByProperty("action", action);
 	}
-//	public Users findUserByAttention(Attention attention)
-//	{
-//		
-//	}
+	public Integer findUserByAttention(Attention attention)
+	{
+		List list = getAttentionDao().findUserIdByAttentionId(attention.getAttendUid());
+		if(list!=null && list.size()>0)
+		{
+			return (Integer) list.get(0);
+		}
+		
+		return null;
+	}
+	
+	/***
+	 * 根据点赞记录id获取用户id
+	 * @param prise
+	 * @return
+	 */
+	public Integer findActionPriseUserId(Actionprise prise)
+	{
+		Users user = null;
+		List list  = getActionPriseDao().findUsersIdByPriseId(prise.getPriseId());
+		if(list!=null && list.size()>0)
+		{
+			return (Integer)list.get(0);
+		}
+		return null;
+	}
 
 	public PubliccontentDAO getPublicContentDao() {
 		return publicContentDao;
