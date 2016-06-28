@@ -455,6 +455,18 @@ public class FeelingManager {
 	{
 		getShareDao().saveOrUpdate(share);
 	}
+	
+	/***
+	 * 删除圈子
+	 * @param contentId
+	 */
+	public void deletePublicContent(Integer contentId)
+	{
+		Publiccontent content = getPublicContentDao().findById(contentId);
+		
+		//删除
+		getPublicContentDao().delete(content);
+	}
 	public PubliccontentDAO getPublicContentDao() {
 		return publicContentDao;
 	}

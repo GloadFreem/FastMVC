@@ -116,6 +116,18 @@ public class AttentionDAO {
 		}
 	}
 	
+	//根据活动及用户获取用户是否报名
+	public List findAttentionByUserIdAndActionId(Integer userId,Integer actionId)
+	{
+		String sqlString = "select * from attention where user_id =? and action_id=?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Attention.class);
+		queryObject.setParameter(0, userId);
+		queryObject.setParameter(1, actionId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
+	}
+	
 	public List findByPropertyWithPage(String propertyName, Object value,Integer page) {
 		log.debug("finding Attention instance with property: " + propertyName
 				+ ", value: " + value);

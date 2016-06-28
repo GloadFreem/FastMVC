@@ -35,6 +35,7 @@ public class Rewardtrade implements java.io.Serializable {
 	private Rewardtradetype rewardtradetype;
 	private Rewardsystem rewardsystem;
 	private Integer tradeType;
+	private String desc;
 	private Integer count;
 	private Date tradeDate;
 	private boolean readed;
@@ -47,11 +48,12 @@ public class Rewardtrade implements java.io.Serializable {
 
 	/** full constructor */
 	public Rewardtrade(Rewardtradetype rewardtradetype,
-			Rewardsystem rewardsystem, Integer tradeType, Integer count) {
+			Rewardsystem rewardsystem, Integer tradeType, Integer count,String desc) {
 		this.rewardtradetype = rewardtradetype;
 		this.rewardsystem = rewardsystem;
 		this.tradeType = tradeType;
 		this.count = count;
+		this.desc = desc;
 	}
 
 	// Property accessors
@@ -122,6 +124,14 @@ public class Rewardtrade implements java.io.Serializable {
 
 	public void setReaded(boolean readed) {
 		this.readed = readed;
+	}
+	@Column(name="desc")
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 }

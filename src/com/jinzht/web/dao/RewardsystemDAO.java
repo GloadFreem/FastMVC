@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -113,6 +114,25 @@ public class RewardsystemDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+	}
+	
+	public List findUserIdBySystemId(Integer systemId)
+	{
+		String sqlString = "select user_id from rewardsystem where reward_id=?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
+		queryObject.setParameter(0, systemId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
+	}
+	public List findRewardByUserId(Integer userId)
+	{
+		String sqlString = "select * from rewardsystem where user_id=?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Rewardsystem.class);
+		queryObject.setParameter(0, userId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
 	}
 
 	public List findByPropertiesWithPage(Map requestMap, Integer page) {

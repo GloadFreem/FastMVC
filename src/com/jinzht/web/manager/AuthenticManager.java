@@ -129,6 +129,16 @@ public class AuthenticManager {
 		return null;
 	}
 	
+	public Authentic findAuthenticByUserId(Integer userId)
+	{
+		List list = this.authenticDao.findAuthenticByUserId(userId);
+		if(list!=null && list.size()>0)
+		{
+			return (Authentic)list.get(0);
+		}
+		return null;
+	}
+	
 
 	
 	

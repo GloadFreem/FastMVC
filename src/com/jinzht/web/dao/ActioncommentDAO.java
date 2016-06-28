@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -59,6 +60,16 @@ public class ActioncommentDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Actioncomment transientInstance) {
+		log.debug("saving Actioncomment instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Actioncomment persistentInstance) {
 		log.debug("deleting Actioncomment instance");
@@ -75,7 +86,7 @@ public class ActioncommentDAO {
 		log.debug("getting Actioncomment instance with id: " + id);
 		try {
 			Actioncomment instance = (Actioncomment) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Actioncomment", id);
+					"com.jinzht.web.entity.Actioncomment", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -127,6 +138,25 @@ public class ActioncommentDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+	}
+	
+	public List findUserIdByCommentId(Integer commentId)
+	{
+		String sqlString  = "select user_id from actioncomment where comment_id = ?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
+		queryObject.setParameter(0, commentId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
+	}
+	public List findAtUserIdByCommentId(Integer commentId)
+	{
+		String sqlString  = "select at_user_id from actioncomment where comment_id = ?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
+		queryObject.setParameter(0, commentId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
 	}
 
 	public List<Actioncomment> findByContent(Object content) {

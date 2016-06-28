@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -165,6 +166,17 @@ public class ProjectcommitrecordDAO {
 			log.error("find all failed", re);
 			throw re;
 		}
+	}
+	
+	public List findRecordListByProjectId(Integer projectId,Integer page)
+	{
+		String sqlString = "select * from Projectcommitrecord where project_id =?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Projectcommitrecord.class);
+		queryObject.setParameter(0, projectId);
+		queryObject.setFirstResult(page*10);
+		queryObject.setMaxResults(10);
+		
+		return queryObject.list();
 	}
 
 	public Projectcommitrecord merge(Projectcommitrecord detachedInstance) {

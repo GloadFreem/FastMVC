@@ -272,7 +272,7 @@ public class UserController extends BaseController {
 					record.setPlatform(user.getPlatform());
 					record.setLoginFailDate(new Date());
 				}
-				
+
 				// 开始校验密码
 				if (user.getPassword().equals(userInstance.getPassword())) {
 					// 更新用户登录信息
@@ -285,11 +285,18 @@ public class UserController extends BaseController {
 
 					// 返回结果
 					Map map = new HashMap();
-					if(user.getExtUserId()!=null)
-					{
+					if (user.getExtUserId() != null) {
 						map.put("userId", user.getExtUserId());
-					}else{
+					} else {
 						map.put("userId", user.getUserId());
+					}
+					
+					Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
+					if(authentic!=null)
+					{
+						map.put("identityType", authentic.getIdentiytype());
+					}else{
+						map.put("identityType", "-1");
 					}
 
 					this.status = 200;
@@ -297,8 +304,9 @@ public class UserController extends BaseController {
 					this.message = Config.STRING_LOGING_SUCCESS;
 
 					session.setAttribute("userId", user.getUserId());
-					
-					System.out.println("获取到UserId："+session.getAttribute("userId").toString());
+
+					System.out.println("获取到UserId："
+							+ session.getAttribute("userId").toString());
 				} else {
 					// 更新登录失败信息
 					record = this.userManger.addOrUpdateLoginFailRecord(record,
@@ -379,6 +387,22 @@ public class UserController extends BaseController {
 				// 更新用户信息
 				this.userManger.saveOrUpdateUser(user);
 				// 返回数据封装
+				// 封装返回数据
+				Map map = new HashMap();
+				if (user.getExtUserId() != null) {
+					map.put("userId", user.getExtUserId());
+				} else {
+					map.put("userId", user.getUserId());
+				}
+				
+				Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
+				if(authentic!=null)
+				{
+					map.put("identityType", authentic.getIdentiytype());
+				}else{
+					map.put("identityType", "-1");
+				}
+				
 				this.status = 200;
 				this.message = Config.STRING_PASSWORD_RESET_SUCCESS;
 			}
@@ -424,11 +448,18 @@ public class UserController extends BaseController {
 
 			// 封装返回数据
 			Map map = new HashMap();
-			if(user.getExtUserId()!=null)
-			{
+			if (user.getExtUserId() != null) {
 				map.put("userId", user.getExtUserId());
-			}else{
+			} else {
 				map.put("userId", user.getUserId());
+			}
+			
+			Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
+			if(authentic!=null)
+			{
+				map.put("identityType", authentic.getIdentiytype());
+			}else{
+				map.put("identityType", "-1");
 			}
 
 			this.status = 200;
@@ -439,8 +470,8 @@ public class UserController extends BaseController {
 			// 新用户
 			user = new Users();
 			user.setRegId(regId);
-//			user.setTelephone("18729342354");
-//			user.setPassword("18729342354");
+			// user.setTelephone("18729342354");
+			// user.setPassword("18729342354");
 			user.setWechatId(wechatID);
 			user.setPlatform(platform);
 			user.setLastLoginDate(new Date());
@@ -449,12 +480,13 @@ public class UserController extends BaseController {
 			if (user != null) {
 				// 封装返回数值
 				Map map = new HashMap();
-				if(user.getExtUserId()!=null)
-				{
+				if (user.getExtUserId() != null) {
 					map.put("userId", user.getExtUserId());
-				}else{
+				} else {
 					map.put("userId", user.getUserId());
 				}
+				
+				map.put("identityType", "-1");
 
 				this.result.put("data", map);
 				session.setAttribute("userId", user.getUserId());
@@ -518,7 +550,8 @@ public class UserController extends BaseController {
 		this.message = Config.STRING_LOGING_STATUS_ONLINE;
 
 		// 检测用户是否已登录
-		System.out.println("获取到Session :UserId："+session.getAttribute("userId"));
+		System.out.println("获取到Session :UserId："
+				+ session.getAttribute("userId"));
 		if (session.getAttribute("userId") == null) {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
@@ -834,7 +867,7 @@ public class UserController extends BaseController {
 				list = this.investorManager.findUserCollectInvestor(user, page);
 			}
 
-			if (list != null && list.size()>0) {
+			if (list != null && list.size() > 0) {
 				// 返回信息
 				this.status = 200;
 				this.result.put("data", list);
@@ -842,7 +875,6 @@ public class UserController extends BaseController {
 				this.status = 201;
 				this.result.put("data", new ArrayList());
 			}
-
 
 			this.message = "";
 		}
@@ -879,13 +911,14 @@ public class UserController extends BaseController {
 			list = this.userManger.findUserAttendActions(user, page);
 
 			if (list != null) {
+				// 返回信息
+				this.status = 200;
 				this.result.put("data", list);
 			} else {
-				this.result.put("data", "");
+				// 返回信息
+				this.status = 201;
+				this.result.put("data", new ArrayList());
 			}
-
-			// 返回信息
-			this.status = 200;
 
 			this.message = "";
 		}
@@ -893,7 +926,7 @@ public class UserController extends BaseController {
 		return getResult();
 	}
 
-	@RequestMapping("/requestGoldTradList")
+	@RequestMapping("/requestGoldTradeList")
 	@ResponseBody
 	/***
 	 * 金条交易记录
@@ -901,7 +934,7 @@ public class UserController extends BaseController {
 	 * @param session
 	 * @return
 	 */
-	public Map requestGoldTradList(
+	public Map requestGoldTradeList(
 			@RequestParam(value = "page", required = false) Integer page,
 			HttpSession session) {
 		this.result = new HashMap();
@@ -918,27 +951,32 @@ public class UserController extends BaseController {
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
 		} else {
 			// 获取列表
-			List list = null;
-			Object[] l = user.getRewardsystems().toArray();
-			Rewardsystem system = (Rewardsystem) l[0];
+			List list = this.userManger.findRewardSystemByUser(user);
+			if (list != null && list.size() > 0) {
+				Rewardsystem system = (Rewardsystem) list.get(0);
+				//
+				// Integer userId =
+				// this.userManger.findUserIdByRewardSystem(system);
+				List result = this.userManger.findGoldTradList(system, page);
 
-			list = this.userManger.findGoldTradList(system, page);
+				if (result != null) {
+					// 返回信息
+					this.status = 200;
+					this.result.put("data", result);
+				} else {
+					// 返回信息
+					this.status = 201;
+					this.result.put("data", new ArrayList());
+				}
 
-			if (list != null) {
-				this.result.put("data", list);
-			} else {
-				this.result.put("data", "");
+				
 			}
-
-			// 返回信息
-			this.status = 200;
 
 			this.message = "";
 		}
 
 		return getResult();
 	}
-
 
 	/***
 	 * 从当前session获取用户对象

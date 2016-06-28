@@ -156,6 +156,8 @@ public class InvestorManager {
 		Map map = new HashMap();
 		map.put("usersByUserId", user);
 		
+		Map result = new HashMap();
+		
 		list  = getInvestorCollectDao().findByPropertiesWithPage(map, page);
 		for(int i =0;i<list.size();i++)
 		{
@@ -185,6 +187,7 @@ public class InvestorManager {
 					}
 				}
 			}
+			
 		}
 		return list;
 	}

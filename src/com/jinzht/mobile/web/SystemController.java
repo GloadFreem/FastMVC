@@ -357,6 +357,32 @@ public class SystemController extends BaseController {
 		
 		return getResult();
 	}
+	@RequestMapping("/requestInviteFriends")
+	@ResponseBody
+	/***
+	 * 邀请好友
+	 * @return Map 返回值
+	 */
+	public Map requestInviteFriends(HttpSession session) {
+		this.result = new HashMap();
+		
+		Integer userId = 0;
+		if (session.getAttribute("userId") != null) {
+			userId = (Integer) session.getAttribute("userId");
+		}
+		String invitcode = Tools.generateInviteCode(userId, false);
+		
+		Map map = new HashMap();
+		map.put("url", Config.STRING_SYSTEM_INTRODUCE+invitcode);
+		map.put("image", Config.STRING_SYSTEM_INTRODUCE_IMAGE);
+		map.put("title", Config.STRING_APPP_SHARE_TITLE);
+		map.put("content", Config.STRING_APPP_SHARE_CONTENT);
+		this.status = 200;
+		this.result.put("data", map);
+		this.message = "";
+		
+		return getResult();
+	}
 	@RequestMapping("/requestGoldUseRule")
 	@ResponseBody
 	/***

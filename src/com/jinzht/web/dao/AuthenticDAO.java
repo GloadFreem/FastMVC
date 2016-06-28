@@ -215,6 +215,15 @@ public class AuthenticDAO {
 			throw re;
 		}
 	}
+	
+	public List findAuthenticByUserId(Integer userId)
+	{
+		String sqlString = "select * from authentic where user_id=?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Authentic.class);
+		queryObject.setParameter(0, userId);
+		
+		return queryObject.list();
+	}
 
 	public Authentic merge(Authentic detachedInstance) {
 		log.debug("merging Authentic instance");

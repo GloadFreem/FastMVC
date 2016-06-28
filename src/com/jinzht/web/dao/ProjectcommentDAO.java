@@ -76,7 +76,7 @@ public class ProjectcommentDAO {
 		log.debug("getting Projectcomment instance with id: " + id);
 		try {
 			Projectcomment instance = (Projectcomment) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Projectcomment", id);
+					"com.jinzht.web.entity.Projectcomment", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

@@ -205,6 +205,80 @@ public class ProjectController extends BaseController {
 
 		return getResult();
 	}
+	@RequestMapping(value = "/requestProjectCommitRecords")
+	@ResponseBody
+	/***
+	 * 项目成员
+	 * @param projectId 项目id
+	 * @param page 页码
+	 * @param session
+	 * @return
+	 */
+	public Map requestProjectCommitRecords(
+			@RequestParam(value = "projectId", required = true) Integer projectId,
+			@RequestParam(value = "page", required = true) Integer page,
+			HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		if (user != null) {
+			
+			//获取提交记录
+			List list = this.ProjectManager.findRecordByProjectId(projectId,page);
+			
+			List result = new ArrayList();
+			Map map = new HashMap();
+			if(list!=null && list.size()>0)
+			{
+				for(int i =0;i<list.size();i++)
+				{
+					map = new HashMap();
+					Projectcommitrecord record = (Projectcommitrecord) list.get(0);
+					Users u = this.userManager.findUserById(record.getUsers().getUserId());
+					u.setPassword(null);
+					u.setTelephone(null);
+					u.setWechatId(null);
+					u.setRegId(null);
+					u.setLastLoginDate(null);
+					u.setPlatform(null);
+					u.setExtUserId(null);
+					u.setName(null);
+					
+					Object[] objs = u.getAuthentics().toArray();
+					for(int j =0;j<objs.length;j++)
+					{
+						Authentic authentic = (Authentic) objs[j];
+						authentic.setIdentiyCarA(null);
+						authentic.setIdentiyCarB(null);
+						authentic.setIdentiyCarNo(null);
+						authentic.setAuthenticstatus(null);
+						authentic.setAutrhrecords(null);
+						authentic.setCity(null);
+						authentic.setIndustoryArea(null);
+						authentic.setOptional(null);
+						authentic.setIntroduce(null);
+						authentic.setCompanyIntroduce(null);
+					}
+					
+					map.put("record", record);
+					map.put("user", u);
+					
+					result.add(map);
+				}
+			}
+			
+			// 返回数据
+			this.message="";
+			this.result.put("data", result);
+		} else {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		}
+		
+		return getResult();
+	}
 
 	@RequestMapping(value = "/requestProjectCommentList")
 	@ResponseBody
@@ -626,6 +700,38 @@ public class ProjectController extends BaseController {
 			this.status = 200;
 			this.result.put("data", "");
 			this.message = Config.STRING_PROJECT_COMMENT_SUCCESS;
+		}
+		return getResult();
+	}
+	@RequestMapping(value = "/requestProjectCommentDelete")
+	@ResponseBody
+	/***
+	 * 评论项目
+	 * @param projectId
+	 * @param session
+	 * @return
+	 */
+	public Map requestProjectCommentDelete(
+			@RequestParam(value = "commentId", required = true) Integer commentId,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+		
+		if (user == null) {
+			this.status = 400;
+			this.result.put("data", "");
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+			
+			// 删除评论
+			this.ProjectManager.deleteProjectComment(commentId);
+			
+			// 封装返回数据
+			this.status = 200;
+			this.result.put("data", "");
+			this.message = Config.STRING_PROJECT_DELETE_SUCCESS;
 		}
 		return getResult();
 	}

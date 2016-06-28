@@ -42,6 +42,7 @@ public class UserManager {
 	private ActionDAO actionDao;
 	private RewardtradeDAO rewardTradeDao;
 	private AttentionDAO attentionDao;
+	private RewardsystemDAO rewardSystemDao;
 	
 	
 	/***
@@ -131,6 +132,23 @@ public class UserManager {
 		}
 		
 		return null;
+	}
+	
+	public Integer findUserIdByRewardSystem(Rewardsystem system)
+	{
+		List list  = null;
+		list = getRewardSystemDao().findUserIdBySystemId(system.getRewardId());
+		if(list!=null && list.size()>0)
+		{
+			return (Integer)list.get(0);
+		}
+		return null;
+	}
+	public List findRewardSystemByUser(Users user)
+	{
+		List list  = null;
+		list = getRewardSystemDao().findRewardByUserId(user.getUserId());
+		return list;
 	}
 	
 	/***
@@ -402,6 +420,14 @@ public class UserManager {
 	@Autowired
 	public void setAttentionDao(AttentionDAO attentionDao) {
 		this.attentionDao = attentionDao;
+	}
+
+	public RewardsystemDAO getRewardSystemDao() {
+		return rewardSystemDao;
+	}
+	@Autowired
+	public void setRewardSystemDao(RewardsystemDAO rewardSystemDao) {
+		this.rewardSystemDao = rewardSystemDao;
 	}
 
 

@@ -24,6 +24,7 @@ import com.jinzht.web.dao.PubliccontentDAO;
 import com.jinzht.web.dao.ShareDAO;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Action;
+import com.jinzht.web.entity.Actioncomment;
 import com.jinzht.web.entity.Actionprise;
 import com.jinzht.web.entity.Attention;
 import com.jinzht.web.entity.Authentic;
@@ -77,12 +78,42 @@ public class ActionManager {
 				if(prise!=null){
 					action.setFlag(true);
 				}
+				
+				action.setAttentions(null);
+				action.setActionimages(null);
 			}
 		}
 
 		return list;
 	}
 	
+	public Integer findUserIdByCommentId(Actioncomment comment)
+	{
+		List list =  getActionCommentDao().findUserIdByCommentId(comment.getCommentId());
+		if(list!=null && list.size()>0)
+		{
+			return (Integer)list.get(0);
+		}
+		return null;
+		
+	}
+	
+	public Integer findAtUserIdByCommentId(Actioncomment comment)
+	{
+		List list =  getActionCommentDao().findAtUserIdByCommentId(comment.getCommentId());
+		if(list!=null && list.size()>0)
+		{
+			return (Integer)list.get(0);
+		}
+		return null;
+		
+	}
+	/***
+	 * 根据关键词搜索huodong
+	 * @param keyWord
+	 * @param page
+	 * @return
+	 */
 	public List findActionByKeyWord(String keyWord,Integer page)
 	{
 		List list = new ArrayList();
@@ -126,15 +157,10 @@ public class ActionManager {
 	 */
 	public Attention findAttentionByActionIdAndUser(Action action,Users user)
 	{
-		List list =  getAttentionDao().findByProperty("users", user);
+		List list =  getAttentionDao().findAttentionByUserIdAndActionId(user.getUserId(), action.getActionId());
 		Attention attention;
 		if(list!=null && list.size()>0){
-			for(int i = 0;i<list.size();i++){
-				attention = (Attention) list.get(0);
-				if(attention.getAction().getActionId() == action.getActionId()){
-					return attention;
-				}
-			}
+			return (Attention) list.get(0);
 		}
 		
 		return null;
@@ -172,6 +198,11 @@ public class ActionManager {
 	 */
 	public void saveOrUpdate(Action action){
 		getActionDao().saveOrUpdate(action);
+	}
+	
+	public void saveOpUpdateActionComment(Actioncomment comment)
+	{
+		getActionCommentDao().save(comment);
 	}
 	
 	/***
@@ -244,6 +275,17 @@ public class ActionManager {
 			return (Integer)list.get(0);
 		}
 		return null;
+	}
+	
+	/***
+	 * 删除活动评论
+	 * @param commentId
+	 */
+	public void deleteActionCommentByCommentId(Integer commentId)
+	{
+		Actioncomment comment = getActionCommentDao().findById(commentId);
+		
+		getActionCommentDao().delete(comment);
 	}
 
 	public PubliccontentDAO getPublicContentDao() {

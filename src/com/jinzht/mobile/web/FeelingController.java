@@ -425,6 +425,7 @@ public class FeelingController extends BaseController {
 
 		return getResult();
 	}
+	
 	@RequestMapping(value = "/requestUpdateShareFeeling")
 	@ResponseBody
 	/***
@@ -463,6 +464,28 @@ public class FeelingController extends BaseController {
 			this.message = Config.STRING_FEELING_SHARE_UPDATE;
 		}
 		
+		return getResult();
+	}
+	@RequestMapping(value = "/requestPublicContentDelete")
+	@ResponseBody
+	/***
+	 * 状态分享
+	 * @param contentId
+	 * @param session
+	 * @return
+	 */
+	public Map requestPublicContentDelete(
+			@RequestParam(value = "contentId") Integer contentId,
+			HttpSession session) {
+		
+		this.result = new HashMap();
+		this.status = 200;
+		this.result.put("data", "");
+		
+		//删除圈子
+		this.feelingManager.deletePublicContent(contentId);
+		
+		this.message = Config.STRING_PROJECT_DELETE_SUCCESS;
 		return getResult();
 	}
 

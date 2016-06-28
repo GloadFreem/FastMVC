@@ -93,10 +93,13 @@ public class Config {
 	public static String  STRING_SMS_INVEST_VALID_TRUE = "尊贵的金指投用户，您于[%s]投资[%s][%s]万。如有问题请致电 18681838312, 或致邮 kf@jinzht.com。我们的工作人员将会第一时间联系您，请您保持手机畅通。您也可以打开【金指投】APP->个人>中心->我的投融资->我投资的项目 查看详情。";
 	
 	//系统
+	public static String STRING_APPP_SHARE_TITLE ="您身边的投资专家";
+	public static String STRING_APPP_SHARE_CONTENT ="金指投--市值百亿的企业";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
 	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.139:8080/jinzht/";
 //	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.139:8080/jinzht/";
+	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.bz55.com/uploads/allimg/130531/1-1305310Z505.jpg";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS = "头像更新成功！";
@@ -146,6 +149,8 @@ public class Config {
 	public static String STRING_PROJECT_COLLECT_ADD = "关注成功";
 	public static String STRING_PROJECT_COLLECT_CANCEL = "取消关注";
 	public static String STRING_PROJECT_COMMENT_SUCCESS = "评论成功!";
+	public static String STRING_PROJECT_DELETE_SUCCESS = "删除成功!";
+	public static String STRING_PROJECT_DELETE_FAIL = "删除失败!";
 	public static String STRING_PROJECT_SCENE_SUCCESS = "信息获取成功!";
 	public static String STRING_PROJECT_SCENE_COMMENT_SUCCESS = "评论列表获取成功!";
 	public static String STRING_PROJECT_SCENE_COMMENT_FAIL = "评论列表获取失败!";

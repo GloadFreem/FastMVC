@@ -117,7 +117,7 @@ public class ActionController extends BaseController {
 		} else {
 			// 查看当前操作状态，1:点赞,2:取消点赞
 			Action action = this.actionManager.findActionById(contentId);
-			// 关联用户
+			//获取用户是否已经报名参加
 			Attention attention = this.actionManager
 					.findAttentionByActionIdAndUser(action, user);
 			if (attention == null) {
@@ -246,15 +246,13 @@ public class ActionController extends BaseController {
 			comment.setContent(content);
 			comment.setAction(action);
 			comment.setUsersByUserId(user);
-			if (flag != 1 && userId!= null) {
+			if (flag != 1 && userId!= null && userId!=0) {
 				Users atUser = this.userManager.findUserById(userId);
 				comment.setUsersByAtUserId(atUser);
 				comment.setAtUserName(atUser.getName());
 			}
-			// 保存回复
-			action.getActioncomments().add(comment);
 
-			this.actionManager.saveOrUpdate(action);
+			this.actionManager.saveOpUpdateActionComment(comment);
 
 			// 处理返回值
 			Users user1 = comment.getUsersByUserId();
@@ -405,41 +403,9 @@ public class ActionController extends BaseController {
 				set.add(list.get(i));
 			}
 			action.setActionimages(set);
-			// // 报名人数
-			list = this.actionManager.findAttentionListByAction(action, 0);
-			set = new HashSet();
-
-			for (int i = 0; i < list.size(); i++) {
-				Attention attention = (Attention) list.get(i);
-				if (attention.getUsers().getUserId() == user.getUserId()) {
-					action.setAttended(true);
-				}
-			}
-			
-			list = this.actionManager.findPriseListByAction(action);
-			set = new HashSet();
-			for (int j = 0; j < list.size(); j++) {
-				Actionprise prise = (Actionprise) list.get(j);
-				
-				Integer userId = this.actionManager.findActionPriseUserId(prise);
-				Users u = this.userManager.findUserById(userId);
-
-				Object[] objs = u.getAuthentics().toArray();
-				if (objs != null && objs.length > 0) {
-					Authentic authentic = (Authentic) objs[0];
-					u.setName(authentic.getName());
-				} else {
-					u.setName("匿名用户");
-				}
-
-				if (u.getUserId() == user.getUserId()) {
-					action.setFlag(true);
-				}
-
-				set.add(u.getName());
-			}
 			action.setActionprises(null);
-			action.setActionprises(set);
+			action.setActionprises(null);
+			action.setAttentions(null);
 
 			// 封装返回结果
 			this.status = 200;
@@ -483,42 +449,52 @@ public class ActionController extends BaseController {
 
 			for (int i = 0; i < list.size(); i++) {
 				Actioncomment comment = (Actioncomment) list.get(i);
-				Users u = comment.getUsersByUserId();
+				Integer userId = this.actionManager.findUserIdByCommentId(comment);
+				if(userId!=null)
+				{
+					Users u = this.userManager.findUserById(userId);
 
-				if (u.getAuthentics() != null) {
-					Object[] objs = u.getAuthentics().toArray();
-					objs = u.getAuthentics().toArray();
-					if (objs != null && objs.length > 0) {
-						Authentic authentic = (Authentic) objs[0];
-						u.setName(authentic.getName());
+					if (u.getAuthentics() != null) {
+						Object[] objs = u.getAuthentics().toArray();
+						objs = u.getAuthentics().toArray();
+						if (objs != null && objs.length > 0) {
+							Authentic authentic = (Authentic) objs[0];
+							u.setName(authentic.getName());
+						} else {
+							u.setName("匿名用户");
+						}
 					} else {
 						u.setName("匿名用户");
 					}
-				} else {
-					u.setName("匿名用户");
-				}
-				Users temp = new Users();
-				temp.setName(null);
-				temp.setAuthentics(null);
-				temp.setUserId(u.getUserId());
-				comment.setUsersByUserId(temp);
-				comment.setUserName(u.getName());
+					Users temp = new Users();
+					temp.setName(null);
+					temp.setAuthentics(null);
+					temp.setUserId(u.getUserId());
+					comment.setUsersByUserId(temp);
+					comment.setUserName(u.getName());
 
-				u = comment.getUsersByAtUserId();
-				if (u != null && u.getAuthentics() != null) {
-					Object[] objs = u.getAuthentics().toArray();
-					objs = u.getAuthentics().toArray();
-					if (objs != null && objs.length > 0) {
-						Authentic authentic = (Authentic) objs[0];
-						u.setName(authentic.getName());
-					} else {
-						u.setName("匿名用户");
+					Integer atUserId = this.actionManager.findAtUserIdByCommentId(comment);
+					if(atUserId!=null)
+					{
+						u = this.userManager.findUserById(atUserId);
+						if (u != null && u.getAuthentics() != null) {
+							Object[] objs = u.getAuthentics().toArray();
+							objs = u.getAuthentics().toArray();
+							if (objs != null && objs.length > 0) {
+								Authentic authentic = (Authentic) objs[0];
+								u.setName(authentic.getName());
+							} else {
+								u.setName("匿名用户");
+							}
+							comment.setAtUserName(u.getName());
+						}
+
+						comment.setUsersByAtUserId(null);
 					}
-					comment.setAtUserName(u.getName());
+					
+					l.add(comment);
 				}
-
-				comment.setUsersByAtUserId(null);
-				l.add(comment);
+				
 			}
 			map.put("comments", l);
 
@@ -678,6 +654,37 @@ public class ActionController extends BaseController {
 		
 		return getResult();
 	}
+	@RequestMapping(value = "/requestActionCommentDelete")
+	@ResponseBody
+	/***
+	 * 删除活动评论
+	 * @param commentId 评论id
+	 * @param session
+	 * @return
+	 */
+	public Map requestActionCommentDelete(
+			@RequestParam(value = "commentId") Integer commentId, HttpSession session) {
+		
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+		
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+			// 封装返回结果
+			this.status = 200;
+			this.actionManager.deleteActionCommentByCommentId(commentId);
+			this.message = Config.STRING_PROJECT_DELETE_SUCCESS;
+		}
+		
+		return getResult();
+	}
+	
+	
 
 	/***
 	 * 从当前session获取用户对象

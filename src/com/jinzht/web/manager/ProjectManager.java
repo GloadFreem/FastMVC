@@ -330,6 +330,19 @@ public class ProjectManager {
 	}
 	
 	/***
+	 * 删除项目评论
+	 * @param projectId
+	 * @param content
+	 */
+	public void deleteProjectComment(Integer commentId){
+		
+		//评论
+		Projectcomment comment = getProjectCommentDao().findById(commentId);
+		//删除
+		getProjectCommentDao().delete(comment);
+	}
+	
+	/***
 	 * 获取项目现场信息
 	 * @param projectId
 	 * @return
@@ -712,6 +725,15 @@ public class ProjectManager {
 		return null;
 	}
 
+	/***
+	 * 获取项目提交记录
+	 * @param projectId
+	 * @return
+	 */
+	public List findRecordByProjectId(Integer projectId,Integer page)
+	{
+		return getProjectCommitRecordDao().findRecordListByProjectId(projectId,page);
+	}
 	public PubliccontentDAO getPublicContentDao() {
 		return publicContentDao;
 	}
