@@ -49,7 +49,6 @@ import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.test.User;
 
 @Controller
-@SessionAttributes("code")
 public class UserController extends BaseController {
 
 	@Autowired
@@ -73,6 +72,7 @@ public class UserController extends BaseController {
 			BindingResult bindingResult, Model model, HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
+		this.message="";
 		if (bindingResult.hasErrors()) {
 			this.status = 400;
 			this.message = bindingResult.getFieldError().getDefaultMessage();
@@ -111,12 +111,15 @@ public class UserController extends BaseController {
 					// 返回结果
 					getResult();
 				}
-			} else {
+			}else if(message.getType() == 2){
 				// message.type 2:表示用户认证时发送验证码
 				if (user != null) {
 					this.message = Config.SMS_USERS_HAVE_BIND;
 				}
+			}else{
+				this.message ="";
 			}
+				
 
 			// 发送验证码
 			Integer code = MsgUtil.send();
@@ -126,8 +129,9 @@ public class UserController extends BaseController {
 				if (this.message.equals("")) {
 					this.message = Config.SMS_HAVE_SEND_STRING;
 				}
-				// 将code加入到session会话
+				
 				session.setAttribute("code", code);
+				System.out.println(session.getAttribute("code"));
 			} else {
 				this.status = 400;
 				this.message = Config.SMS_FAIL_SEND_STRING;
@@ -403,6 +407,8 @@ public class UserController extends BaseController {
 					map.put("identityType", "-1");
 				}
 				
+				//将用户id加入到session
+				session.setAttribute("userId", user.getUserId());
 				this.status = 200;
 				this.message = Config.STRING_PASSWORD_RESET_SUCCESS;
 			}
@@ -470,8 +476,6 @@ public class UserController extends BaseController {
 			// 新用户
 			user = new Users();
 			user.setRegId(regId);
-			// user.setTelephone("18729342354");
-			// user.setPassword("18729342354");
 			user.setWechatId(wechatID);
 			user.setPlatform(platform);
 			user.setLastLoginDate(new Date());
@@ -791,7 +795,10 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	public Map requestChangeBindTelephone(
+			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "telephone", required = false) String telephone,
+			@RequestParam(value = "oldTelephone", required = false) String oldTelephone,
+			@RequestParam(value = "identityCardNo", required = false) String identityCardNo,
 			@RequestParam(value = "code", required = false) int code,
 			HttpSession session) {
 		this.result = new HashMap();
@@ -812,14 +819,43 @@ public class UserController extends BaseController {
 					this.status = 400;
 					this.message = Config.STRING_LOGING_STATUS_OFFLINE;
 				} else {
-					// 设置手机号码
-					user.setTelephone(telephone);
-					// 保存信息
-					this.userManger.saveOrUpdateUser(user);
+					if(telephone!=null)
+					{
+						if(!user.getTelephone().equals(telephone))
+						{
+							// 设置手机号码
+							user.setTelephone(telephone);
+							//重置密码
+							user.setPassword(password);
+							//如果身份证不为空
+							Object[] objs = user.getAuthentics().toArray();
+							if(objs!=null && objs.length>0)
+							{
+								for(Object obj :objs)
+								{
+									Authentic authentic = (Authentic)obj;
+									authentic.setIdentiyCarNo(identityCardNo);
+								}
+							}
+							// 保存信息
+							this.userManger.saveOrUpdateUser(user);
+							
+							// 返回信息
+							this.status = 200;
+							this.message = Config.STRING_USER_TELEPHONE_UPDATE_SUCCESS;
+						}else{
+							// 返回信息
+							this.status = 400;
+							this.message = Config.STRING_USER_TELEPHONE_EQUAL_FAIL;
+						}
+						
+					}else{
+						// 返回信息
+						this.status = 400;
+						this.message = Config.STRING_LOGING_TEL_NOT_NULL;
+					}
 
-					// 返回信息
-					this.status = 200;
-					this.message = Config.STRING_USER_TELEPHONE_UPDATE_SUCCESS;
+				
 				}
 			} else {
 				this.status = 400;

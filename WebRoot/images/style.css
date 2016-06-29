@@ -1,0 +1,334 @@
+body, ul, ol, li, p, h1, h2, h3, h4, h5, h6, form, fieldset, table, td,
+	img, div, dl, dt, dd, div, input {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+header, section, footer, aside, nav, article, figure, dialog, menu {
+	display: block;
+}
+
+body {
+	font-family: "Lucida Grande", Helvetica, Arial, Verdana,
+		"Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+	background: #fff;
+}
+
+li {
+	list-style-type: none;
+}
+
+a img {
+	border: 0
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+
+.clear {
+	clear: both;
+}
+
+.clearfix {
+	display: inline-table;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+.clearfix {
+	display: block;
+}
+
+.cl {
+	font-size: 14px;
+	font-family: "微软雅黑";
+}
+
+.d-body {
+	width: 100%;
+	height: 100%
+}
+
+.download-box {
+	min-width: 320px;
+	width: 100%;
+	margin: 0px auto;
+	overflow: hidden;
+	height: 100%;
+	border-bottom: 1px solid #F4F4F4;
+}
+
+.d-icon-img
+{
+	width:30%;
+}
+
+.link-box {
+	margin: 0px auto;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.ios-box {
+	overflow: hidden;
+	margin: 0px auto;
+	height: 266px;
+	float: left;
+	width: 361px;
+	border-right: 1px solid #F1F1F1;
+}
+
+.android-box {
+	overflow: hidden;
+	margin: 0px auto;
+	height: 100%;
+	float: left;
+	width: 100%;
+	border-right: 1px solid #F4F4F4;
+}
+
+.code-box {
+	overflow: hidden;
+	margin: 0px auto;
+	height: 266px;
+	float: right;
+	width: 366px;
+}
+
+.ios-android {
+	margin: 0px auto;
+	height: 100%;
+	text-align: center;
+}
+
+.d-icon {
+	padding-top: 30%;
+}
+
+.d-version {
+	padding-top: 5%;
+	color: #999;
+}
+
+.d-btn {
+	padding-top: 5%;
+}
+
+.d-code {
+	padding-top: 43px;
+	padding-bottom: 5px;
+	background: url(../images/qrbg.png) no-repeat;
+	background-position: 91px 30px;
+}
+
+.d-version span {
+	font-size: 250%;
+}
+
+.d-code img {
+	width: 160px;
+	height: 160px;
+}
+
+.d-codeVersion {
+	font-size: 14px;
+	color: #999;
+}
+
+.d-p {
+	margin-top: 35px;
+	color: #fff;
+	font-size:250%;
+}
+
+.d-ios {
+	height: 47px;
+	width: 216px;
+	background-color: #239aec;
+	display: inline-block;
+	border-radius: 4px;
+}
+
+.d-ios:hover {
+	background-color: #208cd7;
+}
+
+.d-android {
+	height: 120px;
+	width: 80%;
+	background-color: #16dd78;
+	display: inline-block;
+	border-radius: 5px;
+}
+
+.d-android:hover {
+	background-color: #12c56a
+}
+
+;
+
+.info-box {
+	width: 100%;
+	margin: 0px auto;
+	overflow: hidden;
+	height: 100%;
+}
+
+.info-table {
+	margin: 0px auto;
+	overflow: hidden;
+	height: 272px;
+	width: 1090px;
+	padding-top: 44px;
+}
+
+.info-table img {
+	display: block;
+	float: left;
+	padding-right: 5px;
+	padding-left: 20px;
+}
+
+.info-title {
+	float: right;
+	width: 195px;
+	padding-right: 65px;
+	padding-top: 8px;
+}
+
+.info-table h4 {
+	color: #4a4a4a;
+}
+
+.info-table p {
+	font-size: 36px;
+	color: #999;
+	padding-top: 6px;
+}
+
+.foot-box {
+	
+	margin-top: 60%;
+	width: auto;
+	height: 150px;
+	overflow: hidden;
+	background-color: #3a3b3f;
+	text-align: center;
+}
+
+.foot-box p {
+	color: #65636b;
+	font-size: 42px;
+	margin-top: 25px;
+}
+
+/* 图片切换 */
+.banner-box {
+	min-width: 1007px;
+	height: 45%;
+	margin: 0px auto;
+	position: relative;
+	overflow: hidden;
+}
+
+.banner-box .bd {
+	width: 100% !important;
+}
+
+.bd ul {
+	margin: 0px auto;
+	overflow: hidden;
+}
+
+.banner-box .bd li .m-width {
+	margin: 0px auto;
+	overflow: hidden;
+}
+
+.m-width img {
+	width: 100%;
+}
+
+.banner-box .bd li {
+	width: 100%;
+	margin: 0px auto;
+}
+
+.banner-box .bd li a {
+	display: block;
+	background-size: auto;
+}
+
+.banner-btn {
+	height: 60%;
+	top: 34%;
+	margin: 0px auto;
+	background-color: transparent;
+}
+
+.banner-btn a {
+	display: block;
+	width: 49px;
+	height: 104px;
+	position: absolute;
+	top: 0;
+}
+
+.banner-box .hd {
+	position: absolute;
+	bottom: 22px;
+	left: 656px;
+}
+
+.banner-box .hd ul li {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	text-indent: -9999px;
+	margin-right: 15px;
+	background: #ccc;
+	opacity: 0.5;
+	float: left;
+	cursor: pointer;
+}
+
+.banner-box .hd ul li.on {
+	background: #fff;
+	opacity: 1 !important;
+}
+
+.banner-btn a.prev {
+	position: absolute;
+	left: 70px;
+	top: 115px;
+	background: url(foot.png) no-repeat 0 0;
+	opacity: 0.4;
+	display: none;
+}
+
+.banner-btn a.next {
+	position: absolute;
+	left: 1304px;
+	top: 115px;
+	background: url(foot.png) no-repeat -49px 0;
+	opacity: 0.4;
+	display: none;
+}

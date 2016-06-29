@@ -131,7 +131,12 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 		List list = this.systemManger.findBannerInfoList();
 		this.status = 200;
-		this.result.put("data", list);
+		if(list!=null && list.size()>0)
+		{
+			this.result.put("data", list);
+		}else{
+			this.result.put("data", new ArrayList());
+		}
 		this.message = "";
 		return getResult();
 	}
@@ -475,6 +480,10 @@ public class SystemController extends BaseController {
 			this.message = "";
 		}
 		return getResult();
+	}
+	@RequestMapping("/androidTest")
+	public String androidTest(HttpSession session) {
+		return "download";
 	}
 	
 	

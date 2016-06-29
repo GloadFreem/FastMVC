@@ -96,11 +96,11 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="您身边的投资专家";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--市值百亿的企业";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.139:8080/jinzht/";
-//	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
-	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.139:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.139:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
+//	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.139:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.bz55.com/uploads/allimg/130531/1-1305310Z505.jpg";
-//	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
+	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS = "头像更新成功！";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_FAIL = "头像更新失败！";
@@ -108,6 +108,7 @@ public class Config {
 	public static String  STRING_USER_POSITION_UPDATE_SUCCESS = "职位更新成功！";
 	public static String  STRING_USER_ADDRESS_UPDATE_SUCCESS = "地址更新成功！";
 	public static String  STRING_USER_TELEPHONE_UPDATE_SUCCESS = "手机绑定成功！";
+	public static String  STRING_USER_TELEPHONE_EQUAL_FAIL = "该手机已注册账户，请更换其他手机号码！";
 	public static String  STRING_USER_PASSWORD_COMPARE_FAIL = "旧密码输入错误，请重新输入！";
 	public static String  STRING_USER_PASSWORD_UPDATE_SUCCESS = "重新设置密码成功！";
 	public static String  STRING_USER_IDENTITY_PICTUREA_FORMAT = "jinzht_user_identiy_a_%d";
