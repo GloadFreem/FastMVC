@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -37,7 +40,7 @@ public class Systemmessage implements java.io.Serializable {
 	private String content;
 	private String url;
 	private Date messageDate;
-	private short isRead;
+	private boolean isRead;
 
 	// Constructors
 
@@ -95,8 +98,9 @@ public class Systemmessage implements java.io.Serializable {
 		this.content = content;
 	}
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "message_date", length = 0)
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
 	public Date getMessageDate() {
 		return this.messageDate;
 	}
@@ -105,14 +109,7 @@ public class Systemmessage implements java.io.Serializable {
 		this.messageDate = messageDate;
 	}
 	
-	@Column(name = "is_read")
-	public short isRead() {
-		return isRead;
-	}
-
-	public void setRead(short isRead) {
-		this.isRead = isRead;
-	}
+	
 	@Column(name = "url")
 	public String getUrl() {
 		return url;
@@ -128,6 +125,17 @@ public class Systemmessage implements java.io.Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+
+
+	@Column(name = "is_read")
+	public boolean getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(boolean isRead) {
+		this.isRead = isRead;
 	}
 
 }

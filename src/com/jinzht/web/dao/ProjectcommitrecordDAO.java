@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Projectcommitrecord;
+import com.jinzht.web.entity.Status;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -141,12 +142,17 @@ public class ProjectcommitrecordDAO {
 					queryString+="and model."+keys[i].toString()+" =? ";
 				}
 			}
-//			log.debug(debugInfo);
 			
+			queryString +=" and status != ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			for(int i = 0;i<requestMap.size();i++){
 				queryObject.setParameter(i, requestMap.get(keys[i]));
 			}
+			
+			Status status = new Status();
+			status.setRecordId(3);
+			queryObject.setParameter(requestMap.size(), status);
+			
 			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			return queryObject.list();

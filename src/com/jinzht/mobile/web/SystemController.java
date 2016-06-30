@@ -177,8 +177,14 @@ public class SystemController extends BaseController {
 		} else {
 			List list = this.systemManger.findSystemMessageListByUser(user,
 					page);
-			this.status = 200;
-			this.result.put("data", list);
+			if(list!=null && list.size()>0)
+			{
+				this.status = 200;
+				this.result.put("data", list);
+			}else{
+				this.status = 201;
+				this.result.put("data", new ArrayList());
+			}
 			this.message = "";
 		}
 
@@ -307,13 +313,13 @@ public class SystemController extends BaseController {
 		return getResult();
 	}
 
-	@RequestMapping("/requestUserProctol")
+	@RequestMapping("/requestUserProtocol")
 	@ResponseBody
 	/***
 	 * 用户协议
 	 * @return Map 返回值
 	 */
-	public Map requestUserProctol(HttpSession session) {
+	public Map requestUserProtocol(HttpSession session) {
 		this.result = new HashMap();
 
 		Map map = new HashMap();
@@ -323,6 +329,41 @@ public class SystemController extends BaseController {
 		this.result.put("data", map);
 		this.message = "";
 
+		return getResult();
+	}
+	@RequestMapping("/requestFeedBack")
+	@ResponseBody
+	/***
+	 * 意见反馈
+	 * @return Map 返回值
+	 */
+	public Map requestFeedBack(
+			@RequestParam(value="content",required=false) String content,
+			HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		if(session.getAttribute("userId")!=null)
+		{
+			String userId = session.getAttribute("userId").toString();
+			if(userId!=null)
+			{
+				this.status = 200;
+				this.systemManger.addFeedback(Integer.parseInt(userId),content);
+				this.message = "反馈成功！";
+			}else{
+				this.status = 400;
+				this.message = Config.STRING_LOGING_TIP;
+			}
+		}else{
+			this.status = 400;
+			this.message = Config.STRING_LOGING_TIP;
+		}
+			
+		
+		
+		
+		
 		return getResult();
 	}
 

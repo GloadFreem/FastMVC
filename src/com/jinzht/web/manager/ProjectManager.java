@@ -590,6 +590,7 @@ public class ProjectManager {
 		//封装
 		Map map = new HashMap();
 		map.put("users", user);
+		
 				
 		List result = getProjectCommitRecordDao().findByProperties(map,page);
 		

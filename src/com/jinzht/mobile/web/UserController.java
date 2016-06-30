@@ -117,7 +117,31 @@ public class UserController extends BaseController {
 					this.message = Config.SMS_USERS_HAVE_BIND;
 				}
 			}else{
-				this.message ="";
+				//message.type 3:表示用户更换绑定手机号码
+				//判断用户是否输入重复手机号码
+				if(user!=null)
+				{
+					Users u = this.findUserInSession(session);
+					if(message.getTelephone().equals(u.getTelephone()))
+					{
+						this.status = 400;
+						this.message = Config.STRING_LOGING_TEL_NOT_REPEAT;
+						
+						return getResult();
+					}
+					
+					u = this.userManger.findUserByTelephone(message.getTelephone());
+					if(u!=null)
+					{
+						this.status = 400;
+						this.message = Config.SMS_USERS_HAVE_BIND;
+						
+						return getResult();
+					}
+					
+					this.message = "";
+					
+				}
 			}
 				
 
@@ -231,7 +255,6 @@ public class UserController extends BaseController {
 	 * 用户登录
 	 * @param userInstance 传参
 	 * @param bindingResult 校验结果绑定
-	 * @param regid 
 	 * @param session HttpSession
 	 * @return 返回值
 	 */
@@ -283,6 +306,11 @@ public class UserController extends BaseController {
 					user.setRegId(userInstance.getRegId());
 					user.setPlatform(userInstance.getPlatform());
 					user.setLastLoginDate(new Date());
+					
+					if(!userInstance.getRegId().equals(""))
+					{
+						user.setRegId(userInstance.getRegId());
+					}
 
 					// 保存更新
 					this.userManger.saveOrUpdateUser(user);
@@ -797,7 +825,6 @@ public class UserController extends BaseController {
 	public Map requestChangeBindTelephone(
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "telephone", required = false) String telephone,
-			@RequestParam(value = "oldTelephone", required = false) String oldTelephone,
 			@RequestParam(value = "identityCardNo", required = false) String identityCardNo,
 			@RequestParam(value = "code", required = false) int code,
 			HttpSession session) {
@@ -821,7 +848,8 @@ public class UserController extends BaseController {
 				} else {
 					if(telephone!=null)
 					{
-						if(!user.getTelephone().equals(telephone))
+						Users u = this.userManger.findUserByTelephone(telephone);
+						if(u==null)
 						{
 							// 设置手机号码
 							user.setTelephone(telephone);

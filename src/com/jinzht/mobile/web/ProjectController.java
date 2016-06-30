@@ -1021,7 +1021,7 @@ public class ProjectController extends BaseController {
 					.findProjectcommitByProject(project, user);
 
 			Status status = new Status();
-			status.setRecordId(4);
+			status.setRecordId(3);
 
 			// 设置忽略状态
 			commit.setStatus(status);

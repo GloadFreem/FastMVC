@@ -33,6 +33,7 @@ public class Config {
 	public static String  STRING_LOGING_WECHAT_SUCCESS = "微信登录成功！";
 	public static String  STRING_LOGING_CODE_NOT_NULL = "验证码不能为空！";
 	public static String  STRING_LOGING_TEL_NOT_NULL = "手机号码不能为空！";
+	public static String  STRING_LOGING_TEL_NOT_REPEAT = "更换手机号码不能和当前已绑定号码相同！";
 	public static String  STRING_LOGING_PASSWORD_NOT_NULL = "密码不能为空！";
 	public static String  STRING_LOGING_FAIL_NO_USER = "用户尚未注册，请先注册！";
 	public static String  STRING_LOGING_WECHATID_NOT_NULL = "微信ID不能为空！";
@@ -184,7 +185,7 @@ public class Config {
 	//友盟推送
 	public static String STRING_JAK = "cc3fdb255d49497c5fd3d402"; // access key
 	public static String STRING_JMS = "4bcf1021c013e29b4f77a7b7"; //master secret
-	public static String STRING_PUSH_ALERT = "极光推送内容";	
+	public static String STRING_PUSH_ALERT = "金指投大事件";	
 	public static String STRING_PUSH_TITLE = "极光推送";	
 	public static String STRING_PUSH_CONTENT = "极光推送";	
 
