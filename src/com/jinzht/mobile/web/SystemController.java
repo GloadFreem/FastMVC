@@ -220,24 +220,44 @@ public class SystemController extends BaseController {
 	 * @return Map 返回值
 	 */
 	public Map requestDeleteInnerMessage(
-			@RequestParam(value = "messageId", required = false) Integer messageId,
+			@RequestParam(value = "messageId", required = false) String messageId,
 			HttpSession session) {
 		this.result = new HashMap();
 
-		// 获取站内信
-		Systemmessage message = this.systemManger.findMessageById(messageId);
-		if (message != null) {
-			// 删除
-			this.systemManger.deleteSystemMessage(message);
+		Object[] objs = messageId.split(",");
+		if(objs!=null && objs.length>0)
+		{
+			for(Object obj :objs)
+			{
+				// 获取站内信
+				obj = obj.toString().trim();
+				Integer msgId = Integer.parseInt(obj.toString());
+				if(msgId!=null)
+				{
+					Systemmessage message = this.systemManger.findMessageById(msgId);
+					
+					if (message != null) {
+						// 删除
+						this.systemManger.deleteSystemMessage(message);
+						this.status = 200;
+						this.result.put("data", "");
+						this.message = Config.STRING_SYSTEM_MESSAGE_DELETE_SUCCESS;
+					} 
+				}else{
+					this.status = 400;
+					this.result.put("data", "");
+					this.message = Config.STRING_SYSTEM_MESSAGE_DELETE_FAIL;
+				}
+				
+				
+			}
+			
+			
 			this.status = 200;
 			this.result.put("data", "");
 			this.message = Config.STRING_SYSTEM_MESSAGE_DELETE_SUCCESS;
-		} else {
-			// 删除
-			this.status = 400;
-			this.result.put("data", "");
-			this.message = Config.STRING_SYSTEM_MESSAGE_DELETE_FAIL;
 		}
+		
 
 		return getResult();
 	}
@@ -259,7 +279,7 @@ public class SystemController extends BaseController {
 		if (message != null) {
 			// 更改状态
 			short flag = 1;
-			message.setRead(flag);
+			message.setIsRead(true);
 
 			this.systemManger.saveOrUpdate(message);
 			this.status = 200;

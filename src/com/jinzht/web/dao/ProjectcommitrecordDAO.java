@@ -15,11 +15,14 @@ import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jinzht.tools.Config;
+import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Projectcommitrecord;
 import com.jinzht.web.entity.Status;
+import com.jinzht.web.entity.Users;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -160,6 +163,22 @@ public class ProjectcommitrecordDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+	}
+	
+	/***
+	 * 根据用户
+	 * @param user
+	 * @return
+	 */
+	public List findInvestCommitByuser(Integer userId)
+	{
+		boolean flag = false;
+		String sqlString = "select * from projectcommitrecord where user_id=?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Projectcommitrecord.class);
+		queryObject.setParameter(0, userId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
 	}
 
 	public List findAll() {

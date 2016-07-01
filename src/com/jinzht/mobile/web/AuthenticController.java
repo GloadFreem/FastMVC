@@ -71,7 +71,7 @@ public class AuthenticController extends BaseController {
 	 */
 	public Map updateIdentiyTypeUser(
 			@RequestParam(value = "ideniyType") short ideniyType,
-			@RequestParam(value = "isWebchatLogin") boolean isWebchatLogin,
+			@RequestParam(value = "isWechatLogin") boolean isWechatLogin,
 			@RequestParam(value = "file", required = false) MultipartFile file,
 			HttpSession session) {
 		this.result = new HashMap();
@@ -136,7 +136,7 @@ public class AuthenticController extends BaseController {
 			Systemcode systemCode = this.userManager.findSystemCodeByUser(user);
 			if (systemCode == null) {
 				String code = Tools.generateInviteCode(user.getUserId(),
-						isWebchatLogin);
+						isWechatLogin);
 
 				systemCode = new Systemcode();
 				systemCode.setCode(code);

@@ -97,7 +97,7 @@ public class UserController extends BaseController {
 						this.message = Config.SMS_USERS_HAVE_REGISTED;
 
 						// 返回结果
-						getResult();
+						return getResult();
 					}
 				}
 			} else if (message.getType() == 1) {
@@ -106,10 +106,9 @@ public class UserController extends BaseController {
 				if (user == null) {
 					this.status = 400;
 					this.result.put("data", "");
-					this.message = Config.SMS_USERS_HAVE_REGISTED;
-
+					this.message = Config.SMS_USERS_NOT_REGISTED;
 					// 返回结果
-					getResult();
+					return getResult();
 				}
 			}else if(message.getType() == 2){
 				// message.type 2:表示用户认证时发送验证码
@@ -328,7 +327,11 @@ public class UserController extends BaseController {
 					{
 						map.put("identityType", authentic.getIdentiytype());
 					}else{
-						map.put("identityType", "-1");
+						Identiytype type = new Identiytype();
+						short index = -1;
+						type.setIdentiyTypeId(index);
+						type.setName("无身份");
+						map.put("identityType", type);
 					}
 
 					this.status = 200;
@@ -432,9 +435,14 @@ public class UserController extends BaseController {
 				{
 					map.put("identityType", authentic.getIdentiytype());
 				}else{
-					map.put("identityType", "-1");
+					Identiytype type = new Identiytype();
+					short index = -1;
+					type.setIdentiyTypeId(index);
+					type.setName("无身份");
+					map.put("identityType", type);
 				}
 				
+				this.result.put("data", map);
 				//将用户id加入到session
 				session.setAttribute("userId", user.getUserId());
 				this.status = 200;
@@ -493,7 +501,11 @@ public class UserController extends BaseController {
 			{
 				map.put("identityType", authentic.getIdentiytype());
 			}else{
-				map.put("identityType", "-1");
+				Identiytype type = new Identiytype();
+				short index = -1;
+				type.setIdentiyTypeId(index);
+				type.setName("无身份");
+				map.put("identityType", type);
 			}
 
 			this.status = 200;
@@ -518,7 +530,12 @@ public class UserController extends BaseController {
 					map.put("userId", user.getUserId());
 				}
 				
-				map.put("identityType", "-1");
+				
+				Identiytype type = new Identiytype();
+				short index = -1;
+				type.setIdentiyTypeId(index);
+				type.setName("无身份");
+				map.put("identityType", type);
 
 				this.result.put("data", map);
 				session.setAttribute("userId", user.getUserId());
@@ -587,6 +604,22 @@ public class UserController extends BaseController {
 		if (session.getAttribute("userId") == null) {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		}else{
+			Users user = this.findUserInSession(session);
+			Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
+			Map map = new HashMap();
+			if(authentic!=null)
+			{
+				map.put("identityType", authentic.getIdentiytype());
+			}else{
+				Identiytype type = new Identiytype();
+				short index = -1;
+				type.setIdentiyTypeId(index);
+				type.setName("无身份");
+				map.put("identityType", type);
+			}
+			
+			this.result.put("data", map);
 		}
 
 		return getResult();

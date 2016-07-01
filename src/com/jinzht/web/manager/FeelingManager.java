@@ -297,6 +297,11 @@ public class FeelingManager {
 				Contentprise contentprise = iterator.next();
 				Users temp = new Users();
 				user = contentprise.getUsers();
+				
+				if(user.getUserId().equals(userId))
+				{
+					content.setFlag(true);
+				}
 //				if (user.getAuthentics() != null) {
 //					Object[] l = user.getAuthentics().toArray();
 //					if (l.length > 0) {

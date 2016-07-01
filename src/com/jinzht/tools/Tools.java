@@ -47,6 +47,8 @@ public class Tools {
 		share.setSharetype(shareType);
 		share.setShareDate(new Date());
 		share.setContentId(contentId);
+		share.setContent("");
+		share.setImage("http://ww2.sinaimg.cn/crop.0.0.1242.1242.1024/b07408d6jw8ey23urbdhkj20yi0yi770.jpg");
 
 		String url = ""; // 生成分享链接
 		switch (type) {

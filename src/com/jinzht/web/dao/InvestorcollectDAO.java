@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Investorcollect;
+import com.jinzht.web.entity.Project;
+import com.jinzht.web.entity.Users;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -114,6 +116,7 @@ public class InvestorcollectDAO {
 			throw re;
 		}
 	}
+	
 	
 	public List findByPropertiesWithPage(Map requestMap,Integer page) {
 		try {

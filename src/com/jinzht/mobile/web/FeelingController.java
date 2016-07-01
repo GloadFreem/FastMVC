@@ -119,14 +119,21 @@ public class FeelingController extends BaseController {
 		} else {
 			if(page !=0){
 				List list = this.feelingManager.findFeelingCommentByPage(page, feelingId);
-				this.result.put("data", list);
+				if(list!=null && list.size()>0)
+				{
+					this.status = 200;
+					this.result.put("data", list);
+				}else{
+					this.status = 201;
+					this.result.put("data", new ArrayList());
+				}
 			}else{
 				Publiccontent content = this.feelingManager.findFeelingById(
 						feelingId, user.getUserId());
+				this.status = 200;
 				this.result.put("data", content);
 			}
 			
-			this.status = 200;
 			this.message = "";
 			
 		}
@@ -414,7 +421,7 @@ public class FeelingController extends BaseController {
 
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
-
+			
 			share.setSharetype(null);
 			share.setShareDate(null);
 			// 封装返回结果

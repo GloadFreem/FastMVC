@@ -128,7 +128,23 @@ public class InvestorManager {
 					requestMap.put("collected", false);
 				}
 
+				//用户是否已提交本项目
 				requestMap.put("commited", false);
+				List result = getProjectCommitRecordDao().findInvestCommitByuser(userId);
+				if(result!=null && result.size()>0)
+				{
+					Projectcommitrecord record = (Projectcommitrecord) result.get(0);
+					Project project = getProjectDao().findById(record.getProject().getProjectId());
+					
+					if(project!=null)
+					{
+						Integer id = project.getUserId();
+						if(id.equals(user.getUserId()))
+						{
+							requestMap.put("commited", true);
+						}
+					}
+				}
 				
 				requestMap.put("collectCount", 100);
 

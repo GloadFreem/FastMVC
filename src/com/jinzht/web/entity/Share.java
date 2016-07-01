@@ -38,6 +38,7 @@ public class Share implements java.io.Serializable {
 	private Date shareDate;
 	private String content;
 	private String url;
+	private String image;
 
 	// Constructors
 
@@ -47,12 +48,15 @@ public class Share implements java.io.Serializable {
 
 	/** full constructor */
 	public Share(Sharetype sharetype, Date shareDate, String content,
-			String url,Integer contentId) {
+			String url,Integer contentId,String image) {
 		this.sharetype = sharetype;
 		this.shareDate = shareDate;
 		this.content = content;
 		this.url = url;
 		this.contentId = contentId;
+		this.image = image;
+		this.content =content;
+		
 	}
 
 	// Property accessors
@@ -112,6 +116,15 @@ public class Share implements java.io.Serializable {
 
 	public void setContentId(Integer contentId) {
 		this.contentId = contentId;
+	}
+	
+	@Column(name="image")
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 }

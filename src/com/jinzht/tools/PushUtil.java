@@ -80,7 +80,7 @@ public class PushUtil {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
 //                .setAudience(Audience.tag_and("tag1", "tag_all"))
-                .setAudience(Audience.registrationId("1517bfd3f7c78dadfa4"))
+                .setAudience(Audience.registrationId("18171adc030d0e7bd17"))
 //                .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(IosNotification.newBuilder()

@@ -245,10 +245,10 @@ public class SystemManager {
 	 */
 	public boolean findUserNotReadMessageFlag(Users user) {
 		boolean flag = false;
-		short read = 0;
+		boolean read = false;
 		Map map = new HashMap();
 		map.put("users", user);
-		map.put("read", read);
+		map.put("isRead", read);
 		Integer count = getSystemMessageDao().counterByProperties(map);
 		if (count > 0) {
 			flag = true;
