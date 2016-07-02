@@ -114,10 +114,10 @@ public class RewardManager {
 		
 		
 		
-		
+		count = 5;
 		//请求参数封装
-		map.put("list", result);
 		map.put("count", count);
+		map.put("countTomorrow", ++count);
 		return map;
 	}
 	public List findRewardRecordList(Users user,Integer page)

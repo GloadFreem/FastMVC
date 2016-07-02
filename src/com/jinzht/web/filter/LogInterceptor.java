@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jinzht.tools.Config;
+
 public class LogInterceptor implements HandlerInterceptor {
 
 	@Override
@@ -39,8 +41,19 @@ public class LogInterceptor implements HandlerInterceptor {
 		System.out.println("过滤结束...");
 		// 获取客户请求页面路径
 		String requestPath = hrequest.getServletPath();
-		if (session.getAttribute("userId") == null&& !requestPath.endsWith("registUser.action") && !requestPath.endsWith("noLogoInfo.action")&& !requestPath.endsWith("verifyCode.action")
-				&& !requestPath.endsWith("loginUser.action")&& !requestPath.endsWith("resetPassWordUser.action")&& !requestPath.endsWith("wechatLoginUser.action")&& !requestPath.endsWith("androidTest.action")) {
+		
+		boolean flag = false;
+		for(Object str : Config.STRING_INTEFACE_FLITER)
+		{
+			String path = str.toString();
+			if(requestPath.endsWith(path))
+			{
+				flag = true;
+				break;
+			}
+		}
+		
+		if (session.getAttribute("userId") == null && !flag) {
 			// 重定位到登录页面
 			hrequest.setAttribute("tip", "您没有登录！");
 			hresponse.sendRedirect("noLogoInfo.action");

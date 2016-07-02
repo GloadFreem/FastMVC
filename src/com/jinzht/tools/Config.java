@@ -69,10 +69,23 @@ public class Config {
 	        put( "认证通过",3); 
 	    }
 	};
+	public static List STRING_INTEFACE_FLITER = new ArrayList() {
+		{
+			add("registUser.action");
+			add("noLogoInfo.action");
+			add("verifyCode.action");
+			add("loginUser.action");
+			add("resetPassWordUser.action");
+			add("wechatLoginUser.action");
+			add("androidTest.action");
+			add("UserGuide.action");
+		}
+	};
 
 	
 	//注册常量
 	public static String STRING_REGIST_SUCCESS = "恭喜您,注册成功！";
+	public static String STRING_WECHAT_COMPLETE_SUCCESS = "信息提交成功！";
 	public static String STRING_REGIST_FAIL = "注册失败，请重新尝试！";
 	
 	//密码
@@ -97,9 +110,9 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="您身边的投资专家";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--市值百亿的企业";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.139:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.146:8080/jinzht/";
 //	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
-	public static String STRING_SYSTEM_INTRODUCE ="http://192.168.5.139:8080/jinzht/";
+	public static String STRING_SYSTEM_INTRODUCE ="UserGuide";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.bz55.com/uploads/allimg/130531/1-1305310Z505.jpg";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";

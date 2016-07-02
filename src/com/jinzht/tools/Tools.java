@@ -75,5 +75,15 @@ public class Tools {
 		return "";
 		
 	}
+	
+	/***
+	 * 生成请求连接
+	 * @param actionUrl
+	 * @return
+	 */
+	public static String generateWebUrl(String actionUrl)
+	{
+		return String.format(Config.STRING_SYSTEM_ADDRESS+"%s.action", actionUrl);
+	}
 
 }

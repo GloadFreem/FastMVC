@@ -247,6 +247,90 @@ public class UserController extends BaseController {
 		}
 		return getResult();
 	}
+	
+	@RequestMapping("/completeUserInfo")
+	@ResponseBody
+	/***
+	 * 微信登录用户认证信息完善校验
+	 * @param verifyCode 手机短信验证码
+	 * @param userInstance 用户实例
+	 * @param bindingResult 校验结果
+	 * @param session 会话
+	 * @return 返回json格式数据
+	 */
+	public Map completeUserInfo(
+			@RequestParam(value = "verifyCode", required = false) String verifyCode,
+			@Valid @ModelAttribute("user") Users userInstance,
+			BindingResult bindingResult, HttpSession session) {
+		// 初始化返回结果
+		this.result = new HashMap();
+		this.result.put("data", "");
+		if (bindingResult.hasErrors()) {
+			this.status = 400;
+			this.message = bindingResult.getFieldError().getDefaultMessage();
+		} else {
+			// 获取验证码
+			String code = "";
+			if (session.getAttribute("code") != null) {
+				code = session.getAttribute("code").toString();
+			}
+			
+			if (!code.equals("")) {
+				if (!verifyCode.equals(code)) {
+					this.status = 400;
+					this.message = Config.STRING_LOGING_CODE_ERROR;
+				} else {
+					// 获取当前操作用户对象
+					Users user = this.findUserInSession(session);
+					// 如果用户已被持久化
+					if (user == null) {
+						// 根据手机号码获取用户
+						user = this.userManger.findUserByTelephone(userInstance
+								.getTelephone());
+					}
+					// 如果未找到用户记录，生成用户数据
+					if (user != null) {
+//						// 发送用户注册成功短信
+//						MsgUtil SMS = new MsgUtil();
+//						SMS.setTelePhone(user.getTelephone());
+//						SMS.setMsgType(MessageType.NormalMessage);
+//						// 短信内容：感谢你注册金指投--专注中国成长型企业股权投融资
+//						SMS.setContent(Config.STRING_SMS_REGISTE);
+//						// 发送短信
+//						MsgUtil.send();
+						
+						user.setPassword(userInstance.getPassword());
+						user.setTelephone(userInstance.getTelephone());
+						user.setPlatform(userInstance.getPlatform());
+						
+						//保存信息 
+						this.userManger.saveOrUpdateUser(user);
+						
+						// 封装返回数据对象
+						Map map = new HashMap();
+						// 返回用户注册Id，
+						map.put("userId", user.getUserId());
+						map.put("telephone", user.getTelephone());
+						map.put("platform", user.getPlatform());
+						
+						// 返回数据
+						this.status = 200;
+						this.result.put("data", map);
+						this.message = Config.STRING_WECHAT_COMPLETE_SUCCESS;
+						
+						session.setAttribute("userId", user.getUserId());
+					} else {
+						this.status = 400;
+						this.message = Config.STRING_LOGING_TIP;
+					}
+				}
+			} else {
+				this.status = 400;
+				this.message = Config.STRING_LOGING_CODE_NOT_GET;
+			}
+		}
+		return getResult();
+	}
 
 	@RequestMapping("/loginUser")
 	@ResponseBody

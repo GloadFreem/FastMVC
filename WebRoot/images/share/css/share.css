@@ -1,0 +1,196 @@
+@CHARSET "UTF-8";
+
+.upload
+{
+	padding-top:44px;
+}
+.upload-img
+{
+	margin-left: 25%;
+	width:50%;
+	height:auto;
+}
+
+.upload-desc
+{
+}
+
+.upload-desc-line
+{
+	margin-left: 2%;
+	text-align: right;
+	width:55%;
+}
+
+.upload-desc-line1-p
+{
+	font-size: 120%;
+}
+.upload-desc-line2-p
+{
+	font-size: 120%;
+}
+.upload-desc-line3-p
+{
+	font-size: 120%;
+}
+
+.menu
+{
+	margin-top: -10%;
+}
+
+.menu-img
+{
+	width:100%;
+}
+
+.menu-desc
+{
+	
+}
+
+.menu-desc-line
+{
+	margin-left: 40%;
+	margin-right:5%;
+	text-align: left;
+	width:55%;
+}
+
+.menu-desc-line1-p
+{
+	font-size: 120%;
+}
+.menu-desc-line2-p
+{
+	font-size: 120%;
+}
+.menu-desc-line3-p
+{
+	font-size: 120%;
+}
+
+.upload-project
+{
+	margin-top: -20%;
+}
+
+.upload-project-img
+{
+	width:100%;
+}
+.upload-project-email-img
+{
+	width:100%;
+	padding-top:10%;
+}
+
+
+.commit-desc
+{
+	margin-top: -80%;
+}
+
+.commit-desc-line
+{
+	margin-left: 2%;
+	text-align: right;
+	width:45%;
+}
+
+.commit-desc-line1-p
+{
+	font-size: 100%;
+}
+.commit-desc-line2-p
+{
+	font-size: 100%;
+}
+.commit-desc-line3-p
+{
+	font-size: 100%;
+}
+
+.invest
+{
+	margin-top: 10%;
+}
+
+.invest-img
+{
+	width:50%;
+	padding-left: 25%;
+}
+
+.financing
+{
+	margin-top: -25%;
+}
+
+.financing-img
+{
+   width:90%;
+	margin-left: 15%;
+}
+
+.financing-desc
+{
+	margin-top: -20%;
+}
+
+.submmit
+{
+
+}
+
+.submmit-desc
+{
+	width: 55%;
+	margin-left: 45%;
+}
+.submmit-img
+{
+	width: 90%;
+}
+
+.confirm-desc
+{
+	width: 45%;
+	margin-left:50%;
+
+}
+
+.commit-desc-line
+{
+	width: 90%;
+	text-align: left;
+}
+
+.commit-desc-line1-p
+{
+	text-align: left;
+}
+
+.commit-desc-line2-p
+{
+	text-align: left;
+}
+.commit-desc-line3-p
+{
+	text-align: left;
+}
+
+.footer
+{
+	height: 40%;
+}
+
+.foot-box
+{
+	padding-top: 2%;
+	font-size: 80%;
+	text-align:center;
+	padding-bottom: 20%;
+
+}

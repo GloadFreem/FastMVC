@@ -106,8 +106,8 @@ public class AuthenticController extends BaseController {
 					.findIdentityTypeById(ideniyType);
 
 			Authenticstatus status = new Authenticstatus();
-			status.setName("未认证");
-			status.setStatusId(6);
+			status.setName("认证中");
+			status.setStatusId(7);
 
 			// 生成认证记录
 			Authentic authentic = new Authentic();
