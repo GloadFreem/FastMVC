@@ -99,7 +99,6 @@ public class RewardManager {
 			Rewardsystem system = (Rewardsystem) list.get(0);
 			
 			Map requestMap = new HashMap();
-			requestMap.put("users", user);
 			requestMap.put("rewardsystem", system);
 			
 			result  = getRewardTradeDao().findByProperties(requestMap);

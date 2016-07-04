@@ -400,10 +400,11 @@ public class UserController extends BaseController {
 
 					// 返回结果
 					Map map = new HashMap();
+					map.put("userId", user.getUserId());
 					if (user.getExtUserId() != null) {
-						map.put("userId", user.getExtUserId());
+						map.put("extUserId", user.getExtUserId());
 					} else {
-						map.put("userId", user.getUserId());
+						map.put("extUserId", "");
 					}
 					
 					Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
@@ -508,10 +509,11 @@ public class UserController extends BaseController {
 				// 返回数据封装
 				// 封装返回数据
 				Map map = new HashMap();
+				map.put("userId", user.getUserId());
 				if (user.getExtUserId() != null) {
-					map.put("userId", user.getExtUserId());
+					map.put("extUserId", user.getExtUserId());
 				} else {
-					map.put("userId", user.getUserId());
+					map.put("extUserId", "");
 				}
 				
 				Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
@@ -574,10 +576,11 @@ public class UserController extends BaseController {
 
 			// 封装返回数据
 			Map map = new HashMap();
+			map.put("userId", user.getUserId());
 			if (user.getExtUserId() != null) {
-				map.put("userId", user.getExtUserId());
+				map.put("extUserId", user.getExtUserId());
 			} else {
-				map.put("userId", user.getUserId());
+				map.put("extUserId", "");
 			}
 			
 			Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
@@ -608,10 +611,11 @@ public class UserController extends BaseController {
 			if (user != null) {
 				// 封装返回数值
 				Map map = new HashMap();
+				map.put("userId", user.getUserId());
 				if (user.getExtUserId() != null) {
-					map.put("userId", user.getExtUserId());
+					map.put("extUserId", user.getExtUserId());
 				} else {
-					map.put("userId", user.getUserId());
+					map.put("extUserId", "");
 				}
 				
 				

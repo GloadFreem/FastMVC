@@ -176,7 +176,7 @@ public class InvestorController extends BaseController {
 
 			String industoryArea = authentic.getIndustoryArea();
 			if (industoryArea != null && industoryArea != "") {
-				String[] aa = industoryArea.split(",");
+				String[] aa = industoryArea.split("，");
 				for (int j = 0; j < aa.length; j++) {
 					l.add(aa[j]);
 				}

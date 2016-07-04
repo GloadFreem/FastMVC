@@ -307,7 +307,7 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 
 		Map map = new HashMap();
-		map.put("url", Config.STRING_SYSTEM_INTRODUCE);
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_ABOUNT_US));
 
 		this.status = 200;
 		this.result.put("data", map);
@@ -345,7 +345,7 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 
 		Map map = new HashMap();
-		map.put("url", Config.STRING_SYSTEM_INTRODUCE);
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_INTRODUCE));
 
 		this.status = 200;
 		this.result.put("data", map);
@@ -399,7 +399,7 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 
 		Map map = new HashMap();
-		map.put("url", Config.STRING_SYSTEM_INTRODUCE);
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_INTRODUCE));
 
 		this.status = 200;
 		this.result.put("data", map);
@@ -417,7 +417,7 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 		
 		Map map = new HashMap();
-		map.put("url", Config.STRING_SYSTEM_INTRODUCE);
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_INTRODUCE));
 		
 		this.status = 200;
 		this.result.put("data", map);
@@ -549,11 +549,30 @@ public class SystemController extends BaseController {
 		return "download";
 	}
 	
+	//新手指南
 	@RequestMapping(value="/UserGuide")
     public String UserGuide( 
     		ModelMap model) {
         return "user_guide";
     }
+	//分享项目展示
+	@RequestMapping(value="/ShareProjectDetail")
+	public String ShareProjectDetail( 
+			ModelMap model) {
+		return "ShareProjectDetail";
+	}
+	//关于我们
+	@RequestMapping(value="/abountUs")
+	public String abountUs( 
+			ModelMap model) {
+		return "abount_me";
+	}
+	//邀请码邀请好友
+	@RequestMapping(value="/shareInvite")
+	public String shareInvite( 
+			ModelMap model) {
+		return "invite_card";
+	}
 
 	/***
 	 * 从当前session获取用户对象

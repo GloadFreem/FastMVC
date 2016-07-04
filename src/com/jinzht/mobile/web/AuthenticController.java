@@ -106,8 +106,8 @@ public class AuthenticController extends BaseController {
 					.findIdentityTypeById(ideniyType);
 
 			Authenticstatus status = new Authenticstatus();
-			status.setName("认证中");
-			status.setStatusId(7);
+			status.setName("未认证");
+			status.setStatusId(6);
 
 			// 生成认证记录
 			Authentic authentic = new Authentic();
@@ -460,11 +460,11 @@ public class AuthenticController extends BaseController {
 			Map map = new HashMap();
 			map.put("authentics", user.getAuthentics());
 			map.put("headSculpture", user.getHeadSculpture());
-			if(user.getExtUserId()!=null)
-			{
-				map.put("userId", user.getExtUserId());
-			}else{
-				map.put("userId", user.getUserId()); 
+			map.put("userId", user.getUserId());
+			if (user.getExtUserId() != null) {
+				map.put("extUserId", user.getExtUserId());
+			} else {
+				map.put("extUserId", "");
 			}
 			map.put("telephone", user.getTelephone());
 			

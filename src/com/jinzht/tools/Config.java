@@ -79,6 +79,9 @@ public class Config {
 			add("wechatLoginUser.action");
 			add("androidTest.action");
 			add("UserGuide.action");
+			add("ShareProjectDetail.action");
+			add("abountUs.action");
+			add("shareInvite.action");
 		}
 	};
 
@@ -110,9 +113,8 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="您身边的投资专家";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--市值百亿的企业";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.146:8080/jinzht/";
-//	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
-	public static String STRING_SYSTEM_INTRODUCE ="UserGuide";
+//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.146:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.bz55.com/uploads/allimg/130531/1-1305310Z505.jpg";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
@@ -130,6 +132,11 @@ public class Config {
 	public static String  STRING_USER__IDENTITY_BUINESS_FORMAT = "jinzht_user_identiy_buiness_%d";
 	public static String  STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL = "xiangmu@jinzht.com";
 	public static String  STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_TEL = "400-1234-5896";
+	
+	//分享
+	public static String STRING_SYSTEM_INTRODUCE ="UserGuide";
+	public static String STRING_SYSTEM_SHARE_PROJECT_DETAIL ="ShareProjectDetail";
+	public static String STRING_SYSTEM_SHARE_ABOUNT_US ="abountUs";
 	
 	//站内信
 	public static String STRING_SYSTEM_MESSAGE_DELETE_SUCCESS ="信息删除成功！";

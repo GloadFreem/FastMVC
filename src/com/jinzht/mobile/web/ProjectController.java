@@ -603,15 +603,8 @@ public class ProjectController extends BaseController {
 			share.setContentId(contentId);
 
 			String url = ""; // 生成分享链接
-			switch (type) {
-			case 3:
-				url = Config.STRING_SHARE_APP_URL;
-				break;
-			default:
-				url = String.format("%s%d/%d", Config.STRING_SYSTEM_ADDRESS,
-						type, contentId);
-				break;
-			}
+			url = String.format("%s%s.action?contentId=%d", Config.STRING_SYSTEM_ADDRESS,
+					Config.STRING_SYSTEM_SHARE_PROJECT_DETAIL, contentId);
 
 			share.setUrl(url);
 

@@ -138,7 +138,6 @@ public class SystemManager {
 						map.put("type", BannerType.Project);
 						// 设置项目属性
 						project.setUserId(null);
-						project.setFinancestatus(null);
 						project.setProjectcomments(null);
 						project.setProjectType(null);
 						project.setAbbrevName(null);
@@ -154,6 +153,8 @@ public class SystemManager {
 						project.setCollectionCount(null);
 						project.setFullName(null);
 						project.setDescription(null);
+						project.setTeams(null);
+						project.setProjectimageses(null);
 
 						Object[] obj = project.getRoadshows().toArray();
 						if (obj != null && obj.length > 0) {
