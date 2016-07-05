@@ -53,7 +53,7 @@ body
 
 .menu-desc
 {
-	
+
 }
 
 .menu-desc-line
@@ -137,7 +137,7 @@ body
 .financing-img
 {
    width:90%;
-	margin-left: 15%;
+	margin-left: 10%;
 }
 
 .financing-desc
@@ -152,7 +152,7 @@ body
 
 .submmit-desc
 {
-	width: 55%;
+	width: 50%;
 	margin-left: 45%;
 }
 .submmit-img
@@ -248,7 +248,7 @@ body
 .project-detail
 {
 	margin-top: -5%;
-} 	
+}
 .total-finacne
 {
 	width: 100%;
@@ -367,4 +367,124 @@ body
 	font-size: 130%;
 	margin-left : 33%;
 	margin-top:5%;
+}
+
+.feeling-header
+{
+	width: 20%;
+	height: auto;
+	float:left;
+}
+
+.feeling-header-img
+{
+	width: 80%;
+	height: 80%;
+	margin-left: 10%;
+}
+
+.header-img
+{
+	width: 100%;
+	height: auto;
+	margin-top: -2%;
+}
+
+.feeling-header-content
+{
+	margin-left: 20%;
+	width: 78%;
+	margin-top: 5%;
+	font-size: 90%;
+	margin-bottom: 5%;
+
+}
+
+.box-info
+{
+	float: left;
+	font-size:100%;
+}
+
+.box{
+	color: darkgray;
+}
+
+.box-time
+{
+	margin-right: 10%;
+	float: right;
+}
+
+.feeling-content
+{
+	margin-top: 10%;
+	margin-left: 5%;
+	margin-right: 5%;
+	text-align: left;
+}
+
+.content-images
+{
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 5%;
+}
+
+.content-images{
+	height: 100%;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+.content-image-item
+{
+	width: 30%;
+	margin-left: 1.5%;
+	margin-bottom: 1%;
+}
+
+.operate-item
+{
+	width: 30%;
+	float: left;
+}
+
+.operate-item-img
+{
+	width: 20%;
+	height: auto;
+	margin-left: 25%;
+	float:left;
+	margin-top:4%;
+}
+
+.operate-item-img-value
+{
+	width: 100%;
+	height: auto;
+}
+
+.operate-item-value
+{
+	margin-left: 50%;
+	text-align: center;
+	float: left;
+	margin-top:-22%;
+}
+
+.operate-item-line
+{
+	margin-left: 99%;
+	margin-bottom:5%;
+	width: 1px;
+	height:30px;
+	background-color: grey;
+}
+
+.operate
+{
+	width: 100%;
+	height: auto;
+	margin-top: 5%;
 }

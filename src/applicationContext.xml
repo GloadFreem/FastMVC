@@ -46,6 +46,9 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
+				<value>com.jinzht.web.entity.Contenttype</value>
+				<value>com.jinzht.web.entity.Weburlrecord</value>
+				<value>com.jinzht.web.entity.Feedback</value>
 				<value>com.jinzht.web.entity.Feedback</value>
 				<value>com.jinzht.web.entity.Foundation</value>
 				<value>com.jinzht.web.entity.Usercollect</value>
@@ -449,6 +452,16 @@
 		</property>
 	</bean>
 	<bean id="com.jinzht.web.dao.FeedbackDAO" class="com.jinzht.web.dao.FeedbackDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.jinzht.web.dao.WeburlrecordDAO" class="com.jinzht.web.dao.WeburlrecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.jinzht.web.dao.ContenttypeDAO" class="com.jinzht.web.dao.ContenttypeDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

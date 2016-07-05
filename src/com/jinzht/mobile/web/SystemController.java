@@ -573,6 +573,18 @@ public class SystemController extends BaseController {
 			ModelMap model) {
 		return "invite_card";
 	}
+	//邀请码送金条
+	@RequestMapping(value="/shareInviteGold")
+	public String shareInviteGold( 
+			ModelMap model) {
+		return "invite_gold";
+	}
+	//分享圈子内容
+	@RequestMapping(value="/shareFeeling")
+	public String shareFeeling( 
+			ModelMap model) {
+		return "ShareFeelingDetail";
+	}
 
 	/***
 	 * 从当前session获取用户对象

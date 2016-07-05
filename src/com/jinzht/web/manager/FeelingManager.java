@@ -472,6 +472,12 @@ public class FeelingManager {
 		//删除
 		getPublicContentDao().delete(content);
 	}
+	
+	public void deletePublicContentComment(Integer commentId)
+	{
+		Comment comment = getCommentDao().findById(commentId);
+		getCommentDao().delete(comment);
+	}
 	public PubliccontentDAO getPublicContentDao() {
 		return publicContentDao;
 	}

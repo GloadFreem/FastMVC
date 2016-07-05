@@ -82,6 +82,11 @@ public class Config {
 			add("ShareProjectDetail.action");
 			add("abountUs.action");
 			add("shareInvite.action");
+			add("shareFeeling.action");
+			add("webEditor.action");
+			add("generateWebPage.action");
+			add("webUrlLooker.action");
+			add("shareInviteGold.action");
 		}
 	};
 
@@ -113,8 +118,8 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="您身边的投资专家";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--市值百亿的企业";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.146:8080/jinzht/";
-	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.153:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.bz55.com/uploads/allimg/130531/1-1305310Z505.jpg";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
@@ -137,6 +142,7 @@ public class Config {
 	public static String STRING_SYSTEM_INTRODUCE ="UserGuide";
 	public static String STRING_SYSTEM_SHARE_PROJECT_DETAIL ="ShareProjectDetail";
 	public static String STRING_SYSTEM_SHARE_ABOUNT_US ="abountUs";
+	public static String STRING_SYSTEM_SHARE_FEELING_DETAIL ="shareFeeling";
 	
 	//站内信
 	public static String STRING_SYSTEM_MESSAGE_DELETE_SUCCESS ="信息删除成功！";

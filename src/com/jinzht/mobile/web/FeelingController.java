@@ -416,9 +416,7 @@ public class FeelingController extends BaseController {
 //			// 查看当前操作状态，1:评论,2:回复
 //			Publiccontent publicContent = this.feelingManager
 //					.findPublicContentById(contentId);
-			
 			Share share = Tools.generateShareContent(contentId, 2);
-
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
 			
@@ -491,6 +489,28 @@ public class FeelingController extends BaseController {
 		
 		//删除圈子
 		this.feelingManager.deletePublicContent(contentId);
+		
+		this.message = Config.STRING_PROJECT_DELETE_SUCCESS;
+		return getResult();
+	}
+	@RequestMapping(value = "/requestContentCommentDelete")
+	@ResponseBody
+	/***
+	 * 状态分享
+	 * @param commentId
+	 * @param session
+	 * @return
+	 */
+	public Map requestContentCommentDelete(
+			@RequestParam(value = "commentId") Integer commentId,
+			HttpSession session) {
+		
+		this.result = new HashMap();
+		this.status = 200;
+		this.result.put("data", "");
+		
+		//删除圈子
+		this.feelingManager.deletePublicContentComment(commentId);
 		
 		this.message = Config.STRING_PROJECT_DELETE_SUCCESS;
 		return getResult();

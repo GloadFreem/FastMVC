@@ -52,8 +52,17 @@ public class Tools {
 
 		String url = ""; // 生成分享链接
 		switch (type) {
+		case 1:
+			url = Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_PROJECT_DETAIL);
+			break;
+		case 2:
+			url = Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_FEELING_DETAIL);
+			break;
 		case 3:
 			url = Config.STRING_SHARE_APP_URL;
+			break;
+		case 5:
+			url = Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_FEELING_DETAIL);
 			break;
 		default:
 			url = String.format("%s%d/%d", Config.STRING_SYSTEM_ADDRESS, type,

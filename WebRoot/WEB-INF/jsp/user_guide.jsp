@@ -13,7 +13,7 @@
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<title>金指投App3.0测试版下载</title>
+<title>【金指投投融资】--新手指南</title>
 <link rel="stylesheet" type="text/css"
 	href="./images/share/css/share.css">
 <script type="text/javascript" src="./images/jquery-1.8.3.min.js"></script>
@@ -174,9 +174,6 @@
 			<p class="submmit-desc-line4-p">完成项目认投</p>
 		</div>
 	</div>
-	<!-- 	<div class = "footer">
-		<div class = "footer">&nbsp;</div>
-	</div> -->
 	<div class="foot-box">
 		<p>Copyright &#169;金指投 版权所有 All Rights Reserved.</p>
 	</div>

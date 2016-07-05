@@ -1,145 +1,187 @@
-body{
+body {
 	color: #222222;
-	line-height:120% ;
+	line-height: 120%;
 	width: 100%;
 	margin: auto;
 }
-.aboutus{
+
+.aboutus {
 	text-align: left;
 	font-size: 90%;
 	line-height: 145%;
 	margin-left: 5%;
 	margin-right: 5%;
 }
+
 .aboutus img {
 	display: block;
-	margin:48px auto 38px auto;
-	width:100%;
-}
-.develophis{
+	margin: 48px auto 38px auto;
 	width: 100%;
-	font-size:80% ;
+}
+
+.develophis {
+	width: 100%;
+	font-size: 80%;
 	margin-top: -15%;
 }
-.develophis-img img{
+
+.develophis-img img {
 	display: block;
-	margin:115px auto 26px auto ;
+	margin: 115px auto 26px auto;
 }
-.develophis-tree img{
+
+.develophis-tree img {
 	display: block;
-	margin:auto;
+	margin: auto;
 }
-.text1{
+
+.text1 {
 	text-align: left;
-	margin-top:-186% ;
+	margin-top: -186%;
 	margin-left: 50%;
 }
-.text2{
+
+.text2 {
 	text-align: right;
 	margin-right: 58%;
 	margin-top: 15%;
 }
 
-.text3{
+.text3 {
 	text-align: left;
 	margin-left: 56%;
 	margin-top: 15%;
 }
 
-.text4{
+.text4 {
 	text-align: right;
 	margin-right: 58%;
 	margin-top: 15%;
 }
-.text5{
+
+.text5 {
 	text-align: left;
-	margin-top:25% ;
+	margin-top: 25%;
 	margin-left: 52%;
 }
-.text6{
+
+.text6 {
 	text-align: right;
-	margin-top:20%;
+	margin-top: 20%;
 	margin-right: 53%;
 }
 
-.foot img{
-	position:absolute;
-	z-index:-100 ;
+.foot img {
+	position: absolute;
+	z-index: -100;
 }
-.download{
-	width:100% ;
+
+.download {
+	width: 100%;
 	margin-top: -4%;
 }
-.download div{
-	width:100% ;
+
+.download div {
+	width: 100%;
 	height: 100px;
-	position:fixed ;
+	position: fixed;
 	bottom: 0;
-	background-color:rgb(0,0,0);
-	opacity:0.75;
+	background-color: rgb(0, 0, 0);
+	opacity: 0.75;
 }
-.download div img{
+
+.download div img {
 	display: block;
-	margin:auto;
+	margin: auto;
 	padding-top: 10px;
-	width:100%;
+	width: 100%;
 }
 
-
-
-.body-background
-{
+.body-background {
 	background-color: darkslategray;
 }
 
-.invite
-{
+.invite {
 	margin: 5%;
 }
 
-.invite-img
-{
-	width:100%;
+.invite-img {
+	width: 100%;
 }
 
-.invite-header-img
-{
+.invite-header-img {
 	width: 40%;
 	height: auto;
 	margin-left: 30%;
 }
 
-.invite-header
-{
+.invite-header {
 	margin-top: -130%;
 }
 
-.invite-code
-{
+.invite-code {
 	color: white;
 	font-size: 100%;
 	text-align: center;
 	margin-top: 3%;
 }
 
-.invite-qr-code-img
-{
+.invite-qr-code-img {
 	width: 60%;
 	height: auto;
 	margin-left: 20%;
 	margin-top: 5%;
 }
 
-.invite-download-img
+.invite-download
 {
-	width: 80%;
-	height: auto;
-	margin-left: 10%;
 	margin-top: 15%;
 }
 
-.tip{
+.invite-download-img {
+	width: 80%;
+	height: auto;
+	margin-left: 10%;
+	margin-top: 5%;
+}
+
+.tip {
 	text-align: center;
 	color: white;
 	font-size: 100%;
+}
+
+.gold {
+	width: 100%;
+}
+
+.gold-header {
+	margin-top: -150%;
+}
+
+.gold-header-img {
+	width: 90%;
+	height: auto;
+	margin-left: 5%;
+}
+
+.gold-qr-code-img {
+	width: 80%;
+	height: auto;
+	margin-left: 10%;
+	margin-top: 5%;
+}
+
+.rule
+{
+	width: 70%;
+	margin-left: 15%;
+	margin-top: -55%;
+}
+
+.rule-item
+{
+	color:orange;
+	font-size:100%;
+	margin-top:5%;
 }

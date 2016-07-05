@@ -75,7 +75,7 @@ public class CommentDAO {
 		log.debug("getting Comment instance with id: " + id);
 		try {
 			Comment instance = (Comment) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Comment", id);
+					"com.jinzht.web.entity.Comment", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

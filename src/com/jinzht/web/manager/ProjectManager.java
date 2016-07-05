@@ -193,6 +193,7 @@ public class ProjectManager {
 				commentUser = comment.getUsers();
 				
 				user = new Users();
+				user.setUserId(commentUser.getUserId());
 				user.setName(commentUser.getName());
 				user.setHeadSculpture(commentUser.getHeadSculpture());
 				user.setAuthentics(null);
