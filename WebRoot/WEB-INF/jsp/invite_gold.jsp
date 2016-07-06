@@ -30,8 +30,11 @@
 			<img class="gold-header-img" alt="bg"
 				src="./images/share/组-11.png">
 		</div>
-		<div class="invite-code">金条去哪儿了~我也不知道！</div>
-		<div class="invite-qr-code">
+		<div class="gold-code">
+			<img class="gold-header-img" alt="bg"
+				src="./images/share/gold.png">
+		</div>
+		<div class="gold-qr-code">
 			<img class="gold-qr-code-img" alt="bg"
 				src="./images/share/使用规则.png">
 		</div>
@@ -42,7 +45,7 @@
 		</div>
 	</div>
 
-	<div class="invite-download">
+	<div class="gold-download">
 		<img class="invite-download-img" alt="bg"
 			src="./images/share/立即领取.png">
 	</div>

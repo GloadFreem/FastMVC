@@ -235,7 +235,7 @@ public class ProjectController extends BaseController {
 				for(int i =0;i<list.size();i++)
 				{
 					map = new HashMap();
-					Projectcommitrecord record = (Projectcommitrecord) list.get(0);
+					Projectcommitrecord record = (Projectcommitrecord) list.get(i);
 					Users u = this.userManager.findUserById(record.getUsers().getUserId());
 					u.setPassword(null);
 					u.setTelephone(null);
@@ -1100,6 +1100,13 @@ public class ProjectController extends BaseController {
 		}
 
 		return getResult();
+	}
+	
+	//基金详情
+	@RequestMapping(value="/foundationDetail")
+	public String foundationDetail( 
+			ModelMap model) {
+		return "foundation";
 	}
 
 	/***

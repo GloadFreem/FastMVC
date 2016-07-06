@@ -125,7 +125,6 @@ public class UserController extends BaseController {
 					{
 						this.status = 400;
 						this.message = Config.STRING_LOGING_TEL_NOT_REPEAT;
-						
 						return getResult();
 					}
 					
@@ -1057,7 +1056,7 @@ public class UserController extends BaseController {
 				this.status = 200;
 				this.result.put("data", list);
 			} else {
-				this.status = 201;
+				this.status = 200;
 				this.result.put("data", new ArrayList());
 			}
 

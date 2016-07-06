@@ -87,6 +87,9 @@ public class Config {
 			add("generateWebPage.action");
 			add("webUrlLooker.action");
 			add("shareInviteGold.action");
+			add("UserProctol.action");
+			add("foundationDetail.action");
+			add("H5UserInfo.action");
 		}
 	};
 
@@ -143,6 +146,9 @@ public class Config {
 	public static String STRING_SYSTEM_SHARE_PROJECT_DETAIL ="ShareProjectDetail";
 	public static String STRING_SYSTEM_SHARE_ABOUNT_US ="abountUs";
 	public static String STRING_SYSTEM_SHARE_FEELING_DETAIL ="shareFeeling";
+	public static String STRING_SYSTEM_SHARE_USER_PROCTOL ="webUrlLooker";
+	public static String STRING_SYSTEM_SHARE_GOLD ="shareInviteGold";
+	public static String STRING_SYSTEM_SHARE_CODE ="shareInvite";
 	
 	//站内信
 	public static String STRING_SYSTEM_MESSAGE_DELETE_SUCCESS ="信息删除成功！";

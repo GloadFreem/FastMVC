@@ -194,13 +194,6 @@ body
 	color: orange;
 	font-size: 90%;
 }
-.line-separte
-{
-	background-color: aliceblue;
-	height: 10px;
-	width: 100%;
-	margin-top: 20%;
-}
 
 .header-image
 {
@@ -208,9 +201,17 @@ body
 	margin-left: 3%;
 	float: left;
 }
+
+.line-separte
+{
+	background-color: #e6e6e6;
+	height: 10px;
+	width: 100%;
+}
+
 .line
 {
-	background-color: aliceblue;
+	background-color: #e6e6e6;
 	height: 5px;
 	width: 100%;
 }
@@ -487,4 +488,11 @@ body
 	width: 100%;
 	height: auto;
 	margin-top: 5%;
+}
+
+.proctol
+{
+	margin-left:5%;
+	margin-right:5%;
+	font-size:80%;
 }

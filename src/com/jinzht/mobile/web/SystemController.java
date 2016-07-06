@@ -184,7 +184,7 @@ public class SystemController extends BaseController {
 				this.status = 200;
 				this.result.put("data", list);
 			}else{
-				this.status = 201;
+				this.status = 200;
 				this.result.put("data", new ArrayList());
 			}
 			this.message = "";
@@ -315,6 +315,24 @@ public class SystemController extends BaseController {
 
 		return getResult();
 	}
+	@RequestMapping("/requestGoldInviteFriends")
+	@ResponseBody
+	/***
+	 * 邀请送金条
+	 * @return Map 返回值
+	 */
+	public Map requestGoldInviteFriends(HttpSession session) {
+		this.result = new HashMap();
+		
+		Map map = new HashMap();
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_GOLD));
+		
+		this.status = 200;
+		this.result.put("data", map);
+		this.message = "";
+		
+		return getResult();
+	}
 
 	@RequestMapping("/requestNewUseIntroduce")
 	@ResponseBody
@@ -345,7 +363,7 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 
 		Map map = new HashMap();
-		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_INTRODUCE));
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)+"?contentId=3");
 
 		this.status = 200;
 		this.result.put("data", map);
@@ -353,10 +371,12 @@ public class SystemController extends BaseController {
 
 		return getResult();
 	}
+	
 	@RequestMapping("/requestFeedBack")
 	@ResponseBody
 	/***
 	 * 意见反馈
+	 * 
 	 * @return Map 返回值
 	 */
 	public Map requestFeedBack(
@@ -399,7 +419,7 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 
 		Map map = new HashMap();
-		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_INTRODUCE));
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)+"?contentId=4");
 
 		this.status = 200;
 		this.result.put("data", map);
@@ -417,7 +437,7 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 		
 		Map map = new HashMap();
-		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_INTRODUCE));
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)+"?contentId=5");
 		
 		this.status = 200;
 		this.result.put("data", map);
@@ -441,7 +461,7 @@ public class SystemController extends BaseController {
 		String invitcode = Tools.generateInviteCode(userId, false);
 		
 		Map map = new HashMap();
-		map.put("url", Config.STRING_SYSTEM_INTRODUCE+invitcode);
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_CODE));
 		map.put("image", Config.STRING_SYSTEM_INTRODUCE_IMAGE);
 		map.put("title", Config.STRING_APPP_SHARE_TITLE);
 		map.put("content", Config.STRING_APPP_SHARE_CONTENT);
@@ -461,7 +481,7 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 		
 		Map map = new HashMap();
-		map.put("url", Config.STRING_SYSTEM_INTRODUCE);
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)+"?contentId=7");
 		
 		this.status = 200;
 		this.result.put("data", map);
@@ -584,6 +604,18 @@ public class SystemController extends BaseController {
 	public String shareFeeling( 
 			ModelMap model) {
 		return "ShareFeelingDetail";
+	}
+	//用户协议
+	@RequestMapping(value="/UserProctol")
+	public String UserProctol( 
+			ModelMap model) {
+		return "UserProctol";
+	}
+	//投资人详情
+	@RequestMapping(value="/H5UserInfo")
+	public String H5UserInfo( 
+			ModelMap model) {
+		return "UserInfo";
 	}
 
 	/***

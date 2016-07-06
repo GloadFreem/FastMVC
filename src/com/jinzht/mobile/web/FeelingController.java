@@ -273,10 +273,10 @@ public class FeelingController extends BaseController {
 
 			// 封装返回结果
 			this.status = 200;
-
+			String name = this.userManager.findUserNameByUserId(user);
 			Map map = new HashMap();
 			map.put("flag", flag); 
-			map.put("name", user.getName()); 
+			map.put("name", name); 
 
 			this.result.put("data", map);
 			if (flag == 2) {

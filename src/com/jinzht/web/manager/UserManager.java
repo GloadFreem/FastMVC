@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jinzht.web.dao.ActionDAO;
 import com.jinzht.web.dao.AttentionDAO;
+import com.jinzht.web.dao.AuthenticDAO;
 import com.jinzht.web.dao.CollectionDAO;
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
@@ -43,6 +44,7 @@ public class UserManager {
 	private RewardtradeDAO rewardTradeDao;
 	private AttentionDAO attentionDao;
 	private RewardsystemDAO rewardSystemDao;
+	private AuthenticDAO authenticDao;
 	
 	
 	/***
@@ -84,6 +86,29 @@ public class UserManager {
 		}
 		
 		return null;
+	}
+	
+	/***
+	 * 获取用户姓名
+	 * @param userId
+	 * @return
+	 */
+	public String findUserNameByUserId(Users user)
+	{
+		List list = getAuthenticDao().findByProperty("users", user);
+		if(list!=null && list.size()>0)
+		{
+			for(Object obj  : list)
+			{
+				Authentic authentic = (Authentic)obj;
+				String name = authentic.getName();
+				if(name !=null && !name.equals(""))
+				{
+					return name;
+				}
+			}
+		}
+		return "";
 	}
 	
 	public Users findUserByWechatId(String wechatId)
@@ -428,6 +453,14 @@ public class UserManager {
 	@Autowired
 	public void setRewardSystemDao(RewardsystemDAO rewardSystemDao) {
 		this.rewardSystemDao = rewardSystemDao;
+	}
+
+	public AuthenticDAO getAuthenticDao() {
+		return authenticDao;
+	}
+	@Autowired
+	public void setAuthenticDao(AuthenticDAO authenticDao) {
+		this.authenticDao = authenticDao;
 	}
 
 
