@@ -42,6 +42,8 @@ import com.jinzht.web.entity.Contentprise;
 import com.jinzht.web.entity.Industoryarea;
 import com.jinzht.web.entity.Investorcollect;
 import com.jinzht.web.entity.Loginfailrecord;
+import com.jinzht.web.entity.Project;
+import com.jinzht.web.entity.Projectcommitrecord;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Share;
 import com.jinzht.web.entity.Sharetype;
@@ -202,8 +204,24 @@ public class InvestorController extends BaseController {
 		} else {
 			map.put("collected", false);
 		}
-
-		map.put("commited", false);
+		
+		List result =this.investorManager.getProjectCommitRecordDao().findInvestCommitByuser(user.getUserId());
+		if(result!=null && result.size()>0)
+		{
+			Projectcommitrecord record = (Projectcommitrecord) result.get(0);
+			Project project = this.investorManager.getProjectDao().findById(record.getProject().getProjectId());
+			
+			if(project!=null)
+			{
+				Integer id = project.getUserId();
+				if(id.equals(user.getUserId()))
+				{
+					map.put("commited", true);
+				}
+			}
+		}else{
+			map.put("commited", false);
+		}
 		
 		map.put("collectCount", 100);
 

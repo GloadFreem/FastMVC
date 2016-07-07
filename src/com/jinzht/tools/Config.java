@@ -90,6 +90,7 @@ public class Config {
 			add("UserProctol.action");
 			add("foundationDetail.action");
 			add("H5UserInfo.action");
+			add("actionWebLooker.action");
 		}
 	};
 
@@ -121,7 +122,7 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="您身边的投资专家";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--市值百亿的企业";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.153:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.159:8080/jinzht/";
 //	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.bz55.com/uploads/allimg/130531/1-1305310Z505.jpg";
@@ -149,6 +150,7 @@ public class Config {
 	public static String STRING_SYSTEM_SHARE_USER_PROCTOL ="webUrlLooker";
 	public static String STRING_SYSTEM_SHARE_GOLD ="shareInviteGold";
 	public static String STRING_SYSTEM_SHARE_CODE ="shareInvite";
+	public static String STRING_SYSTEM_SHARE_ACTION ="actionWebLooker";
 	
 	//站内信
 	public static String STRING_SYSTEM_MESSAGE_DELETE_SUCCESS ="信息删除成功！";
@@ -217,7 +219,7 @@ public class Config {
 	//友盟推送
 	public static String STRING_JAK = "cc3fdb255d49497c5fd3d402"; // access key
 	public static String STRING_JMS = "4bcf1021c013e29b4f77a7b7"; //master secret
-	public static String STRING_PUSH_ALERT = "金指投大事件";	
+	public static String STRING_PUSH_ALERT = "麦哥很牛逼!";	
 	public static String STRING_PUSH_TITLE = "极光推送";	
 	public static String STRING_PUSH_CONTENT = "极光推送";	
 

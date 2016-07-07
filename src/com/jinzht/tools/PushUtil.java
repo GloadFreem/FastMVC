@@ -10,6 +10,7 @@ import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
+import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 
@@ -25,8 +26,8 @@ public class PushUtil {
 
 		// For push, all you need do is to build PushPayload object.
 //		PushPayload payload = buildPushObject_all_all_alert();
-		PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
-//		PushPayload payload = buildPushObject_android_tag_alertWithTitle();
+//		PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
+		PushPayload payload = buildPushObject_android_tag_alertWithTitle();
 
 		try {
 			PushResult result = jpushClient.sendPush(payload);
@@ -72,7 +73,21 @@ public class PushUtil {
                 .setPlatform(Platform.android())
 //                .setAudience(Audience.tag("tag1"))
                 .setAudience(Audience.registrationId("010414de51a"))
+//                .setAudience(Audience.registrationId("0a054121c82"))
                 .setNotification(Notification.android(Config.STRING_PUSH_ALERT, Config.STRING_PUSH_ALERT, null))
+//                .setMessage(Message.newBuilder()
+//                        .setMsgContent(Config.STRING_PUSH_CONTENT)
+//                         .addExtra("type", "project")
+//                         .addExtra("url", "http://www.jinzht.com")
+//                        .build())
+                 .setNotification(Notification.newBuilder()
+                        .addPlatformNotification(AndroidNotification.newBuilder()
+                                .setAlert(Config.STRING_PUSH_ALERT)
+                                .addExtra("type", "authentic")
+                                .addExtra("content", "未认证")
+                                .addExtra("ext", "成功")
+                                .build())
+                        .build())
                 .build();
     }
 	
@@ -80,20 +95,21 @@ public class PushUtil {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
 //                .setAudience(Audience.tag_and("tag1", "tag_all"))
-                .setAudience(Audience.registrationId("18171adc030d0e7bd17"))
+                .setAudience(Audience.registrationId("18171adc030cf02a8ba"))
 //                .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(Config.STRING_PUSH_ALERT)
-                                .setBadge(5)
+                                .setBadge(1)
                                 .setSound("happy.caf")
-                                .addExtra("from", "JPush")
+                                .addExtra("type", "web")
+                                .addExtra("url", "http://www.jinzht.com")
                                 .build())
                         .build())
                  .setMessage(Message.content(Config.STRING_PUSH_CONTENT))
                  .setOptions(Options.newBuilder()
-//                         .setApnsProduction(true)
-                         .setApnsProduction(false)
+                         .setApnsProduction(true)
+//                         .setApnsProduction(false)
                          .build())
                  .build();
     }

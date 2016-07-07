@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jinzht.tools.Config;
 import com.jinzht.tools.FileUtil;
+import com.jinzht.tools.Tools;
 import com.jinzht.web.entity.Action;
 import com.jinzht.web.entity.Actioncomment;
 import com.jinzht.web.entity.Actionprise;
@@ -344,18 +345,7 @@ public class ActionController extends BaseController {
 			share.setSharetype(shareType);
 			share.setShareDate(new Date());
 
-			String url = ""; // 生成分享链接
-			switch (type) {
-			case 3:
-				url = Config.STRING_SHARE_APP_URL;
-				break;
-			default:
-				url = String.format("%s%d/%d", Config.STRING_SYSTEM_ADDRESS,
-						type, contentId);
-				break;
-			}
-
-			share.setUrl(url);
+			share.setUrl(Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_ACTION));
 
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
@@ -406,6 +396,14 @@ public class ActionController extends BaseController {
 			action.setActionprises(null);
 			action.setActionprises(null);
 			action.setAttentions(null);
+			
+			
+			Attention attention = this.actionManager.findAttentionByActionIdAndUser(action, user);
+			if(attention!=null)
+			{
+				action.setAttended(true);
+			}
+			
 
 			// 封装返回结果
 			this.status = 200;
@@ -682,6 +680,12 @@ public class ActionController extends BaseController {
 		}
 		
 		return getResult();
+	}
+	
+	@RequestMapping(value="actionWebLooker")
+	public String actionWebLooker(ModelMap map)
+	{
+		return "actionWebLooker";
 	}
 	
 	

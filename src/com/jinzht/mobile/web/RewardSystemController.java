@@ -1,5 +1,6 @@
 package com.jinzht.mobile.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +99,13 @@ public class RewardSystemController extends BaseController {
 			List list = this.rewardManger.findRewardRecordList(user,page);
 			
 			this.status = 200;
-			this.result.put("data", list);
+			if(list!=null && list.size()>0)
+			{
+				this.result.put("data", list);
+			}else
+			{
+				this.result.put("data", new ArrayList());
+			}
 			this.message = "";
 		}
 		

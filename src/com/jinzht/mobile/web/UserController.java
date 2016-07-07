@@ -113,7 +113,13 @@ public class UserController extends BaseController {
 			}else if(message.getType() == 2){
 				// message.type 2:表示用户认证时发送验证码
 				if (user != null) {
+					this.status = 400;
 					this.message = Config.SMS_USERS_HAVE_BIND;
+					
+					Map map = new HashMap(0);
+					map.put("isRelogin", true);
+					this.result.put("data", map);
+					return getResult();
 				}
 			}else{
 				//message.type 3:表示用户更换绑定手机号码
@@ -1149,12 +1155,16 @@ public class UserController extends BaseController {
 					this.result.put("data", result);
 				} else {
 					// 返回信息
-					this.status = 201;
+					this.status = 200;
 					this.result.put("data", new ArrayList());
 				}
 
 				
 			}
+			
+			// 返回信息
+			this.status = 200;
+			this.result.put("data", new ArrayList());
 
 			this.message = "";
 		}

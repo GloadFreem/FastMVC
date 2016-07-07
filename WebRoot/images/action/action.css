@@ -1,0 +1,95 @@
+body{
+	color: #474747;
+	width: 100%;
+	height: 100%;
+	margin:0;
+	padding:0;
+}
+.aboutus{
+	width: 100%;
+	height: 29.31%;
+}
+.aboutus img {
+	display: block;
+	width: 100%;
+}
+.brief{
+	width: 100%;
+	color: #FF6700;
+	text-indent:2em;
+ 	font-size: 80%;
+ 	margin-top:-35% ;
+}
+.title{
+	background-color: #FF6700;
+	height:230px;
+	width: 100%;
+	vertical-align:middle ;
+}
+.title p{
+	color: #FFFFFF;
+	font-size: 140%;
+	text-align: center;
+	margin-top: 10%;
+	vertical-align:middle;
+	width: 100%;
+}
+
+.detail p{
+	font-size: 80%;
+	color: #474747;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+.content{
+	background-color:#FFFFFF;
+	width: 100%;
+	
+}
+.tableimg{
+	width: 100%;
+}
+.tableimg table{
+	width: 100%;
+	display: block;
+	margin: auto 45
+	;
+}
+.more{
+	width: 100%;
+}
+.more img {
+	display: block;
+	margin:32px auto;
+}
+.line{
+	width: 100%;
+	border-top: solid 2px #ccc;
+	background-color: #EDEDED;
+	height: 18px;
+	margin-top: 50px;
+}
+.tableinfo{
+	color: #474747;
+	font-size: 100%;
+	border-bottom:solid 2px #CCCCCC ;
+}
+.tableinfo img{
+	margin: 8px 6px auto 28px;
+}
+.act-det{
+	margin: 25px 28px;
+}
+.act-det td {
+	padding: 0px 8px;
+}
+.act-det p{
+	font-size: 80%;
+	color: #474747;	
+}
+.border{
+	color: #FFFFFF;
+	background-color: #08A4F9;
+	width: 20px;
+	height: 20px;
+}

@@ -414,9 +414,20 @@ public class FeelingController extends BaseController {
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
 //			// 查看当前操作状态，1:评论,2:回复
-//			Publiccontent publicContent = this.feelingManager
-//					.findPublicContentById(contentId);
 			Share share = Tools.generateShareContent(contentId, 2);
+			Publiccontent content = this.feelingManager.findPublicContentById(contentId);
+			share.setContent(content.getContent());
+			
+			Object[] objs = content.getContentimageses().toArray();
+			if(objs!=null && objs.length>0)
+			{
+				Contentimages image = (Contentimages)objs[0];
+				share.setImage(image.getUrl());
+			}else{
+				share.setImage("http://www.jinzht.com:8080/jinzht/images/icon.jpg");
+			}
+					
+			
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
 			

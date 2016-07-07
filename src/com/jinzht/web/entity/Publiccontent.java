@@ -99,7 +99,7 @@ public class Publiccontent implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "publiccontent")
-	@OrderBy("imageId desc")
+	@OrderBy("imageId asc")
 	public Set<Contentimages> getContentimageses() {
 		return this.contentimageses;
 	}

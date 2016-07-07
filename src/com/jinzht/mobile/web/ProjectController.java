@@ -51,6 +51,7 @@ import com.jinzht.web.entity.Financestatus;
 import com.jinzht.web.entity.Financialstanding;
 import com.jinzht.web.entity.Financingcase;
 import com.jinzht.web.entity.Financingexit;
+import com.jinzht.web.entity.Investmentrecord;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Projectcommitrecord;
@@ -330,31 +331,34 @@ public class ProjectController extends BaseController {
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
-
-		Financialstanding financialStanding = this.ProjectManager
-				.findProjectFinancialStanding(projectId);
-
-		// 封装返回结果
-		this.status = 200;
-		this.result.put("data", financialStanding);
-
-		if (financialStanding != null) {
-			Users user = this.findUserInSession(session);
-			if (user != null) {
-				// 发送短信
-				String message = String.format(
-						Config.STRING_SMS_INVEST_VALID_TRUE,
-						DateUtils.formatDate(new Date()), "xxx项目", amount);
-				MsgUtil SMS = new MsgUtil();
-				SMS.setTelePhone(user.getTelephone());
-				SMS.setMsgType(MessageType.NormalMessage);
-				SMS.setContent(message);
-				// 发送验证码
-				MsgUtil.send();
-			}
-
-			this.message = "";
-		} else {
+		
+		Users user = this.findUserInSession(session);
+		if (user != null) {
+			Project project = this.ProjectManager.findProjectById(projectId);
+			Investmentrecord record = new Investmentrecord();
+			record.setInvestAmount(amount);
+			record.setInvestCode(tradeCode);
+			record.setInvestDate(new Date());
+			record.setStatusId(1);
+			record.setUsers(user);
+			record.setProject(project);
+			
+			this.ProjectManager.getInvestmentRecordDao().save(record);
+			// 发送短信
+			String message = String.format(
+					Config.STRING_SMS_INVEST_VALID_TRUE,
+					DateUtils.formatDate(new Date()), "xxx项目", amount);
+			MsgUtil SMS = new MsgUtil();
+			SMS.setTelePhone(user.getTelephone());
+			SMS.setMsgType(MessageType.NormalMessage);
+			SMS.setContent(message);
+			// 发送验证码
+			MsgUtil.send();
+			
+			// 封装返回结果
+			this.status = 200;
+			this.result.put("data", "");
+		}else{
 			this.status = 400;
 			this.message = Config.STRING_PROJECT_NO_DETAIL;
 		}
@@ -972,7 +976,9 @@ public class ProjectController extends BaseController {
 			// Project project = this.ProjectManager.findProjectById(projectId);
 			// 生成分享链接
 			Share share = Tools.generateShareContent(projectId, 1);
-
+			Project project = this.ProjectManager.findProjectById(projectId);
+			share.setContent(project.getDescription());
+			share.setImage(project.getStartPageImage());
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
 
