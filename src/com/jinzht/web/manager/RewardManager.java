@@ -3,9 +3,11 @@ package com.jinzht.web.manager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,6 +40,7 @@ import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Rewardsystem;
 import com.jinzht.web.entity.Rewardtrade;
+import com.jinzht.web.entity.Rewardtradetype;
 import com.jinzht.web.entity.Users;
 
 public class RewardManager {
@@ -58,9 +61,33 @@ public class RewardManager {
 			Rewardsystem system = (Rewardsystem) list.get(0);
 			//返回金条总数
 			return system.getCount();
+		}else{
+			//生成金条账户
+			Rewardsystem system = new Rewardsystem();
+			system.setCount(18);
+			system.setUsers(user);
+			
+			Rewardtrade trade = new Rewardtrade();
+			Set set = new HashSet();
+			
+			Rewardtradetype  type = new Rewardtradetype();
+			type.setRewardTypeId(2);
+			
+			trade.setTradeDate(new Date());
+			trade.setReaded(false);
+			trade.setDesc("注册奖励");
+			trade.setCount(18);
+			trade.setRewardsystem(system);
+			trade.setRewardtradetype(type);
+			
+			set.add(trade);
+			system.setRewardtrades(set);
+			
+			getRewardSystemDao().save(system);
+			
+			return system.getCount();
 		}
 		
-		return 0;
 	}
 	/***
 	 * 获取用户金条账户

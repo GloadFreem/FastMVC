@@ -62,6 +62,17 @@ public class RewardsystemDAO {
 			throw re;
 		}
 	}
+	
+	public void saveOrUpdate(Rewardsystem transientInstance) {
+		log.debug("saving Rewardsystem instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Rewardsystem persistentInstance) {
 		log.debug("deleting Rewardsystem instance");

@@ -23,6 +23,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jinzht.tools.DateUtils;
 
 /**
  * Project entity. @author MyEclipse Persistence Tools
@@ -204,6 +205,32 @@ public class Project implements java.io.Serializable {
 
 	@Column(name = "timeLeft")
 	public Integer getTimeLeft() {
+		Object[] objs = this.getRoadshows().toArray();
+		if(objs!=null && objs.length>0)
+		{
+			for(Object obj :objs)
+			{
+				Roadshow roadShow = (Roadshow)obj;
+				Roadshowplan plan = roadShow.getRoadshowplan();
+				int days;
+				try {
+					if(plan!=null && plan.getBeginDate()!=null && plan.getEndDate()!=null)
+					{
+						days = DateUtils.getDaysBetween( plan.getBeginDate(),plan.getEndDate());
+						this.timeLeft=days;
+					}else{
+						this.timeLeft = 0;
+					}
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					this.timeLeft=0;
+					e.printStackTrace();
+				}
+				
+			}
+		}
+		
 		return this.timeLeft;
 	}
 

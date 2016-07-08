@@ -1,9 +1,12 @@
 package com.jinzht.mobile.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Rewardsystem;
+import com.jinzht.web.entity.Rewardtrade;
+import com.jinzht.web.entity.Rewardtradetype;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.manager.RewardManager;
 import com.jinzht.web.manager.UserManager;
@@ -138,16 +143,35 @@ public class RewardSystemController extends BaseController {
 		} else {
 			// 获取列表
 			Rewardsystem system = this.rewardManger.findRewardByUser(user);
-			if(system!=null)
+			if(system==null)
 			{
-				// 返回信息
-				this.status = 200;
-				this.result.put("data", system);
-			}else{
-				// 返回信息
-				this.status = 400;
-				this.result.put("data", "");
+				//生成金条账户
+				system = new Rewardsystem();
+				system.setCount(18);
+				system.setUsers(user);
+				
+				Rewardtrade trade = new Rewardtrade();
+				Set set = new HashSet();
+				
+				Rewardtradetype  type = new Rewardtradetype();
+				type.setRewardTypeId(2);
+				
+				trade.setTradeDate(new Date());
+				trade.setReaded(false);
+				trade.setDesc("注册奖励");
+				trade.setCount(18);
+				trade.setRewardsystem(system);
+				trade.setRewardtradetype(type);
+				
+				set.add(trade);
+				system.setRewardtrades(set);
+				
+				this.userManager.getRewardSystemDao().save(system);
 			}
+			
+			// 返回信息
+			this.status = 200;
+			this.result.put("data", system);
 
 			this.message = "";
 		}

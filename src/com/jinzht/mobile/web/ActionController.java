@@ -344,7 +344,9 @@ public class ActionController extends BaseController {
 			shareType.setShareTypeId(type);
 			share.setSharetype(shareType);
 			share.setShareDate(new Date());
-
+			share.setTitle("【金指投投融资】--7月活动来袭");
+			share.setImage("https://is1-ssl.mzstatic.com/image/thumb/Purple60/v4/3a/9c/09/3a9c09aa-5e86-4185-4b6c-b3e282e45d86/pr_source.png/500x500bb.jpg");
+			share.setContent("互联网时代，共享经济，等您来参与！");
 			share.setUrl(Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_ACTION));
 
 			// 保存分享记录

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -138,6 +139,18 @@ public class RewardtradeDAO {
 			throw re;
 		}
 	}
+	public List findByDateLater(Integer rewardId,String date)
+	{
+		String sqlString = "select * from rewardtrade where reward_id =? and trade_date > ? and reward_type_id !=2";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
+		queryObject.setParameter(0, rewardId);
+		queryObject.setParameter(1, date);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
+	}
+	
+	
 	public List findByPropertiesWithPage(Map requestMap, Integer page) {
 		try {
 			// String debugInfo=
@@ -166,6 +179,18 @@ public class RewardtradeDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+	}
+	
+	public List findRewardTradeByRewardId(Integer rewardId,Integer page)
+	{
+		String sqlString = "select * from rewardtrade where reward_id=?";
+		SQLQuery queryObject= getCurrentSession().createSQLQuery(sqlString).addEntity(Rewardtrade.class);
+		queryObject.setParameter(0, rewardId);
+		queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
+		queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+		
+		
+		return queryObject.list();
 	}
 	public List findByProperties(Map requestMap) {
 		try {

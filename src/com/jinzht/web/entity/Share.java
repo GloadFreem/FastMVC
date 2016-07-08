@@ -39,6 +39,7 @@ public class Share implements java.io.Serializable {
 	private String content;
 	private String url;
 	private String image;
+	private String title;
 
 	// Constructors
 
@@ -125,6 +126,14 @@ public class Share implements java.io.Serializable {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+	@Column(name="title")
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }

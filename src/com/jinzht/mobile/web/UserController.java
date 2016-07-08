@@ -41,10 +41,14 @@ import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.MessageBean;
 import com.jinzht.web.entity.Rewardsystem;
+import com.jinzht.web.entity.Rewardtrade;
+import com.jinzht.web.entity.Rewardtradetype;
+import com.jinzht.web.entity.Systemcode;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.AuthenticManager;
 import com.jinzht.web.manager.InvestorManager;
+import com.jinzht.web.manager.RewardManager;
 import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.test.User;
 
@@ -57,6 +61,8 @@ public class UserController extends BaseController {
 	private AuthenticManager authenticManager;
 	@Autowired
 	private InvestorManager investorManager;
+	@Autowired
+	private RewardManager rewardManger;
 
 	@RequestMapping("/verifyCode")
 	@ResponseBody
@@ -72,7 +78,7 @@ public class UserController extends BaseController {
 			BindingResult bindingResult, Model model, HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
-		this.message="";
+		this.message = "";
 		if (bindingResult.hasErrors()) {
 			this.status = 400;
 			this.message = bindingResult.getFieldError().getDefaultMessage();
@@ -110,44 +116,41 @@ public class UserController extends BaseController {
 					// 返回结果
 					return getResult();
 				}
-			}else if(message.getType() == 2){
+			} else if (message.getType() == 2) {
 				// message.type 2:表示用户认证时发送验证码
 				if (user != null) {
 					this.status = 400;
 					this.message = Config.SMS_USERS_HAVE_BIND;
-					
+
 					Map map = new HashMap(0);
 					map.put("isRelogin", true);
 					this.result.put("data", map);
 					return getResult();
 				}
-			}else{
-				//message.type 3:表示用户更换绑定手机号码
-				//判断用户是否输入重复手机号码
-				if(user!=null)
-				{
+			} else {
+				// message.type 3:表示用户更换绑定手机号码
+				// 判断用户是否输入重复手机号码
+				if (user != null) {
 					Users u = this.findUserInSession(session);
-					if(message.getTelephone().equals(u.getTelephone()))
-					{
+					if (message.getTelephone().equals(u.getTelephone())) {
 						this.status = 400;
 						this.message = Config.STRING_LOGING_TEL_NOT_REPEAT;
 						return getResult();
 					}
-					
-					u = this.userManger.findUserByTelephone(message.getTelephone());
-					if(u!=null)
-					{
+
+					u = this.userManger.findUserByTelephone(message
+							.getTelephone());
+					if (u != null) {
 						this.status = 400;
 						this.message = Config.SMS_USERS_HAVE_BIND;
-						
+
 						return getResult();
 					}
-					
+
 					this.message = "";
-					
+
 				}
 			}
-				
 
 			// 发送验证码
 			Integer code = MsgUtil.send();
@@ -157,7 +160,7 @@ public class UserController extends BaseController {
 				if (this.message.equals("")) {
 					this.message = Config.SMS_HAVE_SEND_STRING;
 				}
-				
+
 				session.setAttribute("code", code);
 				System.out.println(session.getAttribute("code"));
 			} else {
@@ -180,6 +183,7 @@ public class UserController extends BaseController {
 	 */
 	public Map registUser(
 			@RequestParam(value = "verifyCode", required = false) String verifyCode,
+			@RequestParam(value = "inviteCode", required = false) String inviteCode,
 			@Valid @ModelAttribute("user") Users userInstance,
 			BindingResult bindingResult, HttpSession session) {
 		// 初始化返回结果
@@ -223,6 +227,8 @@ public class UserController extends BaseController {
 							SMS.setContent(Config.STRING_SMS_REGISTE);
 							// 发送短信
 							MsgUtil.send();
+							
+							userRewardInvite(user,inviteCode,session);
 
 							// 封装返回数据对象
 							Map map = new HashMap();
@@ -252,7 +258,7 @@ public class UserController extends BaseController {
 		}
 		return getResult();
 	}
-	
+
 	@RequestMapping("/completeUserInfo")
 	@ResponseBody
 	/***
@@ -279,7 +285,7 @@ public class UserController extends BaseController {
 			if (session.getAttribute("code") != null) {
 				code = session.getAttribute("code").toString();
 			}
-			
+
 			if (!code.equals("")) {
 				if (!verifyCode.equals(code)) {
 					this.status = 400;
@@ -295,34 +301,34 @@ public class UserController extends BaseController {
 					}
 					// 如果未找到用户记录，生成用户数据
 					if (user != null) {
-//						// 发送用户注册成功短信
-//						MsgUtil SMS = new MsgUtil();
-//						SMS.setTelePhone(user.getTelephone());
-//						SMS.setMsgType(MessageType.NormalMessage);
-//						// 短信内容：感谢你注册金指投--专注中国成长型企业股权投融资
-//						SMS.setContent(Config.STRING_SMS_REGISTE);
-//						// 发送短信
-//						MsgUtil.send();
-						
+						// // 发送用户注册成功短信
+						// MsgUtil SMS = new MsgUtil();
+						// SMS.setTelePhone(user.getTelephone());
+						// SMS.setMsgType(MessageType.NormalMessage);
+						// // 短信内容：感谢你注册金指投--专注中国成长型企业股权投融资
+						// SMS.setContent(Config.STRING_SMS_REGISTE);
+						// // 发送短信
+						// MsgUtil.send();
+
 						user.setPassword(userInstance.getPassword());
 						user.setTelephone(userInstance.getTelephone());
 						user.setPlatform(userInstance.getPlatform());
-						
-						//保存信息 
+
+						// 保存信息
 						this.userManger.saveOrUpdateUser(user);
-						
+
 						// 封装返回数据对象
 						Map map = new HashMap();
 						// 返回用户注册Id，
 						map.put("userId", user.getUserId());
 						map.put("telephone", user.getTelephone());
 						map.put("platform", user.getPlatform());
-						
+
 						// 返回数据
 						this.status = 200;
 						this.result.put("data", map);
 						this.message = Config.STRING_WECHAT_COMPLETE_SUCCESS;
-						
+
 						session.setAttribute("userId", user.getUserId());
 					} else {
 						this.status = 400;
@@ -394,9 +400,8 @@ public class UserController extends BaseController {
 					user.setRegId(userInstance.getRegId());
 					user.setPlatform(userInstance.getPlatform());
 					user.setLastLoginDate(new Date());
-					
-					if(!userInstance.getRegId().equals(""))
-					{
+
+					if (!userInstance.getRegId().equals("")) {
 						user.setRegId(userInstance.getRegId());
 					}
 
@@ -411,12 +416,12 @@ public class UserController extends BaseController {
 					} else {
 						map.put("extUserId", "");
 					}
-					
-					Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
-					if(authentic!=null)
-					{
+
+					Authentic authentic = this.authenticManager
+							.findAuthenticByUserId(user.getUserId());
+					if (authentic != null) {
 						map.put("identityType", authentic.getIdentiytype());
-					}else{
+					} else {
 						Identiytype type = new Identiytype();
 						short index = -1;
 						type.setIdentiyTypeId(index);
@@ -430,8 +435,8 @@ public class UserController extends BaseController {
 
 					session.setAttribute("userId", user.getUserId());
 
-					System.out.println("获取到UserId："
-							+ session.getAttribute("userId").toString());
+					// 金条奖励
+					checkUserLoginRecord(user, session);
 				} else {
 					// 更新登录失败信息
 					record = this.userManger.addOrUpdateLoginFailRecord(record,
@@ -520,21 +525,21 @@ public class UserController extends BaseController {
 				} else {
 					map.put("extUserId", "");
 				}
-				
-				Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
-				if(authentic!=null)
-				{
+
+				Authentic authentic = this.authenticManager
+						.findAuthenticByUserId(user.getUserId());
+				if (authentic != null) {
 					map.put("identityType", authentic.getIdentiytype());
-				}else{
+				} else {
 					Identiytype type = new Identiytype();
 					short index = -1;
 					type.setIdentiyTypeId(index);
 					type.setName("无身份");
 					map.put("identityType", type);
 				}
-				
+
 				this.result.put("data", map);
-				//将用户id加入到session
+				// 将用户id加入到session
 				session.setAttribute("userId", user.getUserId());
 				this.status = 200;
 				this.message = Config.STRING_PASSWORD_RESET_SUCCESS;
@@ -587,12 +592,12 @@ public class UserController extends BaseController {
 			} else {
 				map.put("extUserId", "");
 			}
-			
-			Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
-			if(authentic!=null)
-			{
+
+			Authentic authentic = this.authenticManager
+					.findAuthenticByUserId(user.getUserId());
+			if (authentic != null) {
 				map.put("identityType", authentic.getIdentiytype());
-			}else{
+			} else {
 				Identiytype type = new Identiytype();
 				short index = -1;
 				type.setIdentiyTypeId(index);
@@ -622,8 +627,7 @@ public class UserController extends BaseController {
 				} else {
 					map.put("extUserId", "");
 				}
-				
-				
+
 				Identiytype type = new Identiytype();
 				short index = -1;
 				type.setIdentiyTypeId(index);
@@ -697,21 +701,21 @@ public class UserController extends BaseController {
 		if (session.getAttribute("userId") == null) {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
-		}else{
+		} else {
 			Users user = this.findUserInSession(session);
-			Authentic authentic = this.authenticManager.findAuthenticByUserId(user.getUserId());
+			Authentic authentic = this.authenticManager
+					.findAuthenticByUserId(user.getUserId());
 			Map map = new HashMap();
-			if(authentic!=null)
-			{
+			if (authentic != null) {
 				map.put("identityType", authentic.getIdentiytype());
-			}else{
+			} else {
 				Identiytype type = new Identiytype();
 				short index = -1;
 				type.setIdentiyTypeId(index);
 				type.setName("无身份");
 				map.put("identityType", type);
 			}
-			
+
 			this.result.put("data", map);
 		}
 
@@ -972,44 +976,40 @@ public class UserController extends BaseController {
 					this.status = 400;
 					this.message = Config.STRING_LOGING_STATUS_OFFLINE;
 				} else {
-					if(telephone!=null)
-					{
-						Users u = this.userManger.findUserByTelephone(telephone);
-						if(u==null)
-						{
+					if (telephone != null) {
+						Users u = this.userManger
+								.findUserByTelephone(telephone);
+						if (u == null) {
 							// 设置手机号码
 							user.setTelephone(telephone);
-							//重置密码
+							// 重置密码
 							user.setPassword(password);
-							//如果身份证不为空
+							// 如果身份证不为空
 							Object[] objs = user.getAuthentics().toArray();
-							if(objs!=null && objs.length>0)
-							{
-								for(Object obj :objs)
-								{
-									Authentic authentic = (Authentic)obj;
+							if (objs != null && objs.length > 0) {
+								for (Object obj : objs) {
+									Authentic authentic = (Authentic) obj;
 									authentic.setIdentiyCarNo(identityCardNo);
 								}
 							}
 							// 保存信息
 							this.userManger.saveOrUpdateUser(user);
-							
+
 							// 返回信息
 							this.status = 200;
 							this.message = Config.STRING_USER_TELEPHONE_UPDATE_SUCCESS;
-						}else{
+						} else {
 							// 返回信息
 							this.status = 400;
 							this.message = Config.STRING_USER_TELEPHONE_EQUAL_FAIL;
 						}
-						
-					}else{
+
+					} else {
 						// 返回信息
 						this.status = 400;
 						this.message = Config.STRING_LOGING_TEL_NOT_NULL;
 					}
 
-				
 				}
 			} else {
 				this.status = 400;
@@ -1158,18 +1158,130 @@ public class UserController extends BaseController {
 					this.status = 200;
 					this.result.put("data", new ArrayList());
 				}
-
-				
 			}
-			
-			// 返回信息
-			this.status = 200;
-			this.result.put("data", new ArrayList());
 
 			this.message = "";
 		}
 
 		return getResult();
+	}
+
+	private Map checkUserLoginRecord(Users user, HttpSession session) {
+		Map map = new HashMap();
+
+		// 获取列表
+		List list = this.userManger.findRewardSystemByUser(user);
+		if (list != null && list.size() > 0) {
+			Rewardsystem system = (Rewardsystem) list.get(0);
+			//
+			Rewardtradetype type = new Rewardtradetype();
+			type.setRewardTypeId(1);
+
+			Map req = new HashMap();
+			req.put("rewardsystem", system);
+			req.put("rewardtradetype", type);
+			boolean result = this.userManger.findTodayLoginReward(system
+					.getRewardId());
+
+			if (!result) {
+				// 第一次登录
+				Rewardtrade trade = new Rewardtrade();
+				trade.setTradeDate(new Date());
+				trade.setReaded(false);
+				trade.setDesc("登录奖励");
+				trade.setCount(6);
+				trade.setRewardsystem(system);
+				trade.setRewardtradetype(type);
+
+				this.userManger.getRewardTradeDao().save(trade);
+
+				system.setCount(system.getCount() + trade.getCount());
+				this.userManger.getRewardSystemDao().saveOrUpdate(system);
+			}
+
+		}
+
+		return map;
+	}
+
+	private Map userRewardInvite(Users user, String inviteCode,
+			HttpSession session) {
+		Map map = new HashMap();
+		if(inviteCode!=null && inviteCode.equals(""))
+		{
+			// 根据邀请码获取用户
+			List l = this.userManger.getSystemCodeDao().findByCode(inviteCode);
+			if (l != null && l.size() > 0) {
+				Systemcode systemCode = (Systemcode) l.get(0);
+				if (systemCode != null) {
+					Users u = systemCode.getUsers();
+					// 获取列表
+					List list = this.userManger.findRewardSystemByUser(u);
+					if (list != null && list.size() > 0) {
+						Rewardsystem system = (Rewardsystem) list.get(0);
+						//
+						Rewardtradetype type = new Rewardtradetype();
+						type.setRewardTypeId(1);
+
+						Map req = new HashMap();
+						req.put("rewardsystem", system);
+						req.put("rewardtradetype", type);
+						boolean result = this.userManger
+								.findTodayLoginReward(system.getRewardId());
+
+						if (!result) {
+							// 第一次登录
+							Rewardtrade trade = new Rewardtrade();
+							trade.setTradeDate(new Date());
+							trade.setReaded(false);
+							trade.setDesc("登录奖励");
+							trade.setCount(6);
+							trade.setRewardsystem(system);
+							trade.setRewardtradetype(type);
+
+							this.userManger.getRewardTradeDao().save(trade);
+
+							system.setCount(system.getCount() + trade.getCount());
+							this.userManger.getRewardSystemDao().saveOrUpdate(
+									system);
+						}
+					}
+				}
+			}
+		}
+		
+		
+		rewardNewUser(user);
+		return map;
+	}
+
+	public void rewardNewUser(Users user) {
+		// 获取列表
+		Rewardsystem system = this.rewardManger.findRewardByUser(user);
+		if (system == null) {
+			// 生成金条账户
+			system = new Rewardsystem();
+			system.setCount(18);
+			system.setUsers(user);
+
+			Rewardtrade trade = new Rewardtrade();
+			Set set = new HashSet();
+
+			Rewardtradetype type = new Rewardtradetype();
+			type.setRewardTypeId(2);
+
+			trade.setTradeDate(new Date());
+			trade.setReaded(false);
+			trade.setDesc("注册奖励");
+			trade.setCount(18);
+			trade.setRewardsystem(system);
+			trade.setRewardtradetype(type);
+
+			set.add(trade);
+			system.setRewardtrades(set);
+
+			this.userManger.getRewardSystemDao().save(system);
+		}
 	}
 
 	/***

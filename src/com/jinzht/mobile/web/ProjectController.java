@@ -790,11 +790,10 @@ public class ProjectController extends BaseController {
 					sceneId, page, userId);
 
 			// 封装返回数据
+			this.status = 200;
 			if (list != null && list.size() > 0) {
-				this.status = 200;
 				this.message = Config.STRING_PROJECT_SCENE_COMMENT_SUCCESS;
 			} else {
-				this.status = 201;
 				this.message = Config.STRING_PROJECT_SCENE_COMMENT_COMPLETED;
 			}
 			this.result.put("data", list);

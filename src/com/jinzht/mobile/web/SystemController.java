@@ -27,9 +27,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jinzht.tools.Config;
 import com.jinzht.tools.Tools;
 import com.jinzht.web.dao.UsersDAO;
+import com.jinzht.web.entity.Contentimages;
 import com.jinzht.web.entity.Notice;
 import com.jinzht.web.entity.Preloadingpage;
 import com.jinzht.web.entity.Customservice;
+import com.jinzht.web.entity.Publiccontent;
+import com.jinzht.web.entity.Share;
 import com.jinzht.web.entity.Systemcode;
 import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Users;
@@ -133,10 +136,9 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 		List list = this.systemManger.findBannerInfoList();
 		this.status = 200;
-		if(list!=null && list.size()>0)
-		{
+		if (list != null && list.size() > 0) {
 			this.result.put("data", list);
-		}else{
+		} else {
 			this.result.put("data", new ArrayList());
 		}
 		this.message = "";
@@ -179,11 +181,10 @@ public class SystemController extends BaseController {
 		} else {
 			List list = this.systemManger.findSystemMessageListByUser(user,
 					page);
-			if(list!=null && list.size()>0)
-			{
+			if (list != null && list.size() > 0) {
 				this.status = 200;
 				this.result.put("data", list);
-			}else{
+			} else {
 				this.status = 200;
 				this.result.put("data", new ArrayList());
 			}
@@ -227,39 +228,34 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 
 		Object[] objs = messageId.split(",");
-		if(objs!=null && objs.length>0)
-		{
-			for(Object obj :objs)
-			{
+		if (objs != null && objs.length > 0) {
+			for (Object obj : objs) {
 				// 获取站内信
 				obj = obj.toString().trim();
 				Integer msgId = Integer.parseInt(obj.toString());
-				if(msgId!=null)
-				{
-					Systemmessage message = this.systemManger.findMessageById(msgId);
-					
+				if (msgId != null) {
+					Systemmessage message = this.systemManger
+							.findMessageById(msgId);
+
 					if (message != null) {
 						// 删除
 						this.systemManger.deleteSystemMessage(message);
 						this.status = 200;
 						this.result.put("data", "");
 						this.message = Config.STRING_SYSTEM_MESSAGE_DELETE_SUCCESS;
-					} 
-				}else{
+					}
+				} else {
 					this.status = 400;
 					this.result.put("data", "");
 					this.message = Config.STRING_SYSTEM_MESSAGE_DELETE_FAIL;
 				}
-				
-				
+
 			}
-			
-			
+
 			this.status = 200;
 			this.result.put("data", "");
 			this.message = Config.STRING_SYSTEM_MESSAGE_DELETE_SUCCESS;
 		}
-		
 
 		return getResult();
 	}
@@ -307,7 +303,8 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 
 		Map map = new HashMap();
-		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_ABOUNT_US));
+		map.put("url",
+				Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_ABOUNT_US));
 
 		this.status = 200;
 		this.result.put("data", map);
@@ -315,6 +312,7 @@ public class SystemController extends BaseController {
 
 		return getResult();
 	}
+
 	@RequestMapping("/requestGoldInviteFriends")
 	@ResponseBody
 	/***
@@ -323,14 +321,16 @@ public class SystemController extends BaseController {
 	 */
 	public Map requestGoldInviteFriends(HttpSession session) {
 		this.result = new HashMap();
-		
+
 		Map map = new HashMap();
-		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_GOLD));
-		
+		map.put("title", "【金指投投融资】--邀请好友送金条");
+		map.put("content","小试牛刀，快斩第一桶金！");
+		map.put("url",Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_GOLD));
+		map.put("image", "http://www.jinzht.com:8080/jinzht/images/icon.jpg");
 		this.status = 200;
 		this.result.put("data", map);
 		this.message = "";
-		
+
 		return getResult();
 	}
 
@@ -363,7 +363,9 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 
 		Map map = new HashMap();
-		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)+"?contentId=3");
+		map.put("url",
+				Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)
+						+ "?contentId=3");
 
 		this.status = 200;
 		this.result.put("data", map);
@@ -371,7 +373,7 @@ public class SystemController extends BaseController {
 
 		return getResult();
 	}
-	
+
 	@RequestMapping("/requestFeedBack")
 	@ResponseBody
 	/***
@@ -380,32 +382,27 @@ public class SystemController extends BaseController {
 	 * @return Map 返回值
 	 */
 	public Map requestFeedBack(
-			@RequestParam(value="content",required=false) String content,
+			@RequestParam(value = "content", required = false) String content,
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
-		
-		if(session.getAttribute("userId")!=null)
-		{
+
+		if (session.getAttribute("userId") != null) {
 			String userId = session.getAttribute("userId").toString();
-			if(userId!=null)
-			{
+			if (userId != null) {
 				this.status = 200;
-				this.systemManger.addFeedback(Integer.parseInt(userId),content);
+				this.systemManger
+						.addFeedback(Integer.parseInt(userId), content);
 				this.message = "反馈成功！";
-			}else{
+			} else {
 				this.status = 400;
 				this.message = Config.STRING_LOGING_TIP;
 			}
-		}else{
+		} else {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_TIP;
 		}
-			
-		
-		
-		
-		
+
 		return getResult();
 	}
 
@@ -419,7 +416,9 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 
 		Map map = new HashMap();
-		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)+"?contentId=4");
+		map.put("url",
+				Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)
+						+ "?contentId=4");
 
 		this.status = 200;
 		this.result.put("data", map);
@@ -427,6 +426,7 @@ public class SystemController extends BaseController {
 
 		return getResult();
 	}
+
 	@RequestMapping("/requestGoldGetRule")
 	@ResponseBody
 	/***
@@ -435,16 +435,19 @@ public class SystemController extends BaseController {
 	 */
 	public Map requestGoldGetRule(HttpSession session) {
 		this.result = new HashMap();
-		
+
 		Map map = new HashMap();
-		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)+"?contentId=5");
-		
+		map.put("url",
+				Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)
+						+ "?contentId=5");
+
 		this.status = 200;
 		this.result.put("data", map);
 		this.message = "";
-		
+
 		return getResult();
 	}
+
 	@RequestMapping("/requestInviteFriends")
 	@ResponseBody
 	/***
@@ -453,13 +456,13 @@ public class SystemController extends BaseController {
 	 */
 	public Map requestInviteFriends(HttpSession session) {
 		this.result = new HashMap();
-		
+
 		Integer userId = 0;
 		if (session.getAttribute("userId") != null) {
 			userId = (Integer) session.getAttribute("userId");
 		}
 		String invitcode = Tools.generateInviteCode(userId, false);
-		
+
 		Map map = new HashMap();
 		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_CODE));
 		map.put("image", Config.STRING_SYSTEM_INTRODUCE_IMAGE);
@@ -468,9 +471,10 @@ public class SystemController extends BaseController {
 		this.status = 200;
 		this.result.put("data", map);
 		this.message = "";
-		
+
 		return getResult();
 	}
+
 	@RequestMapping("/requestGoldUseRule")
 	@ResponseBody
 	/***
@@ -479,14 +483,16 @@ public class SystemController extends BaseController {
 	 */
 	public Map requestGoldUseRule(HttpSession session) {
 		this.result = new HashMap();
-		
+
 		Map map = new HashMap();
-		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)+"?contentId=7");
-		
+		map.put("url",
+				Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_USER_PROCTOL)
+						+ "?contentId=7");
+
 		this.status = 200;
 		this.result.put("data", map);
 		this.message = "";
-		
+
 		return getResult();
 	}
 
@@ -506,10 +512,10 @@ public class SystemController extends BaseController {
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
 		} else {
 			Map map = new HashMap();
-			
-			//Object[] objs = user.getSystemcodes().toArray();
+
+			// Object[] objs = user.getSystemcodes().toArray();
 			String code = Tools.generateInviteCode(user.getUserId(), false);
-			
+
 			this.status = 200;
 			this.result.put("data", code);
 			this.message = "";
@@ -517,6 +523,7 @@ public class SystemController extends BaseController {
 
 		return getResult();
 	}
+
 	@RequestMapping("/requestuploadProjectInfo")
 	@ResponseBody
 	/***
@@ -525,17 +532,18 @@ public class SystemController extends BaseController {
 	 */
 	public Map requestuploadProjectInfo(HttpSession session) {
 		this.result = new HashMap();
-		
+
 		Map map = new HashMap();
 		map.put("email", Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
 		map.put("tel", Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_TEL);
-		
+
 		this.status = 200;
 		this.result.put("data", map);
 		this.message = "";
-		
+
 		return getResult();
 	}
+
 	@RequestMapping("/requestHasMessageInfo")
 	@ResponseBody
 	/***
@@ -544,7 +552,7 @@ public class SystemController extends BaseController {
 	 */
 	public Map requestHasMessageInfo(HttpSession session) {
 		this.result = new HashMap();
-		
+
 		Users user = this.findUserInSession(session);
 
 		if (user == null) {
@@ -552,69 +560,69 @@ public class SystemController extends BaseController {
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
 		} else {
 
-			//获取未读
+			// 获取未读
 			boolean flag = this.systemManger.findUserNotReadMessageFlag(user);
-			
+
 			Map map = new HashMap();
 			map.put("flag", flag);
-			
+
 			this.status = 200;
 			this.result.put("data", map);
 			this.message = "";
 		}
 		return getResult();
 	}
+
 	@RequestMapping("/androidTest")
 	public String androidTest(HttpSession session) {
 		return "download";
 	}
-	
-	//新手指南
-	@RequestMapping(value="/UserGuide")
-    public String UserGuide( 
-    		ModelMap model) {
-        return "user_guide";
-    }
-	//分享项目展示
-	@RequestMapping(value="/ShareProjectDetail")
-	public String ShareProjectDetail( 
-			ModelMap model) {
+
+	// 新手指南
+	@RequestMapping(value = "/UserGuide")
+	public String UserGuide(ModelMap model) {
+		return "user_guide";
+	}
+
+	// 分享项目展示
+	@RequestMapping(value = "/ShareProjectDetail")
+	public String ShareProjectDetail(ModelMap model) {
 		return "ShareProjectDetail";
 	}
-	//关于我们
-	@RequestMapping(value="/abountUs")
-	public String abountUs( 
-			ModelMap model) {
+
+	// 关于我们
+	@RequestMapping(value = "/abountUs")
+	public String abountUs(ModelMap model) {
 		return "abount_me";
 	}
-	//邀请码邀请好友
-	@RequestMapping(value="/shareInvite")
-	public String shareInvite( 
-			ModelMap model) {
+
+	// 邀请码邀请好友
+	@RequestMapping(value = "/shareInvite")
+	public String shareInvite(ModelMap model) {
 		return "invite_card";
 	}
-	//邀请码送金条
-	@RequestMapping(value="/shareInviteGold")
-	public String shareInviteGold( 
-			ModelMap model) {
+
+	// 邀请码送金条
+	@RequestMapping(value = "/shareInviteGold")
+	public String shareInviteGold(ModelMap model) {
 		return "invite_gold";
 	}
-	//分享圈子内容
-	@RequestMapping(value="/shareFeeling")
-	public String shareFeeling( 
-			ModelMap model) {
+
+	// 分享圈子内容
+	@RequestMapping(value = "/shareFeeling")
+	public String shareFeeling(ModelMap model) {
 		return "ShareFeelingDetail";
 	}
-	//用户协议
-	@RequestMapping(value="/UserProctol")
-	public String UserProctol( 
-			ModelMap model) {
+
+	// 用户协议
+	@RequestMapping(value = "/UserProctol")
+	public String UserProctol(ModelMap model) {
 		return "UserProctol";
 	}
-	//投资人详情
-	@RequestMapping(value="/H5UserInfo")
-	public String H5UserInfo( 
-			ModelMap model) {
+
+	// 投资人详情
+	@RequestMapping(value = "/H5UserInfo")
+	public String H5UserInfo(ModelMap model) {
 		return "UserInfo";
 	}
 

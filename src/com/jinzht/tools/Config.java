@@ -122,7 +122,7 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="您身边的投资专家";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--市值百亿的企业";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.159:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.160:8080/jinzht/";
 //	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.bz55.com/uploads/allimg/130531/1-1305310Z505.jpg";

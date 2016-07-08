@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.jinzht.tools.DateUtils;
 import com.jinzht.web.dao.ActionDAO;
 import com.jinzht.web.dao.AttentionDAO;
 import com.jinzht.web.dao.AuthenticDAO;
@@ -357,11 +358,31 @@ public class UserManager {
 	public List findGoldTradList(Rewardsystem rewardSystem,Integer page)
 	{
 		List list =null;
-		Map map = new HashMap();
-		map.put("rewardsystem", rewardSystem);
-		
+		list  = getRewardTradeDao().findRewardTradeByRewardId(rewardSystem.getRewardId(), page);
+		return list;
+	}
+	public List findGoldTradByProperties(Map map,Integer page)
+	{
+		List list =null;
 		list  = getRewardTradeDao().findByPropertiesWithPage(map, page);
 		return list;
+	}
+	
+	/****
+	 * 是否当天已奖励
+	 * @return
+	 */
+	public boolean findTodayLoginReward(Integer rewardId)
+	{
+		List list =null;
+		String date = DateUtils.dateToNormalString(new Date());
+		date +=" 00:00:00";
+		list  = getRewardTradeDao().findByDateLater(rewardId,date);
+		if(list!=null && list.size()>0)
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	
