@@ -91,6 +91,8 @@ public class Config {
 			add("foundationDetail.action");
 			add("H5UserInfo.action");
 			add("actionWebLooker.action");
+			add("customServiceSystem.action");
+			add("requestUserProtocol.action");
 		}
 	};
 
@@ -122,8 +124,8 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="您身边的投资专家";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--市值百亿的企业";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.160:8080/jinzht/";
-//	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.160:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.bz55.com/uploads/allimg/130531/1-1305310Z505.jpg";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
@@ -222,5 +224,11 @@ public class Config {
 	public static String STRING_PUSH_ALERT = "麦哥很牛逼!";	
 	public static String STRING_PUSH_TITLE = "极光推送";	
 	public static String STRING_PUSH_CONTENT = "极光推送";	
+	
+	//邮件消息
+	public static String STRING_EMIAL_REGIST ="<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>新用户%s于%s注册账户，请以工匠心用心对待每一位来之不易的用户，让他能够充分体验金指投优质服务！</div>";
+	public static String STRING_EMIAL_AUTHENTIC ="<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>用户%s于%s认证，请尽快审核信息，请以工匠心用心对待每一位来之不易的用户，让他能够充分体验金指投优质服务！</div>";
+	public static String STRING_EMIAL_INVEST ="<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>用户【%s】%s于%s认投【%s】项目%.2f万，请尽快审核信息，请以工匠心用心对待每一位来之不易的用户，让他能够充分体验金指投优质服务！</div>";
+	public static String STRING_EMIAL_AUTHENTIC_QUICK ="<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>用户【%s】%s请求加快审核身份认证，请尽快审核信息，请以工匠心用心对待每一位来之不易的用户，让他能够充分体验金指投优质服务！</div>";
 
 }

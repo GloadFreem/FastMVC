@@ -133,8 +133,21 @@ public class AttentionDAO {
 				+ ", value: " + value);
 		try {
 			String queryString = "from Attention as model where model."
-					+ propertyName + "= ?";
+					+ propertyName + " = ? order by attendUid desc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setParameter(0, value);
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	public List findByAttendWithActionPage(Object value,Integer page) {
+		try {
+			String queryString = "select * from  attention as model where model.action_id = ? order by attend_uid desc";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString).addEntity(Attention.class);
 			queryObject.setParameter(0, value);
 			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);

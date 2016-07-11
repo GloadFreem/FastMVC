@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jinzht.tools.Config;
 import com.jinzht.tools.FileUtil;
+import com.jinzht.tools.MailUtil;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
 import com.jinzht.web.dao.UsersDAO;
@@ -95,7 +96,7 @@ public class UserController extends BaseController {
 			if (message.getType() == 0) {
 				// 注册时，判用户是否已注册，已注册用户无需发送此验证码
 				if (message.getTelephone() != null
-						&& message.getTelephone().equals("")) {
+						&& !message.getTelephone().equals("")) {
 					if (user != null) {
 						// 已注册用户无需发送，直接返回结果
 						this.status = 400;
@@ -227,6 +228,14 @@ public class UserController extends BaseController {
 							SMS.setContent(Config.STRING_SMS_REGISTE);
 							// 发送短信
 							MsgUtil.send();
+							
+							//发送注册成功邮件
+							MailUtil mu = new MailUtil();
+							try {
+								mu.sendUserRegist(mu,user.getTelephone());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 							
 							userRewardInvite(user,inviteCode,session);
 
@@ -644,6 +653,9 @@ public class UserController extends BaseController {
 				this.message = Config.STRING_LOGING_WECHAT_FAIL;
 			}
 		}
+		
+		// 金条奖励
+		checkUserLoginRecord(user, session);
 		return getResult();
 	}
 
@@ -1207,7 +1219,7 @@ public class UserController extends BaseController {
 	private Map userRewardInvite(Users user, String inviteCode,
 			HttpSession session) {
 		Map map = new HashMap();
-		if(inviteCode!=null && inviteCode.equals(""))
+		if(inviteCode!=null && !inviteCode.equals(""))
 		{
 			// 根据邀请码获取用户
 			List l = this.userManger.getSystemCodeDao().findByCode(inviteCode);
@@ -1221,30 +1233,22 @@ public class UserController extends BaseController {
 						Rewardsystem system = (Rewardsystem) list.get(0);
 						//
 						Rewardtradetype type = new Rewardtradetype();
-						type.setRewardTypeId(1);
+						type.setRewardTypeId(4);
 
-						Map req = new HashMap();
-						req.put("rewardsystem", system);
-						req.put("rewardtradetype", type);
-						boolean result = this.userManger
-								.findTodayLoginReward(system.getRewardId());
+						// 第一次登录
+						Rewardtrade trade = new Rewardtrade();
+						trade.setTradeDate(new Date());
+						trade.setReaded(false);
+						trade.setDesc("邀请奖励");
+						trade.setCount(18);
+						trade.setRewardsystem(system);
+						trade.setRewardtradetype(type);
 
-						if (!result) {
-							// 第一次登录
-							Rewardtrade trade = new Rewardtrade();
-							trade.setTradeDate(new Date());
-							trade.setReaded(false);
-							trade.setDesc("登录奖励");
-							trade.setCount(6);
-							trade.setRewardsystem(system);
-							trade.setRewardtradetype(type);
+						this.userManger.getRewardTradeDao().save(trade);
 
-							this.userManger.getRewardTradeDao().save(trade);
-
-							system.setCount(system.getCount() + trade.getCount());
-							this.userManger.getRewardSystemDao().saveOrUpdate(
-									system);
-						}
+						system.setCount(system.getCount() + trade.getCount());
+						this.userManger.getRewardSystemDao().saveOrUpdate(
+								system);
 					}
 				}
 			}

@@ -61,7 +61,7 @@ public class Systemcode implements java.io.Serializable {
 		this.codeId = codeId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;

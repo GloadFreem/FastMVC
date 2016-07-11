@@ -36,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jinzht.tools.Config;
 import com.jinzht.tools.DateUtils;
 import com.jinzht.tools.FileUtil;
+import com.jinzht.tools.MailUtil;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
 import com.jinzht.tools.Tools;
@@ -86,9 +87,10 @@ public class ProjectController extends BaseController {
 	 */
 	public Map requestProjectList(
 			@RequestParam(value = "page", required = true) Integer page,
+			@RequestParam(value = "type", required = true) int type,
 			HttpSession session) {
 		this.result = new HashMap();
-		List list = this.ProjectManager.findProjectsByCursor(page);
+		List list = this.ProjectManager.findProjectsByCursor(type,page);
 		if (list != null && list.size() > 0) {
 			this.status = 200;
 			this.message = "";
@@ -347,13 +349,22 @@ public class ProjectController extends BaseController {
 			// 发送短信
 			String message = String.format(
 					Config.STRING_SMS_INVEST_VALID_TRUE,
-					DateUtils.formatDate(new Date()), "xxx项目", amount);
+					DateUtils.formatDate(new Date()), project.getAbbrevName(), amount);
 			MsgUtil SMS = new MsgUtil();
 			SMS.setTelePhone(user.getTelephone());
 			SMS.setMsgType(MessageType.NormalMessage);
 			SMS.setContent(message);
 			// 发送验证码
 			MsgUtil.send();
+			//发送邮件
+			//发送注册成功邮件
+			MailUtil mu = new MailUtil();
+			try {
+				mu.sendUserInvest(mu,user.getTelephone(),user.getName(),project.getAbbrevName(),amount);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			// 封装返回结果
 			this.status = 200;

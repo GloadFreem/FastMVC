@@ -103,6 +103,44 @@ public class ProjectManager {
 		}
 		return null;
 	}
+	
+	/***
+	 * 根据类型获取项目列表
+	 * @param type
+	 * @param currentPage
+	 * @return
+	 */
+	public List findProjectsByCursor(int type,int currentPage) {
+		Map map = new HashMap();
+		Financestatus status = new Financestatus();
+		if(type==0)
+		{
+			status.setStatusId(1);
+		}else{
+			status.setStatusId(3);
+		}
+		map.put("financestatus", status);
+		
+		List list = getProjectDao().findByPropertiesWithPage(map, currentPage);
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Project project = (Project) list.get(i);
+				project.setCommunions(null);
+				project.setMembers(null);
+				project.setTeams(null);
+				project.setFinancingexit(null);
+				project.setFinancialstanding(null);
+				project.setControlreport(null);
+				project.setFinancingcase(null);
+				project.setBusinessplan(null);
+				project.setProjectcomments(null);
+				project.setProjectcommitrecords(null);
+				project.setProjectimageses(null);
+			}
+			return list;
+		}
+		return null;
+	}
 
 	/***
 	 * 根据项目id获取项目

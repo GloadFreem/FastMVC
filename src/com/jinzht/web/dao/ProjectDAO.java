@@ -208,7 +208,7 @@ public class ProjectDAO {
 	}
 	
 	public List findByCursor(int cursor){
-		log.debug("finding Publiccontent instances by cursor");
+		log.debug("finding Project instances by cursor");
 		try {
 			String queryString = "from Project";
 			Query queryObject = getCurrentSession().createQuery(queryString)
@@ -218,6 +218,35 @@ public class ProjectDAO {
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findByPropertiesWithPage(Map requestMap,Integer page) {
+		try {
+//			String debugInfo= "finding Loginfailrecord instance with property: ";
+			String queryString = "from Project as model where";
+			Object[] keys= requestMap.keySet().toArray();
+			for(int i = 0;i<requestMap.size();i++){
+//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
+				if(i==0){
+					queryString+=" model."+keys[i].toString()+" =? ";
+				}else{
+					queryString+="and model."+keys[i].toString()+" =? ";
+				}
+			}
+//			log.debug(debugInfo);
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<requestMap.size();i++){
+				queryObject.setParameter(i, requestMap.get(keys[i]));
+			}
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
 			throw re;
 		}
 	}

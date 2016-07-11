@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jinzht.tools.Config;
 import com.jinzht.tools.FileUtil;
+import com.jinzht.tools.MailUtil;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
 import com.jinzht.tools.Tools;
@@ -271,12 +272,6 @@ public class AuthenticController extends BaseController {
 		} else {
 			Users user = this.findUserInSession(session);
 			if (user != null) {
-				// 获取区域
-				// Industoryarea industoryArea =
-				// this.authenticManager.findIndustoryAreaById(entity.getAreaId());
-				// 获取行业
-				// Industorytype industoryType =
-				// this.authenticManager.findIndustorytypeById(entity.getIndustoryId());
 				// 获取身份类型
 				Identiytype identiytype = null;
 				// 获取城市地址
@@ -366,10 +361,8 @@ public class AuthenticController extends BaseController {
 					authentic.setIdentiyCarNo(entity.getIdentiyCarNo());
 					authentic.setCity(city);
 					authentic.setIndustoryArea(entity.getAreaId());
-					// authentic.setIndustoryarea(industoryArea);
-					// authentic.setIndustorytype(industoryType);
 					authentic.setName(entity.getName());
-					 authentic.setOptional(entity.getOptional());
+					authentic.setOptional(entity.getOptional());
 				}
 
 				// 保存图片
@@ -430,11 +423,23 @@ public class AuthenticController extends BaseController {
 				}
 
 				// 保存更新用户的身份认证信息
+				status = new Authenticstatus();
+				status.setStatusId(7);
+				authentic.setAuthenticstatus(status);
 				user.getAuthentics().add(authentic);
 				this.userManager.saveOrUpdateUser(user);
 				this.message = Config.STRING_AUTH_SUBMMIT_SUCCESS;
 			} else {
 				this.message = Config.STRING_LOGING_TIP;
+			}
+			
+			//发送注册成功邮件
+			MailUtil mu = new MailUtil();
+			try {
+				mu.sendUserAuthentic(mu,user.getTelephone());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 
@@ -542,6 +547,14 @@ public class AuthenticController extends BaseController {
 			Authentic  authentic = this.authenticManager.findAuthenticById(authId);
 			if(authentic!= null)
 			{
+				//发送催一催
+				MailUtil mu = new MailUtil();
+				try {
+					mu.sendUserAuthenticQuick(mu,user.getTelephone(),authentic.getName());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				this.status = 200;
 				this.message = Config.STRING_AUTH_SPEED_SUCCESS;
 			}else{

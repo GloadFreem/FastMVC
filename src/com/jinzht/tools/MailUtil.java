@@ -2,6 +2,7 @@ package com.jinzht.tools;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -386,26 +387,90 @@ public class MailUtil {
 
 	public static void main(String[] args) throws Exception {
 		MailUtil mu = new MailUtil();
-//		 test1(mu);
+		sendUserRegist(mu,"18729342354");
 //		 test2(mu);
 //		 test3(mu);
 //		 test4(mu);
 		// test5(mu);
-		 test6(mu);
+//		 test6(mu);
 	}
 
-	public static void test1(MailUtil mu) throws Exception {
-//		String toEmails = "675074252@qq.com";
-		String toEmails = Config.STRING_MAIL_SERVER_USER;
-		String subject = "第一封，简单文本邮件";
-		StringBuilder builder = new StringBuilder();
-		builder.append("我相信天上不会掉馅饼");
-		String content = builder.toString();
+	public static void sendUserRegist(MailUtil mu,String telephone) throws Exception {
+		String toEmails = "chenshengzhu@jinzht.com;xuli@jinzht.com";
+//		String toEmails = Config.STRING_MAIL_SERVER_USER;
+		String subject = "用户注册--【金指投投融资】";
+//		StringBuilder builder = new StringBuilder();
+		String dateString = DateUtils.dateToString(new Date(),"YYYY-MM-DD HH:MM:SS");
+		String content = String.format(Config.STRING_EMIAL_REGIST, telephone,dateString);
+//		builder.append(content);
+//		String content = builder.toString();
 
 		mu.setToEmails(toEmails);
 		mu.setSubject(subject);
 		mu.setContent(content);
 
+		mu.sendEmail();
+	}
+	
+	public static void sendUserAuthenticQuick(MailUtil mu,String telephone,String name) throws Exception {
+		String toEmails = "chenshengzhu@jinzht.com;xuli@jinzht.com";
+//		String toEmails = Config.STRING_MAIL_SERVER_USER;
+		String subject = "用户认证催单--【金指投投融资】";
+//		StringBuilder builder = new StringBuilder();
+		String content = String.format(Config.STRING_EMIAL_AUTHENTIC_QUICK, telephone,name);
+//		builder.append(content);
+//		String content = builder.toString();
+		
+		mu.setToEmails(toEmails);
+		mu.setSubject(subject);
+		mu.setContent(content);
+		
+		mu.sendEmail();
+	}
+	public static void sendUserInvest(MailUtil mu,String telephone,String name,String projectName,float count) throws Exception {
+		String toEmails = "chenshengzhu@jinzht.com;xuli@jinzht.com";
+//		String toEmails = Config.STRING_MAIL_SERVER_USER;
+		String subject = "认投消息--【金指投投融资】";
+//		StringBuilder builder = new StringBuilder();
+		String dateString = DateUtils.dateToString(new Date(),"YYYY-MM-DD HH:MM:SS");
+		String content = String.format(Config.STRING_EMIAL_INVEST,name, telephone,dateString,projectName,count);
+//		builder.append(content);
+//		String content = builder.toString();
+		
+		mu.setToEmails(toEmails);
+		mu.setSubject(subject);
+		mu.setContent(content);
+		
+		mu.sendEmail();
+	}
+	public static void sendUserAuthentic(MailUtil mu,String telephone) throws Exception {
+		String toEmails = "chenshengzhu@jinzht.com;xuli@jinzht.com";
+//		String toEmails = Config.STRING_MAIL_SERVER_USER;
+		String subject = "用户认证消息--【金指投投融资】";
+//		StringBuilder builder = new StringBuilder();
+		String dateString = DateUtils.dateToString(new Date(),"YYYY-MM-DD HH:MM:SS");
+		String content = String.format(Config.STRING_EMIAL_AUTHENTIC, telephone,dateString);
+//		builder.append(content);
+//		String content = builder.toString();
+		
+		mu.setToEmails(toEmails);
+		mu.setSubject(subject);
+		mu.setContent(content);
+		mu.sendEmail();
+	}
+	public static void sendUserInvest(MailUtil mu,String telephone) throws Exception {
+		String toEmails = "chenshengzhu@jinzht.com;xuli@jinzht.com";
+//		String toEmails = Config.STRING_MAIL_SERVER_USER;
+		String subject = "用户认投消息--【金指投投融资】";
+//		StringBuilder builder = new StringBuilder();
+		String dateString = DateUtils.dateToString(new Date(),"YYYY-MM-DD HH:MM:SS");
+		String content = String.format(Config.STRING_EMIAL_AUTHENTIC, telephone,dateString);
+//		builder.append(content);
+//		String content = builder.toString();
+		
+		mu.setToEmails(toEmails);
+		mu.setSubject(subject);
+		mu.setContent(content);
 		mu.sendEmail();
 	}
 

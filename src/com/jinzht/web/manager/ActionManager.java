@@ -230,7 +230,7 @@ public class ActionManager {
 	 */
 	
 	public List findAttentionListByAction(Action action,Integer page){
-		return getAttentionDao().findByPropertyWithPage("action", action,page);
+		return getAttentionDao().findByAttendWithActionPage(action.getActionId(),page);
 	}
 	
 	/***

@@ -563,7 +563,7 @@ public class ActionController extends BaseController {
 			// 报名人数
 			List list = this.actionManager.findAttentionListByAction(action,
 					page);
-			Set set = new HashSet();
+			List l = new ArrayList();
 			for (int i = 0; i < list.size(); i++) {
 				Attention attention = (Attention) list.get(i);
 				Integer userId = this.actionManager.findUserByAttention(attention);
@@ -603,20 +603,20 @@ public class ActionController extends BaseController {
 
 					attention.setUserName(u.getName());
 
-					set.add(attention);
+					l.add(attention);
 				}
 
 				
 			}
 
-			if (set != null && set.size() > 0) {
+			if (l != null && l.size() > 0) {
 				this.status = 200;
 			} else {
-				this.status = 201;
+				this.status = 200;
 			}
 
 			// 封装返回结果
-			this.result.put("data", set);
+			this.result.put("data", l);
 			this.message = "";
 		}
 

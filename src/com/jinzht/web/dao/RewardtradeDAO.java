@@ -165,12 +165,13 @@ public class RewardtradeDAO {
 					queryString += "and model." + keys[i].toString() + " =? ";
 				}
 			}
-			// log.debug(debugInfo);
-
+			
+			queryString += " order by model.rewardTradeId desc" ;
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			for (int i = 0; i < requestMap.size(); i++) {
 				queryObject.setParameter(i, requestMap.get(keys[i]));
 			}
+			
 			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
 
