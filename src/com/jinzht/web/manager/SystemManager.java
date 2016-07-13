@@ -15,7 +15,7 @@ import com.jinzht.web.dao.NoticeDAO;
 import com.jinzht.web.dao.PreloadingpageDAO;
 import com.jinzht.web.dao.ProjectDAO;
 import com.jinzht.web.dao.ShareDAO;
-import com.jinzht.web.dao.SustomserviceDAO;
+import com.jinzht.web.dao.CustomserviceDAO;
 import com.jinzht.web.dao.SystemmessageDAO;
 import com.jinzht.web.dao.VersioncontrollDAO;
 import com.jinzht.web.entity.Banner;
@@ -35,7 +35,7 @@ public class SystemManager {
 	private NoticeDAO noticeDao; // 系统公告
 	private PreloadingpageDAO preloadingDao; // 启动页
 	private BannerDAO bannerDao; // Banner 信息
-	private SustomserviceDAO sustomserviceDao; // 客服信息
+	private CustomserviceDAO customserviceDao; // 客服信息
 	private VersioncontrollDAO versioncontrollDao; // 版本更新信息
 	private ShareDAO shareDao;
 	private SystemmessageDAO systemMessageDao;
@@ -96,7 +96,7 @@ public class SystemManager {
 	 * @return 最新启动页面信息
 	 */
 	public Customservice findCustomServices() {
-		List<Customservice> list = getSustomserviceDao().findAll();
+		List<Customservice> list = getCustomserviceDao().findAll();
 		if (list != null && list.size() > 0) {
 			return list.get(0);
 		}
@@ -256,19 +256,21 @@ public class SystemManager {
 		}
 		return flag;
 	}
-	
+
 	/***
 	 * 添加反馈
-	 * @param userId 用户id
-	 * @param content 内容
+	 * 
+	 * @param userId
+	 *            用户id
+	 * @param content
+	 *            内容
 	 */
-	public void addFeedback(Integer userId,String content)
-	{
+	public void addFeedback(Integer userId, String content) {
 		Feedback feed = new Feedback();
 		feed.setContent(content);
 		feed.setUserId(String.format("%d", userId));
 		feed.setFeedDate(new Date());
-		
+
 		getFeedbackDao().save(feed);
 	}
 
@@ -293,15 +295,6 @@ public class SystemManager {
 	@Autowired
 	public void setVersioncontrollDao(VersioncontrollDAO versioncontrollDao) {
 		this.versioncontrollDao = versioncontrollDao;
-	}
-
-	public SustomserviceDAO getSustomserviceDao() {
-		return sustomserviceDao;
-	}
-
-	@Autowired
-	public void setSustomserviceDao(SustomserviceDAO sustomserviceDao) {
-		this.sustomserviceDao = sustomserviceDao;
 	}
 
 	public BannerDAO getBannerDao() {
@@ -347,6 +340,15 @@ public class SystemManager {
 	@Autowired
 	public void setFeedbackDao(FeedbackDAO feedbackDao) {
 		this.feedbackDao = feedbackDao;
+	}
+
+	public CustomserviceDAO getCustomserviceDao() {
+		return customserviceDao;
+	}
+
+	@Autowired
+	public void setCustomserviceDao(CustomserviceDAO customserviceDao) {
+		this.customserviceDao = customserviceDao;
 	}
 
 }

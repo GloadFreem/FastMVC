@@ -989,6 +989,7 @@ public class ProjectController extends BaseController {
 			Project project = this.ProjectManager.findProjectById(projectId);
 			share.setContent(project.getDescription());
 			share.setImage(project.getStartPageImage());
+			share.setTitle(project.getAbbrevName()+"【金指投投融资】");
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
 

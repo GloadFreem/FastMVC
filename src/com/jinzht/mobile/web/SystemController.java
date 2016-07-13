@@ -322,11 +322,21 @@ public class SystemController extends BaseController {
 	public Map requestGoldInviteFriends(HttpSession session) {
 		this.result = new HashMap();
 
+		//分享内容
+		int count = Config.STRING_SHARE_GOLD.size();
+		int radomIndex = (int)(0+Math.random()*(count));
+		String content = Config.STRING_SHARE_GOLD.get(radomIndex).toString();
+		
+		//图片
+		count = Config.STRING_SHARE_GOLD_IMAGES.size();
+		radomIndex = (int)(0+Math.random()*(count));
+		String image = Config.STRING_SHARE_GOLD_IMAGES.get(radomIndex).toString();
+		image = Config.STRING_SYSTEM_ADDRESS+"images/share/"+image;
 		Map map = new HashMap();
-		map.put("title", "【金指投投融资】--邀请好友送金条");
-		map.put("content","小试牛刀，快斩第一桶金！");
+		map.put("title", "邀请好友送金条--【金指投投融资】");
+		map.put("content",content);
 		map.put("url",Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_GOLD));
-		map.put("image", "http://www.jinzht.com:8080/jinzht/images/icon.jpg");
+		map.put("image", image);
 		this.status = 200;
 		this.result.put("data", map);
 		this.message = "";
@@ -463,11 +473,17 @@ public class SystemController extends BaseController {
 		}
 		String invitcode = Tools.generateInviteCode(userId, false);
 
+		int count = Config.STRING_SHARE_INVITE.size();
+		
+		int radomIndex = (int)(0+Math.random()*(count));
+		
+		String content = Config.STRING_SHARE_INVITE.get(radomIndex).toString();
+		
 		Map map = new HashMap();
 		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_CODE));
 		map.put("image", Config.STRING_SYSTEM_INTRODUCE_IMAGE);
-		map.put("title", Config.STRING_APPP_SHARE_TITLE);
-		map.put("content", Config.STRING_APPP_SHARE_CONTENT);
+		map.put("title", "邀请好友--"+Config.STRING_APPP_SHARE_TITLE);
+		map.put("content", content);
 		this.status = 200;
 		this.result.put("data", map);
 		this.message = "";

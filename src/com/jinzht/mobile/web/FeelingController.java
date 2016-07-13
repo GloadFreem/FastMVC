@@ -419,14 +419,28 @@ public class FeelingController extends BaseController {
 			share.setContent(content.getContent());
 			
 			Object[] objs = content.getContentimageses().toArray();
+			
+			
 			if(objs!=null && objs.length>0)
 			{
-				Contentimages image = (Contentimages)objs[0];
+				int count = objs.length;
+				int radomIndex = (int)(0+Math.random()*(count));
+				
+				Contentimages image = (Contentimages)objs[radomIndex];
 				share.setImage(image.getUrl());
 			}else{
-				share.setImage("http://www.jinzht.com:8080/jinzht/images/icon.jpg");
+				int radomIndex = (int)(0+Math.random()*(4));
+				share.setImage(Config.STRING_SYSTEM_ADDRESS+"images/share/"+Config.STRING_SHARE_FEELING_IMAGES.get(radomIndex));
 			}
-					
+			
+			String publicContentStr = content.getContent();
+			share.setTitle("圈子分享--【金指投圈子】");
+			if(publicContentStr!=null && !publicContentStr.equals(""))
+			{
+				share.setContent(content.getContent());
+			}else{
+				share.setContent(Config.STRING_SHARE_CONTENT_TITLE);
+			}
 			
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);

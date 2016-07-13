@@ -146,7 +146,8 @@ public class InvestorManager {
 					}
 				}
 				
-				requestMap.put("collectCount", 100);
+				int radomIndex = (int)(1+Math.random()*(1000-1+1));
+				requestMap.put("collectCount", radomIndex);
 
 				requestMap.put("user", u);
 				requestMap.put("areas", l);

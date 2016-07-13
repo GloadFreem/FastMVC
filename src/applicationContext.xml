@@ -36,9 +36,9 @@
 				<prop key="hibernate.dialect">
 					org.hibernate.dialect.MySQLDialect
 				</prop>
-			    <prop key="hibernate.show_sql">
+			  <!--   <prop key="hibernate.show_sql">
 					true
-				</prop>
+				</prop> -->
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
@@ -375,7 +375,7 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	<bean id="SustomserviceDAO" class="com.jinzht.web.dao.SustomserviceDAO">
+	<bean id="SustomserviceDAO" class="com.jinzht.web.dao.CustomserviceDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

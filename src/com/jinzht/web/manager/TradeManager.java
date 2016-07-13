@@ -8,7 +8,7 @@ import com.jinzht.web.dao.BannerDAO;
 import com.jinzht.web.dao.NoticeDAO;
 import com.jinzht.web.dao.PreloadingpageDAO;
 import com.jinzht.web.dao.ShareDAO;
-import com.jinzht.web.dao.SustomserviceDAO;
+import com.jinzht.web.dao.CustomserviceDAO;
 import com.jinzht.web.dao.SystemmessageDAO;
 import com.jinzht.web.dao.TraderecordDAO;
 import com.jinzht.web.dao.VersioncontrollDAO;

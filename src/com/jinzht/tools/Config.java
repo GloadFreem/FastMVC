@@ -51,11 +51,11 @@ public class Config {
 	public static String  STRING_AUTH_SPEED_SUCCESS = "认证加速申请成功!";
 	public static String  STRING_AUTH_IDENTIY_FAIL = "投资人身份添加失败!";
 	public static List<String> STRING_AUTH_QUALIFICATION = Arrays.asList("'(一)《私募投资基金监督管理暂行办法》规定的合格投资者'", 
-			"'(二)投资单个融资项目的最低金额不低于100万元人民币的单位或个人", 
-			"'(三)社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，以及依法设立并在中国证券投资基金业协会备案的投资计划",
-			"'(四)净资产不低于1000万元人民币的单位",
-			"'(五)金融资产不低于300万元人民币或最近三年个人年均收入不低于50万元人民币的个人。上述个人除能提供相关财产、收入证明外，还应当能辨识、判断和承担相应投资风险",
-			"'(六)证券业协会规定的其他投资者");
+			"(二)投资单个融资项目的最低金额不低于100万元人民币的单位或个人", 
+			"(三)社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，以及依法设立并在中国证券投资基金业协会备案的投资计划",
+			"(四)净资产不低于1000万元人民币的单位",
+			"(五)金融资产不低于300万元人民币或最近三年个人年均收入不低于50万元人民币的个人。上述个人除能提供相关财产、收入证明外，还应当能辨识、判断和承担相应投资风险",
+			"(六)证券业协会规定的其他投资者");
 	public static String STRING_AUTH_SUBMMIT_SUCCESS = "认证信息提交成功";
 	public static String STRING_AUTH_PARAM_NAME_NOT_NULL = "用户真实姓名不能为空!";
 	public static String STRING_AUTH_PARAM_IDENTIYCARA_NOT_NULL = "身份证正面照片不能为空!";
@@ -121,13 +121,13 @@ public class Config {
 	public static String  STRING_SMS_INVEST_VALID_TRUE = "尊贵的金指投用户，您于[%s]投资[%s][%s]万。如有问题请致电 18681838312, 或致邮 kf@jinzht.com。我们的工作人员将会第一时间联系您，请您保持手机畅通。您也可以打开【金指投】APP->个人>中心->我的投融资->我投资的项目 查看详情。";
 	
 	//系统
-	public static String STRING_APPP_SHARE_TITLE ="您身边的投资专家";
-	public static String STRING_APPP_SHARE_CONTENT ="金指投--市值百亿的企业";
+	public static String STRING_APPP_SHARE_TITLE ="【金指投投融资】";
+	public static String STRING_APPP_SHARE_CONTENT ="金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.160:8080/jinzht/";
-	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.159:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
-	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.bz55.com/uploads/allimg/130531/1-1305310Z505.jpg";
+	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.jinzht.com:8080/jinzht/images/icon.jpg";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS = "头像更新成功！";
 	public static String  STRING_USER_HEADER_PICTURE_UPDATE_FAIL = "头像更新失败！";
@@ -141,8 +141,8 @@ public class Config {
 	public static String  STRING_USER_IDENTITY_PICTUREA_FORMAT = "jinzht_user_identiy_a_%d";
 	public static String  STRING_USER_IDENTITY_PICTUREB_FORMAT = "jinzht_user_identiy_b_%d";
 	public static String  STRING_USER__IDENTITY_BUINESS_FORMAT = "jinzht_user_identiy_buiness_%d";
-	public static String  STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL = "xiangmu@jinzht.com";
-	public static String  STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_TEL = "400-1234-5896";
+	public static String  STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL = "kefu@jinzht.com";
+	public static String  STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_TEL = "029-63687306";
 	
 	//分享
 	public static String STRING_SYSTEM_INTRODUCE ="UserGuide";
@@ -173,6 +173,42 @@ public class Config {
 	
 	//分享
 	public static String STRING_SHARE_APP_URL ="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro";
+	public static List STRING_SHARE_INVITE = new ArrayList() {
+		{
+			add("一款互联网投融资神器");
+			add("金融界大咖眼中的投融资神器");
+			add("做投融资就用金指投");
+			add("匠心之作，急速解决创业路上资金短缺问题");
+			add("匠心之作，精品项目络绎不绝，赶快收下它吧！");
+		}
+	};
+	
+	public static List STRING_SHARE_GOLD = new ArrayList() {
+		{
+			add("好友送您62根金条，立即领取");
+			add("【福利啦】，一万根金条直抵一万元人民币现金");
+			add("复制我的指环码，即可获得62根金条");
+			add("平台金条大放送，一根抵一元，注册即送62根金条");
+		}
+	};
+	public static List STRING_SHARE_GOLD_IMAGES = new ArrayList() {
+		{
+			add("886419962933257633.jpg");
+			add("56435114861037289.jpg");
+			add("179908848829907881.jpg");
+			add("225202389966470168.jpg");
+		}
+	};
+	public static List STRING_SHARE_FEELING_IMAGES = new ArrayList() {
+		{
+			add("118199830280732226.jpg");
+			add("374577951612474114.jpg");
+			add("510136669600040072.jpg");
+			add("615941569799884810.jpg");
+		}
+	};
+	
+	public static String STRING_SHARE_CONTENT_TITLE ="您的好友分享了一篇【金指投投融资】圈子，请点击查看吧!";
 	
 	//活动
 	public static String STRING_ACTION_ADD_SUCCESS = "报名信息提交成功!";
@@ -221,9 +257,9 @@ public class Config {
 	//友盟推送
 	public static String STRING_JAK = "cc3fdb255d49497c5fd3d402"; // access key
 	public static String STRING_JMS = "4bcf1021c013e29b4f77a7b7"; //master secret
-	public static String STRING_PUSH_ALERT = "麦哥很牛逼!";	
-	public static String STRING_PUSH_TITLE = "极光推送";	
-	public static String STRING_PUSH_CONTENT = "极光推送";	
+	public static String STRING_PUSH_ALERT = "【金指投投融资】--投资学院";	
+	public static String STRING_PUSH_TITLE = "【金指投投融资】";	
+	public static String STRING_PUSH_CONTENT = "【金指投投融资】";	
 	
 	//邮件消息
 	public static String STRING_EMIAL_REGIST ="<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>新用户%s于%s注册账户，请以工匠心用心对待每一位来之不易的用户，让他能够充分体验金指投优质服务！</div>";

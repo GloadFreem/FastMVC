@@ -16,7 +16,7 @@ body {
 .aboutus img {
 	display: block;
 	margin: 48px auto 38px auto;
-	width: 100%;
+	width: 80%;
 }
 
 .develophis {
@@ -83,7 +83,7 @@ body {
 
 .download div {
 	width: 100%;
-	height: 100px;
+	height: 70px;
 	position: fixed;
 	bottom: 0;
 	background-color: rgb(0, 0, 0);
@@ -93,16 +93,20 @@ body {
 .download div img {
 	display: block;
 	margin: auto;
-	padding-top: 10px;
-	width: 100%;
+	padding-top: 15px;
+	width: 70%;
 }
 
+}
 .body-background {
 	background-color: darkslategray;
 }
 
 .invite {
-	margin: 5%;
+	margin-top: 5%;
+	margin-right: 5%;
+	margin-bottom: 55%;
+	margin-left: 5%;
 }
 
 .invite-img {
@@ -133,16 +137,22 @@ body {
 	margin-top: 5%;
 }
 
-.invite-download
-{
+.invite-download {
 	margin-top: 15%;
 }
-.gold-download
-{
-	margin-top: 10%;
+
+.gold-download {
+	margin-top: 20%;
+	margin-bottom: 10%;
 }
 
 .invite-download-img {
+	width: 80%;
+	height: auto;
+	margin-left: 10%;
+}
+
+.gold-download-img {
 	width: 80%;
 	height: auto;
 	margin-left: 10%;
@@ -160,7 +170,7 @@ body {
 }
 
 .gold-header {
-	margin-top: -150%;
+	margin-top: -120%;
 }
 
 .gold-header-img {
@@ -169,59 +179,71 @@ body {
 	margin-left: 5%;
 }
 
+.gold-header-img1 {
+	width: 100%;
+	height: auto;
+}
+
+.gold-header-img2 {
+	width: 90%;
+	height: auto;
+	margin-top: 40%;
+}
+
+.gold-header-img3 {
+	width: 70%;
+	margin-left: 15%;
+	margin-top: -10%;
+}
+
 .gold-qr-code-img {
 	width: 80%;
 	height: auto;
 	margin-left: 10%;
 	margin-top: 5%;
 }
-.gold-qr-code
-{
-	margin-top:-20%;
+
+.gold-qr-code {
+	margin-top: -7%;
 }
 
 .gold-code {
 	color: white;
 	font-size: 100%;
 	text-align: center;
-	margin-top: -53%;
+	margin-top: -233%;
 }
-.rule
-{
+
+.rule {
 	width: 70%;
 	margin-left: 15%;
-	margin-top: -55%;
+	margin-top: 10%;
 }
 
-.rule-item
-{
-	color:orange;
-	font-size:100%;
-	margin-top:5%;
+.rule-item {
+	color: #946926;
+	font-size: 80%;
+	margin-top: 5%;
 }
 
-.line-separte
-{
+.line-separte {
 	background-color: #e6e6e6;
 	height: 10px;
 	width: 100%;
 }
 
-.line
-{
+.line {
 	background-color: #e6e6e6;
 	height: 5px;
 	width: 100%;
 }
 
-.foundation-content
-{
+.foundation-content {
 	background-color: white;
 	height: 40px;
 }
 
-.foundation-content-name
-{
+.foundation-content-name {
 	margin-left: 5%;
 	width: 30%;
 	float: left;
@@ -229,172 +251,185 @@ body {
 	padding-top: 4%;
 }
 
-.foundation-content-value
-{
+.foundation-content-value {
 	padding-top: 4%;
 }
 
-.foundation-header
-{
+.foundation-header {
 	background-color: white;
 	margin-left: 5%;
 	padding-top: 5%;
 	padding-bottom: 5%;
 }
 
-.foundation-body
-{
+.foundation-body {
 	background-color: white;
 	width: 100%;
-
 }
 
-.foundation-direct
-{
+.foundation-direct {
 	margin-left: 5%;
 	margin-right: 5%;
 	font-size: 100%;
-	height:100%;
-	margin-top:5%;
-	margin-bottom:5%;
+	height: 100%;
+	margin-top: 5%;
+	margin-bottom: 5%;
 }
 
-.foundation-bottom-item
-{
+.foundation-bottom-item {
 	background-color: white;
 	width: 50%;
 	float: left;
-	height:100%;
+	height: 100%;
 	padding-top: 5%;
 	text-align: center;
 }
-.foundation-bottom
-{
-	z-index:999;
-	position:fixed;
-	bottom:0;
-	left:0;
-	width:100%;
-	overflow:visible;
+
+.foundation-bottom {
+	z-index: 999;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	overflow: visible;
 	height: 10%;
 }
 
-.foundation-header-content
-{
+.foundation-header-content {
 	height: 100px;
 }
 
-.bottom-item
-{
+.bottom-item {
 	width: 50%;
 }
 
-.bottom-item-wrappeer
-{
+.bottom-item-wrappeer {
 	margin: 2%;
 }
 
-.wrapper-left
-{
+.wrapper-left {
 	margin-left: 20%;
 	width: 15%;
 	margin-top: -20%;
 }
 
-.wrapper-right
-{
+.wrapper-right {
 	width: 50%;
 	margin-top: -17%;
 	margin-left: 40%;
 	color: white;
 }
 
-.bottom-item-wrappeer-bg
-{
+.bottom-item-wrappeer-bg {
 	width: 100%;
 }
 
-.bottom-item-wrappeer-bg-img
-{
+.bottom-item-wrappeer-bg-img {
 	width: 100%;
 }
 
-.content
-{
-	width: 100%;
-	height: 100%;
-}
-.content-bg
-{
+.content {
 	width: 100%;
 	height: 100%;
 }
 
-.content-header
-{
+.content-bg {
+	width: 100%;
+	height: 100%;
+}
+
+.content-header {
 	width: 80%;
 	margin-top: -160%;
 	margin-left: 10%;
 }
 
-.content-header-bg
-{
-	width:100%;
+.content-header-bg {
+	width: 100%;
 	height: 200px;
 }
 
-.user-desc
-{
+.user-desc {
 	margin: 5%;
 }
 
-.userinfo
-{
+.userinfo {
 	margin-top: 10%;
 }
 
-.content-header-area
-{
+.content-header-area {
 	margin-top: -55%;
 }
 
-.content-header-area-img
-{
+.content-header-area-img {
 	width: 25%;
 	margin-left: 37.5%;
 }
 
-.content-name
-{
+.content-name {
 	text-align: center;
 	margin-top: 2%;
 }
 
-.content-position
-{
+.content-position {
 	text-align: center;
 	margin-top: 2%;
 }
 
-.content-address
-{
+.content-address {
 	margin-top: 2%;
 	text-align: center;
 	font-size: 80%;
 }
 
-.content-desc-name
-{
+.content-desc-name {
 	text-align: center;
 	margin-top: -55%;
 	color: wheat;
 }
 
-.content-desc-introduce
-{
+.content-desc-introduce {
 	margin-left: 10%;
 	margin-right: 10%;
 	font-size: 80%;
 	color: white;
 	margin-top: 5%;
+}
+
+.king-code {
+	margin-top: -105%;
+}
+
+.king-code-img-wrapper {
+	width: 10%;
+	margin-left: 75%;
+	margin-top: -5%;
+}
+
+.king-code-img {
+	width: 100%;
+}
+
+.king-code-text {
+	text-align: right;
+	color: rgb(255, 185, 0);
+	width: 70%;
+	font-size: 110%;
+}
+
+.er-code {
+	margin-top: 5%
+}
+
+.er-code-img {
+	width: 30%;
+	margin-left: 35%;
+}
+
+.er-code-img-text {
+	margin-top: 5%;
+	text-align: center;
+	font-size: 80%;
+	color: rgb(148, 105, 38);
+	text-align: center;
 }

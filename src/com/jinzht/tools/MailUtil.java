@@ -387,7 +387,6 @@ public class MailUtil {
 
 	public static void main(String[] args) throws Exception {
 		MailUtil mu = new MailUtil();
-		sendUserRegist(mu,"18729342354");
 //		 test2(mu);
 //		 test3(mu);
 //		 test4(mu);

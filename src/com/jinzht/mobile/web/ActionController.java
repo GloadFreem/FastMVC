@@ -257,18 +257,18 @@ public class ActionController extends BaseController {
 
 			// 处理返回值
 			Users user1 = comment.getUsersByUserId();
-//			if (user1.getAuthentics() != null) {
-//				Object[] l = user.getAuthentics().toArray();
-//				if (l.length > 0) {
-//					Authentic authentic = (Authentic) l[0];
-//					user1.setName(authentic.getName());
-//				} else {
-//					user1.setName("");
-//				}
-//
-//			} else {
-//				user1.setName("");
-//			}
+			if (user1.getAuthentics() != null) {
+				Object[] l = user.getAuthentics().toArray();
+				if (l.length > 0) {
+					Authentic authentic = (Authentic) l[0];
+					user1.setName(authentic.getName());
+				} else {
+					user1.setName("");
+				}
+
+			} else {
+				user1.setName("");
+			}
 			user1.setAuthentics(null);
 			user1.setUserstatus(null);
 			user1.setTelephone(null);
@@ -344,9 +344,9 @@ public class ActionController extends BaseController {
 			shareType.setShareTypeId(type);
 			share.setSharetype(shareType);
 			share.setShareDate(new Date());
-			share.setTitle("【金指投投融资】--7月活动来袭");
+			share.setTitle(action.getName()+"--【金指投投融资】");
 			share.setImage("https://is1-ssl.mzstatic.com/image/thumb/Purple60/v4/3a/9c/09/3a9c09aa-5e86-4185-4b6c-b3e282e45d86/pr_source.png/500x500bb.jpg");
-			share.setContent("互联网时代，共享经济，等您来参与！");
+			share.setContent(action.getDescription());
 			share.setUrl(Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_ACTION));
 
 			// 保存分享记录
