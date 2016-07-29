@@ -20,52 +20,52 @@
 		$(".upload").dropzone({
 			url : "uploadImage.action"
 		});
-		$("input:first").blur(function() {
-			$("input:first").css("background-color", "#D6D6FF");
-			if ($("input:first").val() == "") {
-				$("input:first").val("请输入名称");
-			}
-		});
-		$("input:first").focus(function() {
-			$("input:first").css("background-color", "#FFFFCC");
-			if ($("input:first").val() == "请输入名称") {
-				$("input:first").val("");
-			}
-		});
 		$("input:eq(1)").blur(function() {
 			$("input:eq(1)").css("background-color", "#D6D6FF");
 			if ($("input:eq(1)").val() == "") {
-				$("input:eq(1)").val("请输入描述");
+				$("input:eq(1)").val("请输入名称");
 			}
 		});
 		$("input:eq(1)").focus(function() {
 			$("input:eq(1)").css("background-color", "#FFFFCC");
-			if ($("input:eq(1)").val() == "请输入描述") {
+			if ($("input:eq(1)").val() == "请输入名称") {
 				$("input:eq(1)").val("");
 			}
 		});
 		$("input:eq(2)").blur(function() {
 			$("input:eq(2)").css("background-color", "#D6D6FF");
-			if ($("input:first").val() == "") {
-				$("input:eq(2)").val("请输入链接地址");
+			if ($("input:eq(2)").val() == "") {
+				$("input:eq(2)").val("请输入描述");
 			}
 		});
 		$("input:eq(2)").focus(function() {
 			$("input:eq(2)").css("background-color", "#FFFFCC");
-			if ($("input:eq(2)").val() == "请输入链接地址") {
+			if ($("input:eq(2)").val() == "请输入描述") {
 				$("input:eq(2)").val("");
 			}
 		});
 		$("input:eq(3)").blur(function() {
 			$("input:eq(3)").css("background-color", "#D6D6FF");
 			if ($("input:eq(3)").val() == "") {
-				$("input:eq(3)").val("请输入图片链接");
+				$("input:eq(3)").val("请输入链接地址");
 			}
 		});
 		$("input:eq(3)").focus(function() {
 			$("input:eq(3)").css("background-color", "#FFFFCC");
-			if ($("input:eq(3)").val() == "请输入图片链接") {
+			if ($("input:eq(3)").val() == "请输入链接地址") {
 				$("input:eq(3)").val("");
+			}
+		});
+		$("input:eq(4)").blur(function() {
+			$("input:eq(4)").css("background-color", "#D6D6FF");
+			if ($("input:eq(4)").val() == "") {
+				$("input:eq(4)").val("请输入 图片地址(选填)");
+			}
+		});
+		$("input:eq(4)").focus(function() {
+			$("input:eq(4)").css("background-color", "#FFFFCC");
+			if ($("input:eq(4)").val() == "请输入 图片地址(选填)") {
+				$("input:eq(4)").val("");
 			}
 		});
 	});

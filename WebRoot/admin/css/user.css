@@ -1,0 +1,28 @@
+.authinfo {
+	width: 95%;
+	border-style: dashed;
+	border-color: green;
+	border-radius: 5px;
+	border-width: 2px;
+	margin-left: 2.5%;
+	margin-top:10px;
+}
+
+.authinfo-item {
+	margin: 20px;
+}
+
+.authinfo-item-key {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: #8B989F;
+	height: 40px;
+	line-height: 40px;
+	color: white;
+}
+
+.textarea{
+	color: black;
+	width: 100%;
+	height: 200px;
+}

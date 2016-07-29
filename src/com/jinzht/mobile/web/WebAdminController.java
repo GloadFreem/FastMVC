@@ -61,6 +61,10 @@ public class WebAdminController extends BaseController {
 	private WebManager webManager;
 	@Autowired
 	private SystemManager systemManger;
+	@Autowired
+	private UserManager userManager;
+	@Autowired
+	private AuthenticManager authenticManager;
 	
 	@RequestMapping(value = "/admin/login")
 	public String webEditor() {
@@ -161,6 +165,10 @@ public class WebAdminController extends BaseController {
 	public Map uploadImage(
 			@RequestParam(value = "file",required = false) MultipartFile[] images,
 			HttpSession session) {
+		
+		session.setAttribute("images", null);
+		
+		
 		this.result = new HashMap();
 		this.result.put("data", "");
 		// 保存图片
@@ -227,14 +235,11 @@ public class WebAdminController extends BaseController {
 		banner.setUrl(url);
 		banner.setDescription(description);
 		
-		if(image!=null)
+		if(image!=null && !image.equals("") && l==null && l.size()==0)
 		{
 			banner.setImage(image);
 		}else{
-			if(l!=null && l.size()>0)
-			{
-				banner.setImage(l.get(0).toString());
-			}
+			banner.setImage(l.get(0).toString());
 		}
 		
 		if(bannerId!=-1)
@@ -247,5 +252,161 @@ public class WebAdminController extends BaseController {
 		List<Banner> list = this.systemManger.findBannerInfoList();
 		map.put("items", list.iterator());
 		return "/admin/banner/bannerList";
+	}
+	
+	/***
+	 * 用户列表
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/userListAdmin")
+	public String userListAdmin(ModelMap map) {
+		List<Users> list = this.userManager.getUserDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/Users/userList";
+	}
+	
+	
+	/***
+	 * 编辑用户
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/editUser")
+	public String editUser(
+			@RequestParam(value="userId",required=false)Integer userId,
+			ModelMap map) {
+		List areas = this.authenticManager.getIndustoryareaDao().findAll();
+		if(userId!=null)
+		{
+			Users user = this.userManager.findUserById(userId);
+			
+			Set set = user.getAuthentics();
+			Object[] objs = set.toArray();
+			
+			List l = new ArrayList(); 
+			for(int i =0;i<objs.length;i++)
+			{
+				Authentic authentic = (Authentic) objs[i];
+				String optional = authentic.getOptional();
+				String area = authentic.getIndustoryArea();
+				
+				Map m = new HashMap();
+				
+				List list =new ArrayList();
+				if(!optional.equals(null))
+				{
+					if(optional.equals(""))
+					{
+						list.add(0);
+					}else{
+						String[] tempList = optional.split(",");
+						
+						for(String s : tempList)
+						{
+							list.add(s);
+						}
+					}
+				}else{
+					list.add(0);
+				}
+				
+				m.put("option", list);
+				
+				list =new ArrayList();
+				if(!area.equals(null))
+				{
+					if(area.equals(""))
+					{
+						list.add(0);
+					}else{
+						String[] tempList = area.split(",");
+						
+						for(String s : tempList)
+						{
+							list.add(s);
+						}
+					}
+				}else{
+					list.add(0);
+				}
+				
+				m.put("areas", list);
+				
+				l.add(m);
+			}
+			
+			map.put("ext", l);
+			map.put("user", user);
+			map.put("authentics", set);
+			
+		}
+		
+		map.put("areas", areas);
+		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
+		
+		return "/admin/Users/editorUser";
+	}
+	
+	@RequestMapping(value = "/admin/addUser")
+	/***
+	 * 添加Banner
+	 * @return
+	 */
+	public String addUser(
+			@RequestParam(value = "userId",required = false) Integer userId,
+			@RequestParam(value = "name",required = false) String name,
+			@RequestParam(value = "telephone",required = false)String telephone,
+			@RequestParam(value = "password",required = false) String password,
+			@RequestParam(value = "image",required = false) String image,
+			@RequestParam(value = "platform",required = false) String platform,
+			@RequestParam(value = "Str",required = false) String Str,
+			@RequestParam(value = "identityTypeId",required = false) String identityTypeId,
+			@RequestParam(value = "realName",required = false) String realName,
+			@RequestParam(value = "identityCardA",required = false) String identityCardA,
+			@RequestParam(value = "identityCardB",required = false) String identityCardB,
+			@RequestParam(value = "identityCardNo",required = false) String identityCardNo,
+			@RequestParam(value = "companyName",required = false) String companyName,
+			@RequestParam(value = "companyAddress",required = false) String companyAddress,
+			@RequestParam(value = "position",required = false) String position,
+			@RequestParam(value = "bussinessNo",required = false) String bussinessNo,
+			@RequestParam(value = "introduce",required = false) String introduce,
+			@RequestParam(value = "companyIntroduce",required = false) String companyIntroduce,
+			@RequestParam(value = "optional",required = false) String optional,
+			@RequestParam(value = "areas",required = false) String areas,
+			ModelMap map,
+			HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+//		List l = (List) session.getAttribute("images");
+//		Banner banner;
+//		
+//		if(bannerId!=-1)
+//		{
+//			banner = this.systemManger.getBannerDao().findById(bannerId);
+//		}else{
+//			banner = new Banner();
+//		}
+//		
+//		banner.setName(name);
+//		banner.setUrl(url);
+//		banner.setDescription(description);
+//		
+//		if(image!=null && !image.equals("") && l==null && l.size()==0)
+//		{
+//			banner.setImage(image);
+//		}else{
+//			banner.setImage(l.get(0).toString());
+//		}
+//		
+//		if(bannerId!=-1)
+//		{
+//			this.systemManger.getBannerDao().saveOrUpdate(banner);
+//		}else{
+//			this.systemManger.getBannerDao().save(banner);
+//		}
+//		
+		List<Users> list = this.userManager.getUserDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/Users/userList";
 	}
 }

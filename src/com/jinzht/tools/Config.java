@@ -106,6 +106,9 @@ public class Config {
 			add("editBanner.action");
 			add("uploadImage.action");
 			add("addBanner.action");
+			add("userListAdmin.action");
+			add("addUser.action");
+			add("editUser.action");
 		}
 	};
 

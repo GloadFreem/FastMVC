@@ -58,8 +58,8 @@
                         </li>
                         <li><a class="menuitem">用户管理</a>
                             <ul class="submenu1">
-                                <li><a href="dashboard.action" target="content">用户列表</a> </li>
-                                <li><a>身份认证管理</a> </li>
+                                <li><a href="userListAdmin.action" target="content">用户列表</a> </li>
+                                <li><a>认证审核</a> </li>
                                 <li><a>黑名单</a> </li>
                             </ul>
                         </li>
