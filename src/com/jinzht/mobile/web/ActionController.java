@@ -37,6 +37,7 @@ import com.jinzht.tools.FileUtil;
 import com.jinzht.tools.Tools;
 import com.jinzht.web.entity.Action;
 import com.jinzht.web.entity.Actioncomment;
+import com.jinzht.web.entity.Actionimages;
 import com.jinzht.web.entity.Actionprise;
 import com.jinzht.web.entity.Attention;
 import com.jinzht.web.entity.Authentic;
@@ -345,10 +346,19 @@ public class ActionController extends BaseController {
 			share.setSharetype(shareType);
 			share.setShareDate(new Date());
 			share.setTitle(action.getName()+"--【金指投投融资】");
-			share.setImage("https://is1-ssl.mzstatic.com/image/thumb/Purple60/v4/3a/9c/09/3a9c09aa-5e86-4185-4b6c-b3e282e45d86/pr_source.png/500x500bb.jpg");
 			share.setContent(action.getDescription());
-			share.setUrl(Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_ACTION));
+			share.setUrl(Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_ACTION)+"?actionId="+action.getActionId());
 
+			Object[] images = action.getActionimages().toArray();
+			if(images!=null && images.length>0)
+			{
+				Actionimages image = (Actionimages) images[0];
+				share.setImage(image.getUrl());
+			}else
+			{
+				share.setImage("https://is1-ssl.mzstatic.com/image/thumb/Purple60/v4/3a/9c/09/3a9c09aa-5e86-4185-4b6c-b3e282e45d86/pr_source.png/500x500bb.jpg");
+			}
+				
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
 
@@ -685,8 +695,13 @@ public class ActionController extends BaseController {
 	}
 	
 	@RequestMapping(value="actionWebLooker")
-	public String actionWebLooker(ModelMap map)
+	public String actionWebLooker(
+			@RequestParam(value="actionId",required=false)Integer actionId,
+			ModelMap map)
 	{
+		Action action = this.actionManager.findActionById(actionId);
+		
+		map.put("action", action);
 		return "actionWebLooker";
 	}
 	

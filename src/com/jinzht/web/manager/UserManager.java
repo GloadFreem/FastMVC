@@ -274,11 +274,11 @@ public class UserManager {
 				project.setMembers(null);
 				project.setTeams(null);
 				project.setBorrowerUserNumber(null);
-				project.setFinancingexit(null);
-				project.setFinancialstanding(null);
-				project.setControlreport(null);
-				project.setFinancingcase(null);
-				project.setBusinessplan(null);
+				project.setFinancingexits(null);
+				project.setFinancialstandings(null);
+				project.setControlreports(null);
+				project.setFinancingcases(null);
+				project.setBusinessplans(null);
 				project.setProjectcomments(null);
 				project.setProjectcommitrecords(null);
 				project.setProjectimageses(null);

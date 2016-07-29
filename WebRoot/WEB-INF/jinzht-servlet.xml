@@ -50,7 +50,6 @@
 	</bean>
 	
 	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-	 
 	
 	<bean id="userManager" class="com.jinzht.web.manager.UserManager"></bean>
 	<bean id="systemManager" class="com.jinzht.web.manager.SystemManager"></bean>

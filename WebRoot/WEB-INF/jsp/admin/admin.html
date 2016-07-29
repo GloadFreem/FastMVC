@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Dashboard | BlueWhale Admin</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/text.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/grid.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/layout.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/nav.css" media="screen" />
+    <!--[if IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
+    <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
+    <!-- BEGIN: load jquery -->
+    <script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery-ui/jquery.ui.core.min.js"></script>
+    <script src="js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
+    <script src="js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
+    <script src="js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
+    <!-- END: load jquery -->
+    <!-- BEGIN: load jqplot -->
+    <link rel="stylesheet" type="text/css" href="css/jquery.jqplot.min.css" />
+    <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/jqPlot/excanvas.min.js"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="js/jqPlot/jquery.jqplot.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jqPlot/plugins/jqplot.barRenderer.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jqPlot/plugins/jqplot.pieRenderer.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jqPlot/plugins/jqplot.highlighter.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jqPlot/plugins/jqplot.pointLabels.min.js"></script>
+    <!-- END: load jqplot -->
+    <script src="js/setup.js" type="text/javascript"></script>
+   <script type="text/javascript">
+
+        $(document).ready(function () {
+            setupLeftMenu();
+        });
+    </script>
+</head>
+<body>
+    <div class="container_12">
+    	<!--该部分为头部-->
+        <div class="header-repeat">
+            <div class="floatcenter">
+               <img src="img/金指投后台管理系统.png" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <!--头部结束-->
+        
+        <!--该部分为主体-->
+       	<div class="mainbody">
+        	<div class="grid_2">
+	            <div class="box sidemenu">
+	                <div class="block" id="section-menu">
+	                    <ul class="section menu">
+	                    	<li class="admin"><img src="img/管理员_h.png" /><p>金指投</p><span>高级管理员</span></li>
+	                        <li><a class="menuitem"><img src="img/管理员_h.png" />管    理    员</a>
+	                            <ul class="submenu">
+	                            <li></br><span class="vertical-line">&nbsp;&nbsp;用户管理</span>
+	                            	<table class="subadduser">
+	                            		<tr>
+	                            			<a><td><div style="margin-right: 29px">添加账户</div></td></a>
+	                            			<a><td><div style="margin-right: 29px">分配权限</div></td></a>
+	                            			<a><td>编辑账号</td></a>
+	                            		</tr>
+	                            	</table>
+	                            </li>
+	                            <li><span class="vertical-line">&nbsp;&nbsp;权限管理</span>
+	                            	<table class="subadduadmin">
+	                            		<tr>
+	                            			<a><td><div style="margin-right: 29px">权限列表</div></td></a>
+	                            			<a><td>添加权限</td></a>
+	                            		</tr>
+	                            	</table>
+	                            </li>
+	                            <li><span class="vertical-line">&nbsp;&nbsp;登录记录</span>
+	                            	<a class="loginlist">登录记录列表</a>
+	                            </li>
+	                            <li><span class="vertical-line">&nbsp;&nbsp;操作记录</span>
+	                            	<a class="loginlist">操作记录列表</a>
+	                            </li>
+								</ul>  
+	                        </li>
+	                        <li><a class="menuitem"><img src="img/icon_用户管理_h.png" />用户管理</a>
+	                            <ul class="submenu1">
+	                                <li><a>Submenu 1</a> </li>
+	                                <li><a>Submenu 2</a> </li>
+	                                <li><a>Submenu 3</a> </li>
+	                                <li><a>Submenu 4</a> </li>
+	                                <li><a>Submenu 5</a> </li>
+	                            </ul>
+	                        </li>
+	                        <li><a class="menuitem"><img src="img/文件夹_h.png" />项目管理</a>
+	                            <ul class="submenu2">
+	                                <li><a>Submenu 1</a> </li>
+	                                <li><a>Submenu 2</a> </li>
+	                                <li><a>Submenu 3</a> </li>
+	                                <li><a>Submenu 4</a> </li>
+	                                <li><a>Submenu 5</a> </li>
+
+	                            </ul>
+	                        </li>
+	                        <li><a class="menuitem"><img src="img/640475139114157744.png" />资产中心</a>
+	                            <ul class="submenu">
+	                                <li><a>Submenu 1</a> </li>
+	                                <li><a>Submenu 2</a> </li>
+	                                <li><a>Submenu 3</a> </li>
+	                                <li><a>Submenu 4</a> </li>
+
+	                            </ul>
+	                        </li>
+	                        <li><a class="menuitem"><img src="img/篮球实心_h.png" />活动管理</a>
+	                            <ul class="submenu3">
+	                                <li><a>Submenu 1</a> </li>
+	                                <li><a>Submenu 2</a> </li>
+	                                <li><a>Submenu 3</a> </li>
+	                                <li><a>Submenu 4</a> </li>
+
+	                            </ul>
+	                        </li>
+	                        <li><a class="menuitem"><img src="img/圈子-选种_h.png" />圈子管理</a>
+	                            <ul class="submenu1">
+	                                <li><a>Submenu 1</a> </li>
+	                                <li><a>Submenu 2</a> </li>
+	                                <li><a>Submenu 3</a> </li>
+	                                <li><a>Submenu 4</a> </li>
+	                                <li><a>Submenu 5</a> </li>
+
+	                            </ul>
+	                        </li>
+	                        <li><a class="menuitem"><img class="img" src="img/数据统计_h.png" />数据统计</a>
+	                            <ul class="submenu2">
+	                                <li><a>Submenu 1</a> </li>
+	                                <li><a>Submenu 2</a> </li>
+	                                <li><a>Submenu 3</a> </li>
+	                                <li><a>Submenu 4</a> </li>
+	                                <li><a>Submenu 5</a> </li>
+	                            </ul>
+	                        </li>
+	                        <li><a class="menuitem"><img src="img/设置_h.png" />系统设置</a>
+	                            <ul class="submenu4">
+	                                <li><a>Submenu 1</a> </li>
+	                                <li><a>Submenu 2</a> </li>
+	                                <li><a>Submenu 3</a> </li>
+	                                <li><a>Submenu 4</a> </li>
+	                                <li><a>Submenu 5</a> </li>
+	                            </ul>
+	                        </li>
+	                    </ul>
+	                </div>
+            	</div>
+        	</div>
+        	
+        	<!--
+            	作者：326742731@qq.com
+            	时间：2016-06-27
+            	描述：
+            <div class="grid_10">
+            <div class="box round first">
+                <h2>
+                    Product Sales</h2>
+               <div class="block">
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="box round">
+                <h2>
+                    Figures</h2>
+                <div class="block">
+                    <div class="stat-col">
+                        <span>Target</span>
+                        <p class="purple">
+                            70,000</p>
+                    </div>
+                    <div class="stat-col">
+                        <span>Last Month Sales</span>
+                        <p class="yellow">
+                            32,729</p>
+                    </div>
+                    <div class="stat-col">
+                        <span>Current Month Sales</span>
+                        <p class="green">
+                            63,829</p>
+                    </div>
+                    <div class="stat-col">
+                        <span>Change</span>
+                        <p class="blue">
+                            99.9%</p>
+                    </div>
+                    <div class="stat-col">
+                        <span>Difference</span>
+                        <p class="red">
+                            693.00</p>
+                    </div>
+                    <div class="stat-col">
+                        <span>Stats with Icon</span>
+                        <p class="purple">
+                            <img src="img/icon-direction.png" alt="" />&nbsp;65,000</p>
+                    </div>
+                    <div class="stat-col last">
+                        <span>Total</span>
+                        <p class="darkblue">
+                            70,000</p>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_5">
+            <div class="box round">
+                <h2>
+                    Column on Left</h2>
+                <div class="block">
+                    <p class="start">
+                        </p>
+                    <p>
+                       </p>
+                </div>
+            </div>
+        </div>
+        <div class="grid_5">
+            <div class="box round">
+                <h2>
+                    Right Column</h2>
+                <div class="block">
+                    <p class="start">
+                        </p>
+                    <p>
+                       </p>
+                </div>
+            </div>
+        	</div>-->
+        	<div class="clear"></div>
+    	</div>
+    	<!--主体部分结束-->
+    <div class="clear"></div>
+    </div>
+    <div id="site_info">
+        <p>
+            Copyright <a href="http://www.jinzht.com/">金指投</a>. All Rights Reserved.
+        </p>
+    </div>
+</body>
+</html>

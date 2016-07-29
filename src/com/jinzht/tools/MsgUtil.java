@@ -83,4 +83,14 @@ public class MsgUtil {
 		this.msgType = msgType;
 	}
 
+	public static void main(String[] args)
+	{
+		// 发送用户注册成功短信
+		MsgUtil SMS = new MsgUtil();
+		SMS.setTelePhone("13468655774");
+		SMS.setMsgType(MessageType.NormalMessage);
+		SMS.setContent(Config.STRING_SMS_AUTH_TRUE);
+		// 发送短信
+		MsgUtil.send();
+	}
 }

@@ -22,15 +22,15 @@ body{
 }
 .title{
 	background-color: #FF6700;
-	height:230px;
 	width: 100%;
 	vertical-align:middle ;
+	margin-top:25%;
+	margin-bottom:5%;
 }
 .title p{
 	color: #FFFFFF;
-	font-size: 140%;
+	font-size: 100%;
 	text-align: center;
-	margin-top: 10%;
 	vertical-align:middle;
 	width: 100%;
 }
@@ -44,6 +44,7 @@ body{
 .content{
 	background-color:#FFFFFF;
 	width: 100%;
+	margin-bottom: 50%;
 	
 }
 .tableimg{
@@ -60,14 +61,16 @@ body{
 }
 .more img {
 	display: block;
-	margin:32px auto;
+	margin-top: 5%;
+	margin-left: 45%;
+	width:6%;
 }
 .line{
 	width: 100%;
 	border-top: solid 2px #ccc;
 	background-color: #EDEDED;
 	height: 18px;
-	margin-top: 50px;
+	margin-top: 5%;
 }
 .tableinfo{
 	color: #474747;
@@ -92,4 +95,46 @@ body{
 	background-color: #08A4F9;
 	width: 20px;
 	height: 20px;
+}
+
+.footer-tip
+{
+    background-color:orange;
+	z-index:999;
+	position:fixed;
+	bottom:0;
+	left:0;
+	width:100%;
+	_position:absolute;
+	overflow:visible;
+	height: 10%;
+}
+
+.footer-tip-image
+{
+	width: 9%;
+	height: auto;
+	margin-left: 20%;
+	float:left;
+	margin-top:2%;
+}
+
+.tip-content
+{
+	color: white;
+	font-size: 130%;
+	margin-left : 33%;
+	margin-top:5%;
+}
+
+.item-img{
+	width: 33%;
+	float: left;
+	height: 90px;
+}
+
+.item-img1
+{
+	width: 33%;
+	height: 90px;
 }

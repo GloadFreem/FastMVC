@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -28,7 +30,6 @@ public class Financialstanding implements java.io.Serializable {
 
 	private Integer financeId;
 	private Project project;
-	private Integer projectId;
 	private String url;
 	private String content;
 	private String icon;
@@ -39,16 +40,11 @@ public class Financialstanding implements java.io.Serializable {
 	public Financialstanding() {
 	}
 
-	/** minimal constructor */
-	public Financialstanding(Project project) {
-		this.project = project;
-	}
 
 	/** full constructor */
-	public Financialstanding(Project project, Integer projectId, String url,
+	public Financialstanding(Project project,String url,
 			String content,String icon) {
 		this.project = project;
-		this.projectId = projectId;
 		this.url = url;
 		this.content = content;
 		this.icon = icon;
@@ -66,23 +62,14 @@ public class Financialstanding implements java.io.Serializable {
 		this.financeId = financeId;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;
 	}
 
 	public void setProject(Project project) {
 		this.project = project;
-	}
-
-	@Column(name = "project_id")
-	public Integer getProjectId() {
-		return this.projectId;
-	}
-
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
 	}
 
 	@Column(name = "url")

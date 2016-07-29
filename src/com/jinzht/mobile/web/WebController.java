@@ -89,6 +89,11 @@ public class WebController extends BaseController {
 		return "/test/editor";
 	}
 	
+	@RequestMapping(value = "/generateProjectInfo")
+	public String generateProjectInfo() {
+		return "/test/generateProjectExtInfo";
+	}
+	
 	@RequestMapping(value = "/webUrlLooker")
 	public String webUrlLooker(
 			@RequestParam(value="contentId", required=false)Integer contentId,

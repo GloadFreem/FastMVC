@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -38,10 +40,6 @@ public class Businessplan implements java.io.Serializable {
 	public Businessplan() {
 	}
 
-	/** minimal constructor */
-	public Businessplan(Project project) {
-		this.project = project;
-	}
 
 	/** full constructor */
 	public Businessplan(Project project, String url, String content,String icon) {
@@ -63,8 +61,8 @@ public class Businessplan implements java.io.Serializable {
 		this.buinessPlanId = buinessPlanId;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;
 	}

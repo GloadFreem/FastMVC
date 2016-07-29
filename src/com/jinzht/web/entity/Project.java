@@ -2,7 +2,6 @@ package com.jinzht.web.entity;
 // default package
 
 
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,21 +58,21 @@ public class Project implements java.io.Serializable {
 	private Set<Scene> scenes = new HashSet<Scene>(0);
 	private Set<Communion> communions = new HashSet<Communion>(0);
 	private Set<Projectcomment> projectcomments = new HashSet<Projectcomment>(0);
-	private Controlreport controlreport;
-	private Financingexit financingexit;
-	private Financialstanding financialstanding;
-	private Financingcase financingcase;
 	private Set<Investmentrecord> investmentrecords = new HashSet<Investmentrecord>(
 			0);
 	private Set<Projectcommitrecord> projectcommitrecords = new HashSet<Projectcommitrecord>(
 			0);
 	private Set<Team> teams = new HashSet<Team>(0);
-	private Businessplan businessplan;
 	private Set<Collection> collections = new HashSet<Collection>(0);
 	private Set<Member> members = new HashSet<Member>(0);
 	private Set<Roadshow> roadshows = new HashSet<Roadshow>(0);
 	private Set<Projectimages> projectimageses = new HashSet<Projectimages>(0);
 
+	private Set<Businessplan> businessplans = new HashSet<Businessplan>(0);
+	private Set<Financingexit> financingexits = new HashSet<Financingexit>(0);
+	private Set<Controlreport> controlreports = new HashSet<Controlreport>(0);
+	private Set<Financingcase> financingcases = new HashSet<Financingcase>(0);
+	private Set<Financialstanding> financialstandings = new HashSet<Financialstanding>();
 	// Constructors
 
 	/** default constructor */
@@ -84,14 +83,18 @@ public class Project implements java.io.Serializable {
 	public Project(Financestatus financestatus, String abbrevName,
 			String fullName, String description, Short projectType,
 			String address, String startPageImage, Integer collectionCount,
-			Integer timeLeft, Scene scene, Set<Communion> communions,
-			Set<Projectcomment> projectcomments, Controlreport controlreport,
-			Financingexit financingexit, Financialstanding financialstanding,
-			Financingcase financingcase, Set<Investmentrecord> investmentrecords,
-			Set<Projectcommitrecord> projectcommitrecords, Set<Team> teams,
-			Businessplan businessplan, Set<Collection> collections,
-			Set<Member> members, Set<Roadshow> roadshows,
-			Set<Projectimages> projectimageses, Set<Scene> scenes) {
+			Integer timeLeft, Integer userId, String industoryType,
+			Boolean collected, Integer commentCount, String borrowerUserNumber,
+			Set<Scene> scenes, Set<Communion> communions,
+			Set<Projectcomment> projectcomments,
+			Set<Businessplan> businessplans, Set<Financingexit> financingexits,
+			Set<Controlreport> controlreports,
+			Set<Investmentrecord> investmentrecords,
+			Set<Projectcommitrecord> projectcommitrecords,
+			Set<Financingcase> financingcases, Set<Team> teams,
+			Set<Collection> collections,
+			Set<Financialstanding> financialstandings, Set<Member> members,
+			Set<Roadshow> roadshows, Set<Projectimages> projectimageses) {
 		this.financestatus = financestatus;
 		this.abbrevName = abbrevName;
 		this.fullName = fullName;
@@ -101,18 +104,23 @@ public class Project implements java.io.Serializable {
 		this.startPageImage = startPageImage;
 		this.collectionCount = collectionCount;
 		this.timeLeft = timeLeft;
+		this.userId = userId;
+		this.industoryType = industoryType;
+		this.collected = collected;
+		this.commentCount = commentCount;
+		this.borrowerUserNumber = borrowerUserNumber;
 		this.scenes = scenes;
 		this.communions = communions;
 		this.projectcomments = projectcomments;
-		this.controlreport = controlreport;
-		this.financingexit = financingexit;
-		this.financialstanding = financialstanding;
-		this.financingcase = financingcase;
+		this.businessplans = businessplans;
+		this.financingexits = financingexits;
+		this.controlreports = controlreports;
 		this.investmentrecords = investmentrecords;
 		this.projectcommitrecords = projectcommitrecords;
+		this.financingcases = financingcases;
 		this.teams = teams;
-		this.businessplan = businessplan;
 		this.collections = collections;
+		this.financialstandings = financialstandings;
 		this.members = members;
 		this.roadshows = roadshows;
 		this.projectimageses = projectimageses;
@@ -265,41 +273,6 @@ public class Project implements java.io.Serializable {
 		this.projectcomments = projectcomments;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "project")
-	public Controlreport getControlreport() {
-		return this.controlreport;
-	}
-
-	public void setControlreport(Controlreport controlreport) {
-		this.controlreport = controlreport;
-	}
-
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "project")
-	public Financingexit getFinancingexit() {
-		return this.financingexit;
-	}
-
-	public void setFinancingexit(Financingexit financingexit) {
-		this.financingexit = financingexit;
-	}
-
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "project")
-	public Financialstanding getFinancialstanding() {
-		return this.financialstanding;
-	}
-
-	public void setFinancialstanding(Financialstanding financialstanding) {
-		this.financialstanding = financialstanding;
-	}
-
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "project")
-	public Financingcase getFinancingcase() {
-		return this.financingcase;
-	}
-
-	public void setFinancingcase(Financingcase financingcase) {
-		this.financingcase = financingcase;
-	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
 	public Set<Investmentrecord> getInvestmentrecords() {
@@ -327,15 +300,6 @@ public class Project implements java.io.Serializable {
 
 	public void setTeams(Set<Team> teams) {
 		this.teams = teams;
-	}
-
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "project")
-	public Businessplan getBusinessplan() {
-		return this.businessplan;
-	}
-
-	public void setBusinessplan(Businessplan businessplan) {
-		this.businessplan = businessplan;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
@@ -413,6 +377,52 @@ public class Project implements java.io.Serializable {
 
 	public void setBorrowerUserNumber(String borrowerUserNumber) {
 		this.borrowerUserNumber = borrowerUserNumber;
+	}
+	
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+	public Set<Businessplan> getBusinessplans() {
+		return this.businessplans;
+	}
+
+	public void setBusinessplans(Set<Businessplan> businessplans) {
+		this.businessplans = businessplans;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+	public Set<Financingexit> getFinancingexits() {
+		return this.financingexits;
+	}
+
+	public void setFinancingexits(Set<Financingexit> financingexits) {
+		this.financingexits = financingexits;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+	public Set<Controlreport> getControlreports() {
+		return this.controlreports;
+	}
+
+	public void setControlreports(Set<Controlreport> controlreports) {
+		this.controlreports = controlreports;
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+	public Set<Financingcase> getFinancingcases() {
+		return this.financingcases;
+	}
+
+	public void setFinancingcases(Set<Financingcase> financingcases) {
+		this.financingcases = financingcases;
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+	public Set<Financialstanding> getFinancialstandings() {
+		return this.financialstandings;
+	}
+
+	public void setFinancialstandings(Set<Financialstanding> financialstandings) {
+		this.financialstandings = financialstandings;
 	}
 
 }

@@ -143,11 +143,11 @@ public class SystemManager {
 						project.setAbbrevName(null);
 						project.setCollections(null);
 						project.setStartPageImage(null);
-						project.setControlreport(null);
-						project.setFinancialstanding(null);
-						project.setFinancingexit(null);
-						project.setFinancingcase(null);
-						project.setBusinessplan(null);
+						project.setControlreports(null);
+						project.setFinancialstandings(null);
+						project.setFinancingexits(null);
+						project.setFinancingcases(null);
+						project.setBusinessplans(null);
 						project.setAddress(null);
 						project.setTimeLeft(null);
 						project.setCollectionCount(null);

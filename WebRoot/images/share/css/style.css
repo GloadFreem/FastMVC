@@ -401,9 +401,9 @@ body {
 }
 
 .king-code-img-wrapper {
-	width: 10%;
-	margin-left: 75%;
-	margin-top: -5%;
+	width: 15%;
+	margin-left: 70%;
+	margin-top: -7%;
 }
 
 .king-code-img {
@@ -433,3 +433,8 @@ body {
 	color: rgb(148, 105, 38);
 	text-align: center;
 }
+
+.king-code-img-btn {
+	background-image: url("../copy.png");
+}
+

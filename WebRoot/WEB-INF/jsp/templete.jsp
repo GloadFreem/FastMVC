@@ -23,6 +23,13 @@
 <meta http-equiv="description" content="金指投投融资">
 <title>【金指投投融资】--<%=title %></title>
 <script type="text/javascript" src="./images/jquery-1.8.3.min.js"></script>
+<style type="text/css">
+img
+{
+	width:90%;
+	margin-left:5%;
+}
+</style>
 </head>
 
 <body>

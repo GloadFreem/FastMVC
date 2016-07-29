@@ -135,37 +135,41 @@ public class ProjectController extends BaseController {
 			List list = new ArrayList();
 
 			// 商业计划书
-			if (project.getBusinessplan() != null) {
-				list.add(project.getBusinessplan());
+			Object[] objs = project.getBusinessplans().toArray();
+			if (objs != null && objs.length>0) {
+				list.add(objs[0]);
 			}
 
 			// 风险报告
-			if (project.getControlreport() != null) {
-				list.add(project.getControlreport());
+			objs = project.getControlreports().toArray();
+			if (objs != null && objs.length>0) {
+				list.add(objs[0]);
 			}
-
 			// 融资计划
-			if (project.getFinancialstanding() != null) {
-				list.add(project.getFinancialstanding());
+			objs = project.getFinancialstandings().toArray();
+			if (objs != null && objs.length>0) {
+				list.add(objs[0]);
 			}
 			// 融资案例
-			if (project.getFinancingcase() != null) {
-				list.add(project.getFinancingcase());
+			objs = project.getFinancingcases().toArray();
+			if (objs != null && objs.length>0) {
+				list.add(objs[0]);
 			}
 			// 退出渠道
-			if (project.getFinancingexit() != null) {
-				list.add(project.getFinancingexit());
+			objs = project.getFinancingexits().toArray();
+			if (objs != null && objs.length>0) {
+				list.add(objs[0]);
 			}
 
 			Map map = new HashMap();
 			map.put("project", project);
 			map.put("extr", list);
 
-			project.setBusinessplan(null);
-			project.setControlreport(null);
-			project.setFinancialstanding(null);
-			project.setFinancingcase(null);
-			project.setFinancingexit(null);
+			project.setBusinessplans(null);
+			project.setControlreports(null);
+			project.setFinancialstandings(null);
+			project.setFinancingcases(null);
+			project.setFinancingexits(null);
 
 			// 封装返回结果
 			this.status = 200;
@@ -990,6 +994,10 @@ public class ProjectController extends BaseController {
 			share.setContent(project.getDescription());
 			share.setImage(project.getStartPageImage());
 			share.setTitle(project.getAbbrevName()+"【金指投投融资】");
+			
+			String url = share.getUrl()+"?projectId="+project.getProjectId();
+			share.setUrl(url);
+			
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
 

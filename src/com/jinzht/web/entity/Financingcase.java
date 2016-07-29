@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -38,10 +40,6 @@ public class Financingcase implements java.io.Serializable {
 	public Financingcase() {
 	}
 
-	/** minimal constructor */
-	public Financingcase(Project project) {
-		this.project = project;
-	}
 
 	/** full constructor */
 	public Financingcase(Project project, String url, String content,String icon) {
@@ -63,8 +61,8 @@ public class Financingcase implements java.io.Serializable {
 		this.financingCaseId = financingCaseId;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;
 	}

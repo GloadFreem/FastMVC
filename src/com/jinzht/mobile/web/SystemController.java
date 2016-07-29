@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,19 +28,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jinzht.tools.Config;
 import com.jinzht.tools.Tools;
 import com.jinzht.web.dao.UsersDAO;
+import com.jinzht.web.entity.Collection;
 import com.jinzht.web.entity.Contentimages;
 import com.jinzht.web.entity.Notice;
 import com.jinzht.web.entity.Preloadingpage;
 import com.jinzht.web.entity.Customservice;
+import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Publiccontent;
+import com.jinzht.web.entity.Roadshow;
+import com.jinzht.web.entity.Roadshowplan;
 import com.jinzht.web.entity.Share;
 import com.jinzht.web.entity.Systemcode;
 import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Versioncontroll;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
+import com.jinzht.web.manager.FeelingManager;
 import com.jinzht.web.manager.SystemManager;
 import com.jinzht.web.manager.UserManager;
+import com.jinzht.web.manager.ProjectManager;
 import com.jinzht.web.test.User;
 
 @Controller
@@ -49,6 +56,10 @@ public class SystemController extends BaseController {
 	private SystemManager systemManger;
 	@Autowired
 	private UserManager userManager;
+	@Autowired
+	private ProjectManager ProjectManager;
+	@Autowired
+	private FeelingManager feelingManager;
 
 	@RequestMapping("/announcementSystem")
 	@ResponseBody
@@ -322,20 +333,28 @@ public class SystemController extends BaseController {
 	public Map requestGoldInviteFriends(HttpSession session) {
 		this.result = new HashMap();
 
-		//分享内容
+		Integer userId = 0;
+		if (session.getAttribute("userId") != null) {
+			userId = (Integer) session.getAttribute("userId");
+		}
+		String invitcode = Tools.generateInviteCode(userId, false);
+
+		// 分享内容
 		int count = Config.STRING_SHARE_GOLD.size();
-		int radomIndex = (int)(0+Math.random()*(count));
+		int radomIndex = (int) (0 + Math.random() * (count));
 		String content = Config.STRING_SHARE_GOLD.get(radomIndex).toString();
-		
-		//图片
+
+		// 图片
 		count = Config.STRING_SHARE_GOLD_IMAGES.size();
-		radomIndex = (int)(0+Math.random()*(count));
-		String image = Config.STRING_SHARE_GOLD_IMAGES.get(radomIndex).toString();
-		image = Config.STRING_SYSTEM_ADDRESS+"images/share/"+image;
+		radomIndex = (int) (0 + Math.random() * (count));
+		String image = Config.STRING_SHARE_GOLD_IMAGES.get(radomIndex)
+				.toString();
+		image = Config.STRING_SYSTEM_ADDRESS + "images/share/" + image;
 		Map map = new HashMap();
 		map.put("title", "邀请好友送金条--【金指投投融资】");
-		map.put("content",content);
-		map.put("url",Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_GOLD));
+		map.put("content", content);
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_GOLD)
+				+ "?inviteCode=" + invitcode);
 		map.put("image", image);
 		this.status = 200;
 		this.result.put("data", map);
@@ -474,15 +493,16 @@ public class SystemController extends BaseController {
 		String invitcode = Tools.generateInviteCode(userId, false);
 
 		int count = Config.STRING_SHARE_INVITE.size();
-		
-		int radomIndex = (int)(0+Math.random()*(count));
-		
+
+		int radomIndex = (int) (0 + Math.random() * (count));
+
 		String content = Config.STRING_SHARE_INVITE.get(radomIndex).toString();
-		
+
 		Map map = new HashMap();
-		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_CODE));
+		map.put("url", Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_CODE)
+				+ "?inviteCode=" + invitcode);
 		map.put("image", Config.STRING_SYSTEM_INTRODUCE_IMAGE);
-		map.put("title", "邀请好友--"+Config.STRING_APPP_SHARE_TITLE);
+		map.put("title", "邀请好友--" + Config.STRING_APPP_SHARE_TITLE);
 		map.put("content", content);
 		this.status = 200;
 		this.result.put("data", map);
@@ -602,7 +622,70 @@ public class SystemController extends BaseController {
 
 	// 分享项目展示
 	@RequestMapping(value = "/ShareProjectDetail")
-	public String ShareProjectDetail(ModelMap model) {
+	public String ShareProjectDetail(
+			@RequestParam(value = "projectId", required = false) Integer projectId,
+			ModelMap model) {
+		// 获取项目
+		Project project = this.ProjectManager.findProjectById(projectId);
+
+		List list = new ArrayList();
+
+		// 商业计划书
+		Object[] objs = project.getBusinessplans().toArray();
+		if (objs != null && objs.length > 0) {
+			list.add(objs[0]);
+		}
+
+		// 风险报告
+		objs = project.getControlreports().toArray();
+		if (objs != null && objs.length > 0) {
+			list.add(objs[0]);
+		}
+		// 融资计划
+		objs = project.getFinancialstandings().toArray();
+		if (objs != null && objs.length > 0) {
+			list.add(objs[0]);
+		}
+		// 融资案例
+		objs = project.getFinancingcases().toArray();
+		if (objs != null && objs.length > 0) {
+			list.add(objs[0]);
+		}
+		// 退出渠道
+		objs = project.getFinancingexits().toArray();
+		if (objs != null && objs.length > 0) {
+			list.add(objs[0]);
+		}
+
+		Set set = project.getRoadshows();
+
+		Roadshow roadShow = new Roadshow();
+		if (set != null && set.size() > 0) {
+			roadShow = (Roadshow) (set.toArray()[0]);
+		}
+
+		Roadshowplan plan = roadShow.getRoadshowplan();
+		if (plan == null) {
+			plan = new Roadshowplan();
+		}
+		Object[] images = project.getProjectimageses().toArray();
+
+		Map map = new HashMap();
+		map.put("project", project);
+
+		project.setBusinessplans(null);
+		project.setControlreports(null);
+		project.setFinancialstandings(null);
+		project.setFinancingcases(null);
+		project.setFinancingexits(null);
+
+		model.put("data", map);
+
+		model.put("images", images);
+		model.put("roadshow", roadShow);
+		model.put("members", project.getMembers().toArray());
+		model.put("plan", plan);
+		model.put("extr", list);
 		return "ShareProjectDetail";
 	}
 
@@ -614,19 +697,40 @@ public class SystemController extends BaseController {
 
 	// 邀请码邀请好友
 	@RequestMapping(value = "/shareInvite")
-	public String shareInvite(ModelMap model) {
+	public String shareInvite(
+			@RequestParam(value = "inviteCode", required = false) String inviteCode,
+			ModelMap model) {
+		model.put("inviteCode", inviteCode);
 		return "invite_card";
 	}
 
 	// 邀请码送金条
 	@RequestMapping(value = "/shareInviteGold")
-	public String shareInviteGold(ModelMap model) {
+	public String shareInviteGold(
+			@RequestParam(value = "inviteCode", required = false) String inviteCode,
+			ModelMap model) {
+
+		model.put("inviteCode", inviteCode);
 		return "invite_gold";
 	}
 
 	// 分享圈子内容
 	@RequestMapping(value = "/shareFeeling")
-	public String shareFeeling(ModelMap model) {
+	public String shareFeeling(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap model) {
+		Publiccontent content = this.feelingManager.getPublicContentDao()
+				.findById(contentId);
+
+		Users user = content.getUsers();
+		Object[] authentic = user.getAuthentics().toArray();
+
+		model.put("data", content);
+		model.put("user", user);
+		model.put("authentic", authentic[0]);
+		model.put("images", content.getContentimageses());
+		model.put("comments", content.getComments());
+
 		return "ShareFeelingDetail";
 	}
 

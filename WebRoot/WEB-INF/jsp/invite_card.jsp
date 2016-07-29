@@ -1,10 +1,14 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	
+	String code = request.getAttribute("inviteCode").toString();
+
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +22,14 @@
 	href="./images/share/css/style.css">
 <script type="text/javascript" src="./images/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="./images/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript">
+jQuery(function($) { //或者$(function(){...});
+	var str ="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro";
+	$(".download").click(function(){
+		location.href=str;
+	});
+});
+</script>
 <style>
 </style>
 </head>
@@ -90,7 +102,7 @@
 			<img class="invite-header-img" alt="bg"
 				src="./images/share/Avatar-sample-311.png">
 		</div>
-		<div class="invite-code">JZT_0000_213435T</div>
+		<div class="invite-code"><%=code %></div>
 		<div class="invite-qr-code">
 			<img class="invite-qr-code-img" alt="bg"
 				src="./images/share/金指投二维码.png">

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -249,6 +250,19 @@ public class ProjectDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+	}
+	
+	public List findProjectHomeList(Integer page,Integer type)
+	{
+		String sqlString = "select * from project where status_id =?";
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Project.class);
+		queryObject.setParameter(0, type);
+		queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
+		queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+		
+		return queryObject.list();
+		
 	}
 
 	public Project merge(Project detachedInstance) {

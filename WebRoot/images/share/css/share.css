@@ -207,6 +207,7 @@ body
 	background-color: #e6e6e6;
 	height: 10px;
 	width: 100%;
+	margin-top: 20%;
 }
 
 .line
@@ -226,8 +227,6 @@ body
 	margin-right: 5%;
 	width: 20%;
 	margin-left: 80%;
-	margin-top: -285%;
-	position: absolute;
 }
 
 .status-image
@@ -326,6 +325,13 @@ body
 	float:left
 }
 
+.team-item-none
+{
+	width: 33%;
+	text-align: center;
+	margin-top: 15%;
+}
+
 .team-desc-image
 {
 	margin-left: 5%;
@@ -384,6 +390,10 @@ body
 	margin-left: 10%;
 }
 
+.header
+{
+	margin-top: -23%;
+}
 .header-img
 {
 	width: 100%;
@@ -443,6 +453,8 @@ body
 	width: 30%;
 	margin-left: 1.5%;
 	margin-bottom: 1%;
+	height: 80px;
+}
 }
 
 .operate-item
@@ -495,4 +507,9 @@ body
 	margin-left:5%;
 	margin-right:5%;
 	font-size:80%;
+}
+
+.content
+{
+	
 }

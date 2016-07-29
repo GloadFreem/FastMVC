@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -29,7 +31,6 @@ public class Financingexit implements java.io.Serializable {
 	private Integer financingExitId;
 	private Project project;
 	private String url;
-	private Integer projectId;
 	private String content;
 	private String icon;
 
@@ -39,17 +40,12 @@ public class Financingexit implements java.io.Serializable {
 	public Financingexit() {
 	}
 
-	/** minimal constructor */
-	public Financingexit(Project project) {
-		this.project = project;
-	}
 
 	/** full constructor */
-	public Financingexit(Project project, String url, Integer projectId,
+	public Financingexit(Project project, String url,
 			String content,String icon) {
 		this.project = project;
 		this.url = url;
-		this.projectId = projectId;
 		this.content = content;
 		this.icon = icon;
 	}
@@ -66,8 +62,8 @@ public class Financingexit implements java.io.Serializable {
 		this.financingExitId = financingExitId;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;
 	}
@@ -83,15 +79,6 @@ public class Financingexit implements java.io.Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	@Column(name = "project_id")
-	public Integer getProjectId() {
-		return this.projectId;
-	}
-
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
 	}
 
 	@Column(name = "content")

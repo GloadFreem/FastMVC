@@ -1,0 +1,61 @@
+/*
+-----------------------------------------------
+Grey Box Method - Layout CSS
+----------------------------------------------- */
+
+body {
+	width:100%;
+	margin: 0%;
+}
+
+
+/* commons
+----------------------------------------------- */
+.floatleft{float:left;}
+.floatright{float:right;}
+.fontwhite{color:#fff;}
+.small{font-size:9px;}
+.inline-ul li{display:inline; color:#fff;}
+.marginleft310{margin-left:410px;}
+.grey{color:#C2C2C2;}
+
+/* anchors
+----------------------------------------------- */
+a {
+	color: #000;
+	font-weight:bold;
+	text-decoration: none;
+}
+a:hover {
+	color:#333;
+}
+
+
+/* 960 grid system container background
+----------------------------------------------- */
+.container_12, {
+	background-color:#CCCCCC; 
+	width: 100%;
+}
+
+
+/* branding
+----------------------------------------------- */
+/* .header-repeat{background:url(../img/header-repeat.jpg) repeat-x;} */
+.header-repeat{height:81px; width:1920px; background-color:#2f6484;}
+.logo-pos{margin-left: 350px; margin-top: 25px;}
+.user{margin-left: 610px ;}
+.Profile-pos{margin-top: 15px; margin-left:0px ;}
+.name{font-family: "微软雅黑";font-size:20px;color: #FFFFFF;  margin-top:0px;}
+.name ul{list-style:none;}
+.identity{font-size:13px;}
+.logout-pos{padding-left: 46px; margin-top: 30px;}
+.top-10{margin-top:-10px;}
+.slider{height:auto ; width:50%; margin-left:25%; margin-right:auto; margin-top: 0px;}
+.slider-img{width:100%;margin-top:5px;}
+.nav-table{height: auto; width:100%;margin-left:0%;  margin-top: 5px; background-color:#37779d; }
+.nav-table tr{border:0px solid;border-color: #000000 ; width: 245px; height: 150px;vertical-align:middle ;}
+.nav-table th{border:1px solid;border-color: #000000 ; width: 245px; height: 150px;vertical-align:middle ;}
+.nav-table td{border:1px solid;border-color: #000000 ; width: 245px; height: 150px;vertical-align:middle ;}
+.thbgcolor{background-color:#2F6484 ;}
+.tablefont{font-family: "微软雅黑";font-size:19px ;color: #FFFFFF;padding-top: 10px ;}

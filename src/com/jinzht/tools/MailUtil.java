@@ -395,7 +395,7 @@ public class MailUtil {
 	}
 
 	public static void sendUserRegist(MailUtil mu,String telephone) throws Exception {
-		String toEmails = "chenshengzhu@jinzht.com;xuli@jinzht.com";
+		String toEmails = Config.STRING_MAIL_SERVER_TO_EMIAL;
 //		String toEmails = Config.STRING_MAIL_SERVER_USER;
 		String subject = "用户注册--【金指投投融资】";
 //		StringBuilder builder = new StringBuilder();
@@ -412,7 +412,7 @@ public class MailUtil {
 	}
 	
 	public static void sendUserAuthenticQuick(MailUtil mu,String telephone,String name) throws Exception {
-		String toEmails = "chenshengzhu@jinzht.com;xuli@jinzht.com";
+		String toEmails = Config.STRING_MAIL_SERVER_TO_EMIAL;
 //		String toEmails = Config.STRING_MAIL_SERVER_USER;
 		String subject = "用户认证催单--【金指投投融资】";
 //		StringBuilder builder = new StringBuilder();
@@ -427,7 +427,7 @@ public class MailUtil {
 		mu.sendEmail();
 	}
 	public static void sendUserInvest(MailUtil mu,String telephone,String name,String projectName,float count) throws Exception {
-		String toEmails = "chenshengzhu@jinzht.com;xuli@jinzht.com";
+		String toEmails = Config.STRING_MAIL_SERVER_TO_EMIAL;
 //		String toEmails = Config.STRING_MAIL_SERVER_USER;
 		String subject = "认投消息--【金指投投融资】";
 //		StringBuilder builder = new StringBuilder();
@@ -443,7 +443,7 @@ public class MailUtil {
 		mu.sendEmail();
 	}
 	public static void sendUserAuthentic(MailUtil mu,String telephone) throws Exception {
-		String toEmails = "chenshengzhu@jinzht.com;xuli@jinzht.com";
+		String toEmails = Config.STRING_MAIL_SERVER_TO_EMIAL;
 //		String toEmails = Config.STRING_MAIL_SERVER_USER;
 		String subject = "用户认证消息--【金指投投融资】";
 //		StringBuilder builder = new StringBuilder();
@@ -458,7 +458,7 @@ public class MailUtil {
 		mu.sendEmail();
 	}
 	public static void sendUserInvest(MailUtil mu,String telephone) throws Exception {
-		String toEmails = "chenshengzhu@jinzht.com;xuli@jinzht.com";
+		String toEmails = Config.STRING_MAIL_SERVER_TO_EMIAL;
 //		String toEmails = Config.STRING_MAIL_SERVER_USER;
 		String subject = "用户认投消息--【金指投投融资】";
 //		StringBuilder builder = new StringBuilder();

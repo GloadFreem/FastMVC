@@ -90,11 +90,11 @@ public class ProjectManager {
 				project.setCommunions(null);
 				project.setMembers(null);
 				project.setTeams(null);
-				project.setFinancingexit(null);
-				project.setFinancialstanding(null);
-				project.setControlreport(null);
-				project.setFinancingcase(null);
-				project.setBusinessplan(null);
+				project.setFinancingexits(null);
+				project.setFinancialstandings(null);
+				project.setControlreports(null);
+				project.setFinancingcases(null);
+				project.setBusinessplans(null);
 				project.setProjectcomments(null);
 				project.setProjectcommitrecords(null);
 				project.setProjectimageses(null);
@@ -112,33 +112,94 @@ public class ProjectManager {
 	 */
 	public List findProjectsByCursor(int type,int currentPage) {
 		Map map = new HashMap();
-		Financestatus status = new Financestatus();
 		if(type==0)
 		{
-			status.setStatusId(1);
-		}else{
-			status.setStatusId(3);
-		}
-		map.put("financestatus", status);
-		
-		List list = getProjectDao().findByPropertiesWithPage(map, currentPage);
-		if (list != null && list.size() > 0) {
-			for (int i = 0; i < list.size(); i++) {
-				Project project = (Project) list.get(i);
-				project.setCommunions(null);
-				project.setMembers(null);
-				project.setTeams(null);
-				project.setFinancingexit(null);
-				project.setFinancialstanding(null);
-				project.setControlreport(null);
-				project.setFinancingcase(null);
-				project.setBusinessplan(null);
-				project.setProjectcomments(null);
-				project.setProjectcommitrecords(null);
-				project.setProjectimageses(null);
+			List l1 = getProjectDao().findProjectHomeList(currentPage,1);
+			List l2 = getProjectDao().findProjectHomeList(currentPage,2);
+			List l3 = getProjectDao().findProjectHomeList(currentPage,4);
+			
+			List list = new ArrayList();
+			if (l1 != null && l1.size() > 0) {
+				for (int i = 0; i < l1.size(); i++) {
+					Project project = (Project) l1.get(i);
+					project.setCommunions(null);
+					project.setMembers(null);
+					project.setTeams(null);
+					project.setFinancingexits(null);
+					project.setFinancialstandings(null);
+					project.setControlreports(null);
+					project.setFinancingcases(null);
+					project.setBusinessplans(null);
+					project.setProjectcomments(null);
+					project.setProjectcommitrecords(null);
+					project.setProjectimageses(null);
+					
+					list.add(project);
+				}
+			}
+			if (l2 != null && l2.size() > 0) {
+				for (int i = 0; i < l2.size(); i++) {
+					Project project = (Project) l2.get(i);
+					project.setCommunions(null);
+					project.setMembers(null);
+					project.setTeams(null);
+					project.setFinancingexits(null);
+					project.setFinancialstandings(null);
+					project.setControlreports(null);
+					project.setFinancingcases(null);
+					project.setBusinessplans(null);
+					project.setProjectcomments(null);
+					project.setProjectcommitrecords(null);
+					project.setProjectimageses(null);
+					
+					list.add(project);
+				}
+			}
+			if (l3 != null && l3.size() > 0) {
+				for (int i = 0; i < l3.size(); i++) {
+					Project project = (Project) l3.get(i);
+					project.setCommunions(null);
+					project.setMembers(null);
+					project.setTeams(null);
+					project.setFinancingexits(null);
+					project.setFinancialstandings(null);
+					project.setControlreports(null);
+					project.setFinancingcases(null);
+					project.setBusinessplans(null);
+					project.setProjectcomments(null);
+					project.setProjectcommitrecords(null);
+					project.setProjectimageses(null);
+					
+					list.add(project);
+				}
 			}
 			return list;
+		}else{
+			Financestatus status = new Financestatus();
+			status.setStatusId(1);
+
+			map.put("financestatus", status);
+			
+			List list = getProjectDao().findByPropertiesWithPage(map, currentPage);
+			if (list != null && list.size() > 0) {
+				for (int i = 0; i < list.size(); i++) {
+					Project project = (Project) list.get(i);
+					project.setCommunions(null);
+					project.setMembers(null);
+					project.setTeams(null);
+					project.setFinancingexits(null);
+					project.setFinancialstandings(null);
+					project.setControlreports(null);
+					project.setFinancingcases(null);
+					project.setBusinessplans(null);
+					project.setProjectcomments(null);
+					project.setProjectcommitrecords(null);
+					project.setProjectimageses(null);
+				}
+				return list;
+			}
 		}
+		
 		return null;
 	}
 
@@ -250,8 +311,16 @@ public class ProjectManager {
 	 */
 	public Financialstanding findProjectFinancialStanding(Integer projectId) {
 		Project project = this.findProjectById(projectId);
-		Financialstanding standing = project.getFinancialstanding();
-		return standing;
+		
+		Object[] objs = project.getFinancialstandings().toArray();
+		if(objs!=null && objs.length>0)
+		{
+			Financialstanding standing = (Financialstanding) objs[0];
+			return standing;
+		}
+		
+		return null;
+		
 	}
 
 	/***
@@ -262,8 +331,15 @@ public class ProjectManager {
 	 */
 	public Financingcase findProjectFinancialCase(Integer projectId) {
 		Project project = this.findProjectById(projectId);
-		Financingcase financeCase = project.getFinancingcase();
-		return financeCase;
+		
+		Object[] objs = project.getFinancingcases().toArray();
+		if(objs!=null && objs.length>0)
+		{
+			Financingcase financeCase = (Financingcase) objs[0];
+			return financeCase;
+		}
+		
+		return null;
 	}
 
 	/***
@@ -274,8 +350,15 @@ public class ProjectManager {
 	 */
 	public Businessplan findProjectBusinessPlan(Integer projectId) {
 		Project project = this.findProjectById(projectId);
-		Businessplan businessPlan = project.getBusinessplan();
-		return businessPlan;
+		
+		Object[] objs = project.getBusinessplans().toArray();
+		if(objs!=null && objs.length>0)
+		{
+			Businessplan businessPlan = (Businessplan) objs[0];
+			return businessPlan;
+		}
+		
+		return null;
 	}
 
 	/***
@@ -285,8 +368,15 @@ public class ProjectManager {
 	 */
 	public Financingexit findProjectFinanceExit(Integer projectId) {
 		Project project = this.findProjectById(projectId);
-		Financingexit Financingexit = project.getFinancingexit();
-		return Financingexit;
+		
+		Object[] objs = project.getFinancingexits().toArray();
+		if(objs!=null && objs.length>0)
+		{
+			Financingexit Financingexit = (Financingexit) objs[0];
+			return Financingexit;
+		}
+		
+		return null;
 	}
 	/***
 	 * 获取风控报告
@@ -295,8 +385,15 @@ public class ProjectManager {
 	 */
 	public Controlreport findProjectControlReport(Integer projectId) {
 		Project project = this.findProjectById(projectId);
-		Controlreport controlReport = project.getControlreport();
-		return controlReport;
+		
+		Object[] objs = project.getControlreports().toArray();
+		if(objs!=null && objs.length>0)
+		{
+			Controlreport controlReport = (Controlreport) objs[0];
+			return controlReport;
+		}
+		
+		return null;
 	}
 
 	/***
@@ -533,12 +630,12 @@ public class ProjectManager {
 			for(int i = 0;i<list.size();i++)
 			{
 				project = (Project) list.get(i);
-				project.setControlreport(null);
-				project.setFinancingexit(null);
-				project.setFinancialstanding(null);
-				project.setFinancingcase(null);
-				project.setFinancingcase(null);
-				project.setBusinessplan(null);
+				project.setControlreports(null);
+				project.setFinancingexits(null);
+				project.setFinancialstandings(null);
+				project.setFinancingcases(null);
+				project.setFinancingcases(null);
+				project.setBusinessplans(null);
 				project.setBorrowerUserNumber(null);
 				project.setTeams(null);
 				project.setProjectimageses(null);
@@ -596,12 +693,12 @@ public class ProjectManager {
 				{
 					Project project = this.projectDao.findById(projectId);
 					
-					project.setControlreport(null);
-					project.setFinancingexit(null);
-					project.setFinancialstanding(null);
-					project.setFinancingcase(null);
-					project.setFinancingcase(null);
-					project.setBusinessplan(null);
+					project.setControlreports(null);
+					project.setFinancingexits(null);
+					project.setFinancialstandings(null);
+					project.setFinancingcases(null);
+					project.setFinancingcases(null);
+					project.setBusinessplans(null);
 					project.setBorrowerUserNumber(null);
 					project.setTeams(null);
 					project.setProjectimageses(null);
@@ -641,13 +738,13 @@ public class ProjectManager {
 				
 				//过滤
 				project.setTeams(null);
-				project.setControlreport(null);
-				project.setFinancingexit(null);
-				project.setFinancingcase(null);
-				project.setFinancingcase(null);
-				project.setBusinessplan(null);
+				project.setControlreports(null);
+				project.setFinancingexits(null);
+				project.setFinancingcases(null);
+				project.setFinancingcases(null);
+				project.setBusinessplans(null);
 				project.setProjectimageses(null);
-				project.setFinancialstanding(null);
+				project.setFinancialstandings(null);
 				project.setBorrowerUserNumber(null);
 				
 				list.add(project);
@@ -680,12 +777,12 @@ public class ProjectManager {
 				Project project = record.getProject();
 				
 				//过滤
-				project.setControlreport(null);
-				project.setFinancingexit(null);
-				project.setFinancialstanding(null);
-				project.setFinancingcase(null);
-				project.setFinancingcase(null);
-				project.setBusinessplan(null);
+				project.setControlreports(null);
+				project.setFinancingexits(null);
+				project.setFinancialstandings(null);
+				project.setFinancingcases(null);
+				project.setFinancingcases(null);
+				project.setBusinessplans(null);
 				project.setBorrowerUserNumber(null);
 				project.setTeams(null);
 				project.setProjectimageses(null);

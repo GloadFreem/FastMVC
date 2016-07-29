@@ -84,6 +84,7 @@ public class Config {
 			add("shareInvite.action");
 			add("shareFeeling.action");
 			add("webEditor.action");
+			add("generateProjectInfo.action");
 			add("generateWebPage.action");
 			add("webUrlLooker.action");
 			add("shareInviteGold.action");
@@ -93,6 +94,18 @@ public class Config {
 			add("actionWebLooker.action");
 			add("customServiceSystem.action");
 			add("requestUserProtocol.action");
+			add("login.action");
+			add("loginAction.action");
+			add("dashboard.action");
+			add("adminJsp.action");
+			add("left.action");
+			add("content.action");
+			add("top.action");
+			add("bottom.action");
+			add("bannerListAdmin.action");
+			add("editBanner.action");
+			add("uploadImage.action");
+			add("addBanner.action");
 		}
 	};
 
@@ -124,7 +137,7 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.159:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://192.168.1.90:8080/jinzht/";
 //	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.jinzht.com:8080/jinzht/images/icon.jpg";
@@ -253,6 +266,7 @@ public class Config {
 	public static String STRING_MAIL_SERVER_NAME = "smtp.qq.com";
 	public static String STRING_MAIL_SERVER_USER = "chenshengzhu@jinzht.com";
 	public static String STRING_MAIL_SERVER_PASSWD = "Csz1126@0314";
+	public static String STRING_MAIL_SERVER_TO_EMIAL = "chenshengzhu@jinzht.com;baidongqi@163.com;851303533@qq.com;1203920906@qq.com";
 	
 	//友盟推送
 	public static String STRING_JAK = "cc3fdb255d49497c5fd3d402"; // access key

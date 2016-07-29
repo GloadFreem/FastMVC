@@ -442,6 +442,9 @@ public class FeelingController extends BaseController {
 				share.setContent(Config.STRING_SHARE_CONTENT_TITLE);
 			}
 			
+			String url = share.getUrl() + "?contentId="+content.getPublicContentId();
+			share.setUrl(url);
+			
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
 			

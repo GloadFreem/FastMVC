@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -18,6 +19,14 @@
 	href="./images/share/css/share.css">
 <script type="text/javascript" src="./images/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="./images/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript">
+	jQuery(function($) { //或者$(function(){...});
+		var str = "http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro";
+		$(".footer-tip").click(function() {
+			location.href = str;
+		});
+	});
+</script>
 <style>
 </style>
 </head>
@@ -32,103 +41,61 @@
 		<div>
 			<div class="feeling-header">
 				<div class="feeling-header-img">
-					<img class="header-img" alt="header"
-						src="./images/share/Avatar-sample-311.png">
+					<img class="header-img" alt="" src=${user.headSculpture} }>
 				</div>
 			</div>
 			<div class="feeling-header-content">
-				<div class="name">cnBeat 北京</div>
+				<div class="name">${authentic.getName()}
+					${authentic.companyAddress}</div>
 				<div class="box">
-					<div class="box-info">金指投科技 | 产品经理</div>
+					<div class="box-info">${authentic.companyName}|
+						${authentic.position}</div>
 					<div class="box-time">38分钟前</div>
 				</div>
 			</div>
 		</div>
 		<!-- 文字内容 -->
 		<div>
-			<div class="feeling-content">
-				宝能系增持万科的资金来源主要包括保险资金、融资融券、收益互换、资管计划、股权质押等，具有高杠杆的特点。其融资成本较高，一旦万科股价出现超预期下跌，宝能系只能追加保证金，资管计划也将面临强制平仓的风险。
-			</div>
+			<div class="feeling-content">${data.content}</div>
 		</div>
 		<!-- 图片内容 -->
 		<div class="content-images">
+
 			<div class="content-image">
-				<img class="content-image-item" src="./images/share/image.png">
-				<img class="content-image-item" src="./images/share/image.png">
-				<img class="content-image-item" src="./images/share/image.png">
-			</div>
-			<div class="content-image">
-				<img class="content-image-item" src="./images/share/image.png">
-				<img class="content-image-item" src="./images/share/image.png">
-				<img class="content-image-item" src="./images/share/image.png">
+				<c:forEach items="${images}" var="img" varStatus="vs">
+					<img class="content-image-item" src=${img.getUrl()}>
+				</c:forEach>
 			</div>
 		</div>
-		
-		<!-- 分割线 -->
-		<div class="line"></div>
-		<!-- 底部操作区域 -->
-		<div class="operate">
-			<div class="operate-item">
-				<div class="operate-item-img"><img class="operate-item-img-value" src="./images/feeling/iconfont-p-repeat@3x.png"></div>
-				<div class="operate-item-value">5626</div>
-				<div class="operate-item-line"></div>
-			</div>
-			<div class="operate-item">
-				<div class="operate-item-img"><img class="operate-item-img-value" src="./images/feeling/iconfont-pinglun@3x.png"></div>
-				<div class="operate-item-value">26</div>
-				<div class="operate-item-line"></div>
-			</div>
-			<div class="operate-item">
-				<div class="operate-item-img"><img class="operate-item-img-value" src="./images/feeling/dianzan@3x.png"></div>
-				<div class="operate-item-value">626</div>
-			</div>
-		</div>
-		
-		<!-- 分割线 -->
-		<div class="line-separte" style="margin-top: 17%"></div>
-		
+
+
+		<div class="line-separte" style="margin-top: 5%"></div>
+
 		<!-- 评论 -->
-		<div>
-			<div class="feeling-header">
-				<div class="feeling-header-img">
-					<img class="header-img" alt="header"
-						src="./images/share/Avatar-sample-311.png">
+		<c:forEach items="${comments}" var="item" varStatus="vs">
+			<div>
+				<div class="feeling-header">
+					<div class="feeling-header-img">
+						<img class="header-img" alt=""
+							src=${item.getUsersByUserId().getHeadSculpture()}>
+					</div>
 				</div>
-			</div>
-			<div class="feeling-header-content">
-				<div class="name">LOVERAD</div>
-				<div class="name">10分钟前</div>
-				<div class="box">
-					值得注意的是，万科在7月1日召开董事
-				</div>
-			</div>
-		
-		</div>
-		<!-- 分割线 -->
-		<div class="line"></div>
-		<div>
-			<div class="feeling-header">
-				<div class="feeling-header-img">
-					<img class="header-img" alt="header"
-						src="./images/share/person.png">
-				</div>
-			</div>
 				<div class="feeling-header-content">
-				<div class="name">LOVERAD</div>
-				<div class="name">10分钟前</div>
-				<div class="box">
-				值得注意的是，万科在7月1日召开董事会，但选择在7月3日晚，即复牌的前一晚公告董事会决议，称包括华润方面的3位董事在内，董事会以11票全票赞成通过了“关于不同意深圳市钜盛华股份有限公司及前海人寿保险股份有限公司提请召开2016年第二次临时股东大会的议案”。
+					<div class="name">${item.getUsersByUserId().getName()}</div>
+					<div class="name">${item.publicDate }</div>
+					<div class="box">${item.content} }</div>
 				</div>
+
 			</div>
-		</div>
-		<!-- 分割线 -->
-		<div class="line"></div>
+			<!-- 分割线 -->
+			<div class="line"></div>
+		</c:forEach>
+
 	</div>
 
 	<div class="foot-box">
 		<p>Copyright &#169;金指投 版权所有 All Rights Reserved.</p>
 	</div>
-
 
 	<div class="footer-tip">
 		<img class="footer-tip-image" src="./images/share/logo.png">
