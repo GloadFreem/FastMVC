@@ -196,11 +196,12 @@
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${user!=null}">
-							<input style="color:black" name="Str" type="text"
+							<input style="color:black" name="Str" id="Str" type="text"
 								value=${user.wechatId}>
 						</c:when>
 						<c:otherwise>
-							<input  style="color:black" name="Str" id="Str" type="text" value="请输入微信识别码">
+							<input style="color:black" name="Str" id="Str" type="text"
+								value="请输入微信识别码">
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -230,7 +231,7 @@
 														</select>
 													</c:when>
 													<c:when test="${item.identiytype.identiyTypeId==1}">
-														<select>
+														<select name="identityTypeId" id="identityTypeId">
 															<option value="0">请选择身份类型</option>
 															<option value="1" selected="selected">项目方</option>
 															<option value="2">投资人</option>
@@ -239,7 +240,7 @@
 														</select>
 													</c:when>
 													<c:when test="${item.identiytype.identiyTypeId==2}">
-														<select>
+														<select name="identityTypeId" id="identityTypeId">
 															<option value="0">请选择身份类型</option>
 															<option value="1">项目方</option>
 															<option value="2" selected="selected">投资人</option>
@@ -248,7 +249,7 @@
 														</select>
 													</c:when>
 													<c:when test="${item.identiytype.identiyTypeId==3}">
-														<select>
+														<select name="identityTypeId" id="identityTypeId">
 															<option value="0">请选择身份类型</option>
 															<option value="1">项目方</option>
 															<option value="2">投资人</option>
@@ -257,7 +258,7 @@
 														</select>
 													</c:when>
 													<c:otherwise>
-														<select>
+														<select name="identityTypeId" id="identityTypeId">
 															<option value="0">请选择身份类型</option>
 															<option value="1">项目方</option>
 															<option value="2">投资人</option>
@@ -403,6 +404,19 @@
 												</select>
 											</div>
 										</div>
+
+										<!--  城市 -->
+										<div class="name">
+											<div class="name-key">城市</div>
+											<div class="name-value">
+												<select name="city" id="city">
+													<option value="0">城市</option>
+													<c:forEach items="${cities}" var="c" varStatus="v">
+														<option value=${v.index }>${c.name}</option>
+													</c:forEach>
+												</select>
+											</div>
+										</div>
 									</div>
 								</div>
 							</c:forEach>
@@ -415,12 +429,12 @@
 										<div class="name-key">身份类型</div>
 										<div class="name-value">
 											<select name="identityTypeId" id="identityTypeId">
-														<option value="0" selected="selected">请选择身份类型</option>
-														<option value="1">项目方</option>
-														<option value="2">投资人</option>
-														<option value="3">投资机构</option>
-														<option value="4">智囊团</option>
-													</select>
+												<option value="0" selected="selected">请选择身份类型</option>
+												<option value="1">项目方</option>
+												<option value="2">投资人</option>
+												<option value="3">投资机构</option>
+												<option value="4">智囊团</option>
+											</select>
 										</div>
 									</div>
 									<!--  真实姓名 -->
@@ -453,7 +467,7 @@
 										<div class="name-value">
 											<div>
 												<input style="color:black" name="identityCardB" type="text"
-													value= "请输入身份证B面地址">
+													value="请输入身份证B面地址">
 											</div>
 										</div>
 										<div class="upload dropzone needsclick"></div>
@@ -521,7 +535,7 @@
 											<select name="optional" id="optional" multiple="multiple">
 												<option value="0">请选择符合投资人标准协议</option>
 												<c:forEach items="${optional}" var="o" varStatus="v">
-													<option value=${v.index } >${o}</option>
+													<option value=${v.index }>${o}</option>
 												</c:forEach>
 											</select>
 										</div>
@@ -533,7 +547,20 @@
 											<select name="areas" id="areas" multiple="multiple">
 												<option value="0">请选择行业类型</option>
 												<c:forEach items="${areas}" var="o" varStatus="v">
-													<option value=${v.index } >${o.name}</option>
+													<option value=${v.index }>${o.name}</option>
+												</c:forEach>
+											</select>
+										</div>
+									</div>
+
+									<!--  城市 -->
+									<div class="name">
+										<div class="name-key">城市</div>
+										<div class="name-value">
+											<select name="city" id="city">
+												<option value="0">城市</option>
+												<c:forEach items="${cities}" var="c" varStatus="v">
+													<option value=${v.index }>${c.name}</option>
 												</c:forEach>
 											</select>
 										</div>

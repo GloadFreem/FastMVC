@@ -284,4 +284,7 @@ public class Config {
 	public static String STRING_EMIAL_INVEST ="<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>用户【%s】%s于%s认投【%s】项目%.2f万，请尽快审核信息，请以工匠心用心对待每一位来之不易的用户，让他能够充分体验金指投优质服务！</div>";
 	public static String STRING_EMIAL_AUTHENTIC_QUICK ="<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>用户【%s】%s请求加快审核身份认证，请尽快审核信息，请以工匠心用心对待每一位来之不易的用户，让他能够充分体验金指投优质服务！</div>";
 
+	
+	//密码规则
+	public static String STRING_PASWWORD_RULE="%s%slindyang";
 }

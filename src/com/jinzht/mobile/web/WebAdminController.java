@@ -34,8 +34,10 @@ import com.jinzht.tools.Config;
 import com.jinzht.tools.FileUtil;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
+import com.jinzht.tools.Tools;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Authentic;
+import com.jinzht.web.entity.Authenticstatus;
 import com.jinzht.web.entity.Banner;
 import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Contentimages;
@@ -275,6 +277,7 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value="userId",required=false)Integer userId,
 			ModelMap map) {
 		List areas = this.authenticManager.getIndustoryareaDao().findAll();
+		List citys =this.authenticManager.getCityDao().findAll();
 		if(userId!=null)
 		{
 			Users user = this.userManager.findUserById(userId);
@@ -341,6 +344,7 @@ public class WebAdminController extends BaseController {
 		}
 		
 		map.put("areas", areas);
+		map.put("cities", citys);
 		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
 		
 		return "/admin/Users/editorUser";
@@ -377,34 +381,91 @@ public class WebAdminController extends BaseController {
 		this.result = new HashMap();
 		this.result.put("data", "");
 		
-//		List l = (List) session.getAttribute("images");
-//		Banner banner;
-//		
-//		if(bannerId!=-1)
-//		{
-//			banner = this.systemManger.getBannerDao().findById(bannerId);
-//		}else{
-//			banner = new Banner();
-//		}
-//		
-//		banner.setName(name);
-//		banner.setUrl(url);
-//		banner.setDescription(description);
-//		
-//		if(image!=null && !image.equals("") && l==null && l.size()==0)
-//		{
-//			banner.setImage(image);
-//		}else{
-//			banner.setImage(l.get(0).toString());
-//		}
-//		
-//		if(bannerId!=-1)
-//		{
-//			this.systemManger.getBannerDao().saveOrUpdate(banner);
-//		}else{
-//			this.systemManger.getBannerDao().save(banner);
-//		}
-//		
+		List l = (List) session.getAttribute("images");
+		Users user;
+		
+		if(userId!=-1)
+		{
+			user = this.userManager.findUserById(userId);
+		}else{
+			user = new Users();
+		}
+		
+		String encryptPassword = Tools.generatePassword(password, telephone);
+		user.setName(name);
+		user.setHeadSculpture(image);
+		user.setTelephone(telephone);
+		user.setPassword(encryptPassword);
+		user.setPlatform((short) Integer.parseInt(platform));
+		user.setWechatId(Str);
+		
+		
+		if(userId!=-1)
+		{
+			//更新
+			//生成认证信息
+			Object[] objs = user.getAuthentics().toArray();
+			Authentic authentic;
+			if(objs!=null && objs.length>0)
+			{
+				authentic = (Authentic)objs[0];
+			}else{
+				authentic = new Authentic();
+			}
+			
+			
+			Identiytype  type = new Identiytype();
+			type.setIdentiyTypeId((short)Integer.parseInt(identityTypeId));
+			
+			Authenticstatus status = new Authenticstatus();
+			status.setStatusId(7);
+			
+			authentic.setAuthenticstatus(status);
+			authentic.setIdentiytype(type);
+			authentic.setName(realName);
+			authentic.setIdentiyCarA(identityCardA);
+			authentic.setIdentiyCarB(identityCardB);
+			authentic.setIdentiyCarNo(identityCardNo);
+			authentic.setCompanyAddress(companyAddress);
+			authentic.setCompanyIntroduce(companyIntroduce);
+			authentic.setIntroduce(introduce);
+			authentic.setIndustoryArea(areas);
+			authentic.setOptional(optional);
+			
+			//保存
+			this.userManager.saveOrUpdateUser(user);
+		}else{
+			//生成认证信息
+			Authentic authentic = new Authentic();
+			
+			Identiytype  type = new Identiytype();
+			type.setIdentiyTypeId((short)Integer.parseInt(identityTypeId));
+			Authenticstatus status = new Authenticstatus();
+			status.setStatusId(7);
+			
+			authentic.setAuthenticstatus(status);
+			authentic.setIdentiytype(type);
+			authentic.setName(realName);
+			authentic.setIdentiyCarA(identityCardA);
+			authentic.setIdentiyCarB(identityCardB);
+			authentic.setIdentiyCarNo(identityCardNo);
+			authentic.setCompanyName(companyName);
+			authentic.setCompanyAddress(companyAddress);
+			authentic.setCompanyIntroduce(companyIntroduce);
+			authentic.setIntroduce(introduce);
+			authentic.setIndustoryArea(areas);
+			authentic.setOptional(optional);
+			authentic.setPosition(position);
+			authentic.setUsers(user);
+			Set set = new HashSet();
+			set.add(authentic);
+			
+			user.setAuthentics(set);
+			
+			//保存
+			this.userManager.addUser(user);
+		}
+		
 		List<Users> list = this.userManager.getUserDao().findAll();
 		map.put("items", list.iterator());
 		return "/admin/Users/userList";

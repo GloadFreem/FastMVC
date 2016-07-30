@@ -94,5 +94,18 @@ public class Tools {
 	{
 		return String.format(Config.STRING_SYSTEM_ADDRESS+"%s.action", actionUrl);
 	}
+	
+	
+	/***
+	 * 按照密码生成规则生成密码
+	 * @param password
+	 * @return
+	 */
+	public static String generatePassword(String password,String telephone)
+	{
+		String str = String.format(Config.STRING_PASWWORD_RULE, password,telephone);
+		
+		return MD5.GetMD5Code(str);
+	}
 
 }
