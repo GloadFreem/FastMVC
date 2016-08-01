@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jinzht.web.dao.AuthenticDAO;
+import com.jinzht.web.dao.AuthenticstatusDAO;
 import com.jinzht.web.dao.CityDAO;
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.IndustoryareaDAO;
@@ -29,6 +30,7 @@ public class AuthenticManager {
 	private ProvinceDAO provinceDao;
 	private CityDAO cityDao;
 	private AuthenticDAO authenticDao;
+	private AuthenticstatusDAO authenticStatus;
 	
 	/***
 	 * 保存认证信息
@@ -184,5 +186,13 @@ public class AuthenticManager {
 	@Autowired
 	public void setAuthenticDao(AuthenticDAO authenticDao) {
 		this.authenticDao = authenticDao;
+	}
+
+	public AuthenticstatusDAO getAuthenticStatus() {
+		return authenticStatus;
+	}
+	@Autowired
+	public void setAuthenticStatus(AuthenticstatusDAO authenticStatus) {
+		this.authenticStatus = authenticStatus;
 	}
 }

@@ -59,16 +59,17 @@
                         <li><a class="menuitem">用户管理</a>
                             <ul class="submenu1">
                                 <li><a href="userListAdmin.action" target="content">用户列表</a> </li>
-                                <li><a>认证审核</a> </li>
+                                <li><a href="userAuthenticListAdmin.action" target="content">认证审核</a> </li>
                                 <li><a>黑名单</a> </li>
                             </ul>
                         </li>
                         <li><a class="menuitem">项目管理</a>
                             <ul class="submenu1">
-                                <li><a>项目列表</a> </li>
-                                <li><a>项目路演列表</a> </li>
-                                <li><a>分享、收藏</a> </li>
-                                <li><a>项目路演历史</a> </li>
+                                <li><a href="projectListAdmin.action" target="content">项目列表</a> </li>
+                                <li><a href="roadShowListAdmin.action" target="content">路演管理</a> </li>
+                                <li><a href="sceneListAdmin.action" target="content">现场管理</a> </li>
+                                <li><a>分享收藏</a> </li>
+                                <li><a>路演历史</a> </li>
                             </ul>
                         </li>
                         <li><a class="menuitem">交易中心</a>

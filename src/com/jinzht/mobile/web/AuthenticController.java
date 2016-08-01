@@ -270,7 +270,7 @@ public class AuthenticController extends BaseController {
 			this.status = 400;
 			this.message = bindingResult.getFieldError().getDefaultMessage();
 		} else {
-			Users user = this.findUserInSession(session);
+			final Users user = this.findUserInSession(session);
 			if (user != null) {
 				// 获取身份类型
 				Identiytype identiytype = null;
@@ -427,6 +427,8 @@ public class AuthenticController extends BaseController {
 				status.setStatusId(7);
 				authentic.setAuthenticstatus(status);
 				user.getAuthentics().add(authentic);
+				user.setName(entity.getName());
+				
 				this.userManager.saveOrUpdateUser(user);
 				this.message = Config.STRING_AUTH_SUBMMIT_SUCCESS;
 			} else {
@@ -434,13 +436,18 @@ public class AuthenticController extends BaseController {
 			}
 			
 			//发送注册成功邮件
-			MailUtil mu = new MailUtil();
-			try {
-				mu.sendUserAuthentic(mu,user.getTelephone());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			new Thread(){
+				public void run()
+				{
+					MailUtil mu = new MailUtil();
+					try {
+						mu.sendUserAuthentic(mu,user.getTelephone());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}.start();
 		}
 
 		return getResult();

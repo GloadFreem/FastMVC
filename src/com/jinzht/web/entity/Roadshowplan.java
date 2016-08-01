@@ -78,8 +78,8 @@ public class Roadshowplan implements java.io.Serializable {
 	}
 
 	@Column(name = "begin_date", nullable = false, length = 0)
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm",timezone = "GMT+8")  
 	public Date getBeginDate() {
 		return this.beginDate;
 	}
@@ -89,8 +89,8 @@ public class Roadshowplan implements java.io.Serializable {
 	}
 
 	@Column(name = "end_date", nullable = false, length = 0)
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm",timezone = "GMT+8")  
 	public Date getEndDate() {
 		return this.endDate;
 	}

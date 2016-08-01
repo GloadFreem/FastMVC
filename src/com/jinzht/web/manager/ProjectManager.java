@@ -121,6 +121,8 @@ public class ProjectManager {
 			List list = new ArrayList();
 			if (l1 != null && l1.size() > 0) {
 				for (int i = 0; i < l1.size(); i++) {
+					
+					
 					Project project = (Project) l1.get(i);
 					project.setCommunions(null);
 					project.setMembers(null);
@@ -133,6 +135,10 @@ public class ProjectManager {
 					project.setProjectcomments(null);
 					project.setProjectcommitrecords(null);
 					project.setProjectimageses(null);
+					
+					// 人气指数
+					Integer count = this.findCountProjectCollection(project);
+					project.setCollectionCount(count);
 					
 					list.add(project);
 				}
@@ -152,6 +158,10 @@ public class ProjectManager {
 					project.setProjectcommitrecords(null);
 					project.setProjectimageses(null);
 					
+					// 人气指数
+					Integer count = this.findCountProjectCollection(project);
+					project.setCollectionCount(count);
+					
 					list.add(project);
 				}
 			}
@@ -170,6 +180,9 @@ public class ProjectManager {
 					project.setProjectcommitrecords(null);
 					project.setProjectimageses(null);
 					
+					// 人气指数
+					Integer count = this.findCountProjectCollection(project);
+					project.setCollectionCount(count);
 					list.add(project);
 				}
 			}
@@ -195,6 +208,10 @@ public class ProjectManager {
 					project.setProjectcomments(null);
 					project.setProjectcommitrecords(null);
 					project.setProjectimageses(null);
+					
+					// 人气指数
+					Integer count = this.findCountProjectCollection(project);
+					project.setCollectionCount(count);
 				}
 				return list;
 			}

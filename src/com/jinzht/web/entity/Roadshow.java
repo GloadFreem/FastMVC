@@ -54,7 +54,7 @@ public class Roadshow implements java.io.Serializable {
 		this.roadShowId = roadShowId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;

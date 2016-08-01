@@ -45,13 +45,17 @@ import com.jinzht.web.entity.Contenttype;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.MessageBean;
+import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Rewardsystem;
+import com.jinzht.web.entity.Roadshow;
+import com.jinzht.web.entity.Scene;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Weburlrecord;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.AuthenticManager;
 import com.jinzht.web.manager.InvestorManager;
+import com.jinzht.web.manager.ProjectManager;
 import com.jinzht.web.manager.SystemManager;
 import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.manager.WebManager;
@@ -67,6 +71,9 @@ public class WebAdminController extends BaseController {
 	private UserManager userManager;
 	@Autowired
 	private AuthenticManager authenticManager;
+	@Autowired
+	private ProjectManager projectManager;
+	
 	
 	@RequestMapping(value = "/admin/login")
 	public String webEditor() {
@@ -267,6 +274,57 @@ public class WebAdminController extends BaseController {
 		return "/admin/Users/userList";
 	}
 	
+	/***
+	 * 项目列表
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/projectListAdmin")
+	public String projectListAdmin(ModelMap map) {
+		List<Users> list = this.projectManager.getProjectDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/Users/projectList";
+	}
+	
+	/***
+	 * 路演列表
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/roadShowListAdmin")
+	public String roadShowListAdmin(ModelMap map) {
+		List<Roadshow> list = this.projectManager.getRoadShowDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/Users/roadShowList";
+	}
+	/***
+	 * 现场列表
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/sceneListAdmin")
+	public String sceneListAdmin(ModelMap map) {
+		List<Scene> list = this.projectManager.getSceneDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/Users/sceneList";
+	}
+	
+	
+	/***
+	 * 认证审核
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/userAuthenticListAdmin")
+	public String userAuthenticListAdmin(ModelMap map) {
+		List citys =this.authenticManager.getCityDao().findAll();
+		List areas = this.authenticManager.getIndustoryareaDao().findAll();
+		List<Authentic> list = this.userManager.getAuthenticDao().findAll();
+		List authenticStatus = this.authenticManager.getAuthenticStatus().findAll();
+		
+		map.put("authenticStatus", authenticStatus);
+		map.put("areas", areas);
+		map.put("cities", citys);
+		map.put("items", list.iterator());
+		return "/admin/Users/userAuthenticList";
+	}
+	
 	
 	/***
 	 * 编辑用户
@@ -347,7 +405,138 @@ public class WebAdminController extends BaseController {
 		map.put("cities", citys);
 		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
 		
+		
 		return "/admin/Users/editorUser";
+	}
+	/***
+	 * 编辑项目
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/editProject")
+	public String editProject(
+			@RequestParam(value="projectId",required=false)Integer projectId,
+			ModelMap map) {
+		if(projectId!=null)
+		{
+			Project project = this.projectManager.findProjectById(projectId);
+			
+			map.put("project", project);
+		}
+		
+		
+		return "/admin/Users/editorProject";
+	}
+	/***
+	 * 编辑现场
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/editScene")
+	public String editScene(
+			@RequestParam(value="sceneId",required=false)Integer sceneId,
+			ModelMap map) {
+		if(sceneId!=null)
+		{
+			Scene scene = this.projectManager.getSceneDao().findById(sceneId);
+			
+			map.put("scene", scene);
+		}
+		
+		return "/admin/Users/editorScene";
+	}
+	/***
+	 * 编辑路演
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/editRoadShow")
+	public String editRoadShow(
+			@RequestParam(value="roadShowId",required=false)Integer roadShowId,
+			ModelMap map) {
+		List areas = this.authenticManager.getIndustoryareaDao().findAll();
+		List citys =this.authenticManager.getCityDao().findAll();
+		if(roadShowId!=null)
+		{
+			Roadshow roadshow = this.projectManager.getRoadShowDao().findById(roadShowId);
+			
+			map.put("roadshow", roadshow);
+		}
+		
+		map.put("areas", areas);
+		map.put("cities", citys);
+		
+		return "/admin/Users/editorRoadShow";
+	}
+	/***
+	 * 编辑认证信息
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/editorUserAuthentic")
+	public String editorUserAuthentic(
+			@RequestParam(value="authId",required=false)Integer authId,
+			ModelMap map) {
+		List areas = this.authenticManager.getIndustoryareaDao().findAll();
+		List citys =this.authenticManager.getCityDao().findAll();
+		List identities = this.authenticManager.getIdentitytypeDao().findAll();
+		if(authId!=null)
+		{
+			Authentic authentic = this.authenticManager.findAuthenticById(authId);
+			
+			
+			String optional = authentic.getOptional();
+			String area = authentic.getIndustoryArea();
+			
+			Map m = new HashMap();
+			
+			List list =new ArrayList();
+			if(!optional.equals(null))
+			{
+				if(optional.equals(""))
+				{
+					list.add(0);
+				}else{
+					String[] tempList = optional.split(",");
+					
+					for(String s : tempList)
+					{
+						list.add(s);
+					}
+				}
+			}else{
+				list.add(0);
+			}
+			
+			m.put("option", list);
+			
+			list =new ArrayList();
+			if(!area.equals(null))
+			{
+				if(area.equals(""))
+				{
+					list.add(0);
+				}else{
+					String[] tempList = area.split(",");
+					
+					for(String s : tempList)
+					{
+						list.add(s);
+					}
+				}
+			}else{
+				list.add(0);
+			}
+			
+			m.put("areas", list);
+			map.put("ext", m);
+			map.put("authentic", authentic);
+			
+		}
+		
+		map.put("identities", identities);
+		map.put("areas", areas);
+		map.put("cities", citys);
+		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
+		
+		
+		return "/admin/Users/editorUserAuthentic";
 	}
 	
 	@RequestMapping(value = "/admin/addUser")

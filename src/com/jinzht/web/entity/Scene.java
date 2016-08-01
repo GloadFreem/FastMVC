@@ -78,7 +78,7 @@ public class Scene implements java.io.Serializable {
 			this.sceneId = sceneId;
 		}
 
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.EAGER)
 		@JoinColumn(name = "project_id")
 		public Project getProject() {
 			return this.project;
