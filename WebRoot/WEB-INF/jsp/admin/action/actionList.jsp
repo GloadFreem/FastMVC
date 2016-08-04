@@ -56,9 +56,9 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="editUser.action?userId=" target="content"><h2>
-			<div><img alt="添加用户" src="images/圆角矩形-3-拷贝-5.png"></div>
-			<div>添加用户</div>
+		<a href="editAction.action?actionId=" target="content"><h2>
+			<div><img alt="添加活动" src="images/圆角矩形-3-拷贝-5.png"></div>
+			<div>添加活动</div>
 			</h2></a>
 			
 			<div class="block">
@@ -66,39 +66,31 @@
 					<thead>
 						<tr>
 							<th class="center">序号</th>
-							<th class="center">姓名</th>
-							<th class="center">手机号码</th>
-							<th class="center">头像</th>
-							<th class="center">设备类型</th>
-							<th class="center">最近登录时间</th>
+							<th class="center">名称</th>
+							<th class="center">描述</th>
+							<th class="center">地址</th>
+							<th class="center">人数限制</th>
+							<th class="center">开始时间</th>
 						</tr>
 					</thead>
 					<tbody>
 					<c:forEach items="${items}" var="item" varStatus="vs">
 					<tr class="odd gradeX">
-							<td class="center"><a href="editUser.action?userId=${item.userId}" target="content">${item.userId}</a></td>
+							<td class="center"><a href="editAction.action?actionId=${item.actionId}" target="content">${item.actionId}</a></td>
 							<td class="center">${item.name}</td>
-							<td class="center">${item.telephone}</td>
-							<td class="center"><a href=${item.headSculpture} target="blank">${item.headSculpture}</a></td>
 							<td class="center">
-								<c:choose>
-								<c:when test="${item.platform==1}">
-									<select name="platform" id="platform">
-										<option value="0">请选择设备类型</option>
-										<option value="1" selected="selected">iPhone设备</option>
-										<option value="2">Android设备</option>
-									</select>
+							<c:choose>
+								<c:when test="${item.description.length()>=20 }">
+									${item.description.substring(0,20)}
 								</c:when>
-								<c:otherwise>
-									<select name="platform" id="platform">
-										<option value="0">请选择设备类型</option>
-										<option value="1">iPhone设备</option>
-										<option value="2" selected="selected">Android设备</option>
-									</select>
+								<c:otherwise>	
+									${item.description}
 								</c:otherwise>
 							</c:choose>
 							</td>
-							<td class="center">${item.lastLoginDate}</td>
+							<td class="center">${item.address}</td>
+							<td class="center">${item.memberLimit}人</td>
+							<td class="center">${item.startTime}</td>
 						</tr>
 					</c:forEach>
 					</tbody>

@@ -11,7 +11,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>金指投科技 | Banner管理</title>
-<link rel="stylesheet" type="text/css" href="css/banner.css" />
+<link rel="stylesheet" type="text/css" href="css/cycle.css" />
 <link rel="stylesheet" type="text/css" href="css/dropzone.css" />
 <script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
 <script src="js/dropzone.js" type="text/javascript"></script>
@@ -73,7 +73,7 @@
 </head>
 <body>
 	<div class="content">
-		<form action="addBanner.action" method="post">
+		<form action="addBanner.action"  method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${banner!=null}">
@@ -86,45 +86,34 @@
 			</c:choose>
 			<!-- 名称 -->
 			<div class="name">
-				<div class="name-key">名称</div>
+				<div class="name-key">用户姓名</div>
 				<div class="name-value">
 					<c:choose>
-						<c:when test="${banner!=null}">
+						<c:when test="${content!=null}">
+						<div class="search">
 							<input style="color:black" name="name" type="text"
-								value=${banner.name}>
+								value=${content.users.name}>
+						</div>
+						<div>
+							<img class="search-img" alt="" src="../images/feeling/椭圆-2.png">
+						</div>
 						</c:when>
 						<c:otherwise>
-							<input name="name" type="text" value="请输入名称">
+							<input name="name" type="text" value="请选择用户">
 						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>
 			<!-- 描述 -->
 			<div class="name">
-				<div class="name-key">描述</div>
+				<div class="name-key">內容</div>
 				<div class="name-value">
 					<c:choose>
-						<c:when test="${banner!=null}">
-							<input style="color:black" name="description" type="text"
-								value=${banner.description}>
+						<c:when test="${content!=null}">
+							<textarea class="textarea" style="color:black" name="description">${content.content}</textarea>
 						</c:when>
 						<c:otherwise>
-							<input name="description" type="text" value="请输入描述">
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</div>
-			<!-- 链接地址 -->
-			<div class="name">
-				<div class="name-key">内容链接</div>
-				<div class="name-value">
-					<c:choose>
-						<c:when test="${banner!=null}">
-							<input style="color:black" name="url" type="text"
-								value=${banner.url}>
-						</c:when>
-						<c:otherwise>
-							<input name="url" type="text" value="请输入链接地址">
+							<textarea class="textarea" style="color:black" name="description">请输入描述</textarea>
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -132,7 +121,7 @@
 			<!-- 上传图片 -->
 			<div class="name">
 				<div class="name-key">
-					上传图片(<font style="color:red">*图片地址可选填</font>)
+					添加图片(<font style="color:red">*图片地址可选填</font>)
 				</div>
 				<div class="name-value">
 					<c:choose>

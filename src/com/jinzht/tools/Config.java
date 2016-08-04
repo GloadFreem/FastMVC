@@ -117,6 +117,13 @@ public class Config {
 			add("editRoadShow.action");
 			add("sceneListAdmin.action");
 			add("editScene.action");
+			add("actionListAdmin.action");
+			add("editAction.action");
+			add("cycleListAdmin.action");
+			add("editCycle.action");
+			add("addActionImage.action");
+			add("addAction.action");
+			add("index.action");
 		}
 	};
 

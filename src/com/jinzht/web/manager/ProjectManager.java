@@ -189,7 +189,7 @@ public class ProjectManager {
 			return list;
 		}else{
 			Financestatus status = new Financestatus();
-			status.setStatusId(1);
+			status.setStatusId(3);
 
 			map.put("financestatus", status);
 			

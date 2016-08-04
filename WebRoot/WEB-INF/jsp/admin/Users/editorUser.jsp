@@ -19,8 +19,16 @@
 <script type="text/javascript">
 	jQuery(function($) {
 		$(".upload").dropzone({
-			url : "uploadImage.action"
+			url : "uploadImage.action?type=header"
 		});
+		$(".ida").dropzone({
+			url : "uploadImage.action?type=idA"
+		});
+		$(".idb").dropzone({
+			url : "uploadImage.action?type=idB"
+		});
+		
+		
 		$("input:eq(1)").blur(function() {
 			$("input:eq(1)").css("background-color", "#D6D6FF");
 			if ($("input:eq(1)").val() == "") {
@@ -74,7 +82,7 @@
 </head>
 <body>
 	<div class="content">
-		<form action="addUser.action">
+		<form action="addUser.action"  method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${user!=null}">
@@ -289,10 +297,10 @@
 														value=${item.identiyCarA}>
 												</div>
 												<div>
-													<img alt=${item.name } src=${item.identiyCarA}>
+													<img alt="" src=${item.identiyCarA}>
 												</div>
 											</div>
-											<div class="upload dropzone needsclick"></div>
+											<div class="ida dropzone needsclick"></div>
 										</div>
 										<!-- 身份证B面 -->
 										<div class="name">
@@ -305,10 +313,10 @@
 														value=${item.identiyCarB}>
 												</div>
 												<div>
-													<img alt=${item.name } src=${item.identiyCarB}>
+													<img alt="" src=${item.identiyCarB}>
 												</div>
 											</div>
-											<div class="upload dropzone needsclick"></div>
+											<div class="idb dropzone needsclick"></div>
 										</div>
 
 										<!--  身份证号码 -->
@@ -392,10 +400,10 @@
 												<select name="areas" id="areas" multiple="multiple">
 													<option value="0">请选择行业类型</option>
 													<c:forEach items="${areas}" var="o" varStatus="v">
-														<option value=${v.index }
+														<option value=${o.areaId }
 															<c:forEach items="${ext[vs.index].areas}" var="e" varStatus="i">
 															<c:choose>
-																<c:when test="${v.index == e}">
+																<c:when test="${o.areaId == e}">
 																	 selected="selected"
 																</c:when>
 															</c:choose>
@@ -411,8 +419,12 @@
 											<div class="name-value">
 												<select name="city" id="city">
 													<option value="0">城市</option>
+
 													<c:forEach items="${cities}" var="c" varStatus="v">
-														<option value=${v.index }>${c.name}</option>
+														<option value=${c.cityId }
+															<c:if test="${c.cityId==item.city.cityId }">
+															selected="selected"
+														</c:if>>${c.name}</option>
 													</c:forEach>
 												</select>
 											</div>
@@ -457,7 +469,7 @@
 													value="请输入身份证A面地址">
 											</div>
 										</div>
-										<div class="upload dropzone needsclick"></div>
+										<div class="ida dropzone needsclick"></div>
 									</div>
 									<!-- 身份证B面 -->
 									<div class="name">
@@ -470,7 +482,7 @@
 													value="请输入身份证B面地址">
 											</div>
 										</div>
-										<div class="upload dropzone needsclick"></div>
+										<div class=" dropzone needsclick"></div>
 									</div>
 
 									<!--  身份证号码 -->

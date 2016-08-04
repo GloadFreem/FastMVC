@@ -100,13 +100,12 @@ public class InvestorManager {
 				List l = new ArrayList();
 				String industoryArea = authentic.getIndustoryArea();
 				if (industoryArea != null && industoryArea != "") {
-					String[] aa = industoryArea.split("，");
+					String[] aa = industoryArea.split(",");
 //					String str = "";
 					for (int j = 0; j < aa.length; j++) {
-//						System.out.println("--" + aa[j]);
-//						Industoryarea area = getIndustoryAreaDao().findById(
-//								Integer.parseInt(aa[j].toString()));
-						l.add(aa[j]);
+						Industoryarea area = getIndustoryAreaDao().findById(
+								Integer.parseInt(aa[j].toString()));
+						l.add(area.getName());
 					}
 					
 				}

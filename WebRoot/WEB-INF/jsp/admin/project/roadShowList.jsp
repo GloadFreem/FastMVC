@@ -56,9 +56,9 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="editUser.action?userId=" target="content"><h2>
-			<div><img alt="添加用户" src="images/圆角矩形-3-拷贝-5.png"></div>
-			<div>添加用户</div>
+		<a href="editProject.action?projectId=" target="content"><h2>
+			<div><img alt="添加路演" src="images/圆角矩形-3-拷贝-5.png"></div>
+			<div>添加路演</div>
 			</h2></a>
 			
 			<div class="block">
@@ -66,39 +66,26 @@
 					<thead>
 						<tr>
 							<th class="center">序号</th>
-							<th class="center">姓名</th>
-							<th class="center">手机号码</th>
-							<th class="center">头像</th>
-							<th class="center">设备类型</th>
-							<th class="center">最近登录时间</th>
+							<th class="center">项目名称</th>
+							<th class="center">融资总额</th>
+							<th class="center">已融金额</th>
+							<th class="center">最低限额</th>
+							<th class="center">开始时间</th>
+							<th class="center">结束时间</th>
+							<th class="center">分成比例</th>
 						</tr>
 					</thead>
 					<tbody>
 					<c:forEach items="${items}" var="item" varStatus="vs">
 					<tr class="odd gradeX">
-							<td class="center"><a href="editUser.action?userId=${item.userId}" target="content">${item.userId}</a></td>
-							<td class="center">${item.name}</td>
-							<td class="center">${item.telephone}</td>
-							<td class="center"><a href=${item.headSculpture} target="blank">${item.headSculpture}</a></td>
-							<td class="center">
-								<c:choose>
-								<c:when test="${item.platform==1}">
-									<select name="platform" id="platform">
-										<option value="0">请选择设备类型</option>
-										<option value="1" selected="selected">iPhone设备</option>
-										<option value="2">Android设备</option>
-									</select>
-								</c:when>
-								<c:otherwise>
-									<select name="platform" id="platform">
-										<option value="0">请选择设备类型</option>
-										<option value="1">iPhone设备</option>
-										<option value="2" selected="selected">Android设备</option>
-									</select>
-								</c:otherwise>
-							</c:choose>
-							</td>
-							<td class="center">${item.lastLoginDate}</td>
+							<td class="center"><a href="editRoadShow.action?roadShowId=${item.roadShowId}" target="content">${item.roadShowId}</a></td>
+							<td class="center"><a href="editProject.action?projectId=${item.project.projectId}" target="content">${item.project.fullName}</a></td>
+							<td class="center">${item.roadshowplan.financeTotal}</td>
+							<td class="center">${item.roadshowplan.financedMount}</td>
+							<td class="center">${item.roadshowplan.limitAmount}</td>
+							<td class="center">${item.roadshowplan.beginDate}</td>
+							<td class="center">${item.roadshowplan.endDate}</td>
+							<td class="center">${item.roadshowplan.profit}</td>
 						</tr>
 					</c:forEach>
 					</tbody>

@@ -74,7 +74,7 @@
 </head>
 <body>
 	<div class="content">
-		<form action="addauthentic.action">
+		<form action="addauthentic.action"  method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${authentic!=null}">

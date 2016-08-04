@@ -29,7 +29,7 @@
 	<!-- login -->
 	<div class="content">
 		<div class="login">
-			<form action="/jinzht/admin/loginAction.action">
+			<form action="/jinzht/admin/loginAction.action"  method="post">
 				<!-- login-area -->
 				<div class="login-text" style="margin-top:-10%">
 					<div class="icon">

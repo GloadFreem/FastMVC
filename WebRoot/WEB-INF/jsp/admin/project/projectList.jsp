@@ -56,9 +56,9 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="editUser.action?userId=" target="content"><h2>
-			<div><img alt="添加用户" src="images/圆角矩形-3-拷贝-5.png"></div>
-			<div>添加用户</div>
+		<a href="editProject.action?projectId=" target="content"><h2>
+			<div><img alt="添加项目" src="images/圆角矩形-3-拷贝-5.png"></div>
+			<div>添加项目</div>
 			</h2></a>
 			
 			<div class="block">
@@ -66,39 +66,22 @@
 					<thead>
 						<tr>
 							<th class="center">序号</th>
-							<th class="center">姓名</th>
-							<th class="center">手机号码</th>
-							<th class="center">头像</th>
-							<th class="center">设备类型</th>
-							<th class="center">最近登录时间</th>
+							<th class="center">名称</th>
+							<th class="center">封面图</th>
+							<th class="center">类型</th>
+							<th class="center">地址</th>
+							<th class="center">状态</th>
 						</tr>
 					</thead>
 					<tbody>
 					<c:forEach items="${items}" var="item" varStatus="vs">
 					<tr class="odd gradeX">
-							<td class="center"><a href="editUser.action?userId=${item.userId}" target="content">${item.userId}</a></td>
-							<td class="center">${item.name}</td>
-							<td class="center">${item.telephone}</td>
-							<td class="center"><a href=${item.headSculpture} target="blank">${item.headSculpture}</a></td>
-							<td class="center">
-								<c:choose>
-								<c:when test="${item.platform==1}">
-									<select name="platform" id="platform">
-										<option value="0">请选择设备类型</option>
-										<option value="1" selected="selected">iPhone设备</option>
-										<option value="2">Android设备</option>
-									</select>
-								</c:when>
-								<c:otherwise>
-									<select name="platform" id="platform">
-										<option value="0">请选择设备类型</option>
-										<option value="1">iPhone设备</option>
-										<option value="2" selected="selected">Android设备</option>
-									</select>
-								</c:otherwise>
-							</c:choose>
-							</td>
-							<td class="center">${item.lastLoginDate}</td>
+							<td class="center"><a href="editProject.action?projectId=${item.projectId}" target="content">${item.projectId}</a></td>
+							<td class="center">${item.fullName}</td>
+							<td class="center"><a href=${item.startPageImage} target="blank">${item.startPageImage}</a></td>
+							<td class="center">${item.industoryType}</td>
+							<td class="center">${item.address}</td>
+							<td class="center">${item.financestatus.name}</td>
 						</tr>
 					</c:forEach>
 					</tbody>

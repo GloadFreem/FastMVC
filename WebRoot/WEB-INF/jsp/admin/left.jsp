@@ -88,14 +88,14 @@
                         </li>
                          <li><a class="menuitem">活动管理</a>
                             <ul class="submenu1">
-                                <li><a>活动列表</a> </li>
+                                <li><a href="actionListAdmin.action" target="content">活动列表</a> </li>
                                 <li><a>分享收藏</a> </li>
                                 <li><a>历史活动</a> </li>
                             </ul>
                         </li>
                          <li><a class="menuitem">圈子管理</a>
                             <ul class="submenu1">
-                                <li><a>圈子列表</a> </li>
+                                <li><a href="cycleListAdmin.action" target="content">圈子列表</a>  </li>
                                 <li><a>分享收藏</a> </li>
                                 <li><a>黑名单</a> </li>
                             </ul>
