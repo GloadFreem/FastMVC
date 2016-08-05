@@ -73,15 +73,16 @@
 </head>
 <body>
 	<div class="content">
-		<form action="addBanner.action"  method="post">
+		<form action="addCycle.action" method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${banner!=null}">
-					<input style="color:black;visibility:hidden;" name="bannerId" type="text"
-						value=${banner.bannerId}>
+					<input style="color:black;visibility:hidden;" name="bannerId"
+						type="text" value=${banner.bannerId}>
 				</c:when>
 				<c:otherwise>
-					<input style="visibility:hidden;" name="bannerId" type="text" value="-1">
+					<input style="visibility:hidden;" name="bannerId" type="text"
+						value="-1">
 				</c:otherwise>
 			</c:choose>
 			<!-- 名称 -->
@@ -90,13 +91,13 @@
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${content!=null}">
-						<div class="search">
-							<input style="color:black" name="name" type="text"
-								value=${content.users.name}>
-						</div>
-						<div>
-							<img class="search-img" alt="" src="../images/feeling/椭圆-2.png">
-						</div>
+							<div class="search">
+								<input style="color:black" name="name" type="text"
+									value=${content.users.name}>
+							</div>
+							<div>
+								<img class="search-img" alt="" src="../images/feeling/椭圆-2.png">
+							</div>
 						</c:when>
 						<c:otherwise>
 							<input name="name" type="text" value="请选择用户">
@@ -131,7 +132,8 @@
 									value=${banner.image}>
 							</div>
 							<div>
-								<img alt=${banner.name } src=${banner.image}></div>
+								<img alt=${banner.name } src=${banner.image}>
+							</div>
 
 						</c:when>
 						<c:otherwise>
@@ -139,7 +141,30 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
-				<div class="upload dropzone needsclick"></div>
+				<div class="img-frame">
+					<c:choose>
+						<c:when test="${content.contentimageses!=null && content.contentimageses.size()>0}">
+							<c:forEach items="${content.contentimageses}" var="item"
+								varStatus="vs">
+								<div class="upload dropzone">
+									<a href=${item.url } target="blank"><img alt="" src=${item.url} style="width:100%"></a>
+								</div>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<div class="upload dropzone needsclick"></div>
+							<div class="upload dropzone needsclick"></div>
+							<div class="upload dropzone needsclick"></div>
+							<div class="upload dropzone needsclick"></div>
+							<div class="upload dropzone needsclick"></div>
+							<div class="upload dropzone needsclick"></div>
+							<div class="upload dropzone needsclick"></div>
+							<div class="upload dropzone needsclick"></div>
+							<div class="upload dropzone needsclick"></div>
+						</c:otherwise>
+					</c:choose>
+				</div>
+
 			</div>
 
 			<div>

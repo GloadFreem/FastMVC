@@ -124,6 +124,7 @@ public class Config {
 			add("addActionImage.action");
 			add("addAction.action");
 			add("index.action");
+			add("addAuthentic.action");
 		}
 	};
 

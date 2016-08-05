@@ -56,7 +56,7 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="editBanner.action?cycleId=" target="content"><h2>
+		<a href="editCycle.action?cycleId=" target="content"><h2>
 			<div><img alt="添加圈子" src="images/圆角矩形-3-拷贝-5.png"></div>
 			<div>添加圈子</div>
 			</h2></a>

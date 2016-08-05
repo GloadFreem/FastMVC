@@ -40,6 +40,15 @@ public class AuthenticManager {
 		getAuthenticDao().save(authentic);
 	}
 	
+	
+	/***
+	 * 更新认证信息
+	 * @param authentic
+	 */
+	public void updateAuthentic(Authentic authentic){
+		getAuthenticDao().saveOrUpdate(authentic);
+	}
+	
 	/***
 	 * 获取身份类型
 	 * @param typeId 身份id

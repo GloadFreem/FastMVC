@@ -74,6 +74,18 @@ public class AuthenticDAO {
 			throw re;
 		}
 	}
+	
+	
+	public void saveOrUpdate(Authentic transientInstance) {
+		log.debug("saving Authentic instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Authentic persistentInstance) {
 		log.debug("deleting Authentic instance");

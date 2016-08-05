@@ -49,6 +49,7 @@ import com.jinzht.web.entity.Share;
 import com.jinzht.web.entity.Sharetype;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
+import com.jinzht.web.manager.AuthenticManager;
 import com.jinzht.web.manager.InvestorManager;
 import com.jinzht.web.manager.SystemManager;
 import com.jinzht.web.manager.UserManager;
@@ -178,9 +179,11 @@ public class InvestorController extends BaseController {
 
 			String industoryArea = authentic.getIndustoryArea();
 			if (industoryArea != null && industoryArea != "") {
-				String[] aa = industoryArea.split("，");
+				String[] aa = industoryArea.split(",");
 				for (int j = 0; j < aa.length; j++) {
-					l.add(aa[j]);
+					Industoryarea area = this.investorManager.getIndustoryAreaDao().findById(
+							Integer.parseInt(aa[j].toString()));
+					l.add(area.getName());
 				}
 			}
 		}

@@ -36,15 +36,16 @@ body {
 }
 
 .upload {
-	height: 350px;
-	width: 90%;
+	height: 50px;
+	width: 150px;
 	background-color: #E8E9EC;
 	margin-top: 2%;
 	margin-bottom: 5%;
-	border-radius: 5px;
 	border-width: 2px;
 	border-color: #0087F7;
 	border-style: dashed;
+	float: left;
+	margin-left: 5px;
 }
 
 .upload-tip {
@@ -69,19 +70,22 @@ body {
 	margin-top: 2%;
 }
 
-.search
-{
-	width:50%;
-	float:left;
+.search {
+	width: 50%;
+	float: left;
 }
 
-.search-img
-{
-	height:35px;
+.search-img {
+	height: 35px;
 }
 
-.textarea{
+.textarea {
 	color: black;
 	width: 95%;
 	height: 200px;
+}
+
+.img-frame
+{
+    width: 60%;
 }

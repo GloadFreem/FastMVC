@@ -581,6 +581,7 @@ public class WebAdminController extends BaseController {
 		List areas = this.authenticManager.getIndustoryareaDao().findAll();
 		List citys =this.authenticManager.getCityDao().findAll();
 		List identities = this.authenticManager.getIdentitytypeDao().findAll();
+		List authenticStatus = this.authenticManager.getAuthenticStatus().findAll();
 		if(authId!=null)
 		{
 			Authentic authentic = this.authenticManager.findAuthenticById(authId);
@@ -638,6 +639,7 @@ public class WebAdminController extends BaseController {
 		map.put("identities", identities);
 		map.put("areas", areas);
 		map.put("cities", citys);
+		map.put("status", authenticStatus);
 		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
 		
 		
@@ -724,10 +726,10 @@ public class WebAdminController extends BaseController {
 			Identiytype  type = new Identiytype();
 			type.setIdentiyTypeId((short)Integer.parseInt(identityTypeId));
 			
-			Authenticstatus status = new Authenticstatus();
-			status.setStatusId(7);
-			
-			authentic.setAuthenticstatus(status);
+//			Authenticstatus status = new Authenticstatus();
+//			status.setStatusId(7);
+//			
+//			authentic.setAuthenticstatus(status);
 			authentic.setIdentiytype(type);
 			authentic.setName(realName);
 			authentic.setIdentiyCarNo(identityCardNo);
@@ -837,6 +839,157 @@ public class WebAdminController extends BaseController {
 		List<Users> list = this.userManager.getUserDao().findAll();
 		map.put("items", list.iterator());
 		return "/admin/Users/userList";
+	}
+	@RequestMapping(value = "/admin/addAuthentic")
+	/***
+	 * 添加用户
+	 * @return
+	 */
+	public String addAuthentic(
+			@RequestParam(value = "authId",required = false) Integer authId,
+			@RequestParam(value = "identityTypeId",required = false) String identityTypeId,
+			@RequestParam(value = "realName",required = false) String realName,
+			@RequestParam(value = "identityCardA",required = false) String identityCardA,
+			@RequestParam(value = "identityCardB",required = false) String identityCardB,
+			@RequestParam(value = "identityCardNo",required = false) String identityCardNo,
+			@RequestParam(value = "companyName",required = false) String companyName,
+			@RequestParam(value = "companyAddress",required = false) String companyAddress,
+			@RequestParam(value = "position",required = false) String position,
+			@RequestParam(value = "bussinessNo",required = false) String bussinessNo,
+			@RequestParam(value = "introduce",required = false) String introduce,
+			@RequestParam(value = "companyIntroduce",required = false) String companyIntroduce,
+			@RequestParam(value = "optional",required = false) String optional,
+			@RequestParam(value = "areas",required = false) String areas,
+			@RequestParam(value = "city",required = false) String city,
+			@RequestParam(value = "status",required = false) String status,
+			ModelMap map,
+			HttpSession session) {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		List l = (List) session.getAttribute("images");
+		Authentic authentic;
+		
+		if(authId!=-1)
+		{
+			authentic = this.authenticManager.findAuthenticById(authId);
+			
+			//更新
+			Identiytype  type = new Identiytype();
+			type.setIdentiyTypeId((short)Integer.parseInt(identityTypeId));
+			
+			Authenticstatus authenticStatus = new Authenticstatus();
+			authenticStatus.setStatusId(Integer.parseInt(status));
+			
+			authentic.setAuthenticstatus(authenticStatus);
+			authentic.setIdentiytype(type);
+			authentic.setName(realName);
+			authentic.setIdentiyCarNo(identityCardNo);
+			authentic.setCompanyAddress(companyAddress);
+			authentic.setCompanyIntroduce(companyIntroduce);
+			authentic.setIntroduce(introduce);
+			authentic.setIndustoryArea(areas);
+			authentic.setOptional(optional);
+			
+			//城市
+			City c = new City();
+			c.setCityId(Integer.parseInt(city));
+			authentic.setCity(c);
+			
+			//更新身份证A面
+			if(session.getAttribute("idA")!=null)
+			{
+				List  images = (List) session.getAttribute("idA");
+				authentic.setIdentiyCarA(images.get(0).toString());
+				
+				session.setAttribute("idA", null);
+				
+			}else{
+				if(!identityCardA.equals(""))
+				{
+					authentic.setIdentiyCarA(identityCardA);
+				}
+			}
+			//更新身份证B面
+			if(session.getAttribute("idB")!=null)
+			{
+				List  images = (List) session.getAttribute("idB");
+				authentic.setIdentiyCarB(images.get(0).toString());
+				
+				session.setAttribute("idB", null);
+				
+			}else{
+				if(!identityCardB.equals(""))
+				{
+					authentic.setIdentiyCarB(identityCardB);
+				}
+			}
+			
+			//保存
+			this.authenticManager.updateAuthentic(authentic);
+		}else{
+			authentic = new Authentic();
+			
+			//更新
+			Identiytype  type = new Identiytype();
+			type.setIdentiyTypeId((short)Integer.parseInt(identityTypeId));
+			
+			Authenticstatus authenticStatus = new Authenticstatus();
+			authenticStatus.setStatusId(7);
+			
+			authentic.setAuthenticstatus(authenticStatus);
+			authentic.setIdentiytype(type);
+			authentic.setName(realName);
+			authentic.setIdentiyCarNo(identityCardNo);
+			authentic.setCompanyAddress(companyAddress);
+			authentic.setCompanyIntroduce(companyIntroduce);
+			authentic.setIntroduce(introduce);
+			authentic.setIndustoryArea(areas);
+			authentic.setOptional(optional);
+			
+			//城市
+			City c = new City();
+			c.setCityId(Integer.parseInt(city));
+			authentic.setCity(c);
+			
+			//更新身份证A面
+			if(session.getAttribute("idA")!=null)
+			{
+				List  images = (List) session.getAttribute("idA");
+				authentic.setIdentiyCarA(images.get(0).toString());
+				
+				session.setAttribute("idA", null);
+				
+			}else{
+				if(!identityCardA.equals(""))
+				{
+					authentic.setIdentiyCarA(identityCardA);
+				}
+			}
+			//更新身份证B面
+			if(session.getAttribute("idB")!=null)
+			{
+				List  images = (List) session.getAttribute("idB");
+				authentic.setIdentiyCarB(images.get(0).toString());
+				
+				session.setAttribute("idB", null);
+				
+			}else{
+				if(!identityCardB.equals(""))
+				{
+					authentic.setIdentiyCarB(identityCardB);
+				}
+			}
+			
+			//保存
+			this.authenticManager.saveAuthentic(authentic);
+			
+		}
+		
+		
+		List list = this.authenticManager.getAuthenticDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/Users/userAuthenticList";
 	}
 	@RequestMapping(value = "/admin/addProject")
 	/***

@@ -74,11 +74,11 @@
 </head>
 <body>
 	<div class="content">
-		<form action="addauthentic.action"  method="post">
+		<form action="addAuthentic.action"  method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${authentic!=null}">
-					<input style="color:black;visibility:hidden;" name="authenticId"
+					<input style="color:black;visibility:hidden;" name="authId"
 						type="text" value=${authentic.authId}>
 				</c:when>
 				<c:otherwise>
@@ -291,7 +291,13 @@
 												<select name="city" id="city">
 													<option value="0">城市</option>
 													<c:forEach items="${cities}" var="c" varStatus="v">
-														<option value=${v.index }>${c.name}</option>
+													<option value=${c.cityId }
+														<c:choose>
+															<c:when test="${c.cityId==authentic.city.cityId}">
+																selected='selected'
+															</c:when>
+														</c:choose>
+													>${c.name}</option>
 													</c:forEach>
 												</select>
 											</div>
@@ -300,9 +306,15 @@
 										<div class="name">
 											<div class="name-key">认证状态</div>
 											<div class="name-value">
-												<select name="city" id="city">
-													<c:forEach items="${identities}" var="c" varStatus="v">
-														<option value=${c.identiyTypeId }>${c.name}</option>
+												<select name="status" id="status">
+													<c:forEach items="${status}" var="s" varStatus="v">
+														<option value=${s.statusId }
+														<c:choose>
+															<c:when test="${s.statusId==authentic.authenticstatus.statusId}">
+																selected='selected'
+															</c:when>
+														</c:choose>
+														>${s.name}</option>
 													</c:forEach>
 												</select>
 											</div>
