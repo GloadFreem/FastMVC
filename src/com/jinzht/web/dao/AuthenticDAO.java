@@ -169,7 +169,12 @@ public class AuthenticDAO {
 	
 
 	public List<Authentic> findByName(Object name) {
-		return findByProperty(NAME, name);
+		String sqlString = "select * from authentic where name like ?";
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Authentic.class);
+		queryObject.setParameter(0, "%"+name+"%");
+		
+		return queryObject.list();
 	}
 
 	public List<Authentic> findByIdentiyCarA(Object identiyCarA) {

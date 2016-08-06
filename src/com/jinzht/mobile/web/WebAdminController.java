@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.jms.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -223,6 +224,55 @@ public class WebAdminController extends BaseController {
 			session.setAttribute(type, list);
 		}
 			return getResult();
+	}
+	@RequestMapping(value = "/admin/uploadFeelingImage")
+	@ResponseBody
+	/***
+	 * 上传图片
+	 * @param page 当前页
+	 * @param session
+	 * @return
+	 */
+	public Map uploadFeelingImage(
+			@RequestParam(value = "type",required = false) String type,
+			@RequestParam(value = "file",required = false) MultipartFile[] images,
+			HttpSession session) {
+		
+		session.setAttribute(type, null);
+		
+		this.result = new HashMap();
+		this.result.put("data", "");
+		// 保存图片
+		String fileName ="";
+		String result="";
+		if(images!=null && images.length>0){
+			
+			MultipartFile file = null;
+			Set items = new HashSet();
+			List list = new ArrayList();
+			for(int i =0;i<images.length;i++){
+				if (images[i]!= null) {
+					file = images[i];
+					fileName = String.format(
+							Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+							new Date().getTime(),i);
+					result = FileUtil.savePicture(
+							file, fileName,
+							"upload/feelingImages/");
+					if (!result.equals("")) {
+						fileName = Config.STRING_SYSTEM_ADDRESS
+								+ "upload/feelingImages/" + result;
+						list.add(fileName);
+					} else {
+						fileName = "";
+					}
+					
+				}
+			}
+			
+			session.setAttribute(type, list);
+		}
+		return getResult();
 	}
 	
 	
@@ -528,6 +578,7 @@ public class WebAdminController extends BaseController {
 	@RequestMapping(value = "/admin/editCycle")
 	public String editCycle(
 			@RequestParam(value="cycleId",required=false)Integer cycleId,
+			HttpSession session,
 			ModelMap map) {
 		if(cycleId!=null)
 		{
@@ -536,6 +587,16 @@ public class WebAdminController extends BaseController {
 			map.put("content", content);
 		}
 		
+		List l = new ArrayList();
+		
+		for(int i = 0;i<9;i++)
+		{
+			l.add(i);
+		}
+		
+		map.put("imgCount", l);
+				
+		session.setAttribute("feeling", null);
 		return "/admin/cycle/editorCycle";
 	}
 	/***
@@ -1255,5 +1316,93 @@ public class WebAdminController extends BaseController {
 		List<Action> list = this.actionManaer.getActionDao().findAll();
 		map.put("items", list.iterator());
 		return "/admin/action/actionList";
+	}
+	@RequestMapping(value = "/admin/addCycle")
+	/***
+	 * 添加项目
+	 * @return
+	 */
+	public String addCycle(
+			@RequestParam(value = "contentId",required = false) Integer contentId,
+			@RequestParam(value = "authId",required = false) Integer authId,
+			@RequestParam(value = "content",required = false)String content,
+			@RequestParam(value = "publicDate",required = false)String publicDate,
+			ModelMap map,
+			HttpSession session) throws  Exception {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		Publiccontent feeling;
+		
+		if(contentId!=-1)
+		{
+			feeling = this.feelingManager.findPublicContentById(contentId);
+		}else{
+			feeling = new Publiccontent();
+		}
+		
+		if(authId!=null)
+		{
+			Integer userId = this.authenticManager.getAuthenticDao().findUserIdByAuthId(authId);
+			
+			Users user = this.userManager.findUserById(userId);
+			
+			feeling.setUsers(user);
+		}
+		
+		Date date = DateUtils.stringToDate(publicDate, DateUtils.DATETIME_FORMAT);
+		if(date!=null)
+		{
+			feeling.setPublicDate(date);
+		}
+		feeling.setContent(content);
+		
+		
+		//更新头像
+		if(session.getAttribute("feeling")!=null)
+		{
+			List  images = (List) session.getAttribute("feeling");
+			
+			Set set = new HashSet();
+			if(feeling.getContentimageses()!=null)
+			{
+				set = feeling.getContentimageses();
+			}
+			
+			for(int i =0;i<images.size();i++)
+			{
+				Contentimages items = new Contentimages();
+				items.setUrl(images.get(i).toString());
+				items.setPubliccontent(feeling);
+				set.add(items);
+			}
+			
+			feeling.setContentimageses(set);
+			session.setAttribute("feeling", null);
+		}
+		
+		if(contentId!=-1)
+		{
+			this.feelingManager.saveOrUpdate(feeling);
+		}else{
+			this.feelingManager.getPublicContentDao().save(feeling);
+		}
+		
+		
+		List<Publiccontent> list = this.feelingManager.getPublicContentDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/cycle/cycleList";
+	}
+	
+	@RequestMapping(value = "/admin/searchUserByName")
+	@ResponseBody
+	public Map searchUserByName(@RequestParam(value="name",required=false)String name)
+	{
+		Map map =new HashMap();
+		
+		List<Authentic> users = this.userManager.findUserByName(name);
+		
+		map.put("data", users);
+		return map;
 	}
 }

@@ -36,8 +36,7 @@ body {
 }
 
 .upload {
-	height: 50px;
-	width: 150px;
+	width: 250px;
 	background-color: #E8E9EC;
 	margin-top: 2%;
 	margin-bottom: 5%;
@@ -85,7 +84,15 @@ body {
 	height: 200px;
 }
 
-.img-frame
-{
-    width: 60%;
+.img-frame {
+	width: 90%;
+}
+
+.user-select {
+	width: 48%;
+	height: 45px;
+	border-radius: 5px;
+	border-color: #ff001b;
+	border-width: 1px;
+	border-style: dashed;
 }

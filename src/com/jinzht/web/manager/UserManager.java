@@ -61,6 +61,26 @@ public class UserManager {
 		return getUserDao().findById(userId);
 	}
 	
+	public List findUserByName(String name)
+	{
+		List<Authentic> authentics = getAuthenticDao().findByName(name);
+		
+		if(authentics!=null && authentics.size()>0)
+		{
+			List users = new ArrayList();
+			for(int i =0;i<authentics.size();i++)
+			{
+				Authentic authentic = authentics.get(i);
+				users.add(authentic);
+			}
+			
+			return users;
+			
+		}
+		
+		return new ArrayList();
+	}
+	
 	/***
 	 * 根据用户手机号码获取用户对象
 	 * @param telephone 手机号码

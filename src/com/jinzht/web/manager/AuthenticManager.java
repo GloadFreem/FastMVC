@@ -149,9 +149,7 @@ public class AuthenticManager {
 		}
 		return null;
 	}
-	
 
-	
 	
 	public IdentiytypeDAO getIdentitytypeDao() {
 		return identitytypeDao;
