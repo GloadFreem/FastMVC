@@ -115,6 +115,11 @@ public class AuthenticController extends BaseController {
 			authentic.setIdentiytype(identityType);
 			authentic.setUsers(user);
 			authentic.setAuthenticstatus(status);
+			
+			String telephone = user.getTelephone();
+			Integer length = telephone.length();
+			String name = "用户"+user.getTelephone().substring(length-4, length);
+			authentic.setName(name);
 
 			// 保存
 			this.authenticManager.saveAuthentic(authentic);
@@ -470,6 +475,21 @@ public class AuthenticController extends BaseController {
 			this.status = 200;
 			
 			Map map = new HashMap();
+			Object[] authentics = user.getAuthentics().toArray();
+			for(int i = 0;i<authentics.length;i++)
+			{
+				Authentic authentic = (Authentic)authentics[i];
+				if(authentic.getName()==null || authentic.getName().equals(""))
+				{
+					String telephone = user.getTelephone();
+					Integer length = telephone.length();
+					String name = "用户"+user.getTelephone().substring(length-4, length);
+					authentic.setName(name);
+				}
+				
+			}
+					
+			
 			map.put("authentics", user.getAuthentics());
 			map.put("headSculpture", user.getHeadSculpture());
 			map.put("userId", user.getUserId());

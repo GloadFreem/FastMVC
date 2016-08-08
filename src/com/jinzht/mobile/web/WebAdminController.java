@@ -674,7 +674,7 @@ public class WebAdminController extends BaseController {
 			m.put("option", list);
 			
 			list =new ArrayList();
-			if(!area.equals(null))
+			if(area!=null)
 			{
 				if(area.equals(""))
 				{
@@ -1279,8 +1279,8 @@ public class WebAdminController extends BaseController {
 		action.setName(name);
 		action.setDescription(description);
 		action.setType((short)Integer.parseInt(type));
-		action.setStartTime(DateUtils.stringToDate(beginTime, "yyyy-MM-dd"));
-		action.setEndTime(DateUtils.stringToDate(endTime, "yyyy-MM-dd"));
+		action.setStartTime(DateUtils.stringToDate(beginTime, "yyyy-MM-dd hh:mm:ss"));
+		action.setEndTime(DateUtils.stringToDate(endTime, "yyyy-MM-dd hh:mm:ss"));
 		
 		//更新头像
 		if(session.getAttribute("images")!=null)

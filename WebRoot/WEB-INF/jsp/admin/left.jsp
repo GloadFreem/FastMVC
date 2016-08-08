@@ -29,17 +29,12 @@
     <script src="js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
     <script src="js/table/jquery.dataTables.min.js" type="text/javascript"></script>
     <!-- END: load jquery -->
-    <script type="text/javascript" src="js/table/table.js"></script>
     <script src="js/setup.js" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
             setupLeftMenu();
-
             $('.datatable').dataTable();
-			setSidebarHeight();
-
-
         });
     </script>
 </head>

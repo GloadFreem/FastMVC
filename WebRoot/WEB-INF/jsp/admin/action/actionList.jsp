@@ -23,8 +23,15 @@
 <!--[if IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
 <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
 <link href="css/table/demo_page.css" rel="stylesheet" type="text/css" />
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css"
+	href="table/css/jquery.dataTables.css">
 <!-- BEGIN: load jquery -->
-<script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+<!-- <script src="js/jquery-1.6.4.min.js" type="text/javascript"></script> -->
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8"
+	src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui/jquery.ui.core.min.js"></script>
 <script src="js/jquery-ui/jquery.ui.widget.min.js"
 	type="text/javascript"></script>
@@ -37,21 +44,44 @@
 <script src="js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
 <script src="js/jquery-ui/jquery.ui.sortable.min.js"
 	type="text/javascript"></script>
-<script src="js/table/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="table/js/jquery.dataTables.js" type="text/javascript"></script>
 <!-- END: load jquery -->
-<script type="text/javascript" src="js/table/table.js"></script>
+<!-- <script type="text/javascript" src="js/table/table.js"></script> -->
 <script src="js/setup.js" type="text/javascript"></script>
 <script type="text/javascript">
+	$(document).ready(function() {
 
-        $(document).ready(function () {
-            setupLeftMenu();
-
-            $('.datatable').dataTable();
-			setSidebarHeight();
-
-
-        });
-    </script>
+		$('.datatable').dataTable({
+			scrollY : 500,
+			deferRender: true,
+			processing: true,
+			language : {
+				"sProcessing" : "处理中...",
+				"sLengthMenu" : "显示 _MENU_ 项结果",
+				"sZeroRecords" : "没有匹配结果",
+				"sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+				"sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+				"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+				"sInfoPostFix" : "",
+				"sSearch" : "搜索:",
+				"sUrl" : "",
+				"sEmptyTable" : "表中数据为空",
+				"sLoadingRecords" : "载入中...",
+				"sInfoThousands" : ",",
+				"oPaginate" : {
+					"sFirst" : "首页",
+					"sPrevious" : "上页",
+					"sNext" : "下页",
+					"sLast" : "末页"
+				},
+				"oAria" : {
+					"sSortAscending" : ": 以升序排列此列",
+					"sSortDescending" : ": 以降序排列此列"
+				}
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="grid_10">

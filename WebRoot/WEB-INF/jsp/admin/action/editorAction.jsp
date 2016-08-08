@@ -212,7 +212,7 @@
 					<c:choose>
 						<c:when test="${action!=null}">
 							<input style="color:black" id="beginTime" name="beginTime"
-								type="text" value=${action.startTime}>
+								type="text" value="${action.startTime}">
 						</c:when>
 						<c:otherwise>
 							<input id="beginTime" name="beginTime" type="text"
@@ -228,7 +228,7 @@
 					<c:choose>
 						<c:when test="${action!=null}">
 							<input style="color:black" id="endTime" name="endTime" type="text"
-								value=${action.endTime}>
+								value="${action.endTime}">
 						</c:when>
 						<c:otherwise>
 							<input id="endTime" name="endTime" type="text" value="请选择开始时间">
@@ -297,14 +297,14 @@
 
 	$('#beginTime').datetimepicker({
 		lang : 'ch',
-		format : 'Y-m-d h:m',
-		formatDate : 'Y-m-d h:m',
+		format : 'Y-m-d h:m:s',
+		formatDate : 'Y-m-d h:m:s',
 		todayButton : true
 	});
 	$('#endTime').datetimepicker({
 		lang : 'ch',
-		format : 'Y-m-d h:m',
-		formatDate : 'Y-m-d h:m',
+		format : 'Y-m-d h:m:s',
+		formatDate : 'Y-m-d h:m:s',
 		todayButton : true
 	});
 </script>
