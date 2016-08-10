@@ -1,7 +1,6 @@
 package com.jinzht.web.entity;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,19 +16,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Investmentrecord entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "investmentrecord", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"project","users"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Investmentrecord implements java.io.Serializable {
 
 	// Fields
@@ -38,9 +29,9 @@ public class Investmentrecord implements java.io.Serializable {
 	private Users users;
 	private Project project;
 	private Integer statusId;
+	private Integer projectId;
 	private Float investAmount;
-	private Date investDate;
-	private String investCode;
+	private Timestamp investDate;
 
 	// Constructors
 
@@ -56,10 +47,11 @@ public class Investmentrecord implements java.io.Serializable {
 
 	/** full constructor */
 	public Investmentrecord(Users users, Project project, Integer statusId,
-			 Float investAmount, Timestamp investDate) {
+			Integer projectId, Float investAmount, Timestamp investDate) {
 		this.users = users;
 		this.project = project;
 		this.statusId = statusId;
+		this.projectId = projectId;
 		this.investAmount = investAmount;
 		this.investDate = investDate;
 	}
@@ -87,8 +79,7 @@ public class Investmentrecord implements java.io.Serializable {
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)
-//	@PrimaryKeyJoinColumn
-	@JoinColumn(name = "project_id")
+	@PrimaryKeyJoinColumn
 	public Project getProject() {
 		return this.project;
 	}
@@ -106,6 +97,15 @@ public class Investmentrecord implements java.io.Serializable {
 		this.statusId = statusId;
 	}
 
+	@Column(name = "project_id")
+	public Integer getProjectId() {
+		return this.projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
+
 	@Column(name = "invest_amount", precision = 12, scale = 0)
 	public Float getInvestAmount() {
 		return this.investAmount;
@@ -116,22 +116,12 @@ public class Investmentrecord implements java.io.Serializable {
 	}
 
 	@Column(name = "invest_date", nullable = false, length = 0)
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
-	public Date getInvestDate() {
+	public Timestamp getInvestDate() {
 		return this.investDate;
 	}
 
-	public void setInvestDate(Date investDate) {
+	public void setInvestDate(Timestamp investDate) {
 		this.investDate = investDate;
-	}
-	@Column(name = "invest_code")
-	public String getInvestCode() {
-		return investCode;
-	}
-
-	public void setInvestCode(String investCode) {
-		this.investCode = investCode;
 	}
 
 }

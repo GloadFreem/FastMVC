@@ -18,19 +18,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Projectcommitrecord entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "projectcommitrecord", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"users","project"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Projectcommitrecord implements java.io.Serializable {
 
 	// Fields
@@ -74,7 +66,7 @@ public class Projectcommitrecord implements java.io.Serializable {
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@PrimaryKeyJoinColumn
 	public Users getUsers() {
 		return this.users;
 	}
@@ -83,7 +75,7 @@ public class Projectcommitrecord implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;
@@ -93,7 +85,7 @@ public class Projectcommitrecord implements java.io.Serializable {
 		this.project = project;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "status_id")
 	public Status getStatus() {
 		return this.status;
@@ -103,9 +95,8 @@ public class Projectcommitrecord implements java.io.Serializable {
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "record_date", length = 0)
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
 	public Date getRecordDate() {
 		return this.recordDate;
 	}

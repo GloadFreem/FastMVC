@@ -2,32 +2,21 @@ package com.jinzht.web.entity;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.jinzht.tools.Config;
 
 /**
  * Userstatus entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "userstatus", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"userses"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Userstatus implements java.io.Serializable {
 
 	// Fields

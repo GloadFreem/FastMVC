@@ -1,5 +1,4 @@
 package com.jinzht.web.dao;
-// default package
 
 import java.util.List;
 import java.util.Set;
@@ -16,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Publiccontent;
 
 /**
@@ -27,7 +25,7 @@ import com.jinzht.web.entity.Publiccontent;
  * transactions. Each of these methods provides additional information for how
  * to configure it for the desired type of transaction control.
  * 
- * @see .Publiccontent
+ * @see com.jinzht.web.entity.Publiccontent
  * @author MyEclipse Persistence Tools
  */
 @Transactional
@@ -61,16 +59,6 @@ public class PubliccontentDAO {
 			throw re;
 		}
 	}
-	public void saveOrUpdate(Publiccontent transientInstance) {
-		log.debug("saving Publiccontent instance");
-		try {
-			getCurrentSession().saveOrUpdate(transientInstance);
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
 
 	public void delete(Publiccontent persistentInstance) {
 		log.debug("deleting Publiccontent instance");
@@ -87,7 +75,7 @@ public class PubliccontentDAO {
 		log.debug("getting Publiccontent instance with id: " + id);
 		try {
 			Publiccontent instance = (Publiccontent) getCurrentSession().get(
-					"com.jinzht.web.entity.Publiccontent", id);
+					"com.jinzht.web.hibernate.Publiccontent", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -99,8 +87,8 @@ public class PubliccontentDAO {
 		log.debug("finding Publiccontent instance by example");
 		try {
 			List<Publiccontent> results = (List<Publiccontent>) getCurrentSession()
-					.createCriteria("Publiccontent").add(create(instance))
-					.list();
+					.createCriteria("com.jinzht.web.hibernate.Publiccontent")
+					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
@@ -134,21 +122,6 @@ public class PubliccontentDAO {
 		try {
 			String queryString = "from Publiccontent";
 			Query queryObject = getCurrentSession().createQuery(queryString);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
-	
-	public List findByCursor(int cursor){
-		log.debug("finding Publiccontent instances by cursor");
-		try {
-			String queryString = "from Publiccontent  order by publicContentId desc";
-			Query queryObject = getCurrentSession().createQuery(queryString)
-					.setFirstResult(cursor*Config.STRING_FEELING_PAGESIZE)
-					.setMaxResults(Config.STRING_FEELING_PAGESIZE)
-					;
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);

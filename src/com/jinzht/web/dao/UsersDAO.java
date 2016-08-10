@@ -1,9 +1,7 @@
 package com.jinzht.web.dao;
-// default package
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
@@ -15,10 +13,10 @@ import static org.hibernate.criterion.Example.create;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Users;
 
 /**
@@ -29,7 +27,7 @@ import com.jinzht.web.entity.Users;
  * provides additional information for how to configure it for the desired type
  * of transaction control.
  * 
- * @see .Users
+ * @see com.jinzht.web.entity.Users
  * @author MyEclipse Persistence Tools
  */
 @Transactional
@@ -41,7 +39,7 @@ public class UsersDAO {
 	public static final String HEAD_SCULPTURE = "headSculpture";
 	public static final String PLATFORM = "platform";
 	public static final String WECHAT_ID = "wechatId";
-
+	
 	private SessionFactory sessionFactory;
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
@@ -68,7 +66,6 @@ public class UsersDAO {
 			return null;
 		}
 	}
-	
 	public Users saveOrUpdate(Users transientInstance) {
 		log.debug("saving Users instance");
 		try {
@@ -96,7 +93,8 @@ public class UsersDAO {
 	public Users findById(java.lang.Integer id) {
 		log.debug("getting Users instance with id: " + id);
 		try {
-			Users instance = (Users) getCurrentSession().get("com.jinzht.web.entity.Users", id);
+			Users instance = (Users) getCurrentSession().get(
+					"com.jinzht.web.entity.Users", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -108,7 +106,8 @@ public class UsersDAO {
 		log.debug("finding Users instance by example");
 		try {
 			List<Users> results = (List<Users>) getCurrentSession()
-					.createCriteria("Users").add(create(instance)).list();
+					.createCriteria("com.jinzht.web.hibernate.Users")
+					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
@@ -126,34 +125,6 @@ public class UsersDAO {
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find by property name failed", re);
-			throw re;
-		}
-	}
-	
-	public List findByProperties(Map requestMap,Integer page) {
-		try {
-//			String debugInfo= "finding Loginfailrecord instance with property: ";
-			String queryString = "from Users as model where";
-			Object[] keys= requestMap.keySet().toArray();
-			for(int i = 0;i<requestMap.size();i++){
-//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
-				if(i==0){
-					queryString+=" model."+keys[i].toString()+" =? ";
-				}else{
-					queryString+="and model."+keys[i].toString()+" =? ";
-				}
-			}
-//			log.debug(debugInfo);
-			
-			Query queryObject = getCurrentSession().createQuery(queryString);
-			for(int i = 0;i<requestMap.size();i++){
-				queryObject.setParameter(i, requestMap.get(keys[i]));
-			}
-			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
-			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);

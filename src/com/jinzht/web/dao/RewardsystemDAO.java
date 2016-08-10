@@ -1,12 +1,10 @@
 package com.jinzht.web.dao;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -17,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Rewardsystem;
 
 /**
@@ -56,17 +53,6 @@ public class RewardsystemDAO {
 		log.debug("saving Rewardsystem instance");
 		try {
 			getCurrentSession().save(transientInstance);
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
-	
-	public void saveOrUpdate(Rewardsystem transientInstance) {
-		log.debug("saving Rewardsystem instance");
-		try {
-			getCurrentSession().saveOrUpdate(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -120,55 +106,6 @@ public class RewardsystemDAO {
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find by property name failed", re);
-			throw re;
-		}
-	}
-	
-	public List findUserIdBySystemId(Integer systemId)
-	{
-		String sqlString = "select user_id from rewardsystem where reward_id=?";
-		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
-		queryObject.setParameter(0, systemId);
-		queryObject.setMaxResults(1);
-		
-		return queryObject.list();
-	}
-	public List findRewardByUserId(Integer userId)
-	{
-		String sqlString = "select * from rewardsystem where user_id=?";
-		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Rewardsystem.class);
-		queryObject.setParameter(0, userId);
-		queryObject.setMaxResults(1);
-		
-		return queryObject.list();
-	}
-
-	public List findByPropertiesWithPage(Map requestMap, Integer page) {
-		try {
-			// String debugInfo=
-			// "finding Loginfailrecord instance with property: ";
-			String queryString = "from Rewardsystem as model where";
-			Object[] keys = requestMap.keySet().toArray();
-			for (int i = 0; i < requestMap.size(); i++) {
-				// debugInfo += keys[i].toString()+requestMap.get(keys[i]);
-				if (i == 0) {
-					queryString += " model." + keys[i].toString() + " =? ";
-				} else {
-					queryString += "and model." + keys[i].toString() + " =? ";
-				}
-			}
-			// log.debug(debugInfo);
-
-			Query queryObject = getCurrentSession().createQuery(queryString);
-			for (int i = 0; i < requestMap.size(); i++) {
-				queryObject.setParameter(i, requestMap.get(keys[i]));
-			}
-			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
-			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
-
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);

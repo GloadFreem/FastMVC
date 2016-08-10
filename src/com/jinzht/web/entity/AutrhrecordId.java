@@ -3,15 +3,10 @@ package com.jinzht.web.entity;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * AutrhrecordId entity. @author MyEclipse Persistence Tools
  */
 @Embeddable
-@JsonIgnoreProperties(value={""})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class AutrhrecordId implements java.io.Serializable {
 
 	// Fields

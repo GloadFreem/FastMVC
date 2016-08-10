@@ -1,14 +1,16 @@
 package com.jinzht.web.entity;
-// default package
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,9 +27,9 @@ public class City implements java.io.Serializable {
 	// Fields
 
 	private Integer cityId;
-	private Province province;
 	private String name;
 	private Boolean isInvlid;
+//	private Set<Authentic> authentics = new HashSet<Authentic>(0);
 
 	// Constructors
 
@@ -36,11 +38,17 @@ public class City implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public City(Province province, String name, Boolean isInvlid) {
-		this.province = province;
+	public City( String name, Boolean isInvlid) {
 		this.name = name;
 		this.isInvlid = isInvlid;
 	}
+//	public City(Province province, String name, Boolean isInvlid,
+//			Set<Authentic> authentics) {
+//		this.province = province;
+//		this.name = name;
+//		this.isInvlid = isInvlid;
+//		this.authentics = authentics;
+//	}
 
 	// Property accessors
 	@Id
@@ -52,16 +60,6 @@ public class City implements java.io.Serializable {
 
 	public void setCityId(Integer cityId) {
 		this.cityId = cityId;
-	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "province_id")
-	public Province getProvince() {
-		return this.province;
-	}
-
-	public void setProvince(Province province) {
-		this.province = province;
 	}
 
 	@Column(name = "name")

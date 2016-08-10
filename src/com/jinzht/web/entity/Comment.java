@@ -1,8 +1,5 @@
 package com.jinzht.web.entity;
 
-
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,27 +12,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * Comment entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "comment", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"publiccontent"})
 public class Comment implements java.io.Serializable {
 
 	// Fields
 
 	private Integer commentId;
-	private Users usersByUserId;
-	private Users usersByAtUserId;
+	private Users users;
 	private Publiccontent publiccontent;
 	private String content;
-	private Date publicDate;
 
 	// Constructors
 
@@ -44,14 +33,11 @@ public class Comment implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Comment(Users usersByUserId, Users usersByAtUserId,
-			Publiccontent publiccontent, String content) {
-		this.usersByUserId = usersByUserId;
-		this.usersByAtUserId = usersByAtUserId;
+	public Comment(Users users, Publiccontent publiccontent, String content) {
+		this.users = users;
 		this.publiccontent = publiccontent;
 		this.content = content;
 	}
-
 
 	// Property accessors
 	@Id
@@ -65,26 +51,16 @@ public class Comment implements java.io.Serializable {
 		this.commentId = commentId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	public Users getUsersByUserId() {
-		return this.usersByUserId;
+	public Users getUsers() {
+		return this.users;
 	}
 
-	public void setUsersByUserId(Users usersByUserId) {
-		this.usersByUserId = usersByUserId;
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "at_user_id")
-	public Users getUsersByAtUserId() {
-		return this.usersByAtUserId;
-	}
-
-	public void setUsersByAtUserId(Users usersByAtUserId) {
-		this.usersByAtUserId = usersByAtUserId;
-	}
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "public_content_id")
 	public Publiccontent getPubliccontent() {
@@ -102,17 +78,6 @@ public class Comment implements java.io.Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	@Column(name="public_date")
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
-	public Date getPublicDate() {
-		return publicDate;
-	}
-
-	public void setPublicDate(Date publicDate) {
-		this.publicDate = publicDate;
 	}
 
 }

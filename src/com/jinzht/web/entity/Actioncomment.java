@@ -12,27 +12,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Actioncomment entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "actioncomment", catalog = "jinzht2016")
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-@JsonIgnoreProperties(value={"action"})
 public class Actioncomment implements java.io.Serializable {
 
 	// Fields
 
 	private Integer commentId;
-	private Users usersByUserId;
-	private Users usersByAtUserId;
+	private Users users;
 	private Action action;
 	private String content;
-	private String userName;
-	private String atUserName;
 
 	// Constructors
 
@@ -41,9 +33,8 @@ public class Actioncomment implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Actioncomment(Users usersByUserId, Users usersByAtUserId, Action action, String content) {
-		this.usersByUserId = usersByUserId;
-		this.usersByAtUserId = usersByAtUserId;
+	public Actioncomment(Users users, Action action, String content) {
+		this.users = users;
 		this.action = action;
 		this.content = content;
 	}
@@ -62,22 +53,12 @@ public class Actioncomment implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	public Users getUsersByUserId() {
-		return this.usersByUserId;
+	public Users getUsers() {
+		return this.users;
 	}
 
-	public void setUsersByUserId(Users usersByUserId) {
-		this.usersByUserId = usersByUserId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "at_user_id")
-	public Users getUsersByAtUserId() {
-		return this.usersByAtUserId;
-	}
-
-	public void setUsersByAtUserId(Users usersByAtUserId) {
-		this.usersByAtUserId = usersByAtUserId;
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -97,22 +78,6 @@ public class Actioncomment implements java.io.Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getAtUserName() {
-		return atUserName;
-	}
-
-	public void setAtUserName(String atUserName) {
-		this.atUserName = atUserName;
 	}
 
 }

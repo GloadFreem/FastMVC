@@ -14,16 +14,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Actionshare entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "actionshare", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"action","users"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Actionshare implements java.io.Serializable {
 
 	// Fields
@@ -39,6 +34,10 @@ public class Actionshare implements java.io.Serializable {
 	public Actionshare() {
 	}
 
+	/** minimal constructor */
+	public Actionshare(Users users) {
+		this.users = users;
+	}
 
 	/** full constructor */
 	public Actionshare(Action action, Users users, String content) {
@@ -69,8 +68,8 @@ public class Actionshare implements java.io.Serializable {
 		this.action = action;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn
 	public Users getUsers() {
 		return this.users;
 	}

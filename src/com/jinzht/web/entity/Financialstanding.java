@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -14,25 +12,20 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Financialstanding entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "financialstanding", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"project","users"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Financialstanding implements java.io.Serializable {
 
 	// Fields
 
 	private Integer financeId;
 	private Project project;
+	private Integer projectId;
 	private String url;
 	private String content;
-	private String icon;
 
 	// Constructors
 
@@ -40,14 +33,18 @@ public class Financialstanding implements java.io.Serializable {
 	public Financialstanding() {
 	}
 
+	/** minimal constructor */
+	public Financialstanding(Project project) {
+		this.project = project;
+	}
 
 	/** full constructor */
-	public Financialstanding(Project project,String url,
-			String content,String icon) {
+	public Financialstanding(Project project, Integer projectId, String url,
+			String content) {
 		this.project = project;
+		this.projectId = projectId;
 		this.url = url;
 		this.content = content;
-		this.icon = icon;
 	}
 
 	// Property accessors
@@ -62,14 +59,23 @@ public class Financialstanding implements java.io.Serializable {
 		this.financeId = financeId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "project_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn
 	public Project getProject() {
 		return this.project;
 	}
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	@Column(name = "project_id")
+	public Integer getProjectId() {
+		return this.projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
 	}
 
 	@Column(name = "url")
@@ -88,14 +94,6 @@ public class Financialstanding implements java.io.Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-	@Column(name="icon")
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
 	}
 
 }

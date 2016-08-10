@@ -14,26 +14,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Audiorecord entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "audiorecord", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"scene"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Audiorecord implements java.io.Serializable {
 
 	// Fields
 
 	private Integer playId;
 	private Scene scene;
-	private Integer sortIndex;
-	private Integer playTime;
-	private int startTime;
-	private int endTime;
+	private Timestamp playTime;
 	private String imageUrl;
 
 	// Constructors
@@ -43,7 +35,7 @@ public class Audiorecord implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Audiorecord(Scene scene, Integer playTime, String imageUrl) {
+	public Audiorecord(Scene scene, Timestamp playTime, String imageUrl) {
 		this.scene = scene;
 		this.playTime = playTime;
 		this.imageUrl = imageUrl;
@@ -71,12 +63,12 @@ public class Audiorecord implements java.io.Serializable {
 		this.scene = scene;
 	}
 
-	@Column(name = "play_time")
-	public Integer getPlayTime() {
+	@Column(name = "play_time", length = 0)
+	public Timestamp getPlayTime() {
 		return this.playTime;
 	}
 
-	public void setPlayTime(Integer playTime) {
+	public void setPlayTime(Timestamp playTime) {
 		this.playTime = playTime;
 	}
 
@@ -87,30 +79,6 @@ public class Audiorecord implements java.io.Serializable {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-	@Column(name="sort_index")
-	public Integer getSortIndex() {
-		return sortIndex;
-	}
-
-	public void setSortIndex(Integer sortIndex) {
-		this.sortIndex = sortIndex;
-	}
-	@Column(name="start_time")
-	public int getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(int startTime) {
-		this.startTime = startTime;
-	}
-	@Column(name="end_time")
-	public int getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(int endTime) {
-		this.endTime = endTime;
 	}
 
 }

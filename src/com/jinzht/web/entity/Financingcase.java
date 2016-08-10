@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -14,16 +12,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Financingcase entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "financingcase", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"project"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Financingcase implements java.io.Serializable {
 
 	// Fields
@@ -32,7 +25,6 @@ public class Financingcase implements java.io.Serializable {
 	private Project project;
 	private String url;
 	private String content;
-	private String icon;
 
 	// Constructors
 
@@ -40,13 +32,16 @@ public class Financingcase implements java.io.Serializable {
 	public Financingcase() {
 	}
 
+	/** minimal constructor */
+	public Financingcase(Project project) {
+		this.project = project;
+	}
 
 	/** full constructor */
-	public Financingcase(Project project, String url, String content,String icon) {
+	public Financingcase(Project project, String url, String content) {
 		this.project = project;
 		this.url = url;
 		this.content = content;
-		this.setIcon(icon);
 	}
 
 	// Property accessors
@@ -61,8 +56,8 @@ public class Financingcase implements java.io.Serializable {
 		this.financingCaseId = financingCaseId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "project_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn
 	public Project getProject() {
 		return this.project;
 	}
@@ -87,15 +82,6 @@ public class Financingcase implements java.io.Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	@Column(name="icon")
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
 	}
 
 }

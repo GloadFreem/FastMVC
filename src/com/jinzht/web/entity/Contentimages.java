@@ -12,20 +12,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * Contentimages entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "contentimages", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"publiccontent","imageId","isvalid"})
 public class Contentimages implements java.io.Serializable {
 
 	// Fields
 
 	private Integer imageId;
-	private String url;
 	private Publiccontent publiccontent;
 	private Boolean isvalid;
 
@@ -70,15 +66,6 @@ public class Contentimages implements java.io.Serializable {
 
 	public void setIsvalid(Boolean isvalid) {
 		this.isvalid = isvalid;
-	}
-
-	@Column(name = "url")
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 }

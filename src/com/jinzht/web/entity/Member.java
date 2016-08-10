@@ -12,16 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Member entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "member", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"project"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Member implements java.io.Serializable {
 
 	// Fields
@@ -34,8 +29,6 @@ public class Member implements java.io.Serializable {
 	private String address;
 	private String industory;
 	private String emial;
-	private String icon;
-	private String telephone;
 
 	// Constructors
 
@@ -129,23 +122,6 @@ public class Member implements java.io.Serializable {
 
 	public void setEmial(String emial) {
 		this.emial = emial;
-	}
-
-	@Column(name="icon",length=255)
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-	@Column(name="telephone",length=20)
-	public String getTelephone() {
-		return telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
 	}
 
 }

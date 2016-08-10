@@ -1,45 +1,30 @@
 package com.jinzht.web.entity;
 
 import java.sql.Timestamp;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Share entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "share", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"sharetype"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Share implements java.io.Serializable {
 
 	// Fields
 
 	private Integer shareId;
-	private Integer contentId;
 	private Sharetype sharetype;
-	private Date shareDate;
+	private Timestamp shareDate;
 	private String content;
 	private String url;
-	private String image;
-	private String title;
 
 	// Constructors
 
@@ -48,16 +33,12 @@ public class Share implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Share(Sharetype sharetype, Date shareDate, String content,
-			String url,Integer contentId,String image) {
+	public Share(Sharetype sharetype, Timestamp shareDate, String content,
+			String url) {
 		this.sharetype = sharetype;
 		this.shareDate = shareDate;
 		this.content = content;
 		this.url = url;
-		this.contentId = contentId;
-		this.image = image;
-		this.content =content;
-		
 	}
 
 	// Property accessors
@@ -83,13 +64,11 @@ public class Share implements java.io.Serializable {
 	}
 
 	@Column(name = "share_date", length = 0)
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
-	public Date getShareDate() {
+	public Timestamp getShareDate() {
 		return this.shareDate;
 	}
 
-	public void setShareDate(Date shareDate) {
+	public void setShareDate(Timestamp shareDate) {
 		this.shareDate = shareDate;
 	}
 
@@ -109,31 +88,6 @@ public class Share implements java.io.Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-	@Column(name="content_id")
-	public Integer getContentId() {
-		return contentId;
-	}
-
-	public void setContentId(Integer contentId) {
-		this.contentId = contentId;
-	}
-	
-	@Column(name="image")
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-	@Column(name="title")
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 }

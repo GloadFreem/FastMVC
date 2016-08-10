@@ -18,13 +18,8 @@
 			<value>root</value>
 		</property>
 		<property name="password">
-			<value>Changeme_123</value>
+			<value></value>
 		</property>
-		<!-- 
-		<property name="password">
-			<value>Changeme_123</value>
-		</property> 
-		-->
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -36,9 +31,9 @@
 				<prop key="hibernate.dialect">
 					org.hibernate.dialect.MySQLDialect
 				</prop>
-			  <!--   <prop key="hibernate.show_sql">
+				<prop key="hibernate.show_sql">
 					true
-				</prop> -->
+				</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
@@ -46,22 +41,11 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.jinzht.web.entity.Contenttype</value>
-				<value>com.jinzht.web.entity.Weburlrecord</value>
-				<value>com.jinzht.web.entity.Feedback</value>
-				<value>com.jinzht.web.entity.Feedback</value>
-				<value>com.jinzht.web.entity.Foundation</value>
-				<value>com.jinzht.web.entity.Usercollect</value>
-				<value>com.jinzht.web.entity.Tradestatus</value>
-				<value>com.jinzht.web.entity.Investorcollect</value>
-				<value>com.jinzht.web.entity.Scenecomment</value>
-				<value>com.jinzht.web.entity.Actionimages</value>
 				<value>com.jinzht.web.entity.Team</value>
 				<value>com.jinzht.web.entity.Authentic</value>
 				<value>com.jinzht.web.entity.Publiccontent</value>
 				<value>com.jinzht.web.entity.Contentprise</value>
 				<value>com.jinzht.web.entity.Member</value>
-				<value>com.jinzht.web.entity.Authenticstatus</value>
 				<value>
 					com.jinzht.web.entity.Projectcommitrecord
 				</value>
@@ -96,6 +80,7 @@
 				<value>com.jinzht.web.entity.Systemcode</value>
 				<value>com.jinzht.web.entity.Communion</value>
 				<value>com.jinzht.web.entity.Attention</value>
+				<value>com.jinzht.web.entity.Chargetype</value>
 				<value>com.jinzht.web.entity.Rewardtradetype</value>
 				<value>com.jinzht.web.entity.Loginfailrecord</value>
 				<value>com.jinzht.web.entity.Projectcomment</value>
@@ -106,6 +91,7 @@
 				<value>
 					com.jinzht.web.entity.Financialstanding
 				</value>
+				<value>com.jinzht.web.entity.Industorytype</value>
 				<value>com.jinzht.web.entity.Investmentrecord</value>
 				<value>com.jinzht.web.entity.Project</value>
 				<value>com.jinzht.web.entity.Scene</value>
@@ -315,6 +301,11 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
+	<bean id="ChargetypeDAO" class="com.jinzht.web.dao.ChargetypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
 	<bean id="RewardtradetypeDAO" class="com.jinzht.web.dao.RewardtradetypeDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -355,6 +346,11 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
+	<bean id="IndustorytypeDAO" class="com.jinzht.web.dao.IndustorytypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
 	<bean id="InvestmentrecordDAO" class="com.jinzht.web.dao.InvestmentrecordDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -375,7 +371,7 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	<bean id="SustomserviceDAO" class="com.jinzht.web.dao.CustomserviceDAO">
+	<bean id="SustomserviceDAO" class="com.jinzht.web.dao.SustomserviceDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
@@ -416,53 +412,4 @@
 		</property>
 	</bean>
 	
-	<bean id="AuthenticstatusDAO" class="com.jinzht.web.dao.AuthenticstatusDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="com.jinzht.web.dao.ActionimagesDAO" class="com.jinzht.web.dao.ActionimagesDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="com.jinzht.web.entity.ScenecommentDAO" class="com.jinzht.web.dao.ScenecommentDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="com.jinzht.web.dao.InvestorcollectDAO" class="com.jinzht.web.dao.InvestorcollectDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="com.jinzht.web.dao.TradestatusDAO" class="com.jinzht.web.dao.TradestatusDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="com.jinzht.web.dao.UsercollectDAO" class="com.jinzht.web.dao.UsercollectDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="com.jinzht.web.dao.FoundationDAO" class="com.jinzht.web.dao.FoundationDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="com.jinzht.web.dao.FeedbackDAO" class="com.jinzht.web.dao.FeedbackDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="com.jinzht.web.dao.WeburlrecordDAO" class="com.jinzht.web.dao.WeburlrecordDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="com.jinzht.web.dao.ContenttypeDAO" class="com.jinzht.web.dao.ContenttypeDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean></beans>
+</beans>

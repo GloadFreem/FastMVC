@@ -49,18 +49,8 @@
 		</property>
 	</bean>
 	
-	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-	
 	<bean id="userManager" class="com.jinzht.web.manager.UserManager"></bean>
 	<bean id="systemManager" class="com.jinzht.web.manager.SystemManager"></bean>
 	<bean id="authenticManager" class="com.jinzht.web.manager.AuthenticManager"></bean>
-	<bean id="feelingManager" class="com.jinzht.web.manager.FeelingManager"></bean>
-	<bean id="actionManager" class="com.jinzht.web.manager.ActionManager"></bean>
-	<bean id="projectManager" class="com.jinzht.web.manager.ProjectManager"></bean>
-	<bean id="investortManager" class="com.jinzht.web.manager.InvestorManager"></bean>
-	<bean id="tradeManager" class="com.jinzht.web.manager.TradeManager"></bean>
-	<bean id="rewardManager" class="com.jinzht.web.manager.RewardManager"></bean>
-	<bean id="databaseManager" class="com.jinzht.web.manager.DatabaseManager"></bean>
-	<bean id="webManager" class="com.jinzht.web.manager.WebManager"></bean>
- 
+
 </beans>

@@ -1,5 +1,4 @@
 package com.jinzht.web.entity;
-// default package
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,18 +10,15 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Collection entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "collection", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"users"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Collection implements java.io.Serializable {
 
 	// Fields
@@ -30,6 +26,7 @@ public class Collection implements java.io.Serializable {
 	private Integer collectionId;
 	private Users users;
 	private Project project;
+	private String projectId;
 
 	// Constructors
 
@@ -37,10 +34,16 @@ public class Collection implements java.io.Serializable {
 	public Collection() {
 	}
 
+	/** minimal constructor */
+	public Collection(Project project) {
+		this.project = project;
+	}
+
 	/** full constructor */
-	public Collection(Users users, Project project) {
+	public Collection(Users users, Project project, String projectId) {
 		this.users = users;
 		this.project = project;
+		this.projectId = projectId;
 	}
 
 	// Property accessors
@@ -55,7 +58,7 @@ public class Collection implements java.io.Serializable {
 		this.collectionId = collectionId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
@@ -65,14 +68,23 @@ public class Collection implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "project_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn
 	public Project getProject() {
 		return this.project;
 	}
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	@Column(name = "project_id")
+	public String getProjectId() {
+		return this.projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
 	}
 
 }

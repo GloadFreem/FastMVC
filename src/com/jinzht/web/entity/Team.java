@@ -12,16 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Team entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "team", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"project"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Team implements java.io.Serializable {
 
 	// Fields

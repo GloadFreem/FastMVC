@@ -3,21 +3,15 @@ package com.jinzht.web.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Banner entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "banner", catalog = "jinzht2016")
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Banner implements java.io.Serializable {
 
 	// Fields
@@ -28,7 +22,6 @@ public class Banner implements java.io.Serializable {
 	private String image;
 	private String bannerType;
 	private String url;
-	private String project;
 
 	// Constructors
 
@@ -101,14 +94,6 @@ public class Banner implements java.io.Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-	@Column(name = "project")
-	public String getProject() {
-		return project;
-	}
-
-	public void setProject(String project) {
-		this.project = project;
 	}
 
 }

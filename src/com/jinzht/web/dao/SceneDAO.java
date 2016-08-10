@@ -75,7 +75,7 @@ public class SceneDAO {
 		log.debug("getting Scene instance with id: " + id);
 		try {
 			Scene instance = (Scene) getCurrentSession().get(
-					"com.jinzht.web.entity.Scene", id);
+					"com.jinzht.web.hibernate.Scene", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

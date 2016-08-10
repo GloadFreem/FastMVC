@@ -15,16 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Industoryarea entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "industoryarea", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={""})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Industoryarea implements java.io.Serializable {
 
 	// Fields
@@ -32,6 +27,7 @@ public class Industoryarea implements java.io.Serializable {
 	private Integer areaId;
 	private String name;
 	private Boolean isvalid;
+//	private Set<Authentic> authentics = new HashSet<Authentic>(0);
 
 	// Constructors
 

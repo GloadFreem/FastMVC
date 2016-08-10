@@ -16,31 +16,20 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Systemmessage entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "systemmessage", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"users"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Systemmessage implements java.io.Serializable {
 
 	// Fields
 
 	private Integer messageId;
 	private Users users;
-	private String title;
 	private Messagetype messagetype;
 	private String content;
-	private String url;
 	private Date messageDate;
-	private boolean isRead;
 
 	// Constructors
 
@@ -79,7 +68,7 @@ public class Systemmessage implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "message_type_id")
 	public Messagetype getMessagetype() {
 		return this.messagetype;
@@ -98,44 +87,14 @@ public class Systemmessage implements java.io.Serializable {
 		this.content = content;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "message_date", length = 0)
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
 	public Date getMessageDate() {
 		return this.messageDate;
 	}
 
 	public void setMessageDate(Date messageDate) {
 		this.messageDate = messageDate;
-	}
-	
-	
-	@Column(name = "url")
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	@Column(name = "title")
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-
-
-	@Column(name = "is_read")
-	public boolean getIsRead() {
-		return isRead;
-	}
-
-	public void setIsRead(boolean isRead) {
-		this.isRead = isRead;
 	}
 
 }

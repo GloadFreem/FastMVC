@@ -15,16 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * Roletype entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "roletype", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={"systemusers"})
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Roletype implements java.io.Serializable {
 
 	// Fields
