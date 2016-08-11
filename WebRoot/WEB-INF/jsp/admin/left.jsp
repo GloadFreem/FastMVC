@@ -53,16 +53,16 @@
                         </li>
                         <li><a class="menuitem">用户管理</a>
                             <ul class="submenu1">
-                                <li><a href="userListAdmin.action" target="content">用户列表</a> </li>
-                                <li><a href="userAuthenticListAdmin.action" target="content">认证审核</a> </li>
+                                <li><a href="adminUserListAdmin.action" target="content">用户列表</a> </li>
+                                <li><a href="adminUserAuthenticListAdmin.action" target="content">认证审核</a> </li>
                                 <li><a>黑名单</a> </li>
                             </ul>
                         </li>
                         <li><a class="menuitem">项目管理</a>
                             <ul class="submenu1">
-                                <li><a href="projectListAdmin.action" target="content">项目列表</a> </li>
-                                <li><a href="roadShowListAdmin.action" target="content">路演管理</a> </li>
-                                <li><a href="sceneListAdmin.action" target="content">现场管理</a> </li>
+                                <li><a href="adminProjectListAdmin.action" target="content">项目列表</a> </li>
+                                <li><a href="adminRoadShowListAdmin.action" target="content">路演管理</a> </li>
+                                <li><a href="adminSceneListAdmin.action" target="content">现场管理</a> </li>
                                 <li><a>分享收藏</a> </li>
                                 <li><a>路演历史</a> </li>
                             </ul>
@@ -83,14 +83,14 @@
                         </li>
                          <li><a class="menuitem">活动管理</a>
                             <ul class="submenu1">
-                                <li><a href="actionListAdmin.action" target="content">活动列表</a> </li>
+                                <li><a href="adminActionListAdmin.action" target="content">活动列表</a> </li>
                                 <li><a>分享收藏</a> </li>
                                 <li><a>历史活动</a> </li>
                             </ul>
                         </li>
                          <li><a class="menuitem">圈子管理</a>
                             <ul class="submenu1">
-                                <li><a href="cycleListAdmin.action" target="content">圈子列表</a>  </li>
+                                <li><a href="adminCycleListAdmin.action" target="content">圈子列表</a>  </li>
                                 <li><a>分享收藏</a> </li>
                                 <li><a>黑名单</a> </li>
                             </ul>
@@ -105,7 +105,7 @@
                         </li>
                          <li><a class="menuitem">系统设置</a>
                             <ul class="submenu3">
-                                <li><a href="bannerListAdmin.action" target="content">Banner管理</a> </li>
+                                <li><a href="adminBannerListAdmin.action" target="content">Banner管理</a> </li>
                             </ul>
                         </li>
                     </ul>

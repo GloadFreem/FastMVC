@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Actioncomment;
 
 /**
@@ -58,6 +60,16 @@ public class ActioncommentDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Actioncomment transientInstance) {
+		log.debug("saving Actioncomment instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Actioncomment persistentInstance) {
 		log.debug("deleting Actioncomment instance");
@@ -74,7 +86,7 @@ public class ActioncommentDAO {
 		log.debug("getting Actioncomment instance with id: " + id);
 		try {
 			Actioncomment instance = (Actioncomment) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Actioncomment", id);
+					"com.jinzht.web.entity.Actioncomment", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -110,6 +122,41 @@ public class ActioncommentDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+	}
+	public List findByPropertyWithPage(String propertyName, Object value,Integer page) {
+		log.debug("finding Actioncomment instance with property: "
+				+ propertyName + ", value: " + value);
+		try {
+			String queryString = "from Actioncomment as model where model."
+					+ propertyName + "= ? order by model.commentId desc";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setParameter(0, value);
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public List findUserIdByCommentId(Integer commentId)
+	{
+		String sqlString  = "select user_id from actioncomment where comment_id = ?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
+		queryObject.setParameter(0, commentId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
+	}
+	public List findAtUserIdByCommentId(Integer commentId)
+	{
+		String sqlString  = "select at_user_id from actioncomment where comment_id = ?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
+		queryObject.setParameter(0, commentId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
 	}
 
 	public List<Actioncomment> findByContent(Object content) {

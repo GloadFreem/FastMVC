@@ -86,7 +86,7 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="editBanner.action?bannerId=" target="content"><h2>
+		<a href="adminEditBanner.action?bannerId=" target="content"><h2>
 			<div><img alt="添加Banner" src="images/圆角矩形-3-拷贝-5.png"></div>
 			<div>添加Banner</div>
 			</h2></a>
@@ -106,7 +106,7 @@
 					<tbody>
 					<c:forEach items="${items}" var="item" varStatus="vs">
 					<tr class="odd gradeX">
-							<td class="center"><a href="editBanner.action?bannerId=${item.body.bannerId}" target="content">${item.body.bannerId}</a></td>
+							<td class="center"><a href="adminEditBanner.action?bannerId=${item.body.bannerId}" target="content">${item.body.bannerId}</a></td>
 							<td class="center">${item.body.name}</td>
 							<td class="center">${item.body.description}</td>
 							<td class="center"><a href=${item.body.image} target="blank">${item.body.image}</a></td>

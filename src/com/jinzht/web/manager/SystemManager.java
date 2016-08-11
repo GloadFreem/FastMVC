@@ -1,17 +1,32 @@
 package com.jinzht.web.manager;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.jinzht.tools.BannerType;
 import com.jinzht.web.dao.BannerDAO;
+import com.jinzht.web.dao.FeedbackDAO;
 import com.jinzht.web.dao.NoticeDAO;
 import com.jinzht.web.dao.PreloadingpageDAO;
-import com.jinzht.web.dao.SustomserviceDAO;
+import com.jinzht.web.dao.ProjectDAO;
+import com.jinzht.web.dao.ShareDAO;
+import com.jinzht.web.dao.CustomserviceDAO;
+import com.jinzht.web.dao.SystemmessageDAO;
 import com.jinzht.web.dao.VersioncontrollDAO;
+import com.jinzht.web.entity.Banner;
+import com.jinzht.web.entity.Feedback;
 import com.jinzht.web.entity.Notice;
 import com.jinzht.web.entity.Preloadingpage;
 import com.jinzht.web.entity.Customservice;
+import com.jinzht.web.entity.Project;
+import com.jinzht.web.entity.Roadshow;
+import com.jinzht.web.entity.Share;
+import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Versioncontroll;
 
@@ -19,9 +34,13 @@ public class SystemManager {
 
 	private NoticeDAO noticeDao; // 系统公告
 	private PreloadingpageDAO preloadingDao; // 启动页
-	private BannerDAO bannerDao; //Banner 信息
-	private SustomserviceDAO sustomserviceDao; //客服信息
+	private BannerDAO bannerDao; // Banner 信息
+	private CustomserviceDAO customserviceDao; // 客服信息
 	private VersioncontrollDAO versioncontrollDao; // 版本更新信息
+	private ShareDAO shareDao;
+	private SystemmessageDAO systemMessageDao;
+	private ProjectDAO projectDao;
+	private FeedbackDAO feedbackDao;
 
 	/***
 	 * 根据设备类型获取系统公告信息
@@ -77,13 +96,13 @@ public class SystemManager {
 	 * @return 最新启动页面信息
 	 */
 	public Customservice findCustomServices() {
-		List<Customservice> list = getSustomserviceDao().findAll();
+		List<Customservice> list = getCustomserviceDao().findAll();
 		if (list != null && list.size() > 0) {
 			return list.get(0);
 		}
 		return null;
 	}
-	
+
 	/***
 	 * 获取客服信息
 	 * 
@@ -91,13 +110,168 @@ public class SystemManager {
 	 *            设备类型 0:Android,1:iOS
 	 * @return 最新启动页面信息
 	 */
-	public List<Customservice> findBannerInfoList() {
-		List<Customservice> list = getBannerDao().findAll();
-		return list;
+	public List<Banner> findBannerInfoList() {
+		// 返回Banner结果
+		List result = new ArrayList();
+		Map map = null;
+
+		List<Banner> list = getBannerDao().findAll();
+
+		if (list != null && list.size() > 0) {
+			Banner banner = null;
+			for (int i = 0; i < list.size(); i++) {
+				banner = list.get(i);
+				banner.setBannerType(null);
+
+				map = new HashMap();
+				// 添加到返回数据中
+				map.put("body", banner);
+				map.put("type", BannerType.Web);
+
+				// 判断是否为项目
+				if (banner.getProject() != null
+						&& !banner.getProject().equals("")) {
+					// 获取项目
+					Project project = getProjectDao().findById(
+							Integer.parseInt(banner.getProject()));
+					if (project != null) {
+						map.put("type", BannerType.Project);
+						// 设置项目属性
+						project.setUserId(null);
+						project.setProjectcomments(null);
+						project.setProjectType(null);
+						project.setAbbrevName(null);
+						project.setCollections(null);
+						project.setStartPageImage(null);
+						project.setControlreports(null);
+						project.setFinancialstandings(null);
+						project.setFinancingexits(null);
+						project.setFinancingcases(null);
+						project.setBusinessplans(null);
+						project.setAddress(null);
+						project.setTimeLeft(null);
+						project.setCollectionCount(null);
+						project.setFullName(null);
+						project.setDescription(null);
+						project.setTeams(null);
+						project.setProjectimageses(null);
+
+						Object[] obj = project.getRoadshows().toArray();
+						if (obj != null && obj.length > 0) {
+							for (int j = 0; j < obj.length; j++) {
+								Roadshow roadShow = (Roadshow) obj[j];
+								roadShow.setRoadShowId(null);
+								roadShow.setProject(null);
+								roadShow.getRoadshowplan().setBeginDate(null);
+								roadShow.getRoadshowplan().setEndDate(null);
+								roadShow.getRoadshowplan().setFinancingId(null);
+							}
+
+						}
+						// 添加到返回数据
+						map.put("extr", project);
+					}
+
+					banner.setProject(null);
+				}
+
+				result.add(map);
+
+			}
+		}
+		return result;
 	}
 
 	public NoticeDAO getNoticeDao() {
 		return noticeDao;
+	}
+
+	/***
+	 * 保存分享记录
+	 * 
+	 * @param share
+	 */
+	public void saveShareRecord(Share share) {
+		getShareDao().save(share);
+	}
+
+	/***
+	 * 获取用户站内信list
+	 * 
+	 * @param user
+	 * @param page
+	 * @return
+	 */
+	public List findSystemMessageListByUser(Users user, Integer page) {
+		List list = null;
+		list = getSystemMessageDao()
+				.findByPropertyWithPage("users", user, page);
+		return list;
+	}
+
+	/***
+	 * 根据id获取站内信
+	 * 
+	 * @param messageId
+	 * @return
+	 */
+	public Systemmessage findMessageById(Integer messageId) {
+		return getSystemMessageDao().findById(messageId);
+	}
+
+	/***
+	 * 删除站内信
+	 * 
+	 * @param message
+	 *            站内信
+	 */
+	public void deleteSystemMessage(Systemmessage message) {
+		getSystemMessageDao().delete(message);
+	}
+
+	/***
+	 * 更新信息
+	 * 
+	 * @param message
+	 */
+	public void saveOrUpdate(Systemmessage message) {
+		getSystemMessageDao().saveOrUpdate(message);
+	}
+
+	/***
+	 * 获取用户未读信息条数
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public boolean findUserNotReadMessageFlag(Users user) {
+		boolean flag = false;
+		boolean read = false;
+		Map map = new HashMap();
+		map.put("users", user);
+		map.put("isRead", read);
+		Integer count = getSystemMessageDao().counterByProperties(map);
+		if (count > 0) {
+			flag = true;
+		}
+		return flag;
+	}
+
+	/***
+	 * 添加反馈
+	 * 
+	 * @param userId
+	 *            用户id
+	 * @param content
+	 *            内容
+	 */
+	public void addFeedback(Integer userId, String content) {
+		Feedback feed = new Feedback();
+		feed.setContent(content);
+		feed.setUserId(String.format("%d", userId));
+		feed.setFeedDate(new Date());
+
+		getFeedbackDao().save(feed);
 	}
 
 	@Autowired
@@ -123,20 +297,58 @@ public class SystemManager {
 		this.versioncontrollDao = versioncontrollDao;
 	}
 
-	public SustomserviceDAO getSustomserviceDao() {
-		return sustomserviceDao;
-	}
-	@Autowired
-	public void setSustomserviceDao(SustomserviceDAO sustomserviceDao) {
-		this.sustomserviceDao = sustomserviceDao;
-	}
-
 	public BannerDAO getBannerDao() {
 		return bannerDao;
 	}
+
 	@Autowired
 	public void setBannerDao(BannerDAO bannerDao) {
 		this.bannerDao = bannerDao;
+	}
+
+	public ShareDAO getShareDao() {
+		return shareDao;
+	}
+
+	@Autowired
+	public void setShareDao(ShareDAO shareDao) {
+		this.shareDao = shareDao;
+	}
+
+	public SystemmessageDAO getSystemMessageDao() {
+		return systemMessageDao;
+	}
+
+	@Autowired
+	public void setSystemMessageDao(SystemmessageDAO systemMessageDao) {
+		this.systemMessageDao = systemMessageDao;
+	}
+
+	public ProjectDAO getProjectDao() {
+		return projectDao;
+	}
+
+	@Autowired
+	public void setProjectDao(ProjectDAO projectDao) {
+		this.projectDao = projectDao;
+	}
+
+	public FeedbackDAO getFeedbackDao() {
+		return feedbackDao;
+	}
+
+	@Autowired
+	public void setFeedbackDao(FeedbackDAO feedbackDao) {
+		this.feedbackDao = feedbackDao;
+	}
+
+	public CustomserviceDAO getCustomserviceDao() {
+		return customserviceDao;
+	}
+
+	@Autowired
+	public void setCustomserviceDao(CustomserviceDAO customserviceDao) {
+		this.customserviceDao = customserviceDao;
 	}
 
 }

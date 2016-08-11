@@ -26,3 +26,31 @@
 	width: 100%;
 	height: 200px;
 }
+
+.search {
+	width: 50%;
+	float: left;
+}
+
+.search-img {
+	height: 35px;
+}
+
+.textarea {
+	color: black;
+	width: 95%;
+	height: 200px;
+}
+
+.img-frame {
+	width: 90%;
+}
+
+.user-select {
+	width: 48%;
+	height: 45px;
+	border-radius: 5px;
+	border-color: #ff001b;
+	border-width: 1px;
+	border-style: dashed;
+}

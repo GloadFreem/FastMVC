@@ -1,9 +1,11 @@
 package com.jinzht.web.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Actionprise;
 
 /**
@@ -109,6 +112,44 @@ public class ActionpriseDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+	}
+	public List findByProperties(Map requestMap,Integer page) {
+		try {
+//			String debugInfo= "finding Authentic instance with property: ";
+			String queryString = "from Actionprise as model where";
+			Object[] keys= requestMap.keySet().toArray();
+			for(int i = 0;i<requestMap.size();i++){
+//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
+				if(i==0){
+					queryString+=" model."+keys[i].toString()+" =? ";
+				}else{
+					queryString+="and model."+keys[i].toString()+" =? ";
+				}
+			}
+//			log.debug(debugInfo);
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<requestMap.size();i++){
+				queryObject.setParameter(i, requestMap.get(keys[i]));
+			}
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public List findUsersIdByPriseId(Integer priseId)
+	{
+		String sqlString = "select user_id from actionprise where prise_id = ?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString);
+		queryObject.setParameter(0, priseId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
+		
 	}
 
 	public List findAll() {

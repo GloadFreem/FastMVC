@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 @Entity
 @Table(name = "preloadingpage", catalog = "jinzht2016")
+
 public class Preloadingpage implements java.io.Serializable {
 
 	// Fields

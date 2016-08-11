@@ -16,11 +16,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Loginfailrecord entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "loginfailrecord", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"users"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Loginfailrecord implements java.io.Serializable {
 
 	// Fields

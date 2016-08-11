@@ -2,10 +2,12 @@ package com.jinzht.web.dao;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Action;
 
 /**
@@ -63,6 +66,17 @@ public class ActionDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Action transientInstance) {
+		log.debug("saving Action instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+	
 
 	public void delete(Action persistentInstance) {
 		log.debug("deleting Action instance");
@@ -79,10 +93,38 @@ public class ActionDAO {
 		log.debug("getting Action instance with id: " + id);
 		try {
 			Action instance = (Action) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Action", id);
+					"com.jinzht.web.entity.Action", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
+			throw re;
+		}
+	}
+	
+	public List findByKeyWord(String keyword,Integer page,String name)
+	{
+		List list = null;
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery("select * from action model where model."+name+" like:keyword").addEntity(Action.class);
+		queryObject.setParameter("keyword", "%"+keyword+"%");
+		queryObject.setFirstResult(page*10);
+		queryObject.setMaxResults(10);
+		list = queryObject.list();
+		
+		return list;
+	}
+	
+	public List findByCursor(int cursor){
+		log.debug("finding Publiccontent instances by cursor");
+		try {
+			String queryString = "from Action order by endTime desc";
+			Query queryObject = getCurrentSession().createQuery(queryString)
+					.setFirstResult(cursor*Config.STRING_FEELING_PAGESIZE)
+					.setMaxResults(Config.STRING_FEELING_PAGESIZE)
+					;
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
 			throw re;
 		}
 	}
@@ -91,7 +133,7 @@ public class ActionDAO {
 		log.debug("finding Action instance by example");
 		try {
 			List<Action> results = (List<Action>) getCurrentSession()
-					.createCriteria("com.jinzht.web.hibernate.Action")
+					.createCriteria("com.jinzht.web.entity.Action")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -110,6 +152,35 @@ public class ActionDAO {
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public List findByPropertiesWithPage(Map requestMap,Integer page) {
+		try {
+//			String debugInfo= "finding Loginfailrecord instance with property: ";
+			String queryString = "from Action as model where";
+			Object[] keys= requestMap.keySet().toArray();
+			for(int i = 0;i<requestMap.size();i++){
+//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
+				if(i==0){
+					queryString+=" model."+keys[i].toString()+" =? ";
+				}else{
+					queryString+="and model."+keys[i].toString()+" =? ";
+				}
+			}
+//			log.debug(debugInfo);
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<requestMap.size();i++){
+				queryObject.setParameter(i, requestMap.get(keys[i]));
+			}
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
@@ -188,4 +259,6 @@ public class ActionDAO {
 	public static ActionDAO getFromApplicationContext(ApplicationContext ctx) {
 		return (ActionDAO) ctx.getBean("ActionDAO");
 	}
+	
+	
 }

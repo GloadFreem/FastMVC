@@ -1,10 +1,13 @@
 package com.jinzht.web.dao;
+// default package
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -15,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Authentic;
 
 /**
@@ -25,7 +29,7 @@ import com.jinzht.web.entity.Authentic;
  * methods provides additional information for how to configure it for the
  * desired type of transaction control.
  * 
- * @see com.jinzht.web.entity.Authentic
+ * @see .Authentic
  * @author MyEclipse Persistence Tools
  */
 @Transactional
@@ -70,6 +74,18 @@ public class AuthenticDAO {
 			throw re;
 		}
 	}
+	
+	
+	public void saveOrUpdate(Authentic transientInstance) {
+		log.debug("saving Authentic instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Authentic persistentInstance) {
 		log.debug("deleting Authentic instance");
@@ -86,7 +102,7 @@ public class AuthenticDAO {
 		log.debug("getting Authentic instance with id: " + id);
 		try {
 			Authentic instance = (Authentic) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Authentic", id);
+					"Authentic", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -98,8 +114,7 @@ public class AuthenticDAO {
 		log.debug("finding Authentic instance by example");
 		try {
 			List<Authentic> results = (List<Authentic>) getCurrentSession()
-					.createCriteria("com.jinzht.web.hibernate.Authentic")
-					.add(create(instance)).list();
+					.createCriteria("Authentic").add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
@@ -123,9 +138,43 @@ public class AuthenticDAO {
 			throw re;
 		}
 	}
+	
+	public List findByProperties(Map requestMap,Integer page) {
+		try {
+//			String debugInfo= "finding Authentic instance with property: ";
+			String queryString = "from Authentic as model where";
+			Object[] keys= requestMap.keySet().toArray();
+			for(int i = 0;i<requestMap.size();i++){
+//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
+				if(i==0){
+					queryString+=" model."+keys[i].toString()+" =? ";
+				}else{
+					queryString+="and model."+keys[i].toString()+" =? ";
+				}
+			}
+//			log.debug(debugInfo);
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<requestMap.size();i++){
+				queryObject.setParameter(i, requestMap.get(keys[i]));
+			}
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 
 	public List<Authentic> findByName(Object name) {
-		return findByProperty(NAME, name);
+		String sqlString = "select * from authentic where name like ?";
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Authentic.class);
+		queryObject.setParameter(0, "%"+name+"%");
+		
+		return queryObject.list();
 	}
 
 	public List<Authentic> findByIdentiyCarA(Object identiyCarA) {
@@ -183,6 +232,15 @@ public class AuthenticDAO {
 			throw re;
 		}
 	}
+	
+	public List findAuthenticByUserId(Integer userId)
+	{
+		String sqlString = "select * from authentic where user_id=?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Authentic.class);
+		queryObject.setParameter(0, userId);
+		
+		return queryObject.list();
+	}
 
 	public Authentic merge(Authentic detachedInstance) {
 		log.debug("merging Authentic instance");
@@ -216,6 +274,24 @@ public class AuthenticDAO {
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
+			throw re;
+		}
+	}
+	
+	/**
+	 * 扩展方法
+	 * 根据authId获取用户id
+	 */
+	public Integer findUserIdByAuthId(Integer authId)
+	{
+		try {
+			String queryString = "select user_id from authentic where auth_id =?";
+			
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			queryObject.setParameter(0, authId);
+			return (Integer) queryObject.uniqueResult();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
 			throw re;
 		}
 	}

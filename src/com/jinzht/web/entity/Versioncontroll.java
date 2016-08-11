@@ -1,18 +1,26 @@
 package com.jinzht.web.entity;
 
 import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Versioncontroll entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "versioncontroll", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={""})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Versioncontroll implements java.io.Serializable {
 
 	// Fields
@@ -21,7 +29,7 @@ public class Versioncontroll implements java.io.Serializable {
 	private String versionStr;
 	private String content;
 	private String url;
-	private Short isForce;
+	private boolean isForce;
 	private Timestamp updateTime;
 	private Short platform;
 
@@ -38,7 +46,7 @@ public class Versioncontroll implements java.io.Serializable {
 
 	/** full constructor */
 	public Versioncontroll(String versionStr, String content, String url,
-			Short isForce, Timestamp updateTime, Short platform) {
+			boolean isForce, Timestamp updateTime, Short platform) {
 		this.versionStr = versionStr;
 		this.content = content;
 		this.url = url;
@@ -87,11 +95,11 @@ public class Versioncontroll implements java.io.Serializable {
 	}
 
 	@Column(name = "is_force")
-	public Short getIsForce() {
+	public boolean getIsForce() {
 		return this.isForce;
 	}
 
-	public void setIsForce(Short isForce) {
+	public void setIsForce(boolean isForce) {
 		this.isForce = isForce;
 	}
 

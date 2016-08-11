@@ -57,6 +57,16 @@ public class RoadshowDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Roadshow transientInstance) {
+		log.debug("saving Roadshow instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Roadshow persistentInstance) {
 		log.debug("deleting Roadshow instance");
@@ -73,7 +83,7 @@ public class RoadshowDAO {
 		log.debug("getting Roadshow instance with id: " + id);
 		try {
 			Roadshow instance = (Roadshow) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Roadshow", id);
+					"com.jinzht.web.entity.Roadshow", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

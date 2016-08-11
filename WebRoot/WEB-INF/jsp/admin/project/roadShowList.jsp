@@ -86,7 +86,7 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="editProject.action?projectId=" target="content"><h2>
+		<a href="adminEditProject.action?projectId=" target="content"><h2>
 			<div><img alt="添加路演" src="images/圆角矩形-3-拷贝-5.png"></div>
 			<div>添加路演</div>
 			</h2></a>
@@ -108,8 +108,8 @@
 					<tbody>
 					<c:forEach items="${items}" var="item" varStatus="vs">
 					<tr class="odd gradeX">
-							<td class="center"><a href="editRoadShow.action?roadShowId=${item.roadShowId}" target="content">${item.roadShowId}</a></td>
-							<td class="center"><a href="editProject.action?projectId=${item.project.projectId}" target="content">${item.project.fullName}</a></td>
+							<td class="center"><a href="adminEditRoadShow.action?roadShowId=${item.roadShowId}" target="content">${item.roadShowId}</a></td>
+							<td class="center"><a href="adminEditProject.action?projectId=${item.project.projectId}" target="content">${item.project.fullName}</a></td>
 							<td class="center">${item.roadshowplan.financeTotal}</td>
 							<td class="center">${item.roadshowplan.financedMount}</td>
 							<td class="center">${item.roadshowplan.limitAmount}</td>

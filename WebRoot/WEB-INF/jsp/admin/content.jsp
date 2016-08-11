@@ -38,8 +38,6 @@
 
             $('.datatable').dataTable();
 			setSidebarHeight();
-
-
         });
     </script>
 </head>

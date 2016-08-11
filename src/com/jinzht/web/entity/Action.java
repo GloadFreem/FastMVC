@@ -1,6 +1,7 @@
 package com.jinzht.web.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OrderBy;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -16,11 +18,21 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.mapping.List;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Action entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "action", catalog = "jinzht2016")
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonIgnoreProperties(value={"actionshares","actioncomments","actionshares","initiateUser"})
+
 public class Action implements java.io.Serializable {
 
 	// Fields
@@ -31,12 +43,16 @@ public class Action implements java.io.Serializable {
 	private String description;
 	private String initiateUser;
 	private Short memberLimit;
-	private Timestamp startTime;
-	private Timestamp endTime;
+	private Date startTime;
+	private Date endTime;
 	private Set<Actionprise> actionprises = new HashSet<Actionprise>(0);
 	private Set<Attention> attentions = new HashSet<Attention>(0);
 	private Set<Actioncomment> actioncomments = new HashSet<Actioncomment>(0);
 	private Set<Actionshare> actionshares = new HashSet<Actionshare>(0);
+	private Set<Actionimages> actionimages = new HashSet<Actionimages>(0);
+	private short type;
+	private boolean flag; //是否参加报名
+	private boolean attended;
 
 	// Constructors
 
@@ -121,24 +137,31 @@ public class Action implements java.io.Serializable {
 	}
 
 	@Column(name = "start_time", length = 0)
-	public Timestamp getStartTime() {
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+
+	public Date getStartTime() {
 		return this.startTime;
 	}
 
-	public void setStartTime(Timestamp startTime) {
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 
 	@Column(name = "end_time", length = 0)
-	public Timestamp getEndTime() {
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+
+	public Date getEndTime() {
 		return this.endTime;
 	}
 
-	public void setEndTime(Timestamp endTime) {
+	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "action")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
+	@OrderBy(value = "priseId desc")
 	public Set<Actionprise> getActionprises() {
 		return this.actionprises;
 	}
@@ -147,7 +170,7 @@ public class Action implements java.io.Serializable {
 		this.actionprises = actionprises;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "action")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
 	public Set<Attention> getAttentions() {
 		return this.attentions;
 	}
@@ -157,6 +180,7 @@ public class Action implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "action")
+	@OrderBy(value="commentId desc")
 	public Set<Actioncomment> getActioncomments() {
 		return this.actioncomments;
 	}
@@ -173,5 +197,44 @@ public class Action implements java.io.Serializable {
 	public void setActionshares(Set<Actionshare> actionshares) {
 		this.actionshares = actionshares;
 	}
+
+	@Column(name = "type", length = 0)
+	public short getType() {
+		return type;
+	}
+
+	public void setType(short type) {
+		this.type = type;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
+	public Set<Actionimages> getActionimages() {
+		return actionimages;
+	}
+
+	public void setActionimages(Set<Actionimages> actionimages) {
+		this.actionimages = actionimages;
+	}
+
+	@Column(name = "flag", length = 1)
+	public boolean getFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
+
+	public boolean isAttended() {
+		
+		return attended;
+	}
+
+	public void setAttended(boolean attended) {
+		this.attended = attended;
+	}
+
+
+
 
 }

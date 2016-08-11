@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -12,11 +14,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Financingexit entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "financingexit", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"project"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Financingexit implements java.io.Serializable {
 
 	// Fields
@@ -24,8 +31,8 @@ public class Financingexit implements java.io.Serializable {
 	private Integer financingExitId;
 	private Project project;
 	private String url;
-	private Integer projectId;
-	private String context;
+	private String content;
+	private String icon;
 
 	// Constructors
 
@@ -33,18 +40,14 @@ public class Financingexit implements java.io.Serializable {
 	public Financingexit() {
 	}
 
-	/** minimal constructor */
-	public Financingexit(Project project) {
-		this.project = project;
-	}
 
 	/** full constructor */
-	public Financingexit(Project project, String url, Integer projectId,
-			String context) {
+	public Financingexit(Project project, String url,
+			String content,String icon) {
 		this.project = project;
 		this.url = url;
-		this.projectId = projectId;
-		this.context = context;
+		this.content = content;
+		this.icon = icon;
 	}
 
 	// Property accessors
@@ -59,8 +62,8 @@ public class Financingexit implements java.io.Serializable {
 		this.financingExitId = financingExitId;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;
 	}
@@ -78,22 +81,21 @@ public class Financingexit implements java.io.Serializable {
 		this.url = url;
 	}
 
-	@Column(name = "project_id")
-	public Integer getProjectId() {
-		return this.projectId;
+	@Column(name = "content")
+	public String getContent() {
+		return this.content;
 	}
 
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
+	public void setContent(String content) {
+		this.content = content;
+	}
+	@Column(name="icon")
+	public String getIcon() {
+		return icon;
 	}
 
-	@Column(name = "context")
-	public String getContext() {
-		return this.context;
-	}
-
-	public void setContext(String context) {
-		this.context = context;
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 }

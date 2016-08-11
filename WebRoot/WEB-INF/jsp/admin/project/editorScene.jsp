@@ -19,7 +19,7 @@
 <script type="text/javascript">
 	jQuery(function($) {
 		$(".upload").dropzone({
-			url : "uploadImage.action"
+			url : "adminUploadImage.action"
 		});
 		$("input:eq(1)").blur(function() {
 			$("input:eq(1)").css("background-color", "#D6D6FF");
@@ -74,7 +74,7 @@
 </head>
 <body>
 	<div class="content">
-		<form action="addscene.action"  method="post">
+		<form action="adminAddscene.action"  method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${scene!=null}">

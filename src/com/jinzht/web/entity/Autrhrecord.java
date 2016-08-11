@@ -14,11 +14,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Autrhrecord entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "autrhrecord", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"authentic"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Autrhrecord implements java.io.Serializable {
 
 	// Fields

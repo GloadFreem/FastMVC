@@ -86,7 +86,7 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="editProject.action?projectId=" target="content"><h2>
+		<a href="adminEditProject.action?projectId=" target="content"><h2>
 			<div><img alt="添加项目" src="images/圆角矩形-3-拷贝-5.png"></div>
 			<div>添加项目</div>
 			</h2></a>
@@ -106,7 +106,7 @@
 					<tbody>
 					<c:forEach items="${items}" var="item" varStatus="vs">
 					<tr class="odd gradeX">
-							<td class="center"><a href="editProject.action?projectId=${item.projectId}" target="content">${item.projectId}</a></td>
+							<td class="center"><a href="adminEditProject.action?projectId=${item.projectId}" target="content">${item.projectId}</a></td>
 							<td class="center">${item.fullName}</td>
 							<td class="center"><a href=${item.startPageImage} target="blank">${item.startPageImage}</a></td>
 							<td class="center">${item.industoryType}</td>

@@ -17,11 +17,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Rewardsystem entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "rewardsystem", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"users","rewardtrades"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Rewardsystem implements java.io.Serializable {
 
 	// Fields

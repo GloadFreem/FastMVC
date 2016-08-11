@@ -14,12 +14,14 @@
 <link rel="stylesheet" type="text/css" href="css/banner.css" />
 <link rel="stylesheet" type="text/css" href="css/user.css" />
 <link rel="stylesheet" type="text/css" href="css/dropzone.css" />
+<link rel="stylesheet" type="text/css"
+	href="css/jquery.datetimepicker.css" />
 <script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
 <script src="js/dropzone.js" type="text/javascript"></script>
 <script type="text/javascript">
 	jQuery(function($) {
 		$(".upload").dropzone({
-			url : "uploadImage.action"
+			url : "adminUploadImage.action?type=project"
 		});
 		$("input:eq(1)").blur(function() {
 			$("input:eq(1)").css("background-color", "#D6D6FF");
@@ -73,8 +75,8 @@
 </script>
 </head>
 <body>
-	<div class="content">
-		<form action="addproject.action"  method="post">
+	<div class="content" style="margin-bottom:200px;">
+		<form action="adminAddProject.action" method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${project!=null}">
@@ -92,11 +94,11 @@
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${project!=null}">
-							<input style="color:black" name="name" type="text"
+							<input style="color:black" name="abbrevName" type="text"
 								value=${project.abbrevName}>
 						</c:when>
 						<c:otherwise>
-							<input name="name" type="text" value="请输入公司简称">
+							<input name="abbrevName" type="text" value="请输入公司简称">
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -107,11 +109,11 @@
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${project!=null}">
-							<input style="color:black" name="name" type="text"
+							<input style="color:black" name="fullName" type="text"
 								value=${project.fullName}>
 						</c:when>
 						<c:otherwise>
-							<input name="name" type="text" value="请输入公司全称">
+							<input name="fullName" type="text" value="请输入公司全称">
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -122,11 +124,11 @@
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${project!=null}">
-							<input style="color:black" name="telephone" type="text"
+							<input style="color:black" name="address" type="text"
 								value=${project.address}>
 						</c:when>
 						<c:otherwise>
-							<input name="telephone" type="text" value="请输入公司地址">
+							<input name="address" type="text" value="请输入公司地址">
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -137,11 +139,11 @@
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${project!=null}">
-							<input style="color:black" name="password" type="text"
+							<input style="color:black" name="industory" type="text"
 								value=${project.industoryType}>
 						</c:when>
 						<c:otherwise>
-							<input name="password" type="text" value="请输入行业类型">
+							<input name="industory" type="text" value="请输入行业类型">
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -151,9 +153,9 @@
 			<div class="name">
 				<div class="name-key">项目介绍</div>
 				<div class="name-value">
-				<c:choose>
+					<c:choose>
 						<c:when test="${project!=null}">
-								<textarea class="textarea" name="introduce">
+							<textarea class="textarea" name="introduce">
 									${project.description}
 								</textarea>
 						</c:when>
@@ -197,12 +199,12 @@
 						<c:when test="${project!=null}">
 							<c:choose>
 								<c:when test="${project!=null  }">
-									<select name="platform" id="platform">
+									<select name="user" id="user">
 										<option value="0">请选择借款人</option>
 									</select>
 								</c:when>
 								<c:otherwise>
-									<select name="platform" id="platform">
+									<select name="user" id="user">
 										<option value="0">请选择借款人</option>
 									</select>
 								</c:otherwise>
@@ -223,13 +225,22 @@
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${project!=null}">
-							<select name="platform" id="platform">
-								<option value="0" selected="selected">请选择融资状态</option>
+							<select name="financestatus" id="financestatus">
+								<c:forEach items="${status}" var="s" varStatus="v">
+									<option value=${s.statusId }
+										<c:choose>
+											<c:when test="${s.statusId==project.financestatus.statusId}">
+												selected='selected'
+											</c:when>
+										</c:choose>>${s.name}</option>
+								</c:forEach>
 							</select>
 						</c:when>
 						<c:otherwise>
-							<select name="platform" id="platform">
-								<option value="0" selected="selected">请选择融资状态</option>
+							<select name="financestatus" id="financestatus">
+								<c:forEach items="${status}" var="s" varStatus="v">
+									<option value=${s.statusId }>${s.name}</option>
+								</c:forEach>
 							</select>
 						</c:otherwise>
 					</c:choose>
@@ -248,32 +259,66 @@
 									<div class="name">
 										<div class="name-key">融资总额</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
-												value="请输入融资总额">
+											<c:choose>
+												<c:when test="${show!=null}">
+													<input style="color:black" name="total" type="text"
+														value="${show.roadshowplan.financeTotal}万">
+												</c:when>
+												<c:otherwise>
+													<input style="color:black" name="total" type="text"
+														value="请输入融资总额">
+												</c:otherwise>
+											</c:choose>
+
 										</div>
 									</div>
 									<!--  已融金额 -->
 									<div class="name">
 										<div class="name-key">已融金额</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
-												value="请输入已融金额">
+											<c:choose>
+												<c:when test="${show!=null}">
+													<input style="color:black" name="financed" type="text"
+														value="${show.roadshowplan.financedMount}万">
+												</c:when>
+												<c:otherwise>
+													<input style="color:black" name="financed" type="text"
+														value="请输入已融金额">
+												</c:otherwise>
+											</c:choose>
+
 										</div>
 									</div>
 									<!--  最低融资金额 -->
 									<div class="name">
 										<div class="name-key">最低融资额度</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
-												value="请输入最低融资额度">
+											<c:choose>
+												<c:when test="${show!=null}">
+													<input style="color:black" name="limit" type="text"
+														value="${show.roadshowplan.limitAmount}万">
+												</c:when>
+												<c:otherwise>
+													<input style="color:black" name="limit" type="text"
+														value="请输入最低融资额度">
+												</c:otherwise>
+											</c:choose>
 										</div>
 									</div>
 									<!--  分成比例 -->
 									<div class="name">
 										<div class="name-key">分成比例</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
-												value="请输入分成比例">
+											<c:choose>
+												<c:when test="${show!=null}">
+													<input style="color:black" name="profit" type="text"
+														value="${show.roadshowplan.profit}">
+												</c:when>
+												<c:otherwise>
+													<input style="color:black" name="profit" type="text"
+														value="请输入分成比例">
+												</c:otherwise>
+											</c:choose>
 										</div>
 									</div>
 
@@ -282,16 +327,33 @@
 									<div class="name">
 										<div class="name-key">开始时间</div>
 										<div class="name-value">
-											<input style="color:black" name="identityCardNo" type="text"
-												value="请输入开始时间">
+
+											<c:choose>
+												<c:when test="${show!=null}">
+													<input style="color:black" id="beginTime" name="beginTime"
+														type="text" value="${show.roadshowplan.beginDate}">
+												</c:when>
+												<c:otherwise>
+													<input style="color:black" id="beginTime" name="beginTime"
+														type="text" value="请输入开始时间">
+												</c:otherwise>
+											</c:choose>
 										</div>
 									</div>
 									<!--  结束时间 -->
 									<div class="name">
 										<div class="name-key">结束时间</div>
 										<div class="name-value">
-											<input style="color:black" name="identityCardNo" type="text"
-												value="请输入结束时间">
+											<c:choose>
+												<c:when test="${show!=null}">
+													<input style="color:black" id="endTime" name="endTime"
+														type="text" value="${show.roadshowplan.endDate}">
+												</c:when>
+												<c:otherwise>
+													<input style="color:black" id="endTime" name="endTime"
+														type="text" value="请输入结束时间">
+												</c:otherwise>
+											</c:choose>
 										</div>
 									</div>
 								</div>
@@ -303,7 +365,7 @@
 									<div class="name">
 										<div class="name-key">融资总额</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
+											<input style="color:black" name="total" type="text"
 												value="请输入融资总额">
 										</div>
 									</div>
@@ -311,7 +373,7 @@
 									<div class="name">
 										<div class="name-key">已融金额</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
+											<input style="color:black" name="financed" type="text"
 												value="请输入已融金额">
 										</div>
 									</div>
@@ -319,7 +381,7 @@
 									<div class="name">
 										<div class="name-key">最低融资额度</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
+											<input style="color:black" name="limit" type="text"
 												value="请输入最低融资额度">
 										</div>
 									</div>
@@ -327,7 +389,7 @@
 									<div class="name">
 										<div class="name-key">分成比例</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
+											<input style="color:black" name="profit" type="text"
 												value="请输入分成比例">
 										</div>
 									</div>
@@ -337,16 +399,16 @@
 									<div class="name">
 										<div class="name-key">开始时间</div>
 										<div class="name-value">
-											<input style="color:black" name="identityCardNo" type="text"
-												value="请输入开始时间">
+											<input style="color:black" id="beginTime" name="beginTime"
+												type="text" value="请输入开始时间">
 										</div>
 									</div>
 									<!--  结束时间 -->
 									<div class="name">
 										<div class="name-key">结束时间</div>
 										<div class="name-value">
-											<input style="color:black" name="identityCardNo" type="text"
-												value="请输入结束时间">
+											<input style="color:black" id="endTime" name="endTime"
+												type="text" value="请输入结束时间">
 										</div>
 									</div>
 								</div>
@@ -369,4 +431,22 @@
 	</form>
 	</div>
 </body>
+<script src="js/jquery.js"></script>
+<script src="js/jquery.datetimepicker.full.js"></script>
+<script>
+	$.datetimepicker.setLocale('ch');
+
+	$('#beginTime').datetimepicker({
+		lang : 'ch',
+		format : 'Y-m-d h:m:s',
+		formatDate : 'Y-m-d h:m:s',
+		todayButton : true
+	});
+	$('#endTime').datetimepicker({
+		lang : 'ch',
+		format : 'Y-m-d h:m:s',
+		formatDate : 'Y-m-d h:m:s',
+		todayButton : true
+	});
+</script>
 </html>

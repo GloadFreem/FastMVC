@@ -19,6 +19,7 @@ import org.hibernate.type.IdentifierType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -26,17 +27,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jinzht.tools.Config;
+import com.jinzht.tools.FileUtil;
+import com.jinzht.tools.MailUtil;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Authentic;
+import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.MessageBean;
+import com.jinzht.web.entity.Rewardsystem;
+import com.jinzht.web.entity.Rewardtrade;
+import com.jinzht.web.entity.Rewardtradetype;
+import com.jinzht.web.entity.Systemcode;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
+import com.jinzht.web.manager.AuthenticManager;
+import com.jinzht.web.manager.InvestorManager;
+import com.jinzht.web.manager.RewardManager;
 import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.test.User;
 
@@ -45,44 +58,12 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private UserManager userManger;
-
-	@RequestMapping(value = "createUser")
-	public String createUser(@ModelAttribute("user") Users user) {
-		String path = System.getProperty("jinzht.root");
-		System.out.println(path);
-		List<Users> users = userManger.findAllUsers();
-		for (int i = 0; i < users.size(); i++) {
-			Users u = users.get(i);
-			System.out.println(u.getTelephone());
-		}
-		return "index";
-	}
-
-	@RequestMapping("/valid")
-	public String handleValid1(@Valid @ModelAttribute("user") User user,
-			BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			System.out.println("失败!" + bindingResult.getErrorCount()
-					+ bindingResult.getFieldError().getDefaultMessage());
-		} else {
-			System.out.println("成功!");
-		}
-		return "index";
-	}
-
-	@RequestMapping("/jsonResult")
-	@ResponseBody
-	public Map jsonResult(ModelMap mm) {
-		this.result = new HashMap();
-		Users userItem = new Users();
-		userItem.setTelephone("198545545");
-		userItem.setPassword("jhsdhfjgh");
-
-		this.status = 200;
-		this.result.put("data", userItem);
-		this.message = Config.STRING_LOGING_SUCCESS;
-		return getResult();
-	}
+	@Autowired
+	private AuthenticManager authenticManager;
+	@Autowired
+	private InvestorManager investorManager;
+	@Autowired
+	private RewardManager rewardManger;
 
 	@RequestMapping("/verifyCode")
 	@ResponseBody
@@ -95,26 +76,94 @@ public class UserController extends BaseController {
 	 */
 	public Map verifyCode(
 			@Valid @ModelAttribute("messagebean") MessageBean message,
-			BindingResult bindingResult, HttpSession session) {
+			BindingResult bindingResult, Model model, HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
+		this.message = "";
 		if (bindingResult.hasErrors()) {
 			this.status = 400;
 			this.message = bindingResult.getFieldError().getDefaultMessage();
 		} else {
-
-			// 仅在调试阶段使用
-			if (session.getAttribute("code") != null) {
-				System.out.println("发送的验证码为:" + session.getAttribute("code"));
-			}
-			// 仅在调试阶段使用
-
 			String content = Config.STRING_SMS_REGISTE;
 			MsgUtil SMS = new MsgUtil(message.getTelephone(), content,
 					MessageType.VerifyCode);
-			if (MsgUtil.send(session)) {
+
+			// 获取用户输入手机号码是否已经存在
+			Users user = this.userManger.findUserByTelephone(message
+					.getTelephone());
+			// 根据不同状态
+			// message.type 0:表示用户注册时发送验证码
+			if (message.getType() == 0) {
+				// 注册时，判用户是否已注册，已注册用户无需发送此验证码
+				if (message.getTelephone() != null
+						&& !message.getTelephone().equals("")) {
+					if (user != null) {
+						// 已注册用户无需发送，直接返回结果
+						this.status = 400;
+						this.result.put("data", "");
+						this.message = Config.SMS_USERS_HAVE_REGISTED;
+
+						// 返回结果
+						return getResult();
+					}
+				}
+			} else if (message.getType() == 1) {
+				// message.type 1:表示用户忘记密码时发送验证码
+				// 如果用户输入手机号码未注册时，提示用户注册
+				if (user == null) {
+					this.status = 400;
+					this.result.put("data", "");
+					this.message = Config.SMS_USERS_NOT_REGISTED;
+					// 返回结果
+					return getResult();
+				}
+			} else if (message.getType() == 2) {
+				// message.type 2:表示用户认证时发送验证码
+				if (user != null) {
+					this.status = 400;
+					this.message = Config.SMS_USERS_HAVE_BIND;
+
+					Map map = new HashMap(0);
+					map.put("isRelogin", true);
+					this.result.put("data", map);
+					return getResult();
+				}
+			} else {
+				// message.type 3:表示用户更换绑定手机号码
+				// 判断用户是否输入重复手机号码
+				if (user != null) {
+					Users u = this.findUserInSession(session);
+					if (message.getTelephone().equals(u.getTelephone())) {
+						this.status = 400;
+						this.message = Config.STRING_LOGING_TEL_NOT_REPEAT;
+						return getResult();
+					}
+
+					u = this.userManger.findUserByTelephone(message
+							.getTelephone());
+					if (u != null) {
+						this.status = 400;
+						this.message = Config.SMS_USERS_HAVE_BIND;
+
+						return getResult();
+					}
+
+					this.message = "";
+
+				}
+			}
+
+			// 发送验证码
+			Integer code = MsgUtil.send();
+
+			if (code != 0) {
 				this.status = 200;
-				this.message = Config.SMS_HAVE_SEND_STRING;
+				if (this.message.equals("")) {
+					this.message = Config.SMS_HAVE_SEND_STRING;
+				}
+
+				session.setAttribute("code", code);
+				System.out.println(session.getAttribute("code"));
 			} else {
 				this.status = 400;
 				this.message = Config.SMS_FAIL_SEND_STRING;
@@ -126,16 +175,19 @@ public class UserController extends BaseController {
 	@RequestMapping("/registUser")
 	@ResponseBody
 	/***
-	 * 发送验证码
-	 * @param message MessageBean数据校验bean
-	 * @param bindingResult 校验绑定结果
-	 * @param session HttpSession
-	 * @return
+	 * 用户注册
+	 * @param verifyCode 手机短信验证码
+	 * @param userInstance 用户实例
+	 * @param bindingResult 校验结果
+	 * @param session 会话
+	 * @return 返回json格式数据
 	 */
 	public Map registUser(
 			@RequestParam(value = "verifyCode", required = false) String verifyCode,
+			@RequestParam(value = "inviteCode", required = false) String inviteCode,
 			@Valid @ModelAttribute("user") Users userInstance,
 			BindingResult bindingResult, HttpSession session) {
+		// 初始化返回结果
 		this.result = new HashMap();
 		this.result.put("data", "");
 		if (bindingResult.hasErrors()) {
@@ -153,21 +205,43 @@ public class UserController extends BaseController {
 					this.status = 400;
 					this.message = Config.STRING_LOGING_CODE_ERROR;
 				} else {
-					// 仅在调试阶段使用
+					// 获取当前操作用户对象
 					Users user = this.findUserInSession(session);
-					// 如果session
+					// 如果用户已被持久化
 					if (user == null) {
+						// 根据手机号码获取用户
 						user = this.userManger.findUserByTelephone(userInstance
 								.getTelephone());
 					}
-
+					// 如果未找到用户记录，生成用户数据
 					if (user == null) {
-
 						user = userInstance;
+						// 添加至事务操作
 						user = this.userManger.addUser(user);
-
+						// 判断用户是否保存成功
 						if (user != null) {
+							// 发送用户注册成功短信
+							MsgUtil SMS = new MsgUtil();
+							SMS.setTelePhone(user.getTelephone());
+							SMS.setMsgType(MessageType.NormalMessage);
+							// 短信内容：感谢你注册金指投--专注中国成长型企业股权投融资
+							SMS.setContent(Config.STRING_SMS_REGISTE);
+							// 发送短信
+							MsgUtil.send();
+							
+							//发送注册成功邮件
+							MailUtil mu = new MailUtil();
+							try {
+								mu.sendUserRegist(mu,user.getTelephone());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							userRewardInvite(user,inviteCode,session);
+
+							// 封装返回数据对象
 							Map map = new HashMap();
+							// 返回用户注册Id，
 							map.put("userId", user.getUserId());
 
 							// 返回数据
@@ -184,6 +258,90 @@ public class UserController extends BaseController {
 						session.setAttribute("userId", user.getUserId());
 						this.status = 400;
 						this.message = Config.STRING_LOGING_FAIL_HAS_REGISTED;
+					}
+				}
+			} else {
+				this.status = 400;
+				this.message = Config.STRING_LOGING_CODE_NOT_GET;
+			}
+		}
+		return getResult();
+	}
+
+	@RequestMapping("/completeUserInfo")
+	@ResponseBody
+	/***
+	 * 微信登录用户认证信息完善校验
+	 * @param verifyCode 手机短信验证码
+	 * @param userInstance 用户实例
+	 * @param bindingResult 校验结果
+	 * @param session 会话
+	 * @return 返回json格式数据
+	 */
+	public Map completeUserInfo(
+			@RequestParam(value = "verifyCode", required = false) String verifyCode,
+			@Valid @ModelAttribute("user") Users userInstance,
+			BindingResult bindingResult, HttpSession session) {
+		// 初始化返回结果
+		this.result = new HashMap();
+		this.result.put("data", "");
+		if (bindingResult.hasErrors()) {
+			this.status = 400;
+			this.message = bindingResult.getFieldError().getDefaultMessage();
+		} else {
+			// 获取验证码
+			String code = "";
+			if (session.getAttribute("code") != null) {
+				code = session.getAttribute("code").toString();
+			}
+
+			if (!code.equals("")) {
+				if (!verifyCode.equals(code)) {
+					this.status = 400;
+					this.message = Config.STRING_LOGING_CODE_ERROR;
+				} else {
+					// 获取当前操作用户对象
+					Users user = this.findUserInSession(session);
+					// 如果用户已被持久化
+					if (user == null) {
+						// 根据手机号码获取用户
+						user = this.userManger.findUserByTelephone(userInstance
+								.getTelephone());
+					}
+					// 如果未找到用户记录，生成用户数据
+					if (user != null) {
+						// // 发送用户注册成功短信
+						// MsgUtil SMS = new MsgUtil();
+						// SMS.setTelePhone(user.getTelephone());
+						// SMS.setMsgType(MessageType.NormalMessage);
+						// // 短信内容：感谢你注册金指投--专注中国成长型企业股权投融资
+						// SMS.setContent(Config.STRING_SMS_REGISTE);
+						// // 发送短信
+						// MsgUtil.send();
+
+						user.setPassword(userInstance.getPassword());
+						user.setTelephone(userInstance.getTelephone());
+						user.setPlatform(userInstance.getPlatform());
+
+						// 保存信息
+						this.userManger.saveOrUpdateUser(user);
+
+						// 封装返回数据对象
+						Map map = new HashMap();
+						// 返回用户注册Id，
+						map.put("userId", user.getUserId());
+						map.put("telephone", user.getTelephone());
+						map.put("platform", user.getPlatform());
+
+						// 返回数据
+						this.status = 200;
+						this.result.put("data", map);
+						this.message = Config.STRING_WECHAT_COMPLETE_SUCCESS;
+
+						session.setAttribute("userId", user.getUserId());
+					} else {
+						this.status = 400;
+						this.message = Config.STRING_LOGING_TIP;
 					}
 				}
 			} else {
@@ -211,13 +369,8 @@ public class UserController extends BaseController {
 			this.status = 400;
 			this.message = bindingResult.getFieldError().getDefaultMessage();
 		} else {
-			Users user = this.findUserInSession(session);
-
-			if (user == null) {
-				user = this.userManger.findUserByTelephone(userInstance
-						.getTelephone());
-			}
-
+			Users user = this.userManger.findUserByTelephone(userInstance
+					.getTelephone());
 			if (user == null) {
 				this.status = 400;
 				this.message = Config.STRING_LOGING_FAIL_NO_USER;
@@ -249,11 +402,17 @@ public class UserController extends BaseController {
 					record.setPlatform(user.getPlatform());
 					record.setLoginFailDate(new Date());
 				}
+
 				// 开始校验密码
 				if (user.getPassword().equals(userInstance.getPassword())) {
 					// 更新用户登录信息
+					user.setRegId(userInstance.getRegId());
 					user.setPlatform(userInstance.getPlatform());
 					user.setLastLoginDate(new Date());
+
+					if (!userInstance.getRegId().equals("")) {
+						user.setRegId(userInstance.getRegId());
+					}
 
 					// 保存更新
 					this.userManger.saveOrUpdateUser(user);
@@ -261,12 +420,32 @@ public class UserController extends BaseController {
 					// 返回结果
 					Map map = new HashMap();
 					map.put("userId", user.getUserId());
+					if (user.getExtUserId() != null) {
+						map.put("extUserId", user.getExtUserId());
+					} else {
+						map.put("extUserId", "");
+					}
+
+					Authentic authentic = this.authenticManager
+							.findAuthenticByUserId(user.getUserId());
+					if (authentic != null) {
+						map.put("identityType", authentic.getIdentiytype());
+					} else {
+						Identiytype type = new Identiytype();
+						short index = -1;
+						type.setIdentiyTypeId(index);
+						type.setName("无身份");
+						map.put("identityType", type);
+					}
 
 					this.status = 200;
 					this.result.put("data", map);
 					this.message = Config.STRING_LOGING_SUCCESS;
 
 					session.setAttribute("userId", user.getUserId());
+
+					// 金条奖励
+					checkUserLoginRecord(user, session);
 				} else {
 					// 更新登录失败信息
 					record = this.userManger.addOrUpdateLoginFailRecord(record,
@@ -286,9 +465,10 @@ public class UserController extends BaseController {
 	@ResponseBody
 	/***
 	 * 忘记密码
-	 * @param userInstance
-	 * @param bindingResult
-	 * @param session
+	 * @param verifyCode 手机短信验证码
+	 * @param userInstance 用户实例
+	 * @param bindingResult 校验结果
+	 * @param session 会话
 	 * @return
 	 */
 	public Map resetPassWordUser(
@@ -305,7 +485,6 @@ public class UserController extends BaseController {
 			if (verifyCode == null || verifyCode.equals("")) {
 				this.status = 400;
 				this.message = Config.STRING_LOGING_CODE_NOT_NULL;
-
 				return getResult();
 			}
 
@@ -313,7 +492,9 @@ public class UserController extends BaseController {
 			String code = "";
 			if (session.getAttribute("code") != null) {
 				code = session.getAttribute("code").toString();
+				System.out.println("获取到验证码:" + session.getAttribute("code"));
 			}
+
 			if (!code.equals("")) {
 				if (!verifyCode.equals(code)) {
 					this.status = 400;
@@ -324,13 +505,12 @@ public class UserController extends BaseController {
 			} else {
 				this.status = 400;
 				this.message = Config.STRING_LOGING_CODE_NOT_GET;
-
+				// 返回结果
 				return getResult();
 			}
 
 			// 获取用户
 			Users user = this.findUserInSession(session);
-
 			if (user == null) {
 				user = this.userManger.findUserByTelephone(userInstance
 						.getTelephone());
@@ -343,9 +523,33 @@ public class UserController extends BaseController {
 				// 开始更新密码
 				user.setPassword(userInstance.getPassword());
 				user.setPlatform(user.getPlatform());
-
+				// 更新用户信息
 				this.userManger.saveOrUpdateUser(user);
+				// 返回数据封装
+				// 封装返回数据
+				Map map = new HashMap();
+				map.put("userId", user.getUserId());
+				if (user.getExtUserId() != null) {
+					map.put("extUserId", user.getExtUserId());
+				} else {
+					map.put("extUserId", "");
+				}
 
+				Authentic authentic = this.authenticManager
+						.findAuthenticByUserId(user.getUserId());
+				if (authentic != null) {
+					map.put("identityType", authentic.getIdentiytype());
+				} else {
+					Identiytype type = new Identiytype();
+					short index = -1;
+					type.setIdentiyTypeId(index);
+					type.setName("无身份");
+					map.put("identityType", type);
+				}
+
+				this.result.put("data", map);
+				// 将用户id加入到session
+				session.setAttribute("userId", user.getUserId());
 				this.status = 200;
 				this.message = Config.STRING_PASSWORD_RESET_SUCCESS;
 			}
@@ -356,15 +560,16 @@ public class UserController extends BaseController {
 	@RequestMapping("/wechatLoginUser")
 	@ResponseBody
 	/***
-	 * 忘记密码
-	 * @param userInstance
-	 * @param bindingResult
-	 * @param session
+	 * 微信登录
+	 * @param wechatID 微信识别码
+	 * @param platform 设备类型
+	 * @param session 会话
 	 * @return
 	 */
 	public Map wechatLoginUser(
 			@RequestParam(value = "wechatID") String wechatID,
 			@RequestParam(value = "platform") short platform,
+			@RequestParam(value = "regId", required = false) String regId,
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
@@ -382,6 +587,7 @@ public class UserController extends BaseController {
 			// 更新用户登录信息
 			user.setPlatform(platform);
 			user.setWechatId(wechatID);
+			user.setRegId(regId);
 			user.setLastLoginDate(new Date());
 
 			// 更新用户登录信息
@@ -390,6 +596,23 @@ public class UserController extends BaseController {
 			// 封装返回数据
 			Map map = new HashMap();
 			map.put("userId", user.getUserId());
+			if (user.getExtUserId() != null) {
+				map.put("extUserId", user.getExtUserId());
+			} else {
+				map.put("extUserId", "");
+			}
+
+			Authentic authentic = this.authenticManager
+					.findAuthenticByUserId(user.getUserId());
+			if (authentic != null) {
+				map.put("identityType", authentic.getIdentiytype());
+			} else {
+				Identiytype type = new Identiytype();
+				short index = -1;
+				type.setIdentiyTypeId(index);
+				type.setName("无身份");
+				map.put("identityType", type);
+			}
 
 			this.status = 200;
 			session.setAttribute("userId", user.getUserId());
@@ -398,8 +621,7 @@ public class UserController extends BaseController {
 		} else {
 			// 新用户
 			user = new Users();
-			user.setTelephone("18729342354");
-			user.setPassword("18729342354");
+			user.setRegId(regId);
 			user.setWechatId(wechatID);
 			user.setPlatform(platform);
 			user.setLastLoginDate(new Date());
@@ -409,6 +631,17 @@ public class UserController extends BaseController {
 				// 封装返回数值
 				Map map = new HashMap();
 				map.put("userId", user.getUserId());
+				if (user.getExtUserId() != null) {
+					map.put("extUserId", user.getExtUserId());
+				} else {
+					map.put("extUserId", "");
+				}
+
+				Identiytype type = new Identiytype();
+				short index = -1;
+				type.setIdentiyTypeId(index);
+				type.setName("无身份");
+				map.put("identityType", type);
 
 				this.result.put("data", map);
 				session.setAttribute("userId", user.getUserId());
@@ -420,12 +653,19 @@ public class UserController extends BaseController {
 				this.message = Config.STRING_LOGING_WECHAT_FAIL;
 			}
 		}
-
+		
+		// 金条奖励
+		checkUserLoginRecord(user, session);
 		return getResult();
 	}
 
 	@RequestMapping("/noLogoInfo")
 	@ResponseBody
+	/***
+	 * 用户未登录
+	 * @param mm
+	 * @return
+	 */
 	public Map noLogoInfo(ModelMap mm) {
 		this.result = new HashMap();
 		this.status = 401;
@@ -433,16 +673,619 @@ public class UserController extends BaseController {
 		this.result.put("data", "");
 		return getResult();
 	}
+
 	@RequestMapping("/signupUser")
 	@ResponseBody
-	public Map signupUser(ModelMap mm,HttpSession session) {
+	/***
+	 * 用户注销登录
+	 * @param mm
+	 * @param session
+	 * @return
+	 */
+	public Map signupUser(ModelMap mm, HttpSession session) {
 		this.result = new HashMap();
 		this.status = 200;
 		session.setAttribute("userId", null);
-		
+
 		this.message = Config.STRING_LOGING_OUT;
 		this.result.put("data", "");
 		return getResult();
+	}
+
+	@RequestMapping("/isLoginUser")
+	@ResponseBody
+	/***
+	 * 检查用户是否已登录
+	 * @param mm
+	 * @param session
+	 * @return
+	 */
+	public Map isLoginUser(ModelMap mm, HttpSession session) {
+		this.result = new HashMap();
+
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+
+		// 检测用户是否已登录
+		System.out.println("获取到Session :UserId："
+				+ session.getAttribute("userId"));
+		if (session.getAttribute("userId") == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+			Users user = this.findUserInSession(session);
+			Authentic authentic = this.authenticManager
+					.findAuthenticByUserId(user.getUserId());
+			Map map = new HashMap();
+			if (authentic != null) {
+				map.put("identityType", authentic.getIdentiytype());
+			} else {
+				Identiytype type = new Identiytype();
+				short index = -1;
+				type.setIdentiyTypeId(index);
+				type.setName("无身份");
+				map.put("identityType", type);
+			}
+
+			this.result.put("data", map);
+		}
+
+		return getResult();
+	}
+
+	@RequestMapping("/requestChangeHeaderPicture")
+	@ResponseBody
+	/***
+	 * 更新用户头像
+	 * @param file 图片文件
+	 * @param session
+	 * @return
+	 */
+	public Map requestChangeHeaderPicture(
+			@RequestParam(value = "file", required = false) MultipartFile file,
+			HttpSession session) {
+		this.result = new HashMap();
+
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+
+		// 获取用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+			// 保存图片
+			String fileName = String.format(
+					Config.STRING_USER_HEADER_PICTURE_FORMAT, user.getUserId());
+			String result = FileUtil.savePicture(file, fileName,
+					"upload/headerImages/");
+			if (!result.equals("")) {
+				fileName = Config.STRING_SYSTEM_ADDRESS
+						+ "upload/headerImages/" + result;
+				user.setHeadSculpture(fileName);
+
+				// 更新信息
+				this.userManger.saveOrUpdateUser(user);
+				// 返回信息
+				this.status = 200;
+				this.message = Config.STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS;
+			} else {
+				this.status = 200;
+				this.message = Config.STRING_USER_HEADER_PICTURE_UPDATE_FAIL;
+			}
+
+		}
+
+		return getResult();
+	}
+
+	@RequestMapping("/requestModifyCompany")
+	@ResponseBody
+	/***
+	 * 更新公司名称
+	 * @param name 公司名称
+	 * @param session
+	 * @return
+	 */
+	public Map requestModifyCompany(
+			@RequestParam(value = "name", required = false) String name,
+			HttpSession session) {
+		this.result = new HashMap();
+
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+
+		// 获取用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+
+			// 更新信息
+			Object[] authentics = user.getAuthentics().toArray();
+
+			Authentic authentic = null;
+			for (int i = 0; i < authentics.length; i++) {
+				authentic = (Authentic) authentics[i];
+				authentic.setCompanyName(name);
+			}
+			this.userManger.saveOrUpdateUser(user);
+			// 返回信息
+			this.status = 200;
+			this.message = Config.STRING_USER_COMPNY_UPDATE_SUCCESS;
+		}
+
+		return getResult();
+	}
+
+	@RequestMapping("/requestModifyPosition")
+	@ResponseBody
+	/***
+	 * 更新职位
+	 * @param position 职位
+	 * @param session
+	 * @return
+	 */
+	public Map requestModifyPosition(
+			@RequestParam(value = "position", required = false) String position,
+			HttpSession session) {
+		this.result = new HashMap();
+
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+
+		// 获取用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+
+			// 更新信息
+			Object[] authentics = user.getAuthentics().toArray();
+
+			Authentic authentic = null;
+			for (int i = 0; i < authentics.length; i++) {
+				authentic = (Authentic) authentics[i];
+				authentic.setPosition(position);
+			}
+			this.userManger.saveOrUpdateUser(user);
+			// 返回信息
+			this.status = 200;
+			this.message = Config.STRING_USER_POSITION_UPDATE_SUCCESS;
+		}
+
+		return getResult();
+	}
+
+	@RequestMapping("/requestModifyCity")
+	@ResponseBody
+	/***
+	 * 更新地址
+	 * @param cityId 城市id
+	 * @param session
+	 * @return
+	 */
+	public Map requestModifyCity(
+			@RequestParam(value = "cityId", required = false) Integer cityId,
+			HttpSession session) {
+		this.result = new HashMap();
+
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+
+		// 获取用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+
+			// 更新信息
+			Object[] authentics = user.getAuthentics().toArray();
+
+			Authentic authentic = null;
+			City city = this.authenticManager.findCityByCityId(cityId);
+			for (int i = 0; i < authentics.length; i++) {
+				authentic = (Authentic) authentics[i];
+				authentic.setCity(city);
+			}
+			this.userManger.saveOrUpdateUser(user);
+			// 返回信息
+			this.status = 200;
+			this.message = Config.STRING_USER_ADDRESS_UPDATE_SUCCESS;
+		}
+
+		return getResult();
+	}
+
+	@RequestMapping("/requestModifyPassword")
+	@ResponseBody
+	/***
+	 * 更新密码
+	 * @param passwordOld 旧密码
+	 * @param passwordNew 新密码
+	 * @param session
+	 * @return
+	 */
+	public Map requestModifyPassword(
+			@RequestParam(value = "passwordOld", required = false) String passwordOld,
+			@RequestParam(value = "passwordNew", required = false) String passwordNew,
+			HttpSession session) {
+		this.result = new HashMap();
+
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+
+		// 获取用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+
+			// 旧密码比对
+			if (user.getPassword().equals(passwordOld)) {
+				// 更新信息
+				user.setPassword(passwordNew);
+				this.userManger.saveOrUpdateUser(user);
+
+				// 返回信息
+				this.status = 200;
+				this.message = Config.STRING_USER_PASSWORD_UPDATE_SUCCESS;
+			} else {
+				this.status = 400;
+				this.message = Config.STRING_USER_PASSWORD_COMPARE_FAIL;
+			}
+		}
+
+		return getResult();
+	}
+
+	@RequestMapping("/requestChangeBindTelephone")
+	@ResponseBody
+	/***
+	 * 重新绑定手机号码
+	 * @param telephone 手机号码
+	 * @param code 短信验证码
+	 * @param session
+	 * @return
+	 */
+	public Map requestChangeBindTelephone(
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "telephone", required = false) String telephone,
+			@RequestParam(value = "identityCardNo", required = false) String identityCardNo,
+			@RequestParam(value = "code", required = false) int code,
+			HttpSession session) {
+		this.result = new HashMap();
+
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+
+		// 检验验证码
+		if (session.getAttribute("code") != null) {
+			// 比对验证码
+			int codeSession = (int) session.getAttribute("code");
+			if (codeSession == code) {
+				// 获取用户
+				Users user = this.findUserInSession(session);
+
+				if (user == null) {
+					this.status = 400;
+					this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+				} else {
+					if (telephone != null) {
+						Users u = this.userManger
+								.findUserByTelephone(telephone);
+						if (u == null) {
+							// 设置手机号码
+							user.setTelephone(telephone);
+							// 重置密码
+							user.setPassword(password);
+							// 如果身份证不为空
+							Object[] objs = user.getAuthentics().toArray();
+							if (objs != null && objs.length > 0) {
+								for (Object obj : objs) {
+									Authentic authentic = (Authentic) obj;
+									authentic.setIdentiyCarNo(identityCardNo);
+								}
+							}
+							// 保存信息
+							this.userManger.saveOrUpdateUser(user);
+
+							// 返回信息
+							this.status = 200;
+							this.message = Config.STRING_USER_TELEPHONE_UPDATE_SUCCESS;
+						} else {
+							// 返回信息
+							this.status = 400;
+							this.message = Config.STRING_USER_TELEPHONE_EQUAL_FAIL;
+						}
+
+					} else {
+						// 返回信息
+						this.status = 400;
+						this.message = Config.STRING_LOGING_TEL_NOT_NULL;
+					}
+
+				}
+			} else {
+				this.status = 400;
+				this.message = Config.STRING_LOGING_CODE_ERROR;
+			}
+		} else {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_CODE_NOT_GET;
+		}
+
+		return getResult();
+	}
+
+	@RequestMapping("/requestMineCollection")
+	@ResponseBody
+	/***
+	 * 获取用户关注
+	 * @param page 当前页
+	 * @param type 类型,0:项目，1：投资人
+	 * @param session
+	 * @return
+	 */
+	public Map requestMineCollection(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "type", required = false) short type,
+			HttpSession session) {
+		this.result = new HashMap();
+
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+
+		// 获取用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+			// 获取列表
+			List list = null;
+			if (type == 0) {
+				list = this.userManger.findUserCollectionProjects(user, page);
+			} else {
+				list = this.investorManager.findUserCollectInvestor(user, page);
+			}
+
+			if (list != null && list.size() > 0) {
+				// 返回信息
+				this.status = 200;
+				this.result.put("data", list);
+			} else {
+				this.status = 200;
+				this.result.put("data", new ArrayList());
+			}
+
+			this.message = "";
+		}
+
+		return getResult();
+	}
+
+	@RequestMapping("/requestMineAction")
+	@ResponseBody
+	/***
+	 * 获取用户参加活动
+	 * @param page 当前页
+	 * @param session
+	 * @return
+	 */
+	public Map requestMineAction(
+			@RequestParam(value = "page", required = false) Integer page,
+			HttpSession session) {
+		this.result = new HashMap();
+
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+
+		// 获取用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+			// 获取列表
+			List list = null;
+			list = this.userManger.findUserAttendActions(user, page);
+
+			if (list != null) {
+				// 返回信息
+				this.status = 200;
+				this.result.put("data", list);
+			} else {
+				// 返回信息
+				this.status = 201;
+				this.result.put("data", new ArrayList());
+			}
+
+			this.message = "";
+		}
+
+		return getResult();
+	}
+
+	@RequestMapping("/requestGoldTradeList")
+	@ResponseBody
+	/***
+	 * 金条交易记录
+	 * @param page 当前页
+	 * @param session
+	 * @return
+	 */
+	public Map requestGoldTradeList(
+			@RequestParam(value = "page", required = false) Integer page,
+			HttpSession session) {
+		this.result = new HashMap();
+
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+
+		// 获取用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+			// 获取列表
+			List list = this.userManger.findRewardSystemByUser(user);
+			if (list != null && list.size() > 0) {
+				Rewardsystem system = (Rewardsystem) list.get(0);
+				//
+				// Integer userId =
+				// this.userManger.findUserIdByRewardSystem(system);
+				List result = this.userManger.findGoldTradList(system, page);
+
+				if (result != null) {
+					// 返回信息
+					this.status = 200;
+					this.result.put("data", result);
+				} else {
+					// 返回信息
+					this.status = 200;
+					this.result.put("data", new ArrayList());
+				}
+			}
+
+			this.message = "";
+		}
+
+		return getResult();
+	}
+
+	private Map checkUserLoginRecord(Users user, HttpSession session) {
+		Map map = new HashMap();
+
+		// 获取列表
+		List list = this.userManger.findRewardSystemByUser(user);
+		if (list != null && list.size() > 0) {
+			Rewardsystem system = (Rewardsystem) list.get(0);
+			//
+			Rewardtradetype type = new Rewardtradetype();
+			type.setRewardTypeId(1);
+
+			Map req = new HashMap();
+			req.put("rewardsystem", system);
+			req.put("rewardtradetype", type);
+			boolean result = this.userManger.findTodayLoginReward(system
+					.getRewardId());
+
+			if (!result) {
+				// 第一次登录
+				Rewardtrade trade = new Rewardtrade();
+				trade.setTradeDate(new Date());
+				trade.setReaded(false);
+				trade.setDesc("登录奖励");
+				trade.setCount(6);
+				trade.setRewardsystem(system);
+				trade.setRewardtradetype(type);
+
+				this.userManger.getRewardTradeDao().save(trade);
+
+				system.setCount(system.getCount() + trade.getCount());
+				this.userManger.getRewardSystemDao().saveOrUpdate(system);
+			}
+
+		}
+
+		return map;
+	}
+
+	private Map userRewardInvite(Users user, String inviteCode,
+			HttpSession session) {
+		Map map = new HashMap();
+		if(inviteCode!=null && !inviteCode.equals(""))
+		{
+			// 根据邀请码获取用户
+			List l = this.userManger.getSystemCodeDao().findByCode(inviteCode);
+			if (l != null && l.size() > 0) {
+				Systemcode systemCode = (Systemcode) l.get(0);
+				if (systemCode != null) {
+					Users u = systemCode.getUsers();
+					// 获取列表
+					List list = this.userManger.findRewardSystemByUser(u);
+					if (list != null && list.size() > 0) {
+						Rewardsystem system = (Rewardsystem) list.get(0);
+						//
+						Rewardtradetype type = new Rewardtradetype();
+						type.setRewardTypeId(4);
+
+						// 第一次登录
+						Rewardtrade trade = new Rewardtrade();
+						trade.setTradeDate(new Date());
+						trade.setReaded(false);
+						trade.setDesc("邀请奖励");
+						trade.setCount(18);
+						trade.setRewardsystem(system);
+						trade.setRewardtradetype(type);
+
+						this.userManger.getRewardTradeDao().save(trade);
+
+						system.setCount(system.getCount() + trade.getCount());
+						this.userManger.getRewardSystemDao().saveOrUpdate(
+								system);
+					}
+				}
+			}
+		}
+		
+		
+		rewardNewUser(user);
+		return map;
+	}
+
+	public void rewardNewUser(Users user) {
+		// 获取列表
+		Rewardsystem system = this.rewardManger.findRewardByUser(user);
+		if (system == null) {
+			// 生成金条账户
+			system = new Rewardsystem();
+			system.setCount(18);
+			system.setUsers(user);
+
+			Rewardtrade trade = new Rewardtrade();
+			Set set = new HashSet();
+
+			Rewardtradetype type = new Rewardtradetype();
+			type.setRewardTypeId(2);
+
+			trade.setTradeDate(new Date());
+			trade.setReaded(false);
+			trade.setDesc("注册奖励");
+			trade.setCount(18);
+			trade.setRewardsystem(system);
+			trade.setRewardtradetype(type);
+
+			set.add(trade);
+			system.setRewardtrades(set);
+
+			this.userManger.getRewardSystemDao().save(system);
+		}
 	}
 
 	/***
@@ -460,5 +1303,4 @@ public class UserController extends BaseController {
 
 		return user;
 	}
-
 }

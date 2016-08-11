@@ -12,18 +12,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Systemuser entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "systemuser", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"roletype"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Systemuser implements java.io.Serializable {
 
 	// Fields
 
 	private Integer userId;
 	private Roletype roletype;
-	private Boolean password;
+	private String account;
+	private String password;
 
 	// Constructors
 
@@ -32,7 +38,7 @@ public class Systemuser implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Systemuser(Roletype roletype, Boolean password) {
+	public Systemuser(Roletype roletype, String password) {
 		this.roletype = roletype;
 		this.password = password;
 	}
@@ -60,12 +66,20 @@ public class Systemuser implements java.io.Serializable {
 	}
 
 	@Column(name = "password")
-	public Boolean getPassword() {
+	public String getPassword() {
 		return this.password;
 	}
 
-	public void setPassword(Boolean password) {
+	public void setPassword(String password) {
 		this.password = password;
+	}
+	@Column(name="account")
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 }

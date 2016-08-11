@@ -73,7 +73,7 @@
 </head>
 <body>
 	<div class="content">
-		<form action="addBanner.action" method="post">
+		<form action="adminAddBanner.action" method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${banner!=null}">

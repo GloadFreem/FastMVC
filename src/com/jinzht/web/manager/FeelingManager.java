@@ -244,6 +244,14 @@ public class FeelingManager {
 			userPublic.setUserId(user.getUserId());
 			userPublic.setHeadSculpture(user.getHeadSculpture());
 			userPublic.setName(authentic.getName());
+			
+			if(userPublic.getName()==null || userPublic.getName().equals(""))
+			{
+				String telephone = user.getTelephone();
+				Integer length = telephone.length();
+				String name = "用户"+telephone.substring(length-4, length);
+				userPublic.setName(name);
+			}
 		}
 
 		content.setUsers(userPublic);
@@ -273,6 +281,15 @@ public class FeelingManager {
 				temp.setName(user.getName());
 				temp.setUserId(user.getUserId());
 				temp.setHeadSculpture(user.getHeadSculpture());
+				
+				if(temp.getName()==null || temp.getName().equals(""))
+				{
+					String telephone = user.getTelephone();
+					Integer length = telephone.length();
+					String name = "用户"+telephone.substring(length-4, length);
+					temp.setName(name);
+				}
+				
 				comment.setUsersByUserId(temp);
 
 				temp = new Users();
@@ -290,6 +307,13 @@ public class FeelingManager {
 					temp.setName(user.getName());
 					temp.setUserId(user.getUserId());
 					temp.setHeadSculpture(user.getHeadSculpture());
+					if(temp.getName()==null || temp.getName().equals(""))
+					{
+						String telephone = user.getTelephone();
+						Integer length = telephone.length();
+						String name = "用户"+telephone.substring(length-4, length);
+						temp.setName(name);
+					}
 
 					comment.setUsersByAtUserId(temp);
 				}
@@ -332,6 +356,15 @@ public class FeelingManager {
 				temp.setName(user.getName());
 				temp.setUserId(user.getUserId());
 				temp.setHeadSculpture(user.getHeadSculpture());
+				
+				if(temp.getName()==null || temp.getName().equals(""))
+				{
+					String telephone = user.getTelephone();
+					Integer length = telephone.length();
+					String name = "用户"+telephone.substring(length-4, length);
+					temp.setName(name);
+				}
+				
 				//
 				// // user.setAuthentics(null);
 				// user.setUserstatus(null);
@@ -396,6 +429,16 @@ public class FeelingManager {
 				temp.setName(user.getName());
 				temp.setUserId(user.getUserId());
 				temp.setHeadSculpture(user.getHeadSculpture());
+				
+				if(temp.getName()==null || temp.getName().equals(""))
+				{
+					String telephone = user.getTelephone();
+					Integer length = telephone.length();
+					String name = "用户"+telephone.substring(length-4, length);
+					temp.setName(name);
+				}
+				
+				
 				comment.setUsersByUserId(temp);
 
 				temp = new Users();
@@ -414,6 +457,14 @@ public class FeelingManager {
 					temp.setUserId(user.getUserId());
 					temp.setHeadSculpture(user.getHeadSculpture());
 
+					if(temp.getName()==null || temp.getName().equals(""))
+					{
+						String telephone = user.getTelephone();
+						Integer length = telephone.length();
+						String name = "用户"+telephone.substring(length-4, length);
+						temp.setName(name);
+					}
+					
 					comment.setUsersByAtUserId(temp);
 				}
 			}

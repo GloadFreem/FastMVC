@@ -183,9 +183,6 @@ public class ActionController extends BaseController {
 				Set set = new HashSet();
 				for (int i = 0; i < list.length; i++) {
 					Actionprise actionPrise = (Actionprise) list[i];
-					System.out.println("用户:"
-							+ actionPrise.getUsers().getUserId()
-							+ user.getUserId());
 					int userId1 = actionPrise.getUsers().getUserId();
 					int userId2 = user.getUserId();
 
@@ -196,6 +193,14 @@ public class ActionController extends BaseController {
 				}
 
 				flag = 1;
+			}
+			
+			if(user.getName()==null || user.getName().equals(""))
+			{
+				String telephone = user.getTelephone();
+				Integer length = telephone.length();
+				String name = "用户"+telephone.substring(length-4, length);
+				user.setName(name);
 			}
 
 			// 封装返回结果
@@ -270,12 +275,23 @@ public class ActionController extends BaseController {
 			} else {
 				user1.setName("");
 			}
+			
+			if(user1.getName()==null || user1.getName().equals(""))
+			{
+				String telephone = user1.getTelephone();
+				Integer length = telephone.length();
+				String name = "用户"+telephone.substring(length-4, length);
+				user1.setName(name);
+				comment.setUserName(name);
+			}
+			
 			user1.setAuthentics(null);
 			user1.setUserstatus(null);
 			user1.setTelephone(null);
 			user1.setPassword(null);
 			user1.setPlatform(null);
 			user1.setLastLoginDate(null);
+			
 			comment.setUsersByUserId(user1);
 
 			user1 = comment.getUsersByAtUserId();
@@ -292,12 +308,23 @@ public class ActionController extends BaseController {
 //				} else {
 //					user1.setName("");
 //				}
+				if(user1.getName()==null || user1.getName().equals(""))
+				{
+					String telephone = user1.getTelephone();
+					Integer length = telephone.length();
+					String name = "用户"+telephone.substring(length-4, length);
+					user1.setName(name);
+					comment.setAtUserName(name);
+				}
+				
 				user1.setAuthentics(null);
 				user1.setUserstatus(null);
 				user1.setTelephone(null);
 				user1.setPassword(null);
 				user1.setPlatform(null);
 				user1.setLastLoginDate(null);
+				
+				
 				comment.setUsersByAtUserId(user1);
 			}
 
@@ -482,6 +509,14 @@ public class ActionController extends BaseController {
 					temp.setUserId(u.getUserId());
 					comment.setUsersByUserId(temp);
 					comment.setUserName(u.getName());
+					
+					if(comment.getUserName()==null || comment.getUserName().equals(""))
+					{
+						String telephone = u.getTelephone();
+						Integer length = telephone.length();
+						String name = "用户"+telephone.substring(length-4, length);
+						comment.setUserName(name);
+					}
 
 					Integer atUserId = this.actionManager.findAtUserIdByCommentId(comment);
 					if(atUserId!=null)
@@ -497,6 +532,14 @@ public class ActionController extends BaseController {
 								u.setName("匿名用户");
 							}
 							comment.setAtUserName(u.getName());
+							
+							if(comment.getUserName()==null || comment.getUserName().equals(""))
+							{
+								String telephone = u.getTelephone();
+								Integer length = telephone.length();
+								String name = "用户"+telephone.substring(length-4, length);
+								comment.setUserName(name);
+							}
 						}
 
 						comment.setUsersByAtUserId(null);
@@ -580,6 +623,7 @@ public class ActionController extends BaseController {
 				if(userId!=null)
 				{
 					Users u = this.userManager.findUserById(userId);
+					String telephone = u.getTelephone();
 					Object[] objs = u.getAuthentics().toArray();
 					if (objs != null && objs.length > 0) {
 						Authentic authentic = (Authentic) objs[0];
@@ -598,6 +642,14 @@ public class ActionController extends BaseController {
 						authentic.setAutrhrecords(null);
 						authentic.setCity(null);
 						authentic.setAuthId(null);
+						
+						if(authentic.getName()==null || authentic.getName().equals(""))
+						{
+							Integer length = telephone.length();
+							String name = "用户"+telephone.substring(length-4, length);
+							authentic.setName(name);
+						}
+						
 						u.setLastLoginDate(null);
 						u.setName(null);
 						u.setTelephone(null);
@@ -607,12 +659,20 @@ public class ActionController extends BaseController {
 						u.getAuthentics().clear();
 						u.getAuthentics().add(authentic);
 						
+						
 						attention.setUsers(u);					} else {
 						u.setName("匿名用户");
 					}
 
 					attention.setUserName(u.getName());
 
+//					if(attention.getUserName()==null || attention.getUserName().equals(""))
+//					{
+//						Integer length = telephone.length();
+//						String name = "用户"+telephone.substring(length-4, length);
+//						attention.setUserName(name);
+//					}
+					
 					l.add(attention);
 				}
 

@@ -61,6 +61,16 @@ public class RoadshowplanDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Roadshowplan transientInstance) {
+		log.debug("saving Roadshowplan instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Roadshowplan persistentInstance) {
 		log.debug("deleting Roadshowplan instance");

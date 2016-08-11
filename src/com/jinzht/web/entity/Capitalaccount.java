@@ -12,11 +12,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Capitalaccount entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "capitalaccount", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"users"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Capitalaccount implements java.io.Serializable {
 
 	// Fields

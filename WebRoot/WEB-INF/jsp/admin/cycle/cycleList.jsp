@@ -86,7 +86,7 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-			<a href="editCycle.action?cycleId=" target="content"><h2>
+			<a href="adminEditCycle.action?cycleId=" target="content"><h2>
 					<div>
 						<img alt="添加圈子" src="images/圆角矩形-3-拷贝-5.png">
 					</div>
@@ -109,7 +109,7 @@
 						<c:forEach items="${items}" var="item" varStatus="vs">
 							<tr class="odd gradeX">
 								<td class="center"><a
-									href="editCycle.action?cycleId=${item.publicContentId}"
+									href="adminEditCycle.action?cycleId=${item.publicContentId}"
 									target="content">${item.publicContentId}</a></td>
 								<td class="center">${item.content}</td>
 								<td class="center">${item.users.name}</td>

@@ -86,7 +86,7 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="editScene.action?sceneId=" target="content"><h2>
+		<a href="adminEditScene.action?sceneId=" target="content"><h2>
 			<div><img alt="添加现场" src="images/圆角矩形-3-拷贝-5.png"></div>
 			<div>添加现场</div>
 			</h2></a>
@@ -106,8 +106,8 @@
 					<tbody>
 					<c:forEach items="${items}" var="item" varStatus="vs">
 					<tr class="odd gradeX">
-							<td class="center"><a href="editScene.action?sceneId=${item.sceneId}" target="content">${item.sceneId}</a></td>
-							<td class="center"><a href="editProject.action?projectId=${item.project.projectId}" target="content">${item.project.fullName}</a></td>
+							<td class="center"><a href="adminEditScene.action?sceneId=${item.sceneId}" target="content">${item.sceneId}</a></td>
+							<td class="center"><a href="adminEditProject.action?projectId=${item.project.projectId}" target="content">${item.project.fullName}</a></td>
 							<td class="center"><a href=${item.audioPath} target="content">${item.audioPath}</a></td>
 							<td class="center">${item.totlalTime}</td>
 							<td class="center">${item.beginTime}</td>

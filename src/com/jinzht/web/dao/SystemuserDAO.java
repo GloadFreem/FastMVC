@@ -33,6 +33,7 @@ public class SystemuserDAO {
 			.getLogger(SystemuserDAO.class);
 	// property constants
 	public static final String PASSWORD = "password";
+	public static final String NAME = "account";
 
 	private SessionFactory sessionFactory;
 
@@ -114,6 +115,9 @@ public class SystemuserDAO {
 
 	public List<Systemuser> findByPassword(Object password) {
 		return findByProperty(PASSWORD, password);
+	}
+	public List<Systemuser> findByName(Object name) {
+		return findByProperty(NAME, name);
 	}
 
 	public List findAll() {

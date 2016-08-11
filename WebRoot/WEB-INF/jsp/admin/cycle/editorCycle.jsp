@@ -20,7 +20,7 @@
 <script type="text/javascript">
 	jQuery(function($) {
 		$(".upload").dropzone({
-			url : "uploadFeelingImage.action?type=feeling"
+			url : "adminUploadFeelingImage.action?type=feeling"
 		});
 		$("input:eq(1)").blur(function() {
 			$("input:eq(1)").css("background-color", "#D6D6FF");
@@ -74,7 +74,7 @@
 		$(".search-img").click(
 				function() {
 					$.ajax({
-						url : "searchUserByName.action",
+						url : "adminSearchUserByName.action",
 						data : {
 							"name" : $("input[name='name']").val(),
 						},
@@ -101,7 +101,7 @@
 </head>
 <body>
 	<div class="content">
-		<form action="addCycle.action" method="post">
+		<form action="adminAddCycle.action" method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${content!=null}">

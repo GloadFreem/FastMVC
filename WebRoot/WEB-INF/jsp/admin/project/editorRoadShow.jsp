@@ -19,7 +19,7 @@
 <script type="text/javascript">
 	jQuery(function($) {
 		$(".upload").dropzone({
-			url : "uploadImage.action"
+			url : "adminUploadImage.action"
 		});
 		$("input:eq(1)").blur(function() {
 			$("input:eq(1)").css("background-color", "#D6D6FF");
@@ -69,12 +69,41 @@
 				$("input:eq(4)").val("");
 			}
 		});
+
+		$(".search-img").click(
+				function() {
+					$.ajax({
+						url : "adminSearchProjectByName.action",
+						data : {
+							"name" : $("input[name='name']").val(),
+						},
+						success : function(data) {
+							selector = $("select[name='projectId']");
+							selector.empty();
+
+							data.data.forEach(function(e) {
+								select = "<option value='"+e.projectId+"'>"
+										+ e.name + "</option>"
+								selector.append(select);
+							});
+
+						}
+					});
+
+				});
+
+		$("#user").change(
+				function() {
+					$("input[name='projectId']").val(
+							$(this).find("option:selected").text());
+				});
+
 	});
 </script>
 </head>
 <body>
 	<div class="content">
-		<form action="addproject.action"  method="post">
+		<form action="adminAddproject.action" method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${project!=null}">
@@ -88,21 +117,40 @@
 			</c:choose>
 			<!-- 名称 -->
 			<div class="name">
-				<div class="name-key">公司</div>
+				<div class="name-key">所属项目</div>
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${project!=null}">
-							<input style="color:black" name="name" type="text"
-								value=${project.fullName}>
+							<div class="search">
+								<input style="color:black;width:95%" name="name" type="text"
+									value=${content.users.name}>
+							</div>
+							<div>
+								<img name="search-img" class="search-img" alt=""
+									src="../images/feeling/椭圆-2.png">
+							</div>
+							<div>
+								<select class='user-select' name='projectId' id='projectId'></select>
+							</div>
 						</c:when>
 						<c:otherwise>
-							<input name="name" type="text" value="请选择项目">
+							<div class="search">
+								<input style="color:black;width:95%" id="name" name="name"
+									type="text" value="请选择项目">
+							</div>
+							<div>
+								<img name="search-img" class="search-img" alt=""
+									src="../images/feeling/椭圆-2.png">
+							</div>
+							<div>
+								<select class='user-select' name='projectId' id='projectId'></select>
+							</div>
 						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>
-			
-			
+
+
 			<div class="name">
 				<div class="name-key">融资计划</div>
 				<div class="name-value">

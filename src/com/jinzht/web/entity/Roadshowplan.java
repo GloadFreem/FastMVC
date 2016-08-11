@@ -1,30 +1,45 @@
 package com.jinzht.web.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Roadshowplan entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "roadshowplan", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"roadshows"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Roadshowplan implements java.io.Serializable {
 
 	// Fields
 
 	private Integer financingId;
-	private Timestamp beginDate;
-	private Timestamp endDate;
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private Date beginDate;
+	private Date endDate;
+	private String profit;
+	private Double limitAmount;
 	private Integer financeTotal;
 	private Integer financedMount;
 	private Set<Roadshow> roadshows = new HashSet<Roadshow>(0);
@@ -42,7 +57,7 @@ public class Roadshowplan implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Roadshowplan(Timestamp beginDate, Timestamp endDate,
+	public Roadshowplan(Date beginDate, Date endDate,
 			Integer financeTotal, Integer financedMount, Set<Roadshow> roadshows) {
 		this.beginDate = beginDate;
 		this.endDate = endDate;
@@ -64,20 +79,23 @@ public class Roadshowplan implements java.io.Serializable {
 	}
 
 	@Column(name = "begin_date", nullable = false, length = 0)
-	public Timestamp getBeginDate() {
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
+	public Date getBeginDate() {
 		return this.beginDate;
 	}
 
-	public void setBeginDate(Timestamp beginDate) {
+	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
 	}
 
 	@Column(name = "end_date", nullable = false, length = 0)
-	public Timestamp getEndDate() {
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
+	public Date getEndDate() {
 		return this.endDate;
 	}
 
-	public void setEndDate(Timestamp endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
@@ -106,6 +124,23 @@ public class Roadshowplan implements java.io.Serializable {
 
 	public void setRoadshows(Set<Roadshow> roadshows) {
 		this.roadshows = roadshows;
+	}
+
+	@Column(name = "limit_mount")
+	public Double getLimitAmount() {
+		return limitAmount;
+	}
+
+	public void setLimitAmount(Double limitAmount) {
+		this.limitAmount = limitAmount;
+	}
+	@Column(name="profit")
+	public String getProfit() {
+		return profit;
+	}
+	
+	public void setProfit(String profit) {
+		this.profit = profit;
 	}
 
 }

@@ -1,4 +1,5 @@
 ﻿<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -8,38 +9,164 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>金指投后台管理系统</title>
-    <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>金指投后台管理系统</title>
+<link rel="stylesheet" type="text/css" href="Carousel/css/carousel.css" />
+<link rel="stylesheet" type="text/css" href="css/main.css"
+	media="screen" />
+<script type="text/javascript" src="Carousel/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="Carousel/js/jquery.carousel.min.js"></script>
+<script type="text/javascript" src="Carousel/js/jquery.mousewheel.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function($) {
+
+		$('#carousel').carousel({
+			width : 800,
+			height : 250,
+			itemWidth : 200,
+			horizontalRadius : 250,
+			verticalRadius : 100,
+			resize : true,
+			mouseScroll : false,
+			mouseDrag : true,
+			scaleRatio : 0.2,
+			scrollbar : true,
+			tooltip : true,
+			mouseWheel : true,
+			mouseWheelReverse : true,
+			autoScroll : true,
+		});
+
+	});
+</script>
+
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+a, img {
+	border: 0;
+}
+
+body {
+	font: 12px/180% Arial, Helvetica, sans-serif, "新宋体";
+	background-color: #F1F1F1;
+}
+/* wide-wrapper */
+#wide-wrapper {
+	background: url(Carousel/images/bg.jpg) repeat-x;
+	height: 450px;
+}
+
+#header {
+	width: 280px;
+	margin: 0px auto;
+	padding-top: 75px;
+}
+
+#carousel {
+	width: 800px;
+	height: 250px;
+	padding: 0px;
+	margin-left: 20%;
+	margin-top: -10%
+}
+
+#carousel {
+	list-style: none;
+	padding: 0px;
+}
+
+#carousel li {
+	float: left;
+}
+
+#carousel .tooltip, #carousel .bigImage, #carousel .title, #carousel .description
+	{
+	position: absolute;
+	left: -9999px;
+}
+</style>
 </head>
 <body>
-    <div class="container_12">
-        <div class="slider">
-        	<img class="slider-img" src="img/banner-2_k.jpg" />
-        </div>
-        <div>
-        	<table class="nav-table">
-  				<tr>
-    				<th class="thbgcolor"><a href="admin.html" target="_parent"><p><img src="img/img-profile.png"/></p><p class="tablefont">管理员</p></a></th>
-    				<th><a href="#"><p><img src="img/icon_用户管理_92.png"/></p><p class="tablefont">用户管理</p></a></th>
-    				<th><a href="#"><p><img src="img/文件夹.png"/></p><p class="tablefont">项目管理</p></a></th>
-    				<th><a href="#"><p><img src="img/交易.png"/></p><p class="tablefont">交易中心</p></a></th>
-    				<th><a href="#"><p><img src="img/购物车.png"/></p><p class="tablefont">结算中心</p></a></th>
-  				</tr>
-  				<tr>
-   					<th><a href="#"><p><img src="img/篮球实心.png"/></p><p class="tablefont">活动管理</p></a></td>
-    				<th><a href="#"><p><img src="img/圈子-选种.png"/></p><p class="tablefont">圈子管理</p></a></td>
-    				<th><a href="#"><p><img src="img/数据统计.png"/></p><p class="tablefont">数据统计</p></a></th>
-    				<th><a href="#"><p><img src="img/设置.png"/></p><p class="tablefont">系统管理</p></a></td>
-    				<th></th>
-  				</tr>
+	<div class="container_12">
+		<div id="wide-wrapper">
+
+			<div id="header">
+				<a href="#"><img src="Carousel/images/440560544098047375.png"
+					width="271" height="87" alt="3d carousel" /></a>
+			</div>
+
+			<ul id="carousel">
+				<c:forEach items="${items}" var="item" varStatus="vs">
+					<li><a href="adminEditBanner.action?bannerId=${item.body.bannerId}" target="content"><img src=${item.body.image
+							}
+						alt="${item.body.name}" /></a>
+						<div class="tooltip">
+							<u>${item.body.description}</u><br /> <br /> <img
+								src=${item.body.image
+									} width="60" height="50"
+								style="float:left; margin-right:10px; margin-bottom:10px;"
+								alt="" />${item.body.description}
+						</div></li>
+				</c:forEach>
+			</ul>
+		</div>
+		<div>
+			<table class="nav-table">
+				<tr>
+					<th class="thbgcolor"><a href="admin.html" target="_parent"><p>
+								<img src="img/img-profile.png" />
+							</p>
+							<p class="tablefont">管理员</p></a></th>
+					<th><a href="adminUserListAdmin.action" target="content"><p>
+								<img src="img/icon_用户管理_92.png" />
+							</p>
+							<p class="tablefont">用户管理</p></a></th>
+					<th><a href="adminProjectListAdmin.action" target="content"><p>
+								<img src="img/文件夹.png" />
+							</p>
+							<p class="tablefont">项目管理</p></a></th>
+					<th><a href="#"><p>
+								<img src="img/交易.png" />
+							</p>
+							<p class="tablefont">交易中心</p></a></th>
+					<th><a href="#"><p>
+								<img src="img/购物车.png" />
+							</p>
+							<p class="tablefont">结算中心</p></a></th>
+				</tr>
+				<tr>
+					<th><a href="adminActionListAdmin.action" target="content"><p>
+								<img src="img/篮球实心.png" />
+							</p>
+							<p class="tablefont">活动管理</p></a>
+						</td>
+						<th><a href="adminCycleListAdmin.action" target="content"><p>
+									<img src="img/圈子-选种.png" />
+								</p>
+								<p class="tablefont">圈子管理</p></a>
+							</td>
+							<th><a href="#"><p>
+										<img src="img/数据统计.png" />
+									</p>
+									<p class="tablefont">数据统计</p></a></th>
+							<th><a href="#"><p>
+										<img src="img/设置.png" />
+									</p>
+									<p class="tablefont">系统管理</p></a>
+								</td>
+								<th></th>
+				</tr>
 			</table>
-        </div>
-        <div class="bottom">
-        	
-        </div>
-    </div>
-        <!--
+		</div>
+		<div class="bottom"></div>
+	</div>
+	<!--
         	作者：326742731@qq.com
         	时间：2016-06-23
         	描述：
@@ -233,6 +360,6 @@
             Copyright <a href="#">BlueWhale Admin</a>. All Rights Reserved.
         </p>
     -->
-    </div>
+	</div>
 </body>
 </html>

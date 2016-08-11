@@ -22,7 +22,7 @@
 <script type="text/javascript">
 	jQuery(function($) {
 		$(".upload").dropzone({
-			url : "uploadImage.action?type=images"
+			url : "adminUploadImage.action?type=images"
 		});
 		$("input:eq(1)").blur(function() {
 			$("input:eq(1)").css("background-color", "#D6D6FF");
@@ -97,7 +97,7 @@
 						function() {
 							$
 									.ajax({
-										url : "addActionImage.action",
+										url : "adminAddActionImage.action",
 										data : {
 											"actionId" : $(
 													"input[name='actionId']")
@@ -119,7 +119,7 @@
 </head>
 <body>
 	<div class="content">
-		<form action="addAction.action" method="post">
+		<form action="adminAddAction.action" method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${action!=null}">

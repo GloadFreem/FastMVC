@@ -2,6 +2,7 @@ package com.jinzht.web.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Systemmessage;
 
 /**
@@ -59,7 +61,42 @@ public class SystemmessageDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Systemmessage transientInstance) {
+		log.debug("saving or updating Systemmessage instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
+	public Integer counterByProperties(Map map) {
+		try {
+			String queryString = "select count(model.messageId) as count from Systemmessage as model where model.";
+			Object[] keys = map.keySet().toArray();
+			for(int i = 0;i<keys.length;i++){
+				if(i==0){
+					queryString += keys[i] + "= ?";
+				}else{
+					queryString +=" and " + keys[i] + "= ?";
+				}
+			}
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<keys.length;i++){
+				queryObject.setParameter(i,map.get( keys[i]));
+			}
+					
+			return  ((Number) queryObject.iterate().next())
+			         .intValue();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
 	public void delete(Systemmessage persistentInstance) {
 		log.debug("deleting Systemmessage instance");
 		try {
@@ -75,7 +112,7 @@ public class SystemmessageDAO {
 		log.debug("getting Systemmessage instance with id: " + id);
 		try {
 			Systemmessage instance = (Systemmessage) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Systemmessage", id);
+					"com.jinzht.web.entity.Systemmessage", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -106,6 +143,22 @@ public class SystemmessageDAO {
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	public List findByPropertyWithPage(String propertyName, Object value,Integer page) {
+		log.debug("finding Systemmessage instance with property: "
+				+ propertyName + ", value: " + value);
+		try {
+			String queryString = "from Systemmessage as model where model."
+					+ propertyName + "= ?";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setParameter(0, value);
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);

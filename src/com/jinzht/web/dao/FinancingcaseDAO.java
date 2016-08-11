@@ -75,7 +75,7 @@ public class FinancingcaseDAO {
 		log.debug("getting Financingcase instance with id: " + id);
 		try {
 			Financingcase instance = (Financingcase) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Financingcase", id);
+					"com.jinzht.web.entity.Financingcase", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -87,7 +87,7 @@ public class FinancingcaseDAO {
 		log.debug("finding Financingcase instance by example");
 		try {
 			List<Financingcase> results = (List<Financingcase>) getCurrentSession()
-					.createCriteria("com.jinzht.web.hibernate.Financingcase")
+					.createCriteria("com.jinzht.web.entity.Financingcase")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

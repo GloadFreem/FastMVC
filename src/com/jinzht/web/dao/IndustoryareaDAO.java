@@ -76,7 +76,7 @@ public class IndustoryareaDAO {
 		log.debug("getting Industoryarea instance with id: " + id);
 		try {
 			Industoryarea instance = (Industoryarea) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Industoryarea", id);
+					"com.jinzht.web.entity.Industoryarea", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -88,7 +88,7 @@ public class IndustoryareaDAO {
 		log.debug("finding Industoryarea instance by example");
 		try {
 			List<Industoryarea> results = (List<Industoryarea>) getCurrentSession()
-					.createCriteria("com.jinzht.web.hibernate.Industoryarea")
+					.createCriteria("com.jinzht.web.entity.Industoryarea")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

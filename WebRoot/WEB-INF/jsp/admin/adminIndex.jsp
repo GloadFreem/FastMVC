@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -47,15 +48,13 @@
 
             $('.datatable').dataTable();
 			setSidebarHeight();
-
-
         });
     </script>
 </head>
 <frameset rows="120px,*" framespacing="0" border="0"> <frame
-	src="top.action" noresize frameborder="0" scrolling="no" /> <frameset
+	src="adminTop.action" noresize frameborder="0" scrolling="no" /> <frameset
 	framespacing="0" border="0"> <frameset
-	cols="20%,*" framespacing="0" border="0"> <frame src="left.action" name="left" noresize
-	frameborder="0" scrolling="no"> <frame src="dashboard.action"
+	cols="20%,*" framespacing="0" border="0"> <frame src="adminLeft.action" name="left" noresize
+	frameborder="0" scrolling="no"> <frame src="adminDashboard.action"
 	name="content" noresize frameborder="0"></frameset> </frameset> </frameset>
 </html>

@@ -2,6 +2,7 @@ package com.jinzht.web.dao;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -59,6 +60,16 @@ public class ShareDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Share transientInstance) {
+		log.debug("saving or updating Share instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Share persistentInstance) {
 		log.debug("deleting Share instance");
@@ -98,6 +109,7 @@ public class ShareDAO {
 		}
 	}
 
+
 	public List findByProperty(String propertyName, Object value) {
 		log.debug("finding Share instance with property: " + propertyName
 				+ ", value: " + value);
@@ -112,7 +124,30 @@ public class ShareDAO {
 			throw re;
 		}
 	}
-
+	public Integer counterByProperties(Map map) {
+		try {
+			String queryString = "select count(model.shareId) as count from Share as model where model.";
+			Object[] keys = map.keySet().toArray();
+			for(int i = 0;i<keys.length;i++){
+				if(i==0){
+					queryString += keys[i] + "= ?";
+				}else{
+					queryString +=" and " + keys[i] + "= ?";
+				}
+			}
+			
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<keys.length;i++){
+				queryObject.setParameter(i,map.get( keys[i]));
+			}
+					
+			return  ((Number) queryObject.iterate().next())
+			         .intValue();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
 	public List<Share> findByContent(Object content) {
 		return findByProperty(CONTENT, content);
 	}

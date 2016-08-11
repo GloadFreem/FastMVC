@@ -26,6 +26,7 @@ import com.jinzht.web.dao.ProjectcommitrecordDAO;
 import com.jinzht.web.dao.ProvinceDAO;
 import com.jinzht.web.dao.PubliccontentDAO;
 import com.jinzht.web.dao.RoadshowDAO;
+import com.jinzht.web.dao.RoadshowplanDAO;
 import com.jinzht.web.dao.SceneDAO;
 import com.jinzht.web.dao.ScenecommentDAO;
 import com.jinzht.web.dao.ShareDAO;
@@ -64,6 +65,7 @@ public class ProjectManager {
 	private CollectionDAO collectionDao;
 	private AudiorecordDAO audioRecordDao;
 	private RoadshowDAO roadShowDao;
+	private RoadshowplanDAO roadShowPlanDao;
 	private PubliccontentDAO publicContentDao;
 	private ContentpriseDAO contentPriseDao;
 	private FinancestatusDAO financestatusDao;
@@ -313,6 +315,15 @@ public class ProjectManager {
 				user.setName(commentUser.getName());
 				user.setHeadSculpture(commentUser.getHeadSculpture());
 				user.setAuthentics(null);
+				
+				
+				if(user.getName()==null || user.getName().equals(""))
+				{
+					String telephone = commentUser.getTelephone();
+					Integer length = telephone.length();
+					String name = "用户"+telephone.substring(length-4, length);
+					user.setName(name);
+				}
 				
 				comment.setUsers(user);
 			}
@@ -847,6 +858,15 @@ public class ProjectManager {
 						record.setFlag(true);
 					}
 					
+					if(userInstance.getName()==null || userInstance.getName().equals(""))
+					{
+						String telephone = user.getTelephone();
+						Integer length = telephone.length();
+						String name = "用户"+user.getTelephone().substring(length-4, length);
+						userInstance.setName(name);
+					}
+					
+					
 					record.setUsers(userInstance);
 					
 					list.add(record);
@@ -877,6 +897,12 @@ public class ProjectManager {
 			return (Projectcommitrecord)list.get(0);
 		}
 		return null;
+	}
+	
+	public List findProjectByName(String name)
+	{
+		List<Project> projects = getProjectDao().findByName(name);
+		return projects;
 	}
 
 	/***
@@ -996,6 +1022,14 @@ public class ProjectManager {
 	@Autowired
 	public void setProjectCommitRecordDao(ProjectcommitrecordDAO projectCommitRecordDao) {
 		this.projectCommitRecordDao = projectCommitRecordDao;
+	}
+
+	public RoadshowplanDAO getRoadShowPlanDao() {
+		return roadShowPlanDao;
+	}
+	@Autowired
+	public void setRoadShowPlanDao(RoadshowplanDAO roadShowPlanDao) {
+		this.roadShowPlanDao = roadShowPlanDao;
 	}
 
 }

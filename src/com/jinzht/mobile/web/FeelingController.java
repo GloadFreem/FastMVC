@@ -274,6 +274,14 @@ public class FeelingController extends BaseController {
 			// 封装返回结果
 			this.status = 200;
 			String name = this.userManager.findUserNameByUserId(user);
+			
+			if(name==null || name.equals(""))
+			{
+				String telephone = user.getTelephone();
+				Integer length = telephone.length();
+				name = "用户"+telephone.substring(length-4, length);
+			}
+			
 			Map map = new HashMap();
 			map.put("flag", flag); 
 			map.put("name", name); 

@@ -86,7 +86,7 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-			<a href="editorUserAuthentic.action?authId=" target="content"><h2>
+			<a href="adminEditorUserAuthentic.action?authId=" target="content"><h2>
 					<div>
 						<img alt="添加认证" src="images/圆角矩形-3-拷贝-5.png">
 					</div>
@@ -109,7 +109,7 @@
 						<c:forEach items="${items}" var="item" varStatus="vs">
 							<tr class="odd gradeX">
 								<td class="center"><a
-									href="editorUserAuthentic.action?authId=${item.authId}"
+									href="adminEditorUserAuthentic.action?authId=${item.authId}"
 									target="content">${item.authId}</a></td>
 								<td class="center">${item.name}</td>
 								<td class="center">${item.identiytype.name}</td>

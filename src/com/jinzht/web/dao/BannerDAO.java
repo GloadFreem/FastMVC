@@ -61,6 +61,16 @@ public class BannerDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Banner transientInstance) {
+		log.debug("saving Banner instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Banner persistentInstance) {
 		log.debug("deleting Banner instance");
@@ -77,7 +87,7 @@ public class BannerDAO {
 		log.debug("getting Banner instance with id: " + id);
 		try {
 			Banner instance = (Banner) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Banner", id);
+					"com.jinzht.web.entity.Banner", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

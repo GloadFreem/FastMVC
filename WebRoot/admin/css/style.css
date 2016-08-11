@@ -76,3 +76,11 @@ body {
 	border-style: none;
 	font-size: 100%;
 }
+
+.tip
+{
+	width:80%;
+	margin-left:5%;
+	color:red;
+	font-size:16px;
+}

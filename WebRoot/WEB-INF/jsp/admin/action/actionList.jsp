@@ -86,7 +86,7 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="editAction.action?actionId=" target="content"><h2>
+		<a href="adminEditAction.action?actionId=" target="content"><h2>
 			<div><img alt="添加活动" src="images/圆角矩形-3-拷贝-5.png"></div>
 			<div>添加活动</div>
 			</h2></a>
@@ -106,7 +106,7 @@
 					<tbody>
 					<c:forEach items="${items}" var="item" varStatus="vs">
 					<tr class="odd gradeX">
-							<td class="center"><a href="editAction.action?actionId=${item.actionId}" target="content">${item.actionId}</a></td>
+							<td class="center"><a href="adminEditAction.action?actionId=${item.actionId}" target="content">${item.actionId}</a></td>
 							<td class="center">${item.name}</td>
 							<td class="center">
 							<c:choose>

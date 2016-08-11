@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -12,11 +13,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Controlreport entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "controlreport", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"project"})
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Controlreport implements java.io.Serializable {
 
 	// Fields
@@ -25,7 +31,7 @@ public class Controlreport implements java.io.Serializable {
 	private Project project;
 	private String url;
 	private String content;
-	private Integer projectId;
+	private String icon;
 
 	// Constructors
 
@@ -33,18 +39,14 @@ public class Controlreport implements java.io.Serializable {
 	public Controlreport() {
 	}
 
-	/** minimal constructor */
-	public Controlreport(Project project) {
-		this.project = project;
-	}
 
 	/** full constructor */
 	public Controlreport(Project project, String url, String content,
-			Integer projectId) {
+			String icon) {
 		this.project = project;
 		this.url = url;
 		this.content = content;
-		this.projectId = projectId;
+		this.icon = icon;
 	}
 
 	// Property accessors
@@ -59,8 +61,8 @@ public class Controlreport implements java.io.Serializable {
 		this.reportId = reportId;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;
 	}
@@ -87,13 +89,13 @@ public class Controlreport implements java.io.Serializable {
 		this.content = content;
 	}
 
-	@Column(name = "project_id")
-	public Integer getProjectId() {
-		return this.projectId;
+	@Column(name="icon")
+	public String getIcon() {
+		return icon;
 	}
 
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 }

@@ -19,13 +19,13 @@
 <script type="text/javascript">
 	jQuery(function($) {
 		$(".upload").dropzone({
-			url : "uploadImage.action?type=header"
+			url : "adminUploadImage.action?type=header"
 		});
 		$(".ida").dropzone({
-			url : "uploadImage.action?type=idA"
+			url : "adminUploadImage.action?type=idA"
 		});
 		$(".idb").dropzone({
-			url : "uploadImage.action?type=idB"
+			url : "adminUploadImage.action?type=idB"
 		});
 		
 		
@@ -82,7 +82,7 @@
 </head>
 <body>
 	<div class="content">
-		<form action="addUser.action"  method="post">
+		<form action="adminAddUser.action"  method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${user!=null}">

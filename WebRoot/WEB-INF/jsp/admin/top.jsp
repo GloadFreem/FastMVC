@@ -57,7 +57,7 @@
 					<ul class="inline-ul floatleft">
 						<li>管理员</li>
 						<li><a href="#">设置</a></li>
-						<li><a href="#">退出</a></li>
+						<li><a href="adminLogin.action" target="_parent">退出</a></li>
 					</ul>
 					<br /> <span class="small grey">最近登录: 3 小时前</span>
 				</div>
@@ -68,13 +68,13 @@
 	<div class="clear"></div>
 	<div class="grid_12">
 		<ul class="nav main">
-			<li class="ic-dashboard"><a href="bannerListAdmin.action" target="content"><span>Banner</span></a>
+			<li class="ic-dashboard"><a href="adminBannerListAdmin.action" target="content"><span>Banner</span></a>
 			</li>
-			<li class="ic-form-style"><a href="javascript:"><span>认证审核</span></a>
+			<li class="ic-form-style"><a href="adminUserAuthenticListAdmin.action" target="content"><span>认证审核</span></a>
 				</li>
-			<li class="ic-typography"><a href="typography.html" target="content"><span>项目路演</span></a></li>
-			<li class="ic-charts"><a href="charts.html" target="content"><span>圈子</span></a></li>
-			<li class="ic-grid-tables"><a href="table.html" target="content"><span>活动</span></a></li>
+			<li class="ic-typography"><a href="adminRoadShowListAdmin.action" target="content"><span>项目路演</span></a></li>
+			<li class="ic-charts"><a href="adminCycleListAdmin.action" target="content"><span>圈子</span></a></li>
+			<li class="ic-grid-tables"><a href="adminActionListAdmin.action" target="content"><span>活动</span></a></li>
 			<li class="ic-gallery dd"><a href="javascript:" target="content"><span>金条</span></a>
 				</li>
 			<li class="ic-notifications"><a href="notifications.html" target="content"><span>消息推送</span></a></li>

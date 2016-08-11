@@ -86,7 +86,7 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="editUser.action?userId=" target="content"><h2>
+		<a href="adminEditUser.action?userId=" target="content"><h2>
 			<div><img alt="添加用户" src="images/圆角矩形-3-拷贝-5.png"></div>
 			<div>添加用户</div>
 			</h2></a>
@@ -106,7 +106,7 @@
 					<tbody>
 					<c:forEach items="${items}" var="item" varStatus="vs">
 					<tr class="odd gradeX">
-							<td class="center"><a href="editUser.action?userId=${item.userId}" target="content">${item.userId}</a></td>
+							<td class="center"><a href="adminEditUser.action?userId=${item.userId}" target="content">${item.userId}</a></td>
 							<td class="center">${item.name}</td>
 							<td class="center">${item.telephone}</td>
 							<td class="center"><a href=${item.headSculpture} target="blank">${item.headSculpture}</a></td>

@@ -2,9 +2,11 @@ package com.jinzht.web.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -13,9 +15,14 @@ import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.tools.Config;
+import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Projectcommitrecord;
+import com.jinzht.web.entity.Status;
+import com.jinzht.web.entity.Users;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -56,6 +63,18 @@ public class ProjectcommitrecordDAO {
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
 			throw re;
+		}
+	}
+	public boolean saveOrUpdate(Projectcommitrecord transientInstance) {
+		log.debug("saving or updating Projectcommitrecord instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+			return true;
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			return false;
+//			throw re;
 		}
 	}
 
@@ -112,6 +131,55 @@ public class ProjectcommitrecordDAO {
 			throw re;
 		}
 	}
+	
+	public List findByProperties(Map requestMap,Integer page) {
+		try {
+//			String debugInfo= "finding Authentic instance with property: ";
+			String queryString = "from Projectcommitrecord as model where";
+			Object[] keys= requestMap.keySet().toArray();
+			for(int i = 0;i<requestMap.size();i++){
+//				debugInfo += keys[i].toString()+requestMap.get(keys[i]);
+				if(i==0){
+					queryString+=" model."+keys[i].toString()+" =? ";
+				}else{
+					queryString+="and model."+keys[i].toString()+" =? ";
+				}
+			}
+			
+			queryString +=" and status != ?";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			for(int i = 0;i<requestMap.size();i++){
+				queryObject.setParameter(i, requestMap.get(keys[i]));
+			}
+			
+			Status status = new Status();
+			status.setRecordId(3);
+			queryObject.setParameter(requestMap.size(), status);
+			
+			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	/***
+	 * 根据用户
+	 * @param user
+	 * @return
+	 */
+	public List findInvestCommitByuser(Integer userId)
+	{
+		boolean flag = false;
+		String sqlString = "select * from projectcommitrecord where user_id=?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Projectcommitrecord.class);
+		queryObject.setParameter(0, userId);
+		queryObject.setMaxResults(1);
+		
+		return queryObject.list();
+	}
 
 	public List findAll() {
 		log.debug("finding all Projectcommitrecord instances");
@@ -123,6 +191,17 @@ public class ProjectcommitrecordDAO {
 			log.error("find all failed", re);
 			throw re;
 		}
+	}
+	
+	public List findRecordListByProjectId(Integer projectId,Integer page)
+	{
+		String sqlString = "select * from Projectcommitrecord where project_id =?";
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Projectcommitrecord.class);
+		queryObject.setParameter(0, projectId);
+		queryObject.setFirstResult(page*10);
+		queryObject.setMaxResults(10);
+		
+		return queryObject.list();
 	}
 
 	public Projectcommitrecord merge(Projectcommitrecord detachedInstance) {
