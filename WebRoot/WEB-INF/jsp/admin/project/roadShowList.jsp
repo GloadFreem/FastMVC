@@ -86,7 +86,7 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="adminEditProject.action?projectId=" target="content"><h2>
+		<a href="adminEditRoadShow.action?projectId=" target="content"><h2>
 			<div><img alt="添加路演" src="images/圆角矩形-3-拷贝-5.png"></div>
 			<div>添加路演</div>
 			</h2></a>

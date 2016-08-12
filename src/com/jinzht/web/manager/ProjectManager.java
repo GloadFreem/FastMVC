@@ -860,12 +860,14 @@ public class ProjectManager {
 					
 					if(userInstance.getName()==null || userInstance.getName().equals(""))
 					{
-						String telephone = user.getTelephone();
-						Integer length = telephone.length();
-						String name = "用户"+user.getTelephone().substring(length-4, length);
-						userInstance.setName(name);
+						if(user.getTelephone()!=null)
+						{
+							String telephone = user.getTelephone();
+							Integer length = telephone.length();
+							String name = "用户"+user.getTelephone().substring(length-4, length);
+							userInstance.setName(name);
+						}
 					}
-					
 					
 					record.setUsers(userInstance);
 					

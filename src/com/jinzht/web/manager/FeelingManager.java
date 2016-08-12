@@ -80,10 +80,13 @@ public class FeelingManager {
 					
 					if(authentic.getName()==null || authentic.getName().equals(""))
 					{
-						String telephone = user.getTelephone();
-						Integer length = telephone.length();
-						String name = "用户"+user.getTelephone().substring(length-4, length);
-						authentic.setName(name);
+						if(user.getTelephone()!=null)
+						{
+							String telephone = user.getTelephone();
+							Integer length = telephone.length();
+							String name = "用户"+user.getTelephone().substring(length-4, length);
+							authentic.setName(name);
+						}
 					}
 					
 

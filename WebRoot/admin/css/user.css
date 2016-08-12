@@ -5,7 +5,7 @@
 	border-radius: 5px;
 	border-width: 2px;
 	margin-left: 2.5%;
-	margin-top:10px;
+	margin-top: 10px;
 }
 
 .authinfo-item {
@@ -21,7 +21,7 @@
 	color: white;
 }
 
-.textarea{
+.textarea {
 	color: black;
 	width: 100%;
 	height: 200px;
@@ -54,3 +54,75 @@
 	border-width: 1px;
 	border-style: dashed;
 }
+
+.player {
+	margin-top: 50px;
+}
+
+.play-start {
+	width: 50px;
+	height: 100px;
+	float: left;
+}
+
+.play-start img {
+	width: 40%;
+	margin-top: 25px;
+}
+
+.play-progress {
+	width: 100%;
+}
+
+.action-bar {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.action-bar img {
+	width: 94%;
+}
+
+.progress-bar img {
+	width: 3px;
+	position: absolute;
+	margin-top: -5%;
+	left: 130px;
+	height: 46px;
+}
+
+.insert
+{
+	margin-bottom: 50px;
+}
+
+.insert img
+{
+	margin-top:30px;
+	margin-left:40%;
+}
+
+.content-item{
+	width: 150px;	
+}
+
+.content-item-tip
+{
+	width: 100%;
+}
+.content-item-tip input
+{
+	width: 100%;
+}
+
+.content-tip-img
+{
+	width: 100%;
+}
+.content-tip-img img
+{
+	width: 100%;
+}
+
+
+

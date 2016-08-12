@@ -116,10 +116,13 @@ public class AuthenticController extends BaseController {
 			authentic.setUsers(user);
 			authentic.setAuthenticstatus(status);
 			
-			String telephone = user.getTelephone();
-			Integer length = telephone.length();
-			String name = "用户"+user.getTelephone().substring(length-4, length);
-			authentic.setName(name);
+			if(user.getTelephone()!=null)
+			{
+				String telephone = user.getTelephone();
+				Integer length = telephone.length();
+				String name = "用户"+user.getTelephone().substring(length-4, length);
+				authentic.setName(name);
+			}
 
 			// 保存
 			this.authenticManager.saveAuthentic(authentic);
@@ -481,10 +484,12 @@ public class AuthenticController extends BaseController {
 				Authentic authentic = (Authentic)authentics[i];
 				if(authentic.getName()==null || authentic.getName().equals(""))
 				{
-					String telephone = user.getTelephone();
-					Integer length = telephone.length();
-					String name = "用户"+user.getTelephone().substring(length-4, length);
-					authentic.setName(name);
+					if(user.getTelephone()!=null){
+						String telephone = user.getTelephone();
+						Integer length = telephone.length();
+						String name = "用户"+user.getTelephone().substring(length-4, length);
+						authentic.setName(name);
+					}
 				}
 				
 			}

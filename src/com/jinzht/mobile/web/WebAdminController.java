@@ -252,7 +252,7 @@ public class WebAdminController extends BaseController {
 
 				}
 			}
-
+			this.result.put("data", fileName);
 			session.setAttribute(type, list);
 		}
 		return getResult();
@@ -478,6 +478,7 @@ public class WebAdminController extends BaseController {
 						String[] tempList = optional.split(",");
 
 						for (String s : tempList) {
+							s=s.replace(" ", "");
 							list.add(Integer.parseInt(s.trim()));
 						}
 					}
@@ -495,6 +496,7 @@ public class WebAdminController extends BaseController {
 						String[] tempList = area.split(",");
 
 						for (String s : tempList) {
+							s=s.replace(" ", "");
 							list.add(s.trim());
 						}
 					}
@@ -658,17 +660,13 @@ public class WebAdminController extends BaseController {
 	public String editRoadShow(
 			@RequestParam(value = "roadShowId", required = false) Integer roadShowId,
 			ModelMap map) {
-		List areas = this.authenticManager.getIndustoryareaDao().findAll();
-		List citys = this.authenticManager.getCityDao().findAll();
-		if (roadShowId != null) {
+		if (roadShowId !=null) {
 			Roadshow roadshow = this.projectManager.getRoadShowDao().findById(
 					roadShowId);
 
 			map.put("roadshow", roadshow);
 		}
 
-		map.put("areas", areas);
-		map.put("cities", citys);
 
 		return "/admin/project/editorRoadShow";
 	}
@@ -704,7 +702,8 @@ public class WebAdminController extends BaseController {
 					String[] tempList = optional.split(",");
 
 					for (String s : tempList) {
-						list.add(s);
+						s=s.replace(" ", "");
+						list.add(s.trim());
 					}
 				}
 			} else {
@@ -721,6 +720,7 @@ public class WebAdminController extends BaseController {
 					String[] tempList = area.split(",");
 
 					for (String s : tempList) {
+						s=s.replace(" ", "");
 						list.add(s);
 					}
 				}
@@ -1097,7 +1097,7 @@ public class WebAdminController extends BaseController {
 		List l = (List) session.getAttribute("images");
 		Project project;
 
-		if (projectId != -1) {
+		if (projectId != null) {
 			project = this.projectManager.findProjectById(projectId);
 		} else {
 			project = new Project();
@@ -1195,6 +1195,80 @@ public class WebAdminController extends BaseController {
 		List<Project> list = this.projectManager.getProjectDao().findAll();
 		map.put("items", list.iterator());
 		return "/admin/project/projectList";
+	}
+	@RequestMapping(value = "/admin/adminAddRoadShow")
+	/***
+	 * 添加项目
+	 * @return
+	 */
+	public String adminAddRoadShow(
+			@RequestParam(value = "roadShowId", required = false) Integer roadShowId,
+			@RequestParam(value = "projectId", required = false) Integer projectId,
+			@RequestParam(value = "total", required = false) String total,
+			@RequestParam(value = "financed", required = false) String financed,
+			@RequestParam(value = "limit", required = false) String limit,
+			@RequestParam(value = "profit", required = false) String profit,
+			@RequestParam(value = "beginTime", required = false) String beginTime,
+			@RequestParam(value = "endTime", required = false) String endTime,
+			ModelMap map, HttpSession session) throws Exception {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		Roadshow show;
+		
+		if (roadShowId != -1) {
+			show = this.projectManager.getRoadShowDao().findById(roadShowId);
+		} else {
+			show = new Roadshow();
+			Project project = this.projectManager.findProjectById(projectId);
+			show.setProject(project);
+		}
+		
+		
+		String totalStr = total.replace("万", "");
+		String financedStr = financed.replace("万", "");
+		String limitStr = limit.replace("万", "");
+		
+		beginTime = beginTime.replace(".0", "");
+		endTime = endTime.replace(".0", "");
+		
+		Roadshowplan plan;
+		if (show.getRoadshowplan() != null) {
+			plan = show.getRoadshowplan();
+		} else {
+			plan = new Roadshowplan();
+		}
+		
+		plan.setBeginDate(DateUtils.stringToDate(beginTime,
+				"yyyy-MM-dd HH:mm:ss"));
+		plan.setEndDate(DateUtils.stringToDate(endTime, "yyyy-MM-dd HH:mm:ss"));
+		plan.setFinanceTotal(Integer.parseInt(totalStr));
+		plan.setFinancedMount(Integer.parseInt(financedStr));
+		plan.setLimitAmount(Double.parseDouble(limitStr));
+		plan.setProfit(profit);
+		
+		Set s = new HashSet();
+		s.add(show);
+		plan.setRoadshows(s);
+		
+		if (show.getRoadshowplan() == null) {
+			this.projectManager.getRoadShowPlanDao().save(plan);
+		} else {
+			this.projectManager.getRoadShowPlanDao().saveOrUpdate(plan);
+		}
+		
+		show.setRoadshowplan(plan);
+		
+		if (roadShowId==-1) {
+			this.projectManager.getRoadShowDao().save(show);
+		} else {
+			this.projectManager.getRoadShowDao().saveOrUpdate(show);
+		}
+		
+		
+		List<Roadshow> list = this.projectManager.getRoadShowDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/project/roadShowList";
 	}
 
 	@RequestMapping(value = "/admin/adminAddAction")
