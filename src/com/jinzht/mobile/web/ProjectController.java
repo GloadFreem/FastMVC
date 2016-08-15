@@ -332,15 +332,15 @@ public class ProjectController extends BaseController {
 	 */
 	public Map requestInvestProject(
 			@RequestParam(value = "projectId", required = true) Integer projectId,
-			@RequestParam(value = "amount", required = true) float amount,
+			@RequestParam(value = "amount", required = true) final float amount,
 			@RequestParam(value = "tradeCode", required = true) String tradeCode,
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
 		
-		Users user = this.findUserInSession(session);
+		final Users user = this.findUserInSession(session);
 		if (user != null) {
-			Project project = this.ProjectManager.findProjectById(projectId);
+			final Project project = this.ProjectManager.findProjectById(projectId);
 			Investmentrecord record = new Investmentrecord();
 			record.setInvestAmount(amount);
 			record.setInvestCode(tradeCode);
@@ -351,24 +351,41 @@ public class ProjectController extends BaseController {
 			
 			this.ProjectManager.getInvestmentRecordDao().save(record);
 			// 发送短信
-			String message = String.format(
+			final String message = String.format(
 					Config.STRING_SMS_INVEST_VALID_TRUE,
 					DateUtils.formatDate(new Date()), project.getAbbrevName(), amount);
-			MsgUtil SMS = new MsgUtil();
-			SMS.setTelePhone(user.getTelephone());
-			SMS.setMsgType(MessageType.NormalMessage);
-			SMS.setContent(message);
-			// 发送验证码
-			MsgUtil.send();
-			//发送邮件
-			//发送注册成功邮件
-			MailUtil mu = new MailUtil();
-			try {
-				mu.sendUserInvest(mu,user.getTelephone(),user.getName(),project.getAbbrevName(),amount);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
+			new Thread(){
+				public void run()
+				{
+					MailUtil mu = new MailUtil();
+					try {
+						try {
+							MsgUtil SMS = new MsgUtil();
+							SMS.setTelePhone(user.getTelephone());
+							SMS.setMsgType(MessageType.NormalMessage);
+							SMS.setContent(message);
+							// 发送验证码
+							MsgUtil.send();
+							
+							//发送邮件
+							try {
+								mu.sendUserInvest(mu,user.getTelephone(),user.getName(),project.getAbbrevName(),amount);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}.start();
 			
 			// 封装返回结果
 			this.status = 200;

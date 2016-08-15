@@ -47,7 +47,7 @@
 	<div class="grid_12 header-repeat">
 		<div id="branding">
 			<div class="floatleft">
-				<img src="images/kingHome.png" alt="Logo" />
+				<img src="images/金指投后台管理系统 .png" alt="Logo" />
 			</div>
 			<div class="floatright">
 				<div class="floatleft">

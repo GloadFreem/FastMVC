@@ -59,6 +59,16 @@ public class SceneDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Scene transientInstance) {
+		log.debug("saving Scene instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Scene persistentInstance) {
 		log.debug("deleting Scene instance");

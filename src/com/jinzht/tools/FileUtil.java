@@ -72,6 +72,8 @@ public class FileUtil {
 	         fileTypes.add("jpeg");  
 	         fileTypes.add("bmp");  
 	         fileTypes.add("gif"); 
+	         fileTypes.add("mp3"); 
+	         fileTypes.add("wav"); 
 	         
 	       //获取上传文件类型的扩展名,先得到.的位置，再截取从.的下一个位置到文件的最后，最后得到扩展名 
 	        String orignalFileName = file.getOriginalFilename();

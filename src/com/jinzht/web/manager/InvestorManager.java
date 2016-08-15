@@ -200,6 +200,18 @@ public class InvestorManager {
 						authentic.setAuthenticstatus(null);
 						authentic.setIdentiyCarNo(null);
 						authentic.setOptional(null);
+						
+						String[] aa = authentic.getIndustoryArea().split(",");
+						String str = "";
+						for (int k = 0;k < aa.length; k++) {
+							Industoryarea area = getIndustoryAreaDao().findById(
+									Integer.parseInt(aa[k].toString()));
+							str +=area.getName();
+							if(k!=aa.length){
+								str+="，";
+							}
+						}
+						authentic.setIndustoryArea(str);
 					}
 				}
 			}

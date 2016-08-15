@@ -98,6 +98,7 @@ public class Config {
 	};
 	public static List STRING_INTEFACE_WEB_FLITER = new ArrayList() {
 		{
+			add("adminUploadAudio.action");
 			add("adminLogin.action");
 			add("adminDashboard.action");
 			add("adminLeft.action");
@@ -132,6 +133,7 @@ public class Config {
 			add("adminUploadFeelingImage.action");
 			add("adminAddCycle.action");
 			add("adminAddProject.action");
+			add("adminAddScene.action");
 		}
 	};
 
@@ -163,8 +165,8 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.172:8080/jinzht/";
-//	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.172:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.jinzht.com:8080/jinzht/images/icon.jpg";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
@@ -208,6 +210,7 @@ public class Config {
 	public static String STRING_FEELING_REPLY_SUCCESS = "回复成功!";
 	public static String STRING_FEELING_COMMENT_SUCCESS = "评论成功!";
 	public static String  STRING_USER_FEELING_PICTUREA_FORMAT = "jinzht_feeling_%d%d";
+	public static String  STRING_USER_AUDIO_FORMAT = "jinzht_audio_%d%d";
 	public static String STRING_FEELING_SHARE_UPDATE = "分享信息更新成功！";
 	
 	//分享

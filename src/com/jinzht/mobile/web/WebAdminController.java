@@ -100,8 +100,7 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "password", required = false) String password,
 			HttpSession session, ModelMap map) {
-		if(name==null || password==null)
-		{
+		if (name == null || password == null) {
 			map.put("tip", "账号或密码不能为空!");
 			return "/admin/login";
 		}
@@ -122,9 +121,9 @@ public class WebAdminController extends BaseController {
 			map.put("tip", "该账号不存在，请联系管理人员!");
 			return "/admin/login";
 		}
-		
+
 		map.put("tip", "");
-//		session.setAttribute("userId", null);
+		// session.setAttribute("userId", null);
 		return "/admin/adminIndex";
 	}
 
@@ -250,6 +249,52 @@ public class WebAdminController extends BaseController {
 						fileName = "";
 					}
 
+				}
+			}
+			this.result.put("data", fileName);
+			session.setAttribute(type, list);
+		}
+		return getResult();
+	}
+
+	@RequestMapping(value = "/admin/adminUploadAudio")
+	@ResponseBody
+	/***
+	 * 上传音频
+	 * @param session
+	 * @return
+	 */
+	public Map adminUploadAudio(
+			@RequestParam(value = "type", required = false) String type,
+			@RequestParam(value = "audio", required = false) MultipartFile[] audios,
+			HttpSession session) {
+
+		session.setAttribute(type, null);
+
+		this.result = new HashMap();
+		this.result.put("data", "");
+		// 保存图片
+		String fileName = "";
+		String result = "";
+		if (audios != null && audios.length > 0) {
+
+			MultipartFile file = null;
+			Set items = new HashSet();
+			List list = new ArrayList();
+			for (int i = 0; i < audios.length; i++) {
+				if (audios[i] != null) {
+					file = audios[i];
+					fileName = String.format(Config.STRING_USER_AUDIO_FORMAT,
+							new Date().getTime(), i);
+					result = FileUtil.savePicture(file, fileName,
+							"upload/audios/");
+					if (!result.equals("")) {
+						fileName = Config.STRING_SYSTEM_ADDRESS
+								+ "upload/audios/" + result;
+						list.add(fileName);
+					} else {
+						fileName = "";
+					}
 				}
 			}
 			this.result.put("data", fileName);
@@ -478,7 +523,7 @@ public class WebAdminController extends BaseController {
 						String[] tempList = optional.split(",");
 
 						for (String s : tempList) {
-							s=s.replace(" ", "");
+							s = s.replace(" ", "");
 							list.add(Integer.parseInt(s.trim()));
 						}
 					}
@@ -496,7 +541,7 @@ public class WebAdminController extends BaseController {
 						String[] tempList = area.split(",");
 
 						for (String s : tempList) {
-							s=s.replace(" ", "");
+							s = s.replace(" ", "");
 							list.add(s.trim());
 						}
 					}
@@ -613,6 +658,96 @@ public class WebAdminController extends BaseController {
 	}
 
 	/***
+	 * 添加现场
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminAddScene")
+	public String adminAddScene(
+			@RequestParam(value = "sceneId", required = false) Integer sceneId,
+			@RequestParam(value = "projectId", required = false) Integer projectId,
+			@RequestParam(value = "audio", required = false) MultipartFile[] audios,
+			ModelMap map) {
+
+		Map m = new HashMap();
+		if (sceneId != -1) {
+			Scene scene = this.projectManager.getSceneDao().findById(sceneId);
+			if(projectId!=null && projectId!=-1)
+			{
+				Project project = this.projectManager.findProjectById(projectId);
+				scene.setProject(project);
+			}
+
+			// 保存图片
+			String fileName = "";
+			String result = "";
+			if (audios != null && audios.length > 0) {
+				MultipartFile file = null;
+				Set items = new HashSet();
+				List list = new ArrayList();
+				for (int i = 0; i < audios.length; i++) {
+					if (audios[i] != null) {
+						file = audios[i];
+						fileName = String.format(
+								Config.STRING_USER_AUDIO_FORMAT,
+								new Date().getTime(), i);
+						result = FileUtil.savePicture(file, fileName,
+								"upload/audio/");
+						if (!result.equals("")) {
+							fileName = Config.STRING_SYSTEM_ADDRESS
+									+ "upload/audio/" + result;
+							list.add(fileName);
+						} else {
+							fileName = "";
+						}
+
+					}
+				}
+				scene.setAudioPath(fileName);
+			}
+			this.projectManager.getSceneDao().saveOrUpdate(scene);
+		}else{
+			Scene scene = new Scene();
+			if(projectId!=null && projectId!=-1)
+			{
+				Project project = this.projectManager.findProjectById(projectId);
+				scene.setProject(project);
+			}
+
+			// 保存图片
+			String fileName = "";
+			String result = "";
+			if (audios != null && audios.length > 0) {
+				MultipartFile file = null;
+				Set items = new HashSet();
+				List list = new ArrayList();
+				for (int i = 0; i < audios.length; i++) {
+					if (audios[i] != null) {
+						file = audios[i];
+						fileName = String.format(
+								Config.STRING_USER_AUDIO_FORMAT,
+								new Date().getTime(), i);
+						result = FileUtil.savePicture(file, fileName,
+								"upload/audio/");
+						if (!result.equals("")) {
+							fileName = Config.STRING_SYSTEM_ADDRESS
+									+ "upload/audio/" + result;
+							list.add(fileName);
+						} else {
+							fileName = "";
+						}
+
+					}
+				}
+				scene.setAudioPath(fileName);
+			}
+			this.projectManager.getSceneDao().save(scene);
+		}
+
+		return "admin/project/sceneList";
+	}
+
+	/***
 	 * 编辑现场
 	 * 
 	 * @return
@@ -660,13 +795,12 @@ public class WebAdminController extends BaseController {
 	public String editRoadShow(
 			@RequestParam(value = "roadShowId", required = false) Integer roadShowId,
 			ModelMap map) {
-		if (roadShowId !=null) {
+		if (roadShowId != null) {
 			Roadshow roadshow = this.projectManager.getRoadShowDao().findById(
 					roadShowId);
 
 			map.put("roadshow", roadshow);
 		}
-
 
 		return "/admin/project/editorRoadShow";
 	}
@@ -702,7 +836,7 @@ public class WebAdminController extends BaseController {
 					String[] tempList = optional.split(",");
 
 					for (String s : tempList) {
-						s=s.replace(" ", "");
+						s = s.replace(" ", "");
 						list.add(s.trim());
 					}
 				}
@@ -720,7 +854,7 @@ public class WebAdminController extends BaseController {
 					String[] tempList = area.split(",");
 
 					for (String s : tempList) {
-						s=s.replace(" ", "");
+						s = s.replace(" ", "");
 						list.add(s);
 					}
 				}
@@ -883,7 +1017,6 @@ public class WebAdminController extends BaseController {
 			authentic.setIndustoryArea(areas);
 			authentic.setOptional(optional);
 			authentic.setPosition(position);
-			authentic.setUsers(user);
 
 			City c = new City();
 			c.setCityId(Integer.parseInt(city));
@@ -910,13 +1043,17 @@ public class WebAdminController extends BaseController {
 				authentic.setIdentiyCarA(identityCardB);
 			}
 
+			// 保存
+			this.userManager.addUser(user);
+			authentic.setUsers(user);
+			this.authenticManager.saveAuthentic(authentic);
+
 			Set set = new HashSet();
 			set.add(authentic);
-
 			user.setAuthentics(set);
 
 			// 保存
-			this.userManager.addUser(user);
+			this.userManager.saveOrUpdateUser(user);
 		}
 
 		List<Users> list = this.userManager.getUserDao().findAll();
@@ -1125,11 +1262,9 @@ public class WebAdminController extends BaseController {
 			}
 		} else {
 			show = new Roadshow();
-			//保存项目
+			// 保存项目
 			this.projectManager.getProjectDao().save(project);
 		}
-		
-		
 
 		show.setProject(project);
 
@@ -1178,17 +1313,16 @@ public class WebAdminController extends BaseController {
 
 		project.setRoadshows(set);
 
-//		 更新头像
-		 if(session.getAttribute("project")!=null)
-		 {
-		 List headers = (List) session.getAttribute("project");
-		 project.setStartPageImage(headers.get(0).toString());
-		
-		 session.setAttribute("project", null);
-		
-		 }else{
-			 project.setStartPageImage(image);
-		 }
+		// 更新头像
+		if (session.getAttribute("project") != null) {
+			List headers = (List) session.getAttribute("project");
+			project.setStartPageImage(headers.get(0).toString());
+
+			session.setAttribute("project", null);
+
+		} else {
+			project.setStartPageImage(image);
+		}
 
 		this.projectManager.getProjectDao().saveOrUpdate(project);
 
@@ -1196,6 +1330,7 @@ public class WebAdminController extends BaseController {
 		map.put("items", list.iterator());
 		return "/admin/project/projectList";
 	}
+
 	@RequestMapping(value = "/admin/adminAddRoadShow")
 	/***
 	 * 添加项目
@@ -1213,9 +1348,9 @@ public class WebAdminController extends BaseController {
 			ModelMap map, HttpSession session) throws Exception {
 		this.result = new HashMap();
 		this.result.put("data", "");
-		
+
 		Roadshow show;
-		
+
 		if (roadShowId != -1) {
 			show = this.projectManager.getRoadShowDao().findById(roadShowId);
 		} else {
@@ -1223,22 +1358,21 @@ public class WebAdminController extends BaseController {
 			Project project = this.projectManager.findProjectById(projectId);
 			show.setProject(project);
 		}
-		
-		
+
 		String totalStr = total.replace("万", "");
 		String financedStr = financed.replace("万", "");
 		String limitStr = limit.replace("万", "");
-		
+
 		beginTime = beginTime.replace(".0", "");
 		endTime = endTime.replace(".0", "");
-		
+
 		Roadshowplan plan;
 		if (show.getRoadshowplan() != null) {
 			plan = show.getRoadshowplan();
 		} else {
 			plan = new Roadshowplan();
 		}
-		
+
 		plan.setBeginDate(DateUtils.stringToDate(beginTime,
 				"yyyy-MM-dd HH:mm:ss"));
 		plan.setEndDate(DateUtils.stringToDate(endTime, "yyyy-MM-dd HH:mm:ss"));
@@ -1246,26 +1380,25 @@ public class WebAdminController extends BaseController {
 		plan.setFinancedMount(Integer.parseInt(financedStr));
 		plan.setLimitAmount(Double.parseDouble(limitStr));
 		plan.setProfit(profit);
-		
+
 		Set s = new HashSet();
 		s.add(show);
 		plan.setRoadshows(s);
-		
+
 		if (show.getRoadshowplan() == null) {
 			this.projectManager.getRoadShowPlanDao().save(plan);
 		} else {
 			this.projectManager.getRoadShowPlanDao().saveOrUpdate(plan);
 		}
-		
+
 		show.setRoadshowplan(plan);
-		
-		if (roadShowId==-1) {
+
+		if (roadShowId == -1) {
 			this.projectManager.getRoadShowDao().save(show);
 		} else {
 			this.projectManager.getRoadShowDao().saveOrUpdate(show);
 		}
-		
-		
+
 		List<Roadshow> list = this.projectManager.getRoadShowDao().findAll();
 		map.put("items", list.iterator());
 		return "/admin/project/roadShowList";
@@ -1421,14 +1554,15 @@ public class WebAdminController extends BaseController {
 		map.put("data", users);
 		return map;
 	}
+
 	@RequestMapping(value = "/admin/adminSearchProjectByName")
 	@ResponseBody
 	public Map searchProjectByName(
 			@RequestParam(value = "name", required = false) String name) {
 		Map map = new HashMap();
-		
+
 		List<Project> projects = this.projectManager.findProjectByName(name);
-		
+
 		map.put("data", projects);
 		return map;
 	}

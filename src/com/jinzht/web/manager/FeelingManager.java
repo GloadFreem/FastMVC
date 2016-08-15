@@ -77,18 +77,18 @@ public class FeelingManager {
 					authentic.setCompanyIntroduce(null);
 					authentic.setAutrhrecords(null);
 					authentic.setOptional(null);
-					
-					if(authentic.getName()==null || authentic.getName().equals(""))
-					{
-						if(user.getTelephone()!=null)
-						{
+
+					if (authentic.getName() == null
+							|| authentic.getName().equals("")) {
+						if (user.getTelephone() != null) {
 							String telephone = user.getTelephone();
 							Integer length = telephone.length();
-							String name = "用户"+user.getTelephone().substring(length-4, length);
+							String name = "用户"
+									+ user.getTelephone().substring(length - 4,
+											length);
 							authentic.setName(name);
 						}
 					}
-					
 
 					userPublic.setAuthentics(user.getAuthentics());
 					userPublic.setUserId(user.getUserId());
@@ -247,12 +247,11 @@ public class FeelingManager {
 			userPublic.setUserId(user.getUserId());
 			userPublic.setHeadSculpture(user.getHeadSculpture());
 			userPublic.setName(authentic.getName());
-			
-			if(userPublic.getName()==null || userPublic.getName().equals(""))
-			{
+
+			if (userPublic.getName() == null || userPublic.getName().equals("")) {
 				String telephone = user.getTelephone();
 				Integer length = telephone.length();
-				String name = "用户"+telephone.substring(length-4, length);
+				String name = "用户" + telephone.substring(length - 4, length);
 				userPublic.setName(name);
 			}
 		}
@@ -284,15 +283,15 @@ public class FeelingManager {
 				temp.setName(user.getName());
 				temp.setUserId(user.getUserId());
 				temp.setHeadSculpture(user.getHeadSculpture());
-				
-				if(temp.getName()==null || temp.getName().equals(""))
-				{
+
+				if (temp.getName() == null || temp.getName().equals("")) {
 					String telephone = user.getTelephone();
 					Integer length = telephone.length();
-					String name = "用户"+telephone.substring(length-4, length);
+					String name = "用户"
+							+ telephone.substring(length - 4, length);
 					temp.setName(name);
 				}
-				
+
 				comment.setUsersByUserId(temp);
 
 				temp = new Users();
@@ -310,11 +309,11 @@ public class FeelingManager {
 					temp.setName(user.getName());
 					temp.setUserId(user.getUserId());
 					temp.setHeadSculpture(user.getHeadSculpture());
-					if(temp.getName()==null || temp.getName().equals(""))
-					{
+					if (temp.getName() == null || temp.getName().equals("")) {
 						String telephone = user.getTelephone();
 						Integer length = telephone.length();
-						String name = "用户"+telephone.substring(length-4, length);
+						String name = "用户"
+								+ telephone.substring(length - 4, length);
 						temp.setName(name);
 					}
 
@@ -333,23 +332,22 @@ public class FeelingManager {
 				Contentprise contentprise = iterator.next();
 				Users temp = new Users();
 				user = contentprise.getUsers();
-				
-				if(user.getUserId().equals(userId))
-				{
+
+				if (user.getUserId().equals(userId)) {
 					content.setFlag(true);
 				}
-//				if (user.getAuthentics() != null) {
-//					Object[] l = user.getAuthentics().toArray();
-//					if (l.length > 0) {
-//						Authentic authentic = (Authentic) l[0];
-//						user.setName(authentic.getName());
-//					} else {
-//						user.setName("");
-//					}
-//
-//				} else {
-//					user.setName("");
-//				}
+				// if (user.getAuthentics() != null) {
+				// Object[] l = user.getAuthentics().toArray();
+				// if (l.length > 0) {
+				// Authentic authentic = (Authentic) l[0];
+				// user.setName(authentic.getName());
+				// } else {
+				// user.setName("");
+				// }
+				//
+				// } else {
+				// user.setName("");
+				// }
 
 				if (user.getUserId() == userId) {
 					content.setFlag(true);
@@ -359,15 +357,15 @@ public class FeelingManager {
 				temp.setName(user.getName());
 				temp.setUserId(user.getUserId());
 				temp.setHeadSculpture(user.getHeadSculpture());
-				
-				if(temp.getName()==null || temp.getName().equals(""))
-				{
+
+				if (temp.getName() == null || temp.getName().equals("")) {
 					String telephone = user.getTelephone();
 					Integer length = telephone.length();
-					String name = "用户"+telephone.substring(length-4, length);
+					String name = "用户"
+							+ telephone.substring(length - 4, length);
 					temp.setName(name);
 				}
-				
+
 				//
 				// // user.setAuthentics(null);
 				// user.setUserstatus(null);
@@ -432,16 +430,17 @@ public class FeelingManager {
 				temp.setName(user.getName());
 				temp.setUserId(user.getUserId());
 				temp.setHeadSculpture(user.getHeadSculpture());
-				
-				if(temp.getName()==null || temp.getName().equals(""))
-				{
-					String telephone = user.getTelephone();
-					Integer length = telephone.length();
-					String name = "用户"+telephone.substring(length-4, length);
-					temp.setName(name);
+
+				if (temp.getName() == null || temp.getName().equals("")) {
+					if (user.getTelephone() != null) {
+						String telephone = user.getTelephone();
+						Integer length = telephone.length();
+						String name = "用户"
+								+ telephone.substring(length - 4, length);
+						temp.setName(name);
+					}
 				}
-				
-				
+
 				comment.setUsersByUserId(temp);
 
 				temp = new Users();
@@ -460,14 +459,16 @@ public class FeelingManager {
 					temp.setUserId(user.getUserId());
 					temp.setHeadSculpture(user.getHeadSculpture());
 
-					if(temp.getName()==null || temp.getName().equals(""))
-					{
-						String telephone = user.getTelephone();
-						Integer length = telephone.length();
-						String name = "用户"+telephone.substring(length-4, length);
-						temp.setName(name);
+					if (temp.getName() == null || temp.getName().equals("")) {
+						if (user.getTelephone() != null) {
+							String telephone = user.getTelephone();
+							Integer length = telephone.length();
+							String name = "用户"
+									+ telephone.substring(length - 4, length);
+							temp.setName(name);
+						}
 					}
-					
+
 					comment.setUsersByAtUserId(temp);
 				}
 			}
@@ -507,40 +508,40 @@ public class FeelingManager {
 
 	/***
 	 * 获取分享记录
+	 * 
 	 * @param shareId
 	 * @return
 	 */
-	public Share findShareFeelingById(Integer shareId)
-	{
+	public Share findShareFeelingById(Integer shareId) {
 		return getShareDao().findById(shareId);
 	}
-	
+
 	/***
 	 * 更新分享记录
+	 * 
 	 * @param share
 	 */
-	public void updateShare(Share share)
-	{
+	public void updateShare(Share share) {
 		getShareDao().saveOrUpdate(share);
 	}
-	
+
 	/***
 	 * 删除圈子
+	 * 
 	 * @param contentId
 	 */
-	public void deletePublicContent(Integer contentId)
-	{
+	public void deletePublicContent(Integer contentId) {
 		Publiccontent content = getPublicContentDao().findById(contentId);
-		
-		//删除
+
+		// 删除
 		getPublicContentDao().delete(content);
 	}
-	
-	public void deletePublicContentComment(Integer commentId)
-	{
+
+	public void deletePublicContentComment(Integer commentId) {
 		Comment comment = getCommentDao().findById(commentId);
 		getCommentDao().delete(comment);
 	}
+
 	public PubliccontentDAO getPublicContentDao() {
 		return publicContentDao;
 	}

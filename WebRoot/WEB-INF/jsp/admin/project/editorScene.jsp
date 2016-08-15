@@ -22,6 +22,9 @@
 	href="css/jquery.datetimepicker.css" />
 <script type="text/javascript">
 	jQuery(function($) {
+		var media = $('#media')[0];
+		var audioTimer = null;
+
 		$(".upload").dropzone({
 			url : "adminUploadImage.action?type=scene"
 		});
@@ -133,8 +136,9 @@
 												},
 												success : function(data) {
 													filename = data.data;
-													str="<div class='content-item'><div style='content-item-tip'><input name='contentId'></div><div style='content-tip-img'><img alt='' src='"+filename+"'></div></div>";
-													$(".contents:first").append(str);
+													str = "<div class='content-item'><div style='content-item-tip'><input name='contentId' style='display:none'></div><div style='content-tip-img'><img alt='' src='"+filename+"'></div></div>";
+													$(".contents:first")
+															.append(str);
 												},
 												complete : function() {
 													$("#submit").removeAttr(
@@ -153,8 +157,8 @@
 												processData : false,
 												contentType : false,
 											});
-											
-											$(this).dialog("close");
+
+									$(this).dialog("close");
 								},
 								"取消" : function() {
 									$(this).dialog("close");
@@ -176,6 +180,17 @@
 			type = file.type;
 		});
 
+		$("#audio").change(function() {
+			var file = this.files[0];
+			name = file.name;
+			size = file.size;
+			type = file.type;
+			
+			$("#audio_name").val(name);
+			
+
+		});
+
 		function progressHandlingFunction(e) {
 			if (e.lengthComputable) {
 				$('progress').attr({
@@ -183,6 +198,32 @@
 					max : e.total
 				});
 			}
+		}
+
+		//绑定播放暂停控制
+		$('#play').bind('click', function() {
+			playAudio();
+		});
+
+		//播放暂停切换
+		function playAudio() {
+			if (media.paused) {
+				play();
+			} else {
+				pause();
+			}
+		}
+
+		//播放
+		function play() {
+			media.play();
+			$('#play').attr("src", "images/pause.png");
+		}
+
+		//暂停
+		function pause() {
+			media.pause();
+			$('#play').attr("src", "images/播放.png");
 		}
 
 	});
@@ -254,7 +295,8 @@ div#users-contain table td, div#users-contain table th {
 		</form>
 	</div>
 	<div class="content">
-		<form action="adminAddscene.action" method="post">
+		<form action="adminAddScene.action" method="post"
+			enctype="multipart/form-data">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${scene!=null}">
@@ -271,10 +313,10 @@ div#users-contain table td, div#users-contain table th {
 				<div class="name-key">所属路演</div>
 				<div class="name-value">
 					<c:choose>
-						<c:when test="${roadshow!=null}">
+						<c:when test="${scene!=null}">
 							<div class="search">
 								<input style="color:black;width:95%" name="name" type="text"
-									value=${roadshow.project.fullName}>
+									value=${scene.project.fullName}>
 							</div>
 							<div>
 								<img name="search-img" class="search-img" alt=""
@@ -313,45 +355,55 @@ div#users-contain table td, div#users-contain table th {
 									<div class="name">
 										<div class="name-key">音频地址</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
-												value="请输入音频地址">
+											<input style="color:black" name="audio" id="audio"
+												type="file" value="选择音频">
+											<div>${scene.audioPath }</div>
 										</div>
 									</div>
+
 									<!--  已融金额 -->
 									<div class="name">
 										<div class="name-key">音频名称</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
-												value="请输入音频名称">
+											<input style="color:black" name="audio_name" id="audio_name"
+												type="text" value="${scene.audioPath }">
 										</div>
 									</div>
-									<!--  最低融资金额 -->
-									<div class="name">
-										<div class="name-key">音频</div>
-										<div class="name-value">
-											<div class="player">
-												<div class="play-start">
-													<img alt="" src="images/播放.png">
-												</div>
+									<c:choose>
+										<c:when test="${scene.audioPath!=null && scene.audioPath!=''}">
+											<!--  最低融资金额 -->
+											<div class="name">
+												<div class="name-key">音频</div>
+												<div class="name-value">
+													<div class="player">
+														<div class="play-start">
+															<img id="play" alt="" src="images/播放.png">
+														</div>
 
-												<div class="play-progress">
-													<div class="progress-text">00:10:34</div>
-													<div class="action-bar">
-														<img alt="" src="images/圆角矩形-5.png">
-													</div>
-													<div class="start-text">00:00:00</div>
-													<div class="progress-bar">
-														<img alt="" src="images/圆角矩形-6.png">
-													</div>
-													<div class="insert">
-														<img id="insert" alt="" src="images/插入PPT.png">
+														<div class="play-progress">
+															<div class="progress-text">00:10:34</div>
+															<div class="action-bar">
+																<img alt="" src="images/圆角矩形-5.png">
+															</div>
+															<div class="start-text">00:00:00</div>
+															<div class="progress-bar">
+																<img alt="" src="images/圆角矩形-6.png">
+															</div>
+															<div class="insert">
+																<img id="insert" alt="" src="images/插入PPT.png">
+															</div>
+														</div>
+														<div class="contents"></div>
 													</div>
 												</div>
-												<div class="contents"></div>
-											</div>
-										</div>
-									</div>
+												<!-- 音频播放 -->
+												<div>
+													<audio id="media" src="${scene.audioPath }"></audio>
+												</div>
+										</c:when>
+									</c:choose>
 								</div>
+							</div>
 						</c:when>
 						<c:otherwise>
 							<div class="authinfo">
@@ -360,24 +412,55 @@ div#users-contain table td, div#users-contain table th {
 									<div class="name">
 										<div class="name-key">音频地址</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
-												value="请输入音频地址">
+											<input style="color:black" name="audio" id="audio"
+												type="file" value="选择音频">
+											<div>${scene.audioPath }</div>
 										</div>
 									</div>
+
 									<!--  已融金额 -->
 									<div class="name">
 										<div class="name-key">音频名称</div>
 										<div class="name-value">
-											<input style="color:black" name="realName" type="text"
-												value="请输入音频名称">
+											<input style="color:black" name="audio_name" id="audio_name"
+												type="text" value="${scene.audioPath }">
 										</div>
 									</div>
-									<!--  最低融资金额 -->
-									<div class="name">
-										<div class="name-key">音频</div>
-										<div class="name-value"></div>
-									</div>
+									<c:choose>
+										<c:when test="${scene.audioPath!=null && scene.audioPath!=''}">
+											<!--  最低融资金额 -->
+											<div class="name">
+												<div class="name-key">音频</div>
+												<div class="name-value">
+													<div class="player">
+														<div class="play-start">
+															<img id="play" alt="" src="images/播放.png">
+														</div>
+
+														<div class="play-progress">
+															<div class="progress-text">00:10:34</div>
+															<div class="action-bar">
+																<img alt="" src="images/圆角矩形-5.png">
+															</div>
+															<div class="start-text">00:00:00</div>
+															<div class="progress-bar">
+																<img alt="" src="images/圆角矩形-6.png">
+															</div>
+															<div class="insert">
+																<img id="insert" alt="" src="images/插入PPT.png">
+															</div>
+														</div>
+														<div class="contents"></div>
+													</div>
+												</div>
+												<!-- 音频播放 -->
+												<div>
+													<audio id="media" src="${scene.audioPath }"></audio>
+												</div>
+										</c:when>
+									</c:choose>
 								</div>
+							</div>
 						</c:otherwise>
 					</c:choose>
 				</div>

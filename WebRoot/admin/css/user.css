@@ -86,43 +86,41 @@
 .progress-bar img {
 	width: 3px;
 	position: absolute;
-	margin-top: -5%;
+	margin-top: -4%;
 	left: 130px;
-	height: 46px;
+	height: 40px;
 }
 
-.insert
-{
+.insert {
 	margin-bottom: 50px;
 }
 
-.insert img
-{
-	margin-top:30px;
-	margin-left:40%;
+.insert img {
+	margin-top: 30px;
+	margin-left: 40%;
 }
 
-.content-item{
-	width: 150px;	
+.content-item {
+	width: 150px;
 }
 
-.content-item-tip
-{
-	width: 100%;
-}
-.content-item-tip input
-{
+.content-item-tip {
 	width: 100%;
 }
 
-.content-tip-img
-{
-	width: 100%;
-}
-.content-tip-img img
-{
+.content-item-tip input {
 	width: 100%;
 }
 
+.content-tip-img {
+	width: 100%;
+}
 
+.content-tip-img img {
+	width: 100%;
+}
 
+progress {
+	margin-top: 15px;
+	width: 30%;
+}

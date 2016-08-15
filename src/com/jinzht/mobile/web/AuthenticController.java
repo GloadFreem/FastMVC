@@ -574,19 +574,30 @@ public class AuthenticController extends BaseController {
 		this.result.put("data", "");
 		this.status = 200;
 		
-		Users user = this.findUserInSession(session);
+		final Users user = this.findUserInSession(session);
 		if (user != null) {
-			Authentic  authentic = this.authenticManager.findAuthenticById(authId);
+			final Authentic  authentic = this.authenticManager.findAuthenticById(authId);
 			if(authentic!= null)
 			{
 				//发送催一催
-				MailUtil mu = new MailUtil();
-				try {
-					mu.sendUserAuthenticQuick(mu,user.getTelephone(),authentic.getName());
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				new Thread(){
+					public void run()
+					{
+						MailUtil mu = new MailUtil();
+						try {
+							try {
+								mu.sendUserAuthenticQuick(mu,user.getTelephone(),authentic.getName());
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}.start();
+				
 				this.status = 200;
 				this.message = Config.STRING_AUTH_SPEED_SUCCESS;
 			}else{

@@ -102,7 +102,6 @@
 												<c:choose>
 													<c:when test="${authentic.identiytype.identiyTypeId==-1}">
 														<select name="identityTypeId" id="identityTypeId">
-															<option value="0" selected="selected">请选择身份类型</option>
 															<option value="1">项目方</option>
 															<option value="2">投资人</option>
 															<option value="3">投资机构</option>
@@ -111,7 +110,6 @@
 													</c:when>
 													<c:when test="${authentic.identiytype.identiyTypeId==1}">
 														<select name="identityTypeId" id="identityTypeId">
-															<option value="0">请选择身份类型</option>
 															<option value="1" selected="selected">项目方</option>
 															<option value="2">投资人</option>
 															<option value="3">投资机构</option>
@@ -120,7 +118,6 @@
 													</c:when>
 													<c:when test="${authentic.identiytype.identiyTypeId==2}">
 														<select name="identityTypeId" id="identityTypeId">
-															<option value="0">请选择身份类型</option>
 															<option value="1">项目方</option>
 															<option value="2" selected="selected">投资人</option>
 															<option value="3">投资机构</option>
@@ -129,7 +126,6 @@
 													</c:when>
 													<c:when test="${authentic.identiytype.identiyTypeId==3}">
 														<select name="identityTypeId" id="identityTypeId">
-															<option value="0">请选择身份类型</option>
 															<option value="1">项目方</option>
 															<option value="2">投资人</option>
 															<option value="3" selected="selected">投资机构</option>
@@ -138,7 +134,6 @@
 													</c:when>
 													<c:otherwise>
 														<select name="identityTypeId" id="identityTypeId">
-															<option value="0">请选择身份类型</option>
 															<option value="1">项目方</option>
 															<option value="2">投资人</option>
 															<option value="3">投资机构</option>
@@ -250,7 +245,6 @@
 											<div class="name-key">符合投资人协议表标准</div>
 											<div class="name-value">
 												<select name="optional" id="optional" multiple="multiple">
-													<option value="0">请选择符合投资人标准协议</option>
 													<c:forEach items="${optional}" var="o" varStatus="v">
 														<option value=${v.index }
 															<c:forEach items="${ext.option}" var="e" varStatus="i">
@@ -269,7 +263,6 @@
 											<div class="name-key">所属行业</div>
 											<div class="name-value">
 												<select name="areas" id="areas" multiple="multiple">
-													<option value="0">请选择行业类型</option>
 													<c:forEach items="${areas}" var="o" varStatus="v">
 														<option value=${v.index }
 															<c:forEach items="${ext.areas}" var="e" varStatus="i">
@@ -332,7 +325,6 @@
 										<div class="name-key">身份类型</div>
 										<div class="name-value">
 											<select name="identityTypeId" id="identityTypeId">
-												<option value="0" selected="selected">请选择身份类型</option>
 												<option value="1">项目方</option>
 												<option value="2">投资人</option>
 												<option value="3">投资机构</option>
@@ -436,7 +428,6 @@
 										<div class="name-key">符合投资人协议表标准</div>
 										<div class="name-value">
 											<select name="optional" id="optional" multiple="multiple">
-												<option value="0">请选择符合投资人标准协议</option>
 												<c:forEach items="${optional}" var="o" varStatus="v">
 													<option value=${v.index }>${o}</option>
 												</c:forEach>
@@ -448,7 +439,6 @@
 										<div class="name-key">所属行业</div>
 										<div class="name-value">
 											<select name="areas" id="areas" multiple="multiple">
-												<option value="0">请选择行业类型</option>
 												<c:forEach items="${areas}" var="o" varStatus="v">
 													<option value=${v.index }>${o.name}</option>
 												</c:forEach>

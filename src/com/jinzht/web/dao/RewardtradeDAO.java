@@ -184,7 +184,7 @@ public class RewardtradeDAO {
 	
 	public List findRewardTradeByRewardId(Integer rewardId,Integer page)
 	{
-		String sqlString = "select * from rewardtrade where reward_id=?";
+		String sqlString = "select * from rewardtrade where reward_id=? order by reward_trade_id desc";
 		SQLQuery queryObject= getCurrentSession().createSQLQuery(sqlString).addEntity(Rewardtrade.class);
 		queryObject.setParameter(0, rewardId);
 		queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
