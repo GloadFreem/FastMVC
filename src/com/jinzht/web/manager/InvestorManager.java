@@ -207,7 +207,7 @@ public class InvestorManager {
 							Industoryarea area = getIndustoryAreaDao().findById(
 									Integer.parseInt(aa[k].toString()));
 							str +=area.getName();
-							if(k!=aa.length){
+							if(k!=aa.length-1){
 								str+="，";
 							}
 						}

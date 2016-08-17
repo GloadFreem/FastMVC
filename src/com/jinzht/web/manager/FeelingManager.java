@@ -286,10 +286,13 @@ public class FeelingManager {
 
 				if (temp.getName() == null || temp.getName().equals("")) {
 					String telephone = user.getTelephone();
-					Integer length = telephone.length();
-					String name = "用户"
-							+ telephone.substring(length - 4, length);
-					temp.setName(name);
+					if(telephone!=null && telephone.equals(""))
+					{
+						Integer length = telephone.length();
+						String name = "用户"
+								+ telephone.substring(length - 4, length);
+						temp.setName(name);
+					}
 				}
 
 				comment.setUsersByUserId(temp);

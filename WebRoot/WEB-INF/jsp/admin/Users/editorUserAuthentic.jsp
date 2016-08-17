@@ -19,7 +19,7 @@
 <script type="text/javascript">
 	jQuery(function($) {
 		$(".upload").dropzone({
-			url : "adminUploadImage.action"
+			url : "adminUploadImage.action?flag=images"
 		});
 		$("input:eq(1)").blur(function() {
 			$("input:eq(1)").css("background-color", "#D6D6FF");

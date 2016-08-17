@@ -124,3 +124,14 @@ progress {
 	margin-top: 15px;
 	width: 30%;
 }
+
+.contents
+{
+	height:auto;
+	margin-top:30px;	
+}
+
+.content-item
+{
+	float:left;
+}

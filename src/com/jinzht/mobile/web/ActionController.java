@@ -645,9 +645,14 @@ public class ActionController extends BaseController {
 						
 						if(authentic.getName()==null || authentic.getName().equals(""))
 						{
-							Integer length = telephone.length();
-							String name = "用户"+telephone.substring(length-4, length);
-							authentic.setName(name);
+							if(telephone!=null && telephone.equals(""))
+							{
+								Integer length = telephone.length();
+								String name = "用户"+telephone.substring(length-4, length);
+								authentic.setName(name);
+							}else{
+								authentic.setName("");
+							}
 						}
 						
 						u.setLastLoginDate(null);

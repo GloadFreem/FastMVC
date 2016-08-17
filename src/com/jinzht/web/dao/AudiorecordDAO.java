@@ -75,7 +75,7 @@ public class AudiorecordDAO {
 		log.debug("getting Audiorecord instance with id: " + id);
 		try {
 			Audiorecord instance = (Audiorecord) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Audiorecord", id);
+					"com.jinzht.web.entity.Audiorecord", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

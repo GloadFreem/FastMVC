@@ -19,13 +19,13 @@
 <script type="text/javascript">
 	jQuery(function($) {
 		$(".upload").dropzone({
-			url : "adminUploadImage.action?type=header"
+			url : "adminUploadImage.action?flag=header"
 		});
 		$(".ida").dropzone({
-			url : "adminUploadImage.action?type=idA"
+			url : "adminUploadImage.action?flag=idA"
 		});
 		$(".idb").dropzone({
-			url : "adminUploadImage.action?type=idB"
+			url : "adminUploadImage.action?flag=idB"
 		});
 		
 		

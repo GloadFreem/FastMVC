@@ -43,6 +43,7 @@ import com.jinzht.tools.Tools;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Action;
 import com.jinzht.web.entity.Actionimages;
+import com.jinzht.web.entity.Audiorecord;
 import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Authenticstatus;
 import com.jinzht.web.entity.Banner;
@@ -217,11 +218,19 @@ public class WebAdminController extends BaseController {
 	 * @return
 	 */
 	public Map uploadImage(
-			@RequestParam(value = "type", required = false) String type,
+			@RequestParam(value = "flag", required = false) String type,
 			@RequestParam(value = "file", required = false) MultipartFile[] images,
 			HttpSession session) {
 
-		session.setAttribute(type, null);
+		List list ;
+		if(session.getAttribute(type)!=null)
+		{
+			list = (ArrayList)session.getAttribute(type);
+			
+		}else{
+			list = new ArrayList();
+		}
+//		session.setAttribute(type, null);
 
 		this.result = new HashMap();
 		this.result.put("data", "");
@@ -232,7 +241,6 @@ public class WebAdminController extends BaseController {
 
 			MultipartFile file = null;
 			Set items = new HashSet();
-			List list = new ArrayList();
 			for (int i = 0; i < images.length; i++) {
 				if (images[i] != null) {
 					file = images[i];
@@ -667,14 +675,15 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "sceneId", required = false) Integer sceneId,
 			@RequestParam(value = "projectId", required = false) Integer projectId,
 			@RequestParam(value = "audio", required = false) MultipartFile[] audios,
-			ModelMap map) {
+			HttpSession session, ModelMap map) {
 
 		Map m = new HashMap();
+		Scene scene;
 		if (sceneId != -1) {
-			Scene scene = this.projectManager.getSceneDao().findById(sceneId);
-			if(projectId!=null && projectId!=-1)
-			{
-				Project project = this.projectManager.findProjectById(projectId);
+			scene = this.projectManager.getSceneDao().findById(sceneId);
+			if (projectId != null && projectId != -1) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
 				scene.setProject(project);
 			}
 
@@ -703,14 +712,17 @@ public class WebAdminController extends BaseController {
 
 					}
 				}
-				scene.setAudioPath(fileName);
+				if(!fileName.equals(""))
+				{
+					scene.setAudioPath(fileName);
+				}
 			}
 			this.projectManager.getSceneDao().saveOrUpdate(scene);
-		}else{
-			Scene scene = new Scene();
-			if(projectId!=null && projectId!=-1)
-			{
-				Project project = this.projectManager.findProjectById(projectId);
+		} else {
+			scene = new Scene();
+			if (projectId != null && projectId != -1) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
 				scene.setProject(project);
 			}
 
@@ -744,7 +756,55 @@ public class WebAdminController extends BaseController {
 			this.projectManager.getSceneDao().save(scene);
 		}
 
-		return "admin/project/sceneList";
+		if (session.getAttribute("scene") != null) {
+			List images = (ArrayList) session.getAttribute("scene");
+			// 保存图片
+			String fileName = "";
+			String result = "";
+			if (images != null && images.size() > 0) {
+
+				Set items = new HashSet();
+				List list = new ArrayList();
+				String file;
+				Audiorecord record;
+				for (int i = 0; i < images.size(); i++) {
+					if (images.get(i) != null) {
+						file = images.get(i).toString();
+						record = new Audiorecord();
+						record.setImageUrl(file);
+						record.setStartTime(0);
+						record.setEndTime(10);
+						record.setSortIndex(i);
+						record.setScene(scene);
+
+						this.projectManager.getAudioRecordDao().save(record);
+					}
+				}
+				session.setAttribute("scene", null);
+			}
+		}
+
+		map.put("scene", scene);
+		return "/admin/project/editorScene";
+	}
+	@RequestMapping(value="admin/adminDeleteSceneAudioRecord")
+	@ResponseBody
+	public Map adminDeleteSceneAudioRecord(
+			@RequestParam(value="recordId",required=false)Integer recordId
+			)
+	{
+		this.result = new HashMap();
+		if(recordId!=null && recordId!=-1 )
+		{
+			Audiorecord record = this.projectManager.getAudioRecordDao().findById(recordId);
+			if(record!=null)
+			{
+				this.projectManager.getAudioRecordDao().delete(record);
+				this.status=200;
+				this.message="删除成功!";
+			}
+		}
+		return getResult();
 	}
 
 	/***
@@ -1055,10 +1115,72 @@ public class WebAdminController extends BaseController {
 			// 保存
 			this.userManager.saveOrUpdateUser(user);
 		}
+		
+		List citys = this.authenticManager.getCityDao().findAll();
+		List areaList = this.authenticManager.getIndustoryareaDao().findAll();
+		if (userId != null) {
 
-		List<Users> list = this.userManager.getUserDao().findAll();
-		map.put("items", list.iterator());
-		return "/admin/Users/userList";
+			Set set = user.getAuthentics();
+			Object[] objs = set.toArray();
+
+			List ll = new ArrayList();
+			for (int i = 0; i < objs.length; i++) {
+				Authentic authentic = (Authentic) objs[i];
+				optional = authentic.getOptional();
+				String area = authentic.getIndustoryArea();
+
+				Map m = new HashMap();
+
+				List list = new ArrayList();
+				if (optional != null) {
+					if (optional.equals("")) {
+						list.add(0);
+					} else {
+						String[] tempList = optional.split(",");
+
+						for (String s : tempList) {
+							s = s.replace(" ", "");
+							list.add(Integer.parseInt(s.trim()));
+						}
+					}
+				} else {
+					list.add(0);
+				}
+
+				m.put("option", list);
+
+				list = new ArrayList();
+				if (area != null) {
+					if (area.equals("")) {
+						list.add(0);
+					} else {
+						String[] tempList = area.split(",");
+
+						for (String s : tempList) {
+							s = s.replace(" ", "");
+							list.add(s.trim());
+						}
+					}
+				} else {
+					list.add(0);
+				}
+
+				m.put("areas", list);
+
+				ll.add(m);
+			}
+
+			map.put("ext", ll);
+			map.put("user", user);
+			map.put("authentics", set);
+
+		}
+
+		map.put("areas", areaList);
+		map.put("cities", citys);
+		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
+		
+		return "admin/Users/editorUser";
 	}
 
 	@RequestMapping(value = "/admin/adminAddAuthentic")
@@ -1197,13 +1319,63 @@ public class WebAdminController extends BaseController {
 
 		}
 
-		List list = this.authenticManager.getAuthenticDao().findAll();
-		List authenticStatus = this.authenticManager.getAuthenticStatus()
+		List areasList = this.authenticManager.getIndustoryareaDao().findAll();
+		List citys = this.authenticManager.getCityDao().findAll();
+		List identities = this.authenticManager.getIdentitytypeDao().findAll();
+		List authenticStatusList = this.authenticManager.getAuthenticStatus()
 				.findAll();
 
-		map.put("authenticStatus", authenticStatus);
-		map.put("items", list.iterator());
-		return "/admin/Users/userAuthenticList";
+		optional = authentic.getOptional();
+		String area = authentic.getIndustoryArea();
+
+		Map m = new HashMap();
+
+	    List list = new ArrayList();
+		if (!optional.equals(null)) {
+			if (optional.equals("")) {
+				list.add(0);
+			} else {
+				String[] tempList = optional.split(",");
+
+				for (String s : tempList) {
+					s = s.replace(" ", "");
+					list.add(s.trim());
+				}
+			}
+		} else {
+			list.add(0);
+		}
+
+		m.put("option", list);
+
+		list = new ArrayList();
+		if (area != null) {
+			if (area.equals("")) {
+				list.add(0);
+			} else {
+				String[] tempList = area.split(",");
+
+				for (String s : tempList) {
+					s = s.replace(" ", "");
+					list.add(s);
+				}
+			}
+		} else {
+			list.add(0);
+		}
+
+		m.put("areas", list);
+		map.put("ext", m);
+		map.put("authentic", authentic);
+
+		map.put("identities", identities);
+		map.put("areas", areasList);
+		map.put("cities", citys);
+		map.put("status", authenticStatusList);
+		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
+
+		return "/admin/Users/editorUserAuthentic";
+		
 	}
 
 	@RequestMapping(value = "/admin/adminAddProject")
@@ -1234,7 +1406,7 @@ public class WebAdminController extends BaseController {
 		List l = (List) session.getAttribute("images");
 		Project project;
 
-		if (projectId != null) {
+		if (projectId != -1) {
 			project = this.projectManager.findProjectById(projectId);
 		} else {
 			project = new Project();
