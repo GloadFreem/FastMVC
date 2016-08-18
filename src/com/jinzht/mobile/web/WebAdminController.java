@@ -1586,6 +1586,7 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "description", required = false) String description,
 			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "limit", required = false) String limit,
 			@RequestParam(value = "type", required = false) String type,
 			@RequestParam(value = "beginTime", required = false) String beginTime,
 			@RequestParam(value = "endTime", required = false) String endTime,
@@ -1605,8 +1606,11 @@ public class WebAdminController extends BaseController {
 		beginTime = beginTime.replace(".0", "");
 		endTime = endTime.replace(".0", "");
 
+		//限制人数
+		limit = limit.replace("人", "");
 		action.setAddress(address);
 		action.setName(name);
+		action.setMemberLimit((short)Integer.parseInt(limit));
 		action.setDescription(description);
 		action.setType((short) Integer.parseInt(type));
 		action.setStartTime(DateUtils.stringToDate(beginTime,
@@ -1640,9 +1644,8 @@ public class WebAdminController extends BaseController {
 			this.actionManaer.getActionDao().save(action);
 		}
 
-		List<Action> list = this.actionManaer.getActionDao().findAll();
-		map.put("items", list.iterator());
-		return "/admin/action/actionList";
+		map.put("action", action);
+		return "/admin/action/editorAction";
 	}
 
 	@RequestMapping(value = "/admin/adminAddCycle")

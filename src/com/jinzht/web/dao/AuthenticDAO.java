@@ -152,8 +152,8 @@ public class AuthenticDAO {
 					queryString+="and model."+keys[i].toString()+" =? ";
 				}
 			}
-//			log.debug(debugInfo);
 			
+			queryString +=" order by model.sortIndex desc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			for(int i = 0;i<requestMap.size();i++){
 				queryObject.setParameter(i, requestMap.get(keys[i]));

@@ -34,6 +34,7 @@ public class Authentic implements java.io.Serializable {
 	// Fields
 
 	private Integer authId;
+	private Integer sortIndex;
 	private Users users;
 	private Identiytype identiytype;
 	private Authenticstatus authenticstatus;
@@ -66,12 +67,13 @@ public class Authentic implements java.io.Serializable {
 			String companyName, String companyAddress, String position,
 			String buinessLicence, String buinessLicenceNo, String introduce,
 			String companyIntroduce, String optional,
-			Set<Autrhrecord> autrhrecords) {
+			Set<Autrhrecord> autrhrecords,Integer sortIndex) {
 		this.users = users;
 		this.identiytype = identiytype;
 		this.authenticstatus = authenticstatus;
 		this.city = city;
 		this.name = name;
+		this.sortIndex =sortIndex;
 		this.identiyCarA = identiyCarA;
 		this.identiyCarB = identiyCarB;
 		this.identiyCarNo = identiyCarNo;
@@ -262,6 +264,14 @@ public class Authentic implements java.io.Serializable {
 	@Column(name = "industory_area")
 	public void setIndustoryArea(String industoryArea) {
 		this.industoryArea = industoryArea;
+	}
+	@Column(name = "sort_index")
+	public Integer getSortIndex() {
+		return sortIndex;
+	}
+
+	public void setSortIndex(Integer sortIndex) {
+		this.sortIndex = sortIndex;
 	}
 
 }

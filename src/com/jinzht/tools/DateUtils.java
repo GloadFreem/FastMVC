@@ -116,7 +116,7 @@ public class DateUtils {
 		localCalendar1.setTime(paramDate1);
 		localCalendar2.setTime(paramDate2);
 		if (localCalendar1.after(localCalendar2))
-			throw new Exception("起始日期小于终止日期!");
+			return 0;
 		int i = localCalendar2.get(6) - localCalendar1.get(6);
 		int j = localCalendar2.get(1);
 		if (localCalendar1.get(1) != j) {

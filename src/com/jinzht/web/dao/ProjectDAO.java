@@ -265,15 +265,14 @@ public class ProjectDAO {
 	
 	public List findProjectHomeList(Integer page,Integer type)
 	{
-		String sqlString = "select * from project where status_id =?";
+		String sqlString = "select * from project where status_id <>3 order by status_id desc , sort_index desc";
 		
 		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Project.class);
-		queryObject.setParameter(0, type);
+//		queryObject.setParameter(0, type);
 		queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);
 		queryObject.setMaxResults(Config.STRING_INVESTOR_LIST_MAX_SIZE);
 		
 		return queryObject.list();
-		
 	}
 
 	public Project merge(Project detachedInstance) {

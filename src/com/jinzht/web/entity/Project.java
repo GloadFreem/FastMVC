@@ -2,6 +2,7 @@ package com.jinzht.web.entity;
 // default package
 
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,6 +43,7 @@ public class Project implements java.io.Serializable {
 
 	private Integer projectId;
 	private Integer userId;
+	private Integer sortIndex;
 	private String borrowerUserNumber;
 	private Financestatus financestatus;
 	private String abbrevName;
@@ -94,7 +96,7 @@ public class Project implements java.io.Serializable {
 			Set<Financingcase> financingcases, Set<Team> teams,
 			Set<Collection> collections,
 			Set<Financialstanding> financialstandings, Set<Member> members,
-			Set<Roadshow> roadshows, Set<Projectimages> projectimageses) {
+			Set<Roadshow> roadshows, Set<Projectimages> projectimageses,Integer sortIndex) {
 		this.financestatus = financestatus;
 		this.abbrevName = abbrevName;
 		this.fullName = fullName;
@@ -124,6 +126,7 @@ public class Project implements java.io.Serializable {
 		this.members = members;
 		this.roadshows = roadshows;
 		this.projectimageses = projectimageses;
+		this.sortIndex = sortIndex;
 	}
 
 	// Property accessors
@@ -224,7 +227,7 @@ public class Project implements java.io.Serializable {
 				try {
 					if(plan!=null && plan.getBeginDate()!=null && plan.getEndDate()!=null)
 					{
-						days = DateUtils.getDaysBetween( plan.getBeginDate(),plan.getEndDate());
+						days = DateUtils.getDaysBetween( new Date(),plan.getEndDate());
 						this.timeLeft=days;
 					}else{
 						this.timeLeft = 0;
@@ -423,6 +426,15 @@ public class Project implements java.io.Serializable {
 
 	public void setFinancialstandings(Set<Financialstanding> financialstandings) {
 		this.financialstandings = financialstandings;
+	}
+
+	@Column(name="sort_index")
+	public Integer getSortIndex() {
+		return sortIndex;
+	}
+
+	public void setSortIndex(Integer sortIndex) {
+		this.sortIndex = sortIndex;
 	}
 
 }

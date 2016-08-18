@@ -175,6 +175,21 @@
 					</c:choose>
 				</div>
 			</div>
+			<!-- 限制人数 -->
+			<div class="name">
+				<div class="name-key">限制人数</div>
+				<div class="name-value">
+					<c:choose>
+						<c:when test="${action!=null}">
+							<input style="color:black" name="limit" type="text"
+								value="${action.memberLimit}人">
+						</c:when>
+						<c:otherwise>
+							<input name="limit" type="text" value="请输入限制人数">
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
 			<!-- 类型 -->
 			<div class="name">
 				<div class="name-key">是否收费</div>

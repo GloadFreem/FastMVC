@@ -116,16 +116,16 @@ public class ProjectManager {
 		Map map = new HashMap();
 		if(type==0)
 		{
-			List l1 = getProjectDao().findProjectHomeList(currentPage,1);
-			List l2 = getProjectDao().findProjectHomeList(currentPage,2);
-			List l3 = getProjectDao().findProjectHomeList(currentPage,4);
+			List l = getProjectDao().findProjectHomeList(currentPage,3);
+//			List l1 = getProjectDao().findProjectHomeList(currentPage,1);
+//			List l2 = getProjectDao().findProjectHomeList(currentPage,2);
+//			List l3 = getProjectDao().findProjectHomeList(currentPage,4);
 			
 			List list = new ArrayList();
-			if (l1 != null && l1.size() > 0) {
-				for (int i = 0; i < l1.size(); i++) {
+			if (l != null && l.size() > 0) {
+				for (int i = 0; i < l.size(); i++) {
 					
-					
-					Project project = (Project) l1.get(i);
+					Project project = (Project) l.get(i);
 					project.setCommunions(null);
 					project.setMembers(null);
 					project.setTeams(null);
@@ -145,49 +145,72 @@ public class ProjectManager {
 					list.add(project);
 				}
 			}
-			if (l2 != null && l2.size() > 0) {
-				for (int i = 0; i < l2.size(); i++) {
-					Project project = (Project) l2.get(i);
-					project.setCommunions(null);
-					project.setMembers(null);
-					project.setTeams(null);
-					project.setFinancingexits(null);
-					project.setFinancialstandings(null);
-					project.setControlreports(null);
-					project.setFinancingcases(null);
-					project.setBusinessplans(null);
-					project.setProjectcomments(null);
-					project.setProjectcommitrecords(null);
-					project.setProjectimageses(null);
-					
-					// 人气指数
-					Integer count = this.findCountProjectCollection(project);
-					project.setCollectionCount(count);
-					
-					list.add(project);
-				}
-			}
-			if (l3 != null && l3.size() > 0) {
-				for (int i = 0; i < l3.size(); i++) {
-					Project project = (Project) l3.get(i);
-					project.setCommunions(null);
-					project.setMembers(null);
-					project.setTeams(null);
-					project.setFinancingexits(null);
-					project.setFinancialstandings(null);
-					project.setControlreports(null);
-					project.setFinancingcases(null);
-					project.setBusinessplans(null);
-					project.setProjectcomments(null);
-					project.setProjectcommitrecords(null);
-					project.setProjectimageses(null);
-					
-					// 人气指数
-					Integer count = this.findCountProjectCollection(project);
-					project.setCollectionCount(count);
-					list.add(project);
-				}
-			}
+//			if (l1 != null && l1.size() > 0) {
+//				for (int i = 0; i < l1.size(); i++) {
+//					
+//					Project project = (Project) l1.get(i);
+//					project.setCommunions(null);
+//					project.setMembers(null);
+//					project.setTeams(null);
+//					project.setFinancingexits(null);
+//					project.setFinancialstandings(null);
+//					project.setControlreports(null);
+//					project.setFinancingcases(null);
+//					project.setBusinessplans(null);
+//					project.setProjectcomments(null);
+//					project.setProjectcommitrecords(null);
+//					project.setProjectimageses(null);
+//					
+//					// 人气指数
+//					Integer count = this.findCountProjectCollection(project);
+//					project.setCollectionCount(count);
+//					
+//					list.add(project);
+//				}
+//			}
+//			if (l2 != null && l2.size() > 0) {
+//				for (int i = 0; i < l2.size(); i++) {
+//					Project project = (Project) l2.get(i);
+//					project.setCommunions(null);
+//					project.setMembers(null);
+//					project.setTeams(null);
+//					project.setFinancingexits(null);
+//					project.setFinancialstandings(null);
+//					project.setControlreports(null);
+//					project.setFinancingcases(null);
+//					project.setBusinessplans(null);
+//					project.setProjectcomments(null);
+//					project.setProjectcommitrecords(null);
+//					project.setProjectimageses(null);
+//					
+//					// 人气指数
+//					Integer count = this.findCountProjectCollection(project);
+//					project.setCollectionCount(count);
+//					
+//					list.add(project);
+//				}
+//			}
+//			if (l3 != null && l3.size() > 0) {
+//				for (int i = 0; i < l3.size(); i++) {
+//					Project project = (Project) l3.get(i);
+//					project.setCommunions(null);
+//					project.setMembers(null);
+//					project.setTeams(null);
+//					project.setFinancingexits(null);
+//					project.setFinancialstandings(null);
+//					project.setControlreports(null);
+//					project.setFinancingcases(null);
+//					project.setBusinessplans(null);
+//					project.setProjectcomments(null);
+//					project.setProjectcommitrecords(null);
+//					project.setProjectimageses(null);
+//					
+//					// 人气指数
+//					Integer count = this.findCountProjectCollection(project);
+//					project.setCollectionCount(count);
+//					list.add(project);
+//				}
+//			}
 			return list;
 		}else{
 			Financestatus status = new Financestatus();
