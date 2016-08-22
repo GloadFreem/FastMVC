@@ -40,6 +40,7 @@ import com.jinzht.tools.MD5;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
 import com.jinzht.tools.Tools;
+import com.jinzht.web.dao.ContenttypeDAO;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Action;
 import com.jinzht.web.entity.Actionimages;
@@ -60,6 +61,7 @@ import com.jinzht.web.entity.Rewardsystem;
 import com.jinzht.web.entity.Roadshow;
 import com.jinzht.web.entity.Roadshowplan;
 import com.jinzht.web.entity.Scene;
+import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Systemuser;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Weburlrecord;
@@ -191,6 +193,17 @@ public class WebAdminController extends BaseController {
 		map.put("items", list.iterator());
 		return "/admin/banner/bannerList";
 	}
+	/***
+	 * 消息列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminPushListAdmin")
+	public String adminPushListAdmin(ModelMap map) {
+		List<Systemmessage> list = this.systemManger.getSystemMessageDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/push/pushList";
+	}
 
 	/***
 	 * banner列表
@@ -207,6 +220,22 @@ public class WebAdminController extends BaseController {
 		}
 
 		return "/admin/banner/editorBanner";
+	}
+	/***
+	 * 编辑消息
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminEditPush")
+	public String adminEditPush(
+			@RequestParam(value = "pushId", required = false) Integer pushId,
+			ModelMap map) {
+		if (pushId != null) {
+			Systemmessage message = this.systemManger.getSystemMessageDao().findById(pushId);
+			map.put("message", message);
+		}
+		
+		return "/admin/push/editorPush";
 	}
 
 	@RequestMapping(value = "/admin/adminUploadImage")
@@ -415,6 +444,18 @@ public class WebAdminController extends BaseController {
 		List<Users> list = this.userManager.getUserDao().findAll();
 		map.put("items", list.iterator());
 		return "/admin/Users/userList";
+	}
+	
+	/***
+	 * 资讯列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminContentsListAdmin")
+	public String adminContentsListAdmin(ModelMap map) {
+		List list = this.systemManger.getWebUrlRecordDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/banner/webContentList";
 	}
 
 	/***
@@ -633,6 +674,25 @@ public class WebAdminController extends BaseController {
 		}
 
 		return "/admin/action/editorAction";
+	}
+	/***
+	 * 编辑资讯
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminEditWebContent")
+	public String adminEditWebContent(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap map) {
+		if (contentId != null) {
+			Weburlrecord record = this.systemManger.getWebUrlRecordDao().findById(contentId);
+			map.put("record", record);
+		}
+		
+		List<Contenttype> l = this.systemManger.getContentTypeDao().findAll();
+		map.put("types", l);
+		
+		return "/test/editor";
 	}
 
 	/***
@@ -935,6 +995,50 @@ public class WebAdminController extends BaseController {
 		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
 
 		return "/admin/Users/editorUserAuthentic";
+	}
+	
+	@RequestMapping(value="/admin/adminSortAuthentic")
+	@ResponseBody
+	/***
+	 * 排序用户
+	 * @return
+	 */
+	public Map adminSortAuthentic(
+				@RequestParam(value="authId",required=false)Integer authId,
+				@RequestParam(value="type",required=false)Integer type,
+				@RequestParam(value="data",required=false)Integer data
+			)
+	{
+		this.result = new HashMap();
+		//获取authentic
+		Integer sortIndex=0;
+		if(authId!=null)
+		{
+			Authentic authentic = this.authenticManager.findAuthenticById(authId);
+			sortIndex = authentic.getSortIndex();
+			if(type==0)
+			{
+				//up
+				sortIndex--;
+			}else if(type==1){
+				sortIndex++;
+				//down
+			}else{
+				sortIndex = data;
+			}
+			
+			authentic.setSortIndex(sortIndex);
+			
+			//保存
+			this.authenticManager.getAuthenticDao().saveOrUpdate(authentic);
+			this.status=200;
+		}else{
+			this.status=400;
+		}
+	
+		this.result.put("data", sortIndex);
+		
+		return this.getResult();
 	}
 
 	@RequestMapping(value = "/admin/adminAddUser")

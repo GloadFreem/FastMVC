@@ -167,15 +167,19 @@ public class FeelingController extends BaseController {
 				this.status = 400;
 				this.message = Config.STRING_LOGING_FAIL_NO_USER;
 			} else {
-				// 保存图片
-				// 身份证A面
+				// 关联用户
+				content.setUsers(user);
+				content.setPublicDate(new Date());
+
+				// 保存圈子内容
+				this.feelingManager.addPublicContent(content);
+				
 				// 保存图片
 				String fileName ="";
 				String result="";
 				if(images!=null && images.length>0){
 					
 					MultipartFile file = null;
-					Set items = new HashSet();
 					for(int i =0;i<images.length;i++){
 						if (images[i]!= null) {
 							file = images[i];
@@ -192,24 +196,17 @@ public class FeelingController extends BaseController {
 								Contentimages contentImages = new Contentimages();
 								contentImages.setUrl(fileName);
 								contentImages.setPubliccontent(content);
+								contentImages.setPubliccontent(content);
 								
-								items.add(contentImages);
-							} else {
-								fileName = "";
+								this.feelingManager.getContentImagesDao().save(contentImages);
+								
 							}
 							
 						}
 					}
 					//设置状态图片
-					content.setContentimageses(items);
 				}
 				
-				// 关联用户
-				content.setUsers(user);
-				content.setPublicDate(new Date());
-
-				// 保存圈子内容
-				this.feelingManager.addPublicContent(content);
 
 				// 封装返回结果
 				this.status = 200;

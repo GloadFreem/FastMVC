@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jinzht.web.dao.CityDAO;
 import com.jinzht.web.dao.CommentDAO;
+import com.jinzht.web.dao.ContentimagesDAO;
 import com.jinzht.web.dao.ContentpriseDAO;
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.IndustoryareaDAO;
@@ -37,7 +38,8 @@ public class FeelingManager {
 	private ContentpriseDAO contentPriseDao;
 	private ShareDAO shareDao;
 	private CommentDAO commentDao;
-
+	private ContentimagesDAO contentImagesDao;
+	
 	public Publiccontent findPublicContentById(Integer contentId) {
 		return getPublicContentDao().findById(contentId);
 	}
@@ -579,6 +581,14 @@ public class FeelingManager {
 	@Autowired
 	public void setCommentDao(CommentDAO commentDao) {
 		this.commentDao = commentDao;
+	}
+
+	public ContentimagesDAO getContentImagesDao() {
+		return contentImagesDao;
+	}
+	@Autowired
+	public void setContentImagesDao(ContentimagesDAO contentImagesDao) {
+		this.contentImagesDao = contentImagesDao;
 	}
 
 }

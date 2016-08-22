@@ -50,11 +50,36 @@
 <script src="js/setup.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+		//排序
+		$("img[name='up']").click(function() {
+			sortIndex($(this), 1,0);
+		});
+		$("img[name='down']").click(function() {
+			sortIndex($(this), 0,0);
+		});
+		$("input[name='sortIndex']").change(function() {
+			sortIndex($(this), 0,$(this).val());
+		});
+
+		function sortIndex(el, type,data) {
+			authId = el.parent().parent().prev("input").val();
+			$.ajax({
+				url : "adminSortAuthentic.action",
+				data : {
+					"authId" : authId,
+					"type" : type,
+					"data":data
+				},
+				success : function(data) {
+					el.parent().parent().find("input[name='sortIndex']").val(data.data);
+				}
+			});
+		}
 
 		$('.datatable').dataTable({
 			scrollY : 500,
-			deferRender: true,
-			processing: true,
+			deferRender : true,
+			processing : true,
 			language : {
 				"sProcessing" : "处理中...",
 				"sLengthMenu" : "显示 _MENU_ 项结果",
@@ -80,6 +105,7 @@
 				}
 			}
 		});
+
 	});
 </script>
 </head>
@@ -103,6 +129,7 @@
 							<th class="center">身份证A面</th>
 							<th class="center">身份证号</th>
 							<th class="center">审核状态</th>
+							<th class="center">排序</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -123,20 +150,36 @@
 										<div class="name-key">认证状态</div>
 										<div class="name-value">
 											<select name="city" id="city">
-													<c:forEach items="${authenticStatus}" var="c" varStatus="v">
-														<option value=${c.statusId}
+												<c:forEach items="${authenticStatus}" var="c" varStatus="v">
+													<option value=${c.statusId
+														}
 														<c:choose>
 															<c:when test="${c.name == item.authenticstatus.name }">
 															 selected="selected"
 															</c:when>
-														</c:choose>
-														>${c.name}</option>
-													</c:forEach>
-													
+														</c:choose>>${c.name}</option>
+												</c:forEach>
+
 											</select>
 										</div>
 									</div>
 								</td>
+								<td class="center"><input id="authId"
+									value="${item.authId}" style="display:none">
+									<div>
+										<div>
+											<img name="up" alt="" src="images/up.png"
+												style="width: 10%;margin-bottom:5px;">
+										</div>
+										<div>
+											<input name="sortIndex" value="${item.sortIndex}"
+												style="text-align: center; width: 20%;">
+										</div>
+										<div>
+											<img name="down" alt="" src="images/down.png"
+												style="width: 10%;margin-top:5px;">
+										</div>
+									</div></td>
 							</tr>
 						</c:forEach>
 					</tbody>

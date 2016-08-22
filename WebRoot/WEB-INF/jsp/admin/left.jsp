@@ -105,7 +105,8 @@
                         </li>
                          <li><a class="menuitem">系统设置</a>
                             <ul class="submenu3">
-                                <li><a href="adminBannerListAdmin.action" target="content">Banner管理</a> </li>
+                                <li><a href="adminBannerListAdmin.action" target="content">Banner</a> </li>
+                                <li><a href="adminContentsListAdmin.action" target="content">资讯管理</a> </li>
                             </ul>
                         </li>
                     </ul>

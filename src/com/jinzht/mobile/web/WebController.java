@@ -55,54 +55,67 @@ import com.jinzht.web.test.User;
 public class WebController extends BaseController {
 	@Autowired
 	private WebManager webManager;
-	
-	@RequestMapping(value = "/generateWebPage")
-	@ResponseBody
-	public Map generateWebPage(
+
+	@RequestMapping(value = "/admin/generateWebPage")
+	public String generateWebPage(
+			@RequestParam(value = "recordId", required = false) Integer recordId,
 			@RequestParam(value = "title", required = false) String title,
-			@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "path", required = false) String path,
-			@RequestParam(value = "content", required = false) String content) {
-		
-		Weburlrecord record = new Weburlrecord();
+			@RequestParam(value = "type", required = false) Integer type,
+			@RequestParam(value = "content", required = false) String content,
+			ModelMap map) {
+		Weburlrecord record;
+		if (recordId != null) {
+			record = this.webManager.findRecordById(recordId);
+		} else {
+			record = new Weburlrecord();
+		}
+
 		record.setCreateDate(new Date());
 		record.setTitle(title);
-		record.setUrl(path);
-		record.setTag(name);
+		record.setUrl("#");
+		record.setTag("");
 		record.setContent(content);
-		
-		Contenttype type = new Contenttype();
-		type.setTypeId(1);
-		
-		record.setContenttype(type);
-		
-		this.webManager.addWebUrlRecord(record);
-		
-		Map map = new HashMap();
-		map.put("status", 200);
-		map.put("message", "保存成功");
-		return map;
+
+		Contenttype contentType = new Contenttype();
+		contentType.setTypeId(type);
+
+		record.setContenttype(contentType);
+
+		if(recordId==null)
+		{
+			this.webManager.addWebUrlRecord(record);
+		}
+
+		String path = String.format("%swebUrlLooker.action?contentId=%d",
+				Config.STRING_SYSTEM_ADDRESS, record.getRecordId());
+		record.setUrl(path);
+		this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+		map.put("record", record);
+		List<Contenttype> l = this.webManager.getContentTypeDao().findAll();
+		map.put("types", l);
+
+		return "/test/editor";
 	}
 
 	@RequestMapping(value = "/webEditor")
 	public String webEditor() {
 		return "/test/editor";
 	}
-	
+
 	@RequestMapping(value = "/generateProjectInfo")
 	public String generateProjectInfo() {
 		return "/test/generateProjectExtInfo";
 	}
-	
+
 	@RequestMapping(value = "/webUrlLooker")
 	public String webUrlLooker(
-			@RequestParam(value="contentId", required=false)Integer contentId,
+			@RequestParam(value = "contentId", required = false) Integer contentId,
 			ModelMap map) {
 		Weburlrecord record = this.webManager.findRecordById(contentId);
-		
+
 		map.put("title", record.getTitle());
 		map.put("content", record.getContent());
-		
+
 		return "templete";
 	}
 }

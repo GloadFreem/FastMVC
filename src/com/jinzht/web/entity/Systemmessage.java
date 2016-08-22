@@ -69,7 +69,7 @@ public class Systemmessage implements java.io.Serializable {
 		this.messageId = messageId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;

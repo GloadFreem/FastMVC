@@ -53,8 +53,8 @@
 
 		$('.datatable').dataTable({
 			scrollY : 500,
-			deferRender: true,
-			processing: true,
+			deferRender : true,
+			processing : true,
 			language : {
 				"sProcessing" : "处理中...",
 				"sLengthMenu" : "显示 _MENU_ 项结果",
@@ -86,11 +86,13 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="adminEditUser.action?userId=" target="content"><h2>
-			<div><img alt="添加用户" src="images/圆角矩形-3-拷贝-5.png"></div>
-			<div>添加用户</div>
-			</h2></a>
-			
+			<a href="adminEditUser.action?userId=" target="content"><h2>
+					<div>
+						<img alt="添加用户" src="images/圆角矩形-3-拷贝-5.png">
+					</div>
+					<div>添加用户</div>
+				</h2></a>
+
 			<div class="block">
 				<table class="data display datatable" id="example">
 					<thead>
@@ -104,33 +106,34 @@
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach items="${items}" var="item" varStatus="vs">
-					<tr class="odd gradeX">
-							<td class="center"><a href="adminEditUser.action?userId=${item.userId}" target="content">${item.userId}</a></td>
-							<td class="center">${item.name}</td>
-							<td class="center">${item.telephone}</td>
-							<td class="center"><a href=${item.headSculpture} target="blank">${item.headSculpture}</a></td>
-							<td class="center">
-								<c:choose>
-								<c:when test="${item.platform==1}">
-									<select name="platform" id="platform">
-										<option value="0">请选择设备类型</option>
-										<option value="1" selected="selected">iPhone设备</option>
-										<option value="2">Android设备</option>
-									</select>
-								</c:when>
-								<c:otherwise>
-									<select name="platform" id="platform">
-										<option value="0">请选择设备类型</option>
-										<option value="1">iPhone设备</option>
-										<option value="2" selected="selected">Android设备</option>
-									</select>
-								</c:otherwise>
-							</c:choose>
-							</td>
-							<td class="center">${item.lastLoginDate}</td>
-						</tr>
-					</c:forEach>
+						<c:forEach items="${items}" var="item" varStatus="vs">
+							<tr class="odd gradeX">
+								<td class="center"><a
+									href="adminEditUser.action?userId=${item.userId}"
+									target="content">${item.userId}</a></td>
+								<td class="center">${item.name}</td>
+								<td class="center">${item.telephone}</td>
+								<td class="center"><a href=${item.headSculpture
+									} target="blank">${item.headSculpture}</a></td>
+								<td class="center"><c:choose>
+										<c:when test="${item.platform==1}">
+											<select name="platform" id="platform">
+												<option value="0">请选择设备类型</option>
+												<option value="1" selected="selected">iPhone设备</option>
+												<option value="2">Android设备</option>
+											</select>
+										</c:when>
+										<c:otherwise>
+											<select name="platform" id="platform">
+												<option value="0">请选择设备类型</option>
+												<option value="1">iPhone设备</option>
+												<option value="2" selected="selected">Android设备</option>
+											</select>
+										</c:otherwise>
+									</c:choose></td>
+								<td class="center">${item.lastLoginDate}</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>

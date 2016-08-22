@@ -70,7 +70,7 @@ public class Weburlrecord implements java.io.Serializable {
 		this.recordId = recordId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "type_id", nullable = false)
 	public Contenttype getContenttype() {
 		return this.contenttype;

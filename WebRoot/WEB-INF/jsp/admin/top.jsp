@@ -77,7 +77,7 @@
 			<li class="ic-grid-tables"><a href="adminActionListAdmin.action" target="content"><span>活动</span></a></li>
 			<li class="ic-gallery dd"><a href="javascript:" target="content"><span>金条</span></a>
 				</li>
-			<li class="ic-notifications"><a href="notifications.html" target="content"><span>消息推送</span></a></li>
+			<li class="ic-notifications"><a href="adminPushListAdmin.action" target="content"><span>消息推送</span></a></li>
 
 		</ul>
 	</div>

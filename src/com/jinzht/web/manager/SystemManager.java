@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jinzht.tools.BannerType;
 import com.jinzht.web.dao.BannerDAO;
+import com.jinzht.web.dao.ContenttypeDAO;
 import com.jinzht.web.dao.FeedbackDAO;
 import com.jinzht.web.dao.NoticeDAO;
 import com.jinzht.web.dao.PreloadingpageDAO;
@@ -18,6 +19,7 @@ import com.jinzht.web.dao.ShareDAO;
 import com.jinzht.web.dao.CustomserviceDAO;
 import com.jinzht.web.dao.SystemmessageDAO;
 import com.jinzht.web.dao.VersioncontrollDAO;
+import com.jinzht.web.dao.WeburlrecordDAO;
 import com.jinzht.web.entity.Banner;
 import com.jinzht.web.entity.Feedback;
 import com.jinzht.web.entity.Notice;
@@ -41,6 +43,8 @@ public class SystemManager {
 	private SystemmessageDAO systemMessageDao;
 	private ProjectDAO projectDao;
 	private FeedbackDAO feedbackDao;
+	private WeburlrecordDAO webUrlRecordDao;
+	private ContenttypeDAO contentTypeDao;
 
 	/***
 	 * 根据设备类型获取系统公告信息
@@ -349,6 +353,23 @@ public class SystemManager {
 	@Autowired
 	public void setCustomserviceDao(CustomserviceDAO customserviceDao) {
 		this.customserviceDao = customserviceDao;
+	}
+
+	
+	public WeburlrecordDAO getWebUrlRecordDao() {
+		return webUrlRecordDao;
+	}
+	@Autowired
+	public void setWebUrlRecordDao(WeburlrecordDAO webUrlRecordDao) {
+		this.webUrlRecordDao = webUrlRecordDao;
+	}
+	
+	public ContenttypeDAO getContentTypeDao() {
+		return contentTypeDao;
+	}
+	@Autowired
+	public void setContentTypeDao(ContenttypeDAO contentTypeDao) {
+		this.contentTypeDao = contentTypeDao;
 	}
 
 }
