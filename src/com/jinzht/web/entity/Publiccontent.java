@@ -1,6 +1,7 @@
 package com.jinzht.web.entity;
 // default package
 
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,6 +40,8 @@ public class Publiccontent implements java.io.Serializable {
 
 	private Integer publicContentId;
 	private boolean flag = false;
+	private Contentshare contentshare;
+	private Feelingtype feelingtype;
 	private Users users;
 	private String content;
 	private Date publicDate;
@@ -56,15 +59,17 @@ public class Publiccontent implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Publiccontent(Users users, String content,
+	public Publiccontent(Contentshare contentshare,Users users, String content,
 			Set<Contentimages> contentimageses, Set<Comment> comments,
-			Set<Contentprise> contentprises,Date publicDate) {
+			Set<Contentprise> contentprises,Date publicDate,Feelingtype feelingtype) {
+		this.contentshare = contentshare;
 		this.users = users;
 		this.content = content;
 		this.contentimageses = contentimageses;
 		this.comments = comments;
 		this.contentprises = contentprises;
 		this.publicDate = publicDate;
+		this.feelingtype = feelingtype;
 	}
 
 	// Property accessors
@@ -169,6 +174,24 @@ public class Publiccontent implements java.io.Serializable {
 
 	public void setFlag(boolean flag) {
 		this.flag = flag;
+	}
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "feeling_type_id")
+	public Feelingtype getFeeingtype() {
+		return this.feelingtype;
+	}
+
+	public void setFeeingtype(Feelingtype feelingtype) {
+		this.feelingtype = feelingtype;
+	}
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "content_share_id")
+	public Contentshare getContentshare() {
+		return this.contentshare;
+	}
+
+	public void setContentshare(Contentshare contentshare) {
+		this.contentshare = contentshare;
 	}
 
 }

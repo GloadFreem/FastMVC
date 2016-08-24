@@ -61,7 +61,7 @@ public class ActionManager {
 	 *            当前页
 	 * @return
 	 */
-	public List findActionByCursor(int currentPage,Users user) {
+	public List findActionByCursor(int currentPage,Users user,Integer version) {
 		List list = getActionDao().findByCursor(currentPage);
 		if (list != null && list.size() > 0) {
 			Action action = null;
@@ -80,7 +80,10 @@ public class ActionManager {
 				}
 				
 				action.setAttentions(null);
+				action.setActionprises(null);
 				action.setActionimages(null);
+				action.setDescription(null);
+
 			}
 		}
 

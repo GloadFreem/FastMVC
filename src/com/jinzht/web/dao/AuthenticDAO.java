@@ -224,7 +224,7 @@ public class AuthenticDAO {
 	public List findAll() {
 		log.debug("finding all Authentic instances");
 		try {
-			String queryString = "from Authentic";
+			String queryString = "from Authentic  order by sort_index desc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {

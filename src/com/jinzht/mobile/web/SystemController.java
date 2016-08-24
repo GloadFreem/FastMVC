@@ -733,6 +733,23 @@ public class SystemController extends BaseController {
 
 		return "ShareFeelingDetail";
 	}
+	
+	// 分享圈子内容
+	@RequestMapping(value = "/requestConsultList")
+	@ResponseBody
+	public Map requestConsultList(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "version", required = false) Integer version,
+			ModelMap model) {
+		this.result = new HashMap();
+		List list = this.systemManger.getWebUrlRecordDao().findAll();
+		
+		
+		
+		this.status=200;
+		this.result.put("data", list);
+		return getResult();
+	}
 
 	// 用户协议
 	@RequestMapping(value = "/UserProctol")

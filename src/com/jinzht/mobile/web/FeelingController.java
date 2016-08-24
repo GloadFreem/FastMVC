@@ -95,6 +95,41 @@ public class FeelingController extends BaseController {
 
 		return getResult();
 	}
+	@RequestMapping(value = "/requestUsersFeelingList")
+	@ResponseBody
+	/***
+	 * 获取用户圈子列表
+	 * @param page 当前页
+	 * @param session
+	 * @return
+	 */
+	public Map requestUsersFeelingList(
+			@RequestParam(value = "userId", required = true) Integer userId,
+			@RequestParam(value = "page", required = true) Integer page,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		// 获取当前发布内容用户
+		Users user = this.userManager.findUserById(userId);
+		
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+			List list = this.feelingManager.findFeelingByUser(user,page);
+			if (list != null && list.size() > 0) {
+				this.status = 200;
+				this.message = "";
+				this.result.put("data", list);
+			} else {
+				this.status = 201;
+				this.result.put("data", new ArrayList());
+				this.message = Config.STRING_FEELING_NO_DATA;
+			}
+		}
+		
+		return getResult();
+	}
 
 	@RequestMapping(value = "/requestFeelingDetail")
 	@ResponseBody

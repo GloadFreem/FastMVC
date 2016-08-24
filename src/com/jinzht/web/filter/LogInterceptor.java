@@ -56,6 +56,7 @@ public class LogInterceptor implements HandlerInterceptor {
 				// 重定位到登录页面
 				hrequest.setAttribute("tip", "您没有登录！");
 				hresponse.sendRedirect("noLogoInfo.action");
+				return false;
 			} else {
 				// 重定位到登录页面
 				flag = false;
@@ -71,6 +72,7 @@ public class LogInterceptor implements HandlerInterceptor {
 					session.setAttribute("tip", "");
 					hrequest.setAttribute("tip", "您没有登录！");
 					hresponse.sendRedirect("adminLogin.action");
+					return false;
 				}
 			}
 		}

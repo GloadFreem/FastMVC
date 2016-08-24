@@ -73,6 +73,7 @@ public class ActionController extends BaseController {
 	 */
 	public Map requestActionList(
 			@RequestParam(value = "page", required = true) Integer page,
+			@RequestParam(value = "version", required = false) Integer version,
 			HttpSession session) {
 		this.result = new HashMap();
 
@@ -83,7 +84,7 @@ public class ActionController extends BaseController {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			List list = this.actionManager.findActionByCursor(page, user);
+			List list = this.actionManager.findActionByCursor(page, user,version);
 			if (list != null && list.size() > 0) {
 				this.status = 200;
 				this.result.put("data", list);
@@ -411,6 +412,7 @@ public class ActionController extends BaseController {
 	 */
 	public Map requestDetailAction(
 			@RequestParam(value = "contentId") Integer contentId,
+			@RequestParam(value = "version",required=false) Integer version,
 			HttpSession session) {
 
 		this.result = new HashMap();
@@ -435,6 +437,12 @@ public class ActionController extends BaseController {
 			action.setActionprises(null);
 			action.setActionprises(null);
 			action.setAttentions(null);
+			
+			//兼容3.1.0版本活动升级
+			if(version!=null && version==1)
+			{
+				action.setDescription(null);
+			}
 			
 			
 			Attention attention = this.actionManager.findAttentionByActionIdAndUser(action, user);

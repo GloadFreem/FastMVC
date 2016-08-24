@@ -26,8 +26,8 @@ public class PushUtil {
 
 		// For push, all you need do is to build PushPayload object.
 //		PushPayload payload = buildPushObject_all_all_alert();
-//		PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
-		PushPayload payload = buildPushObject_android_tag_alertWithTitle();
+		PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
+//		PushPayload payload = buildPushObject_android_tag_alertWithTitle();
 
 		try {
 			PushResult result = jpushClient.sendPush(payload);
@@ -95,7 +95,7 @@ public class PushUtil {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
 //                .setAudience(Audience.tag_and("tag1", "tag_all"))
-                .setAudience(Audience.registrationId("161a3797c80595c5fac"))
+                .setAudience(Audience.registrationId("191e35f7e043cfe8a4c"))
 //                .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(IosNotification.newBuilder()

@@ -100,57 +100,6 @@ public class FeelingManager {
 
 				content.setUsers(userPublic);
 
-				// // 开始排除评论中不需要字段
-				// if (content.getComments() != null
-				// && content.getComments().size() > 0) {
-				// Iterator<Comment> iterator = content.getComments()
-				// .iterator();
-				// while (iterator.hasNext()) {
-				// Comment comment = iterator.next();
-				//
-				// Users temp = new Users();
-				// user = comment.getUsersByUserId();
-				// if (user.getAuthentics() != null) {
-				// Object[] l = user.getAuthentics().toArray();
-				// if (l.length > 0) {
-				// Authentic authentic = (Authentic) l[0];
-				// user.setName(authentic.getName());
-				// } else {
-				// user.setName("");
-				// }
-				//
-				// } else {
-				// user.setName("");
-				// }
-				//
-				// temp.setAuthentics(null);
-				// temp.setName(user.getName());
-				// temp.setUserId(user.getUserId());
-				// temp.setHeadSculpture(user.getHeadSculpture());
-				// comment.setUsersByUserId(temp);
-				//
-				// temp = new Users();
-				// user = comment.getUsersByAtUserId();
-				// if (user != null && user.getAuthentics() != null) {
-				// Object[] l = user.getAuthentics().toArray();
-				// if (l.length > 0) {
-				// Authentic authentic = (Authentic) l[0];
-				// user.setName(authentic.getName());
-				// } else {
-				// user.setName("");
-				// }
-				//
-				// temp.setAuthentics(null);
-				// temp.setName(user.getName());
-				// temp.setUserId(user.getUserId());
-				// temp.setHeadSculpture(user.getHeadSculpture());
-				//
-				// comment.setUsersByAtUserId(temp);
-				// }
-				//
-				// }
-				// }
-
 				// 开始排除点赞中不需要字段
 				if (content.getContentprises() != null
 						&& content.getContentprises().size() > 0) {
@@ -213,6 +162,126 @@ public class FeelingManager {
 
 		}
 
+		return list;
+	}
+	/***
+	 * 分页查询圈子信息
+	 * 
+	 * @param currentPage
+	 *            当前页
+	 * @return
+	 */
+	public List findFeelingByUser( Users u,int currentPage) {
+		List list = getPublicContentDao().findByUserAndCursor(u,currentPage);
+		if (list != null && list.size() > 0) {
+			Publiccontent content = null;
+			for (int i = 0; i < list.size(); i++) {
+				content = (Publiccontent) list.get(i);
+				
+				Users userPublic = new Users();
+				
+				Users user = content.getUsers();
+				// 获取认证信息
+				if (user.getAuthentics() != null
+						&& user.getAuthentics().size() > 0) {
+					Object[] authentices = user.getAuthentics().toArray();
+					Authentic authentic = (Authentic) authentices[0];
+					
+					authentic.setAuthenticstatus(null);
+					authentic.setIdentiytype(null);
+					authentic.setIdentiyCarA(null);
+					authentic.setIdentiyCarB(null);
+					authentic.setIdentiyCarNo(null);
+					authentic.setIntroduce(null);
+					authentic.setAuthId(null);
+					authentic.setBuinessLicence(null);
+					authentic.setBuinessLicenceNo(null);
+					authentic.setCompanyIntroduce(null);
+					authentic.setAutrhrecords(null);
+					authentic.setOptional(null);
+					
+					if (authentic.getName() == null
+							|| authentic.getName().equals("")) {
+						if (user.getTelephone() != null) {
+							String telephone = user.getTelephone();
+							Integer length = telephone.length();
+							String name = "用户"
+									+ user.getTelephone().substring(length - 4,
+											length);
+							authentic.setName(name);
+						}
+					}
+					
+					userPublic.setAuthentics(user.getAuthentics());
+					userPublic.setUserId(user.getUserId());
+					userPublic.setHeadSculpture(user.getHeadSculpture());
+					userPublic.setName(authentic.getName());
+				}
+				
+				content.setUsers(userPublic);
+				
+				// 开始排除点赞中不需要字段
+				if (content.getContentprises() != null
+						&& content.getContentprises().size() > 0) {
+					Iterator<Contentprise> iterator = content
+							.getContentprises().iterator();
+					while (iterator.hasNext()) {
+						Contentprise contentprise = iterator.next();
+						Users temp = new Users();
+						user = contentprise.getUsers();
+						if (user.getAuthentics() != null) {
+							Object[] l = user.getAuthentics().toArray();
+							if (l.length > 0) {
+								Authentic authentic = (Authentic) l[0];
+								user.setName(authentic.getName());
+							} else {
+								user.setName("");
+							}
+							
+						} else {
+							user.setName("");
+						}
+						
+						if (user.getUserId() == u.getUserId()) {
+							content.setFlag(true);
+						}
+						
+						temp.setAuthentics(null);
+						temp.setName(user.getName());
+						temp.setUserId(user.getUserId());
+						temp.setHeadSculpture(user.getHeadSculpture());
+						
+						contentprise.setUsers(temp);
+						
+						Integer userInstanceId = contentprise.getUsers()
+								.getUserId();
+						
+						if (userInstanceId.equals(u.getUserId())) {
+							content.setFlag(true);
+						}
+					}
+				}
+				
+				// 转发量
+				Sharetype type = new Sharetype();
+				type.setShareTypeId(2);
+				
+				Map map = new HashMap();
+				map.put("sharetype", type);
+				map.put("contentId", content.getPublicContentId());
+				
+				// 获取转发量
+				Integer count = getShareDao().counterByProperties(map);
+				content.setShareCount(count);
+				content.setPriseCount(content.getContentprises().size());
+				content.setCommentCount(content.getComments().size());
+				
+				content.setComments(null);
+				content.setContentprises(null);
+			}
+			
+		}
+		
 		return list;
 	}
 

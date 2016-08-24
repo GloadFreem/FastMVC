@@ -16,26 +16,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jinzht.tools.Config;
-import com.jinzht.web.entity.Publiccontent;
-import com.jinzht.web.entity.Users;
+import com.jinzht.web.entity.Contentshare;
 
 /**
  * A data access object (DAO) providing persistence and search support for
- * Publiccontent entities. Transaction control of the save(), update() and
+ * Contentshare entities. Transaction control of the save(), update() and
  * delete() operations can directly support Spring container-managed
  * transactions or they can be augmented to handle user-managed Spring
  * transactions. Each of these methods provides additional information for how
  * to configure it for the desired type of transaction control.
  * 
- * @see .Publiccontent
+ * @see .Contentshare
  * @author MyEclipse Persistence Tools
  */
 @Transactional
-public class PubliccontentDAO {
+public class ContentshareDAO {
 	private static final Logger log = LoggerFactory
-			.getLogger(PubliccontentDAO.class);
+			.getLogger(ContentshareDAO.class);
 	// property constants
+	public static final String IMAGE = "image";
+	public static final String DESC = "desc";
 	public static final String CONTENT = "content";
 
 	private SessionFactory sessionFactory;
@@ -52,8 +52,8 @@ public class PubliccontentDAO {
 		// do nothing
 	}
 
-	public void save(Publiccontent transientInstance) {
-		log.debug("saving Publiccontent instance");
+	public void save(Contentshare transientInstance) {
+		log.debug("saving Contentshare instance");
 		try {
 			getCurrentSession().save(transientInstance);
 			log.debug("save successful");
@@ -62,19 +62,9 @@ public class PubliccontentDAO {
 			throw re;
 		}
 	}
-	public void saveOrUpdate(Publiccontent transientInstance) {
-		log.debug("saving Publiccontent instance");
-		try {
-			getCurrentSession().saveOrUpdate(transientInstance);
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
 
-	public void delete(Publiccontent persistentInstance) {
-		log.debug("deleting Publiccontent instance");
+	public void delete(Contentshare persistentInstance) {
+		log.debug("deleting Contentshare instance");
 		try {
 			getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
@@ -84,11 +74,11 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public Publiccontent findById(java.lang.Integer id) {
-		log.debug("getting Publiccontent instance with id: " + id);
+	public Contentshare findById(java.lang.Integer id) {
+		log.debug("getting Contentshare instance with id: " + id);
 		try {
-			Publiccontent instance = (Publiccontent) getCurrentSession().get(
-					"com.jinzht.web.entity.Publiccontent", id);
+			Contentshare instance = (Contentshare) getCurrentSession().get(
+					"Contentshare", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -96,11 +86,11 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public List<Publiccontent> findByExample(Publiccontent instance) {
-		log.debug("finding Publiccontent instance by example");
+	public List<Contentshare> findByExample(Contentshare instance) {
+		log.debug("finding Contentshare instance by example");
 		try {
-			List<Publiccontent> results = (List<Publiccontent>) getCurrentSession()
-					.createCriteria("Publiccontent").add(create(instance))
+			List<Contentshare> results = (List<Contentshare>) getCurrentSession()
+					.createCriteria("Contentshare").add(create(instance))
 					.list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -112,10 +102,10 @@ public class PubliccontentDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Publiccontent instance with property: "
+		log.debug("finding Contentshare instance with property: "
 				+ propertyName + ", value: " + value);
 		try {
-			String queryString = "from Publiccontent as model where model."
+			String queryString = "from Contentshare as model where model."
 					+ propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
@@ -126,14 +116,22 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public List<Publiccontent> findByContent(Object content) {
+	public List<Contentshare> findByImage(Object image) {
+		return findByProperty(IMAGE, image);
+	}
+
+	public List<Contentshare> findByDesc(Object desc) {
+		return findByProperty(DESC, desc);
+	}
+
+	public List<Contentshare> findByContent(Object content) {
 		return findByProperty(CONTENT, content);
 	}
 
 	public List findAll() {
-		log.debug("finding all Publiccontent instances");
+		log.debug("finding all Contentshare instances");
 		try {
-			String queryString = "from Publiccontent";
+			String queryString = "from Contentshare";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -141,41 +139,11 @@ public class PubliccontentDAO {
 			throw re;
 		}
 	}
-	
-	public List findByCursor(int cursor){
-		log.debug("finding Publiccontent instances by cursor");
-		try {
-			String queryString = "from Publiccontent  order by publicDate desc";
-			Query queryObject = getCurrentSession().createQuery(queryString)
-					.setFirstResult(cursor*Config.STRING_FEELING_PAGESIZE)
-					.setMaxResults(Config.STRING_FEELING_PAGESIZE)
-					;
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
-	public List findByUserAndCursor(Users user,int cursor){
-		log.debug("finding Publiccontent instances by cursor");
-		try {
-			String queryString = "from Publiccontent where users=?  order by publicContentId desc";
-			Query queryObject = getCurrentSession().createQuery(queryString)
-					.setFirstResult(cursor*Config.STRING_FEELING_PAGESIZE)
-					.setMaxResults(Config.STRING_FEELING_PAGESIZE)
-					;
-			queryObject.setParameter(0, user);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
 
-	public Publiccontent merge(Publiccontent detachedInstance) {
-		log.debug("merging Publiccontent instance");
+	public Contentshare merge(Contentshare detachedInstance) {
+		log.debug("merging Contentshare instance");
 		try {
-			Publiccontent result = (Publiccontent) getCurrentSession().merge(
+			Contentshare result = (Contentshare) getCurrentSession().merge(
 					detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -185,8 +153,8 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public void attachDirty(Publiccontent instance) {
-		log.debug("attaching dirty Publiccontent instance");
+	public void attachDirty(Contentshare instance) {
+		log.debug("attaching dirty Contentshare instance");
 		try {
 			getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
@@ -196,8 +164,8 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public void attachClean(Publiccontent instance) {
-		log.debug("attaching clean Publiccontent instance");
+	public void attachClean(Contentshare instance) {
+		log.debug("attaching clean Contentshare instance");
 		try {
 			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(
 					instance);
@@ -208,8 +176,8 @@ public class PubliccontentDAO {
 		}
 	}
 
-	public static PubliccontentDAO getFromApplicationContext(
+	public static ContentshareDAO getFromApplicationContext(
 			ApplicationContext ctx) {
-		return (PubliccontentDAO) ctx.getBean("PubliccontentDAO");
+		return (ContentshareDAO) ctx.getBean("ContentshareDAO");
 	}
 }

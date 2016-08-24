@@ -17,8 +17,18 @@
 <link rel="stylesheet" type="text/css" href="css/dropzone.css" />
 <link rel="stylesheet" type="text/css"
 	href="css/jquery.datetimepicker.css" />
+<link rel="stylesheet" type="text/css" href="upload/css/webuploader.css">
+<link rel="stylesheet" type="text/css" href="upload/css/diyUpload.css">
+
+
+<script src="upload/js/jquery.js"></script>
 <script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
 <script src="js/dropzone.js" type="text/javascript"></script>
+
+<script type="text/javascript"
+	src="upload/js/webuploader.html5only.min.js"></script>
+<script type="text/javascript" src="upload/js/diyUpload.js"></script>
+
 <script type="text/javascript">
 	jQuery(function($) {
 		$(".upload").dropzone({
@@ -114,11 +124,35 @@
 									});
 
 						});
+
+		$(".diyCancel").click(function() {
+			el = $(this);
+			//删除
+			$.ajax({
+				url : "adminDeleteActionImage.action",
+				data : {
+					"recordId" : $(this).parent("li").children("input").val(),
+				},
+				success : function(data) {
+					//alert(data.message);
+					obj = el.parent("li").parent("ul");
+					obj.remove();
+				}
+			});
+		});
+
+		$(".viewThumb").click(function() {
+			src = $(this).children("img").attr("src");
+			a = $("#model");
+			a.attr("href", src);
+			$("a")[0].click();
+		});
 	});
 </script>
 </head>
 <body>
 	<div class="content">
+	<a href="" id="model" target="blank" style="display:none"></a>
 		<form action="adminAddAction.action" method="post">
 			<!-- 序号 -->
 			<c:choose>
@@ -242,8 +276,8 @@
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${action!=null}">
-							<input style="color:black" id="endTime" name="endTime" type="text"
-								value="${action.endTime}">
+							<input style="color:black" id="endTime" name="endTime"
+								type="text" value="${action.endTime}">
 						</c:when>
 						<c:otherwise>
 							<input id="endTime" name="endTime" type="text" value="请选择开始时间">
@@ -262,10 +296,20 @@
 						<c:when test="${action!=null}">
 							<div>
 								<div class="images">
-									<c:forEach items="${action.actionimages }" var="item"
-										varStatus="vs">
-										<img alt="" src=${item.url}>
-									</c:forEach>
+									<div class="parentFileBox">
+										<c:forEach items="${action.actionimages}" var="item"
+											varStatus="vs">
+											<ul class="fileBoxUl" style="width:15%;float:left">
+												<li id="fileBox" class="" style="margin-left:-35px;"><input
+													name="recordId" value="${item.imgId }" style="display:none">
+													<div class="viewThumb">
+														<img src="${item.url }">
+													</div>
+													<div style="display: block;" class="diyCancel"></div>
+													<div class="diyFileName">位置${vs.index }</div>
+											</ul>
+										</c:forEach>
+									</div>
 								</div>
 								<div class="add-img-input">
 									<input class="add-img-input-style" style="color:black"

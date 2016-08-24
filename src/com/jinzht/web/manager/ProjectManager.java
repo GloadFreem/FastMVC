@@ -140,7 +140,9 @@ public class ProjectManager {
 					
 					// 人气指数
 					Integer count = this.findCountProjectCollection(project);
-					project.setCollectionCount(count);
+					int radomIndex = (int)(50+Math.random()*(500-50+1))+count;
+//					requestMap.put("collectCount", radomIndex);
+					project.setCollectionCount(radomIndex);
 					
 					list.add(project);
 				}

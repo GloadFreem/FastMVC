@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "weburlrecord", catalog = "jinzht2016")
-@JsonIgnoreProperties(value={""})
+@JsonIgnoreProperties(value={"content","tag"})
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class Weburlrecord implements java.io.Serializable {
 
@@ -37,6 +37,8 @@ public class Weburlrecord implements java.io.Serializable {
 	private Contenttype contenttype;
 	private String title;
 	private String tag;
+	private String image;
+	private String orignal;
 	private String url;
 	private String content;
 	private Date createDate;
@@ -126,6 +128,22 @@ public class Weburlrecord implements java.io.Serializable {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getOrignal() {
+		return orignal;
+	}
+
+	public void setOrignal(String orignal) {
+		this.orignal = orignal;
 	}
 
 }

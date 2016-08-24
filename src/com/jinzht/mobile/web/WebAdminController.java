@@ -866,6 +866,26 @@ public class WebAdminController extends BaseController {
 		}
 		return getResult();
 	}
+	@RequestMapping(value="admin/adminDeleteActionImage")
+	@ResponseBody
+	public Map adminDeleteActionImage(
+			@RequestParam(value="recordId",required=false)Integer recordId
+			)
+	{
+		this.result = new HashMap();
+		if(recordId!=null && recordId!=-1 )
+		{
+			List<Actionimages> images = this.actionManaer.getActionImageDao().findByProperty("imgId", recordId);
+			if(images!=null&&images.size()>0)
+			{
+				Actionimages item = images.get(0);
+				this.actionManaer.getActionImageDao().delete(item);
+				this.status=200;
+				this.message="删除成功!";
+			}
+		}
+		return getResult();
+	}
 
 	/***
 	 * 编辑现场
@@ -1820,6 +1840,63 @@ public class WebAdminController extends BaseController {
 				.findAll();
 		map.put("items", list.iterator());
 		return "/admin/cycle/cycleList";
+	}
+	@RequestMapping(value = "/admin/adminAddPush")
+	/***
+	 * 添加推送
+	 * @return
+	 */
+	public String adminAddPush(
+			@RequestParam(value = "messageId", required = false) Integer messageId,
+			@RequestParam(value = "authId", required = false) Integer authId,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "content", required = false) String content,
+			@RequestParam(value = "publicDate", required = false) String publicDate,
+			ModelMap map, HttpSession session) throws Exception {
+		this.result = new HashMap();
+		this.result.put("data", "");
+		
+		Systemmessage message;
+		
+		if (messageId != -1) {
+			message = this.systemManger.getSystemMessageDao().findById(messageId);
+		} else {
+			message = new Systemmessage();
+		}
+		
+		if (authId != null) {
+			if(authId!=-1)
+			{
+				Integer userId = this.authenticManager.getAuthenticDao()
+						.findUserIdByAuthId(authId);
+				
+				Users user = this.userManager.findUserById(userId);
+				
+				message.setUsers(user);
+			}else{
+				
+			}
+			
+		}
+		
+		message.setTitle(title);
+		message.setContent(content);
+		Date date = DateUtils.stringToDate(publicDate,
+				DateUtils.DATETIME_FORMAT);
+		if (date != null) {
+			message.setMessageDate(date);
+		}
+		
+		
+		if (messageId != -1) {
+			this.systemManger.getSystemMessageDao().saveOrUpdate(message);
+		} else {
+			this.systemManger.getSystemMessageDao().save(message);
+		}
+		
+
+		map.put("message",message);
+		return "/admin/push/editorPush";
 	}
 
 	@RequestMapping(value = "/admin/adminSearchUserByName")

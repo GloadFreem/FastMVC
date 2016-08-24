@@ -39,6 +39,7 @@ public class Action implements java.io.Serializable {
 
 	private Integer actionId;
 	private String name;
+	private String startPageImage;
 	private String address;
 	private String description;
 	private String initiateUser;
@@ -50,9 +51,12 @@ public class Action implements java.io.Serializable {
 	private Set<Actioncomment> actioncomments = new HashSet<Actioncomment>(0);
 	private Set<Actionshare> actionshares = new HashSet<Actionshare>(0);
 	private Set<Actionimages> actionimages = new HashSet<Actionimages>(0);
+	private Set<Actionintroduce> actionintroduces = new HashSet<Actionintroduce>(
+			0);
 	private short type;
 	private boolean flag; //是否参加报名
 	private boolean attended;
+	
 
 	// Constructors
 
@@ -65,7 +69,7 @@ public class Action implements java.io.Serializable {
 			String initiateUser, Short memberLimit, Timestamp startTime,
 			Timestamp endTime, Set<Actionprise> actionprises,
 			Set<Attention> attentions, Set<Actioncomment> actioncomments,
-			Set<Actionshare> actionshares) {
+			Set<Actionshare> actionshares,Set<Actionintroduce> actionintroduces) {
 		this.name = name;
 		this.address = address;
 		this.description = description;
@@ -77,6 +81,7 @@ public class Action implements java.io.Serializable {
 		this.attentions = attentions;
 		this.actioncomments = actioncomments;
 		this.actionshares = actionshares;
+		this.actionintroduces = actionintroduces;
 	}
 
 	// Property accessors
@@ -208,6 +213,7 @@ public class Action implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
+	@OrderBy("imgId asc")
 	public Set<Actionimages> getActionimages() {
 		return actionimages;
 	}
@@ -234,6 +240,24 @@ public class Action implements java.io.Serializable {
 		this.attended = attended;
 	}
 
+	@Column(name="start_page_image")
+	public String getStartPageImage() {
+		return startPageImage;
+	}
+	
+	public void setStartPageImage(String startPageImage) {
+		this.startPageImage = startPageImage;
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
+	@OrderBy(value="introduceId asc")
+	public Set<Actionintroduce> getActionintroduces() {
+		return this.actionintroduces;
+	}
+
+	public void setActionintroduces(Set<Actionintroduce> actionintroduces) {
+		this.actionintroduces = actionintroduces;
+	}
 
 
 

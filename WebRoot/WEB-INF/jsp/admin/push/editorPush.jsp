@@ -81,7 +81,7 @@
 						success : function(data) {
 							selector = $("select[name='authId']");
 							selector.empty();
-
+							selector.append("<option value='-1'>全部</option>");
 							data.data.forEach(function(e) {
 								select = "<option value='"+e.authId+"'>"
 										+ e.name + "</option>"
@@ -101,7 +101,7 @@
 </head>
 <body>
 	<div class="content">
-		<form action="adminAddCycle.action" method="post">
+		<form action="adminAddPush.action" method="post">
 			<!-- 序号 -->
 			<c:choose>
 				<c:when test="${message!=null}">
@@ -128,7 +128,9 @@
 									src="../images/feeling/椭圆-2.png">
 							</div>
 							<div>
-								<select class='user-select' name='authId' id='authId'></select>
+								<select class='user-select' name='authId' id='authId'>
+									<option value="-1">全部</option>
+								</select>
 							</div>
 						</c:when>
 						<c:otherwise>
@@ -140,7 +142,9 @@
 									src="../images/feeling/椭圆-2.png">
 							</div>
 							<div>
-								<select class='user-select' name='authId' id='authId'></select>
+								<select class='user-select' name='authId' id='authId'>
+									<option value="-1">全部</option>
+								</select>
 							</div>
 						</c:otherwise>
 					</c:choose>
@@ -155,28 +159,28 @@
 							<input style="color:black" id="title" name="title" value="${message.title }" type="text">
 						</c:when>
 						<c:otherwise>
-							<input style="color:black" id="title" name="title" value="请选择时间" type="text">
+							<input style="color:black" id="title" name="title" value="请输入标题" type="text">
 						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>
 			<!-- 描述 -->
 			<div class="name">
-				<div class="name-key">內容</div>
+				<div class="name-key">推送內容</div>
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${message!=null}">
 							<textarea class="textarea" style="color:black" name="content">${message.content}</textarea>
 						</c:when>
 						<c:otherwise>
-							<textarea class="textarea" style="color:black" name="content">请输入描述</textarea>
+							<textarea class="textarea" style="color:black" name="content">请输入推送内容</textarea>
 						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>
 			<!-- 时间 -->
 			<div class="name">
-				<div class="name-key">发布时间</div>
+				<div class="name-key">推送时间</div>
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${content!=null}">
@@ -188,39 +192,9 @@
 					</c:choose>
 				</div>
 			</div>
-			<!-- 上传图片 -->
-			<div class="name">
-				<div class="name-key">
-					添加图片
-				</div>
-				<div class="img-frame">
-					<c:choose>
-						<c:when
-							test="${content.contentimageses!=null && content.contentimageses.size()>0}">
-							<c:forEach items="${imgCount}" var="item" varStatus="vs">
-								<div class="upload dropzone">
-									<c:if test="${content.contentimageses.size()>vs.index}">
-										<a href=${content.contentimageses.toArray()[vs.index].url }
-											target="blank"><img alt=""
-											src=${content.contentimageses.toArray()[vs.index].url
-											}
-											style="width:100%"></a>
-									</c:if>
-								</div>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<c:forEach items="${imgCount}" var="item" varStatus="vs">
-								<div class="upload dropzone needsclick"></div>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
-				</div>
-
-			</div>
 
 			<div>
-				<input class="banner-add-submit" type="submit" value="确认添加">
+				<input class="banner-add-submit" type="submit" value="立即推送">
 			</div>
 		</form>
 	</div>

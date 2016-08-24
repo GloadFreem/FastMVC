@@ -118,6 +118,9 @@
 				<value>com.jinzht.web.entity.Preloadingpage</value>
 				<value>com.jinzht.web.entity.Systemuser</value>
 				<value>com.jinzht.web.entity.Roletype</value>
+				<value>com.jinzht.web.entity.Feelingtype</value>
+				<value>com.jinzht.web.entity.Contentshare</value>
+				<value>com.jinzht.web.entity.Actionintroduce</value>
 			</list>
 		</property>
 	</bean>
@@ -462,6 +465,22 @@
 		</property>
 	</bean>
 	<bean id="com.jinzht.web.dao.ContenttypeDAO" class="com.jinzht.web.dao.ContenttypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="FeeingtypeDAO"
+		class="com.jinzht.web.dao.FeeingtypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.jinzht.web.dao.ContentshareDAO" class="com.jinzht.web.dao.ContentshareDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.jinzht.web.dao.ActionintroduceDAO" class="com.jinzht.web.dao.ActionintroduceDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

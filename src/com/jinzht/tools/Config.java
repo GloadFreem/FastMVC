@@ -139,6 +139,8 @@ public class Config {
 			add("adminEditWebContent.action");
 			add("adminPushListAdmin.action");
 			add("adminEditPush.action");
+			add("adminAddPush.action");
+			add("adminDeleteActionImage.action");
 		}
 	};
 
@@ -170,8 +172,8 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.137:8080/jinzht/";
-//	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.141:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.jinzht.com:8080/jinzht/images/icon.jpg";
 	public static String  STRING_USER_HEADER_PICTURE_FORMAT = "jinzht_user_%d";
