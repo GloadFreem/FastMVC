@@ -4631,7 +4631,7 @@
 			);
 		}
 	
-		$(nodes).html( out );
+		// $(nodes).html( out );
 	}
 	
 	
@@ -14565,26 +14565,26 @@
 									break;
 							}
 	
-							if ( btnDisplay !== null ) {
-								node = $('<a>', {
-										'class': classes.sPageButton+' '+btnClass,
-										'aria-controls': settings.sTableId,
-										'aria-label': aria[ button ],
-										'data-dt-idx': counter,
-										'tabindex': settings.iTabIndex,
-										'id': idx === 0 && typeof button === 'string' ?
-											settings.sTableId +'_'+ button :
-											null
-									} )
-									.html( btnDisplay )
-									.appendTo( container );
-	
-								_fnBindAction(
-									node, {action: button}, clickHandler
-								);
-	
-								counter++;
-							}
+							// if ( btnDisplay !== null ) {
+							// 	node = $('<a>', {
+							// 			'class': classes.sPageButton+' '+btnClass,
+							// 			'aria-controls': settings.sTableId,
+							// 			'aria-label': aria[ button ],
+							// 			'data-dt-idx': counter,
+							// 			'tabindex': settings.iTabIndex,
+							// 			'id': idx === 0 && typeof button === 'string' ?
+							// 				settings.sTableId +'_'+ button :
+							// 				null
+							// 		} )
+							// 		.html( btnDisplay )
+							// 		.appendTo( container );
+                            //
+							// 	_fnBindAction(
+							// 		node, {action: button}, clickHandler
+							// 	);
+                            //
+							// 	counter++;
+							// }
 						}
 					}
 				};

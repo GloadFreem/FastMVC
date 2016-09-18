@@ -154,6 +154,7 @@ public class InvestorController extends BaseController {
 	 */
 	public Map requestInvestorDetail(
 			@RequestParam(value = "investorId", required = true) Integer investorId,
+			@RequestParam(value = "version", required = false) Integer version,
 			HttpSession session) {
 		this.result = new HashMap();
 
@@ -167,7 +168,9 @@ public class InvestorController extends BaseController {
 			Authentic authentic = (Authentic) authentices[0];
 
 			authentic.setAuthenticstatus(null);
-			authentic.setIdentiytype(null);
+			if(version!=null&&version!=1){
+				authentic.setIdentiytype(null);
+			}
 			authentic.setIdentiyCarA(null);
 			authentic.setIdentiyCarB(null);
 			authentic.setIdentiyCarNo(null);
@@ -178,11 +181,13 @@ public class InvestorController extends BaseController {
 			authentic.setOptional(null);
 
 			String industoryArea = authentic.getIndustoryArea();
-			if (industoryArea != null && industoryArea != "") {
+			if (industoryArea != null && !industoryArea.equals("")) {
 				String[] aa = industoryArea.split(",");
 				for (int j = 0; j < aa.length; j++) {
+					String  str = aa[j].toString();
+					str=str.replace(" ", "");
 					Industoryarea area = this.investorManager.getIndustoryAreaDao().findById(
-							Integer.parseInt(aa[j].toString()));
+							Integer.parseInt(str));
 					l.add(area.getName());
 				}
 			}
@@ -226,7 +231,8 @@ public class InvestorController extends BaseController {
 			map.put("commited", false);
 		}
 		
-		map.put("collectCount", 100);
+		int radomIndex = (int)(500+Math.random()*(800-500+1));
+		map.put("collectCount", radomIndex);
 
 
 		this.result.put("data", map);

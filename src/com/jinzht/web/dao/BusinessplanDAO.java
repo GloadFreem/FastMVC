@@ -59,6 +59,16 @@ public class BusinessplanDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Businessplan transientInstance) {
+		log.debug("saving Businessplan instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Businessplan persistentInstance) {
 		log.debug("deleting Businessplan instance");
@@ -75,7 +85,7 @@ public class BusinessplanDAO {
 		log.debug("getting Businessplan instance with id: " + id);
 		try {
 			Businessplan instance = (Businessplan) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Businessplan", id);
+					"com.jinzht.web.entity.Businessplan", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

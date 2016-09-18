@@ -742,7 +742,7 @@ public class SystemController extends BaseController {
 			@RequestParam(value = "version", required = false) Integer version,
 			ModelMap model) {
 		this.result = new HashMap();
-		List list = this.systemManger.getWebUrlRecordDao().findAll();
+		List list = this.systemManger.getWebUrlRecordDao().findByPage(page);
 		
 		
 		

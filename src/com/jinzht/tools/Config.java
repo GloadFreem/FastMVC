@@ -141,6 +141,16 @@ public class Config {
 			add("adminEditPush.action");
 			add("adminAddPush.action");
 			add("adminDeleteActionImage.action");
+			add("adminFinancestandingListAdmin.action");
+			add("adminAddProjectFinanceStanding.action");
+			add("adminMembersListAdmin.action");
+			add("adminTeamsListAdmin.action");
+			add("adminActionContentListAdmin.action");
+			add("adminEditActionContent.action");
+			add("adminAddActionContent.action");
+			add("adminSearchActionByName.action");
+			add("adminKingCapitalListAdmin.action");
+			add("adminAddKingCapital.action");
 		}
 	};
 
@@ -172,7 +182,7 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.141:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.111:8080/jinzht/";
 	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.jinzht.com:8080/jinzht/images/icon.jpg";
@@ -299,9 +309,10 @@ public class Config {
 	public static String STRING_TRADE__ADD_FAIl="信息提交失败";
 	
 	//邮件系统
-	public static String STRING_MAIL_SERVER_NAME = "smtp.qq.com";
+//	public static String STRING_MAIL_SERVER_NAME = "smtp.qq.com";
+	public static String STRING_MAIL_SERVER_NAME = "smtp.exmail.qq.com";
 	public static String STRING_MAIL_SERVER_USER = "chenshengzhu@jinzht.com";
-	public static String STRING_MAIL_SERVER_PASSWD = "Csz1126@0314";
+	public static String STRING_MAIL_SERVER_PASSWD = "Jinzht@123";
 	public static String STRING_MAIL_SERVER_TO_EMIAL = "chenshengzhu@jinzht.com;baidongqi@163.com;851303533@qq.com;1203920906@qq.com";
 	
 	//友盟推送
@@ -320,4 +331,7 @@ public class Config {
 	
 	//密码规则
 	public static String STRING_PASWWORD_RULE="%s%slindyang";
+	
+	//财务状况
+	public static String STRING_PROJECT_FINANCESTANDING ="http://www.jinzht.com:8080/jinzht/images/share/Pie-chart.png";
 }

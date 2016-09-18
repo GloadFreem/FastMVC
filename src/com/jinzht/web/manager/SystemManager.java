@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jinzht.tools.BannerType;
 import com.jinzht.web.dao.BannerDAO;
+import com.jinzht.web.dao.ContentshareDAO;
 import com.jinzht.web.dao.ContenttypeDAO;
 import com.jinzht.web.dao.FeedbackDAO;
 import com.jinzht.web.dao.NoticeDAO;
@@ -45,6 +46,7 @@ public class SystemManager {
 	private FeedbackDAO feedbackDao;
 	private WeburlrecordDAO webUrlRecordDao;
 	private ContenttypeDAO contentTypeDao;
+	private ContentshareDAO contentShareDao;
 
 	/***
 	 * 根据设备类型获取系统公告信息
@@ -181,6 +183,85 @@ public class SystemManager {
 
 				result.add(map);
 
+			}
+		}
+		return result;
+	}
+	
+	/***
+	 * 获取Banner信息分页
+	 * 
+	 * @param platform
+	 *            设备类型 0:Android,1:iOS
+	 * @return 最新启动页面信息
+	 */
+	public List<Banner> findBannerInfoByPageList(Integer start,Integer pageSize) {
+		// 返回Banner结果
+		List result = new ArrayList();
+		Map map = null;
+		
+		List<Banner> list = getBannerDao().findByPage(start, pageSize);
+		
+		if (list != null && list.size() > 0) {
+			Banner banner = null;
+			for (int i = 0; i < list.size(); i++) {
+				banner = list.get(i);
+				banner.setBannerType(null);
+				
+				map = new HashMap();
+				// 添加到返回数据中
+				map.put("body", banner);
+				map.put("type", BannerType.Web);
+				
+				// 判断是否为项目
+				if (banner.getProject() != null
+						&& !banner.getProject().equals("")) {
+					// 获取项目
+					Project project = getProjectDao().findById(
+							Integer.parseInt(banner.getProject()));
+					if (project != null) {
+						map.put("type", BannerType.Project);
+						// 设置项目属性
+						project.setUserId(null);
+						project.setProjectcomments(null);
+						project.setProjectType(null);
+						project.setAbbrevName(null);
+						project.setCollections(null);
+						project.setStartPageImage(null);
+						project.setControlreports(null);
+						project.setFinancialstandings(null);
+						project.setFinancingexits(null);
+						project.setFinancingcases(null);
+						project.setBusinessplans(null);
+						project.setAddress(null);
+						project.setTimeLeft(null);
+						project.setCollectionCount(null);
+						project.setFullName(null);
+						project.setDescription(null);
+						project.setTeams(null);
+						project.setProjectimageses(null);
+						
+						Object[] obj = project.getRoadshows().toArray();
+						if (obj != null && obj.length > 0) {
+							for (int j = 0; j < obj.length; j++) {
+								Roadshow roadShow = (Roadshow) obj[j];
+								roadShow.setRoadShowId(null);
+								roadShow.setProject(null);
+								roadShow.getRoadshowplan().setBeginDate(null);
+								roadShow.getRoadshowplan().setEndDate(null);
+								roadShow.getRoadshowplan().setFinancingId(null);
+							}
+							
+						}
+						// 添加到返回数据
+						map.put("extr", project);
+					}
+					
+					banner.setProject(null);
+				}
+				
+				result.add(map);
+				
 			}
 		}
 		return result;
@@ -370,6 +451,14 @@ public class SystemManager {
 	@Autowired
 	public void setContentTypeDao(ContenttypeDAO contentTypeDao) {
 		this.contentTypeDao = contentTypeDao;
+	}
+
+	public ContentshareDAO getContentShareDao() {
+		return contentShareDao;
+	}
+	@Autowired
+	public void setContentShareDao(ContentshareDAO contentShareDao) {
+		this.contentShareDao = contentShareDao;
 	}
 
 }

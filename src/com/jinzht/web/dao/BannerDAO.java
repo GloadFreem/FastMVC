@@ -156,6 +156,19 @@ public class BannerDAO {
 			throw re;
 		}
 	}
+	public List findByPage(Integer start,Integer size) {
+		log.debug("finding all Banner instances");
+		try {
+			String queryString = "from Banner";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(start);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
 
 	public Banner merge(Banner detachedInstance) {
 		log.debug("merging Banner instance");

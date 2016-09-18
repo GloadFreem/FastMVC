@@ -1,5 +1,7 @@
 package com.jinzht.web.manager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,16 +12,19 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jinzht.web.dao.AudiorecordDAO;
+import com.jinzht.web.dao.BusinessplanDAO;
 import com.jinzht.web.dao.CityDAO;
 import com.jinzht.web.dao.CollectionDAO;
 import com.jinzht.web.dao.ContentpriseDAO;
 import com.jinzht.web.dao.FinancestatusDAO;
 import com.jinzht.web.dao.FinancialstandingDAO;
 import com.jinzht.web.dao.FinancingcaseDAO;
+import com.jinzht.web.dao.FinancingexitDAO;
 import com.jinzht.web.dao.IdentiytypeDAO;
 import com.jinzht.web.dao.IndustoryareaDAO;
 import com.jinzht.web.dao.InvestmentrecordDAO;
 import com.jinzht.web.dao.LoginfailrecordDAO;
+import com.jinzht.web.dao.MemberDAO;
 import com.jinzht.web.dao.ProjectDAO;
 import com.jinzht.web.dao.ProjectcommentDAO;
 import com.jinzht.web.dao.ProjectcommitrecordDAO;
@@ -30,6 +35,7 @@ import com.jinzht.web.dao.RoadshowplanDAO;
 import com.jinzht.web.dao.SceneDAO;
 import com.jinzht.web.dao.ScenecommentDAO;
 import com.jinzht.web.dao.ShareDAO;
+import com.jinzht.web.dao.TeamDAO;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Businessplan;
@@ -72,6 +78,12 @@ public class ProjectManager {
 	private ProjectcommentDAO projectCommentDao;
 	private InvestmentrecordDAO investmentRecordDao;
 	private ProjectcommitrecordDAO projectCommitRecordDao;
+	private FinancialstandingDAO financeStandingDao;
+	private FinancingcaseDAO financingCaseDao;
+	private BusinessplanDAO businessPlanDao;
+	private FinancingexitDAO financingexitDao;
+	private MemberDAO memberDao;
+	private TeamDAO teamDao;
 	
 	public Publiccontent findPublicContentById(Integer contentId) {
 		return getPublicContentDao().findById(contentId);
@@ -140,7 +152,7 @@ public class ProjectManager {
 					
 					// 人气指数
 					Integer count = this.findCountProjectCollection(project);
-					int radomIndex = (int)(50+Math.random()*(500-50+1))+count;
+					int radomIndex = (int)(200+Math.random()*(400-200+1))+count;
 //					requestMap.put("collectCount", radomIndex);
 					project.setCollectionCount(radomIndex);
 					
@@ -320,7 +332,8 @@ public class ProjectManager {
 	 * @param project
 	 * @return
 	 */
-	public List findProjectComment(Project project,Integer page) {
+	public List findProjectComment(Project project,Integer page,int platform) {
+
 		Map map = new HashMap();
 		map.put("project", project);
 		List list =  getProjectCommentDao().findByProperties(map, page);
@@ -344,13 +357,40 @@ public class ProjectManager {
 				
 				if(user.getName()==null || user.getName().equals(""))
 				{
-					String telephone = commentUser.getTelephone();
-					Integer length = telephone.length();
-					String name = "用户"+telephone.substring(length-4, length);
-					user.setName(name);
+					
+					if(commentUser.getTelephone()!=null &&!commentUser.getTelephone().equals(""))
+					{
+						String telephone = commentUser.getTelephone();
+						Integer length = telephone.length();
+						String name = "用户" + telephone.substring(length - 4, length);
+						user.setName(name);
+					}else{
+						String userIdStr = commentUser.getUserId().toString();
+						Integer length = userIdStr.length();
+						String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+						name = "用户"+name;
+						user.setName(name);
+					}
 				}
 				
+				
+				
 				comment.setUsers(user);
+				
+				
+				//兼容表情内容
+				String c = comment.getContent();
+				if(platform!=0)
+				{
+					
+					try {
+						c=URLEncoder.encode(c, "utf-8");
+						comment.setContent(c);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 		return list;
@@ -853,7 +893,7 @@ public class ProjectManager {
 	 * @param page
 	 * @return
 	 */
-	public List findProjectSceneCommentList(Integer sceneId ,Integer page,Integer userId)
+	public List findProjectSceneCommentList(Integer sceneId ,Integer page,Integer userId,int platform)
 	{
 		List list = new ArrayList();
 		Scene scene = getSceneDao().findById(sceneId);
@@ -885,16 +925,36 @@ public class ProjectManager {
 					
 					if(userInstance.getName()==null || userInstance.getName().equals(""))
 					{
-						if(user.getTelephone()!=null)
+						
+						if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
 						{
 							String telephone = user.getTelephone();
 							Integer length = telephone.length();
-							String name = "用户"+user.getTelephone().substring(length-4, length);
+							String name = "用户" + telephone.substring(length - 4, length);
+							userInstance.setName(name);
+						}else{
+							String userIdStr = user.getUserId().toString();
+							Integer length = userIdStr.length();
+							String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+							name = "用户"+name;
 							userInstance.setName(name);
 						}
 					}
 					
 					record.setUsers(userInstance);
+					
+					String c = record.getContent();
+
+					if (platform != 0) {
+
+						try {
+							c = URLEncoder.encode(c, "utf-8");
+							record.setContent(c);
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 					
 					list.add(record);
 				}
@@ -1058,5 +1118,54 @@ public class ProjectManager {
 	public void setRoadShowPlanDao(RoadshowplanDAO roadShowPlanDao) {
 		this.roadShowPlanDao = roadShowPlanDao;
 	}
+
+	public FinancialstandingDAO getFinanceStandingDao() {
+		return financeStandingDao;
+	}
+	@Autowired
+	public void setFinanceStandingDao(FinancialstandingDAO financeStandingDao) {
+		this.financeStandingDao = financeStandingDao;
+	}
+
+	public FinancingcaseDAO getFinancingCaseDao() {
+		return financingCaseDao;
+	}
+	@Autowired
+	public void setFinancingCaseDao(FinancingcaseDAO financingCaseDao) {
+		this.financingCaseDao = financingCaseDao;
+	}
+
+	public BusinessplanDAO getBusinessPlanDao() {
+		return businessPlanDao;
+	}
+	@Autowired
+	public void setBusinessPlanDao(BusinessplanDAO businessPlanDao) {
+		this.businessPlanDao = businessPlanDao;
+	}
+
+	public FinancingexitDAO getFinancingexitDao() {
+		return financingexitDao;
+	}
+	@Autowired
+	public void setFinancingexitDao(FinancingexitDAO financingexitDao) {
+		this.financingexitDao = financingexitDao;
+	}
+
+	public MemberDAO getMemberDao() {
+		return memberDao;
+	}
+	@Autowired
+	public void setMemberDao(MemberDAO memberDao) {
+		this.memberDao = memberDao;
+	}
+
+	public TeamDAO getTeamDao() {
+		return teamDao;
+	}
+	@Autowired
+	public void setTeamDao(TeamDAO teamDao) {
+		this.teamDao = teamDao;
+	}
+	
 
 }

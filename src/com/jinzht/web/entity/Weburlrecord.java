@@ -40,6 +40,7 @@ public class Weburlrecord implements java.io.Serializable {
 	private String image;
 	private String orignal;
 	private String url;
+	private boolean flag;
 	private String content;
 	private Date createDate;
 
@@ -144,6 +145,14 @@ public class Weburlrecord implements java.io.Serializable {
 
 	public void setOrignal(String orignal) {
 		this.orignal = orignal;
+	}
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 
 }

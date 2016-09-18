@@ -63,8 +63,12 @@
                                 <li><a href="adminProjectListAdmin.action" target="content">项目列表</a> </li>
                                 <li><a href="adminRoadShowListAdmin.action" target="content">路演管理</a> </li>
                                 <li><a href="adminSceneListAdmin.action" target="content">现场管理</a> </li>
-                                <li><a>分享收藏</a> </li>
-                                <li><a>路演历史</a> </li>
+                                <li><a href="adminFinancestandingListAdmin.action" target="content">财务状况</a> </li>
+                                <li><a href="adminBusinessPlanListAdmin.action" target="content">商业计划</a> </li>
+                                <li><a href="adminFinanceCaseListAdmin.action" target="content">融资方案</a> </li>
+                                <li><a href="adminExitCaseListAdmin.action" target="content">退出机制</a> </li>
+                                <li><a href="adminMembersListAdmin.action" target="content">成员</a> </li>
+                                <li><a href="adminTeamsListAdmin.action" target="content">核心团队</a> </li>
                             </ul>
                         </li>
                         <li><a class="menuitem">交易中心</a>
@@ -84,6 +88,7 @@
                          <li><a class="menuitem">活动管理</a>
                             <ul class="submenu1">
                                 <li><a href="adminActionListAdmin.action" target="content">活动列表</a> </li>
+                                <li><a href="adminActionContentListAdmin.action" target="content">活动内容</a> </li>
                                 <li><a>分享收藏</a> </li>
                                 <li><a>历史活动</a> </li>
                             </ul>

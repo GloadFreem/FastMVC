@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Action;
+import com.jinzht.web.entity.Project;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -189,7 +190,12 @@ public class ActionDAO {
 	}
 
 	public List<Action> findByName(Object name) {
-		return findByProperty(NAME, name);
+		String sqlString = "select * from action where name like ?";
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Action.class);
+		queryObject.setParameter(0, "%"+name+"%");
+		
+		return queryObject.list();
 	}
 
 	public List<Action> findByAddress(Object address) {

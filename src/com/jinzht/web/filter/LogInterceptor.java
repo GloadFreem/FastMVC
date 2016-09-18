@@ -34,6 +34,17 @@ public class LogInterceptor implements HandlerInterceptor {
 			HttpServletResponse hresponse, Object arg2) throws Exception {
 		// 获取session会话
 		HttpSession session = hrequest.getSession(true);
+		
+		//如果带有直连接口属性，直接通过
+		if(hrequest.getParameter("requestType")!=null)
+		{
+			String typeString = hrequest.getParameter("requestType").toString();
+			if(typeString!=null && typeString.equals("webRequest")){
+				session.setAttribute("userId", 5333);
+				return true;
+			}
+		}
+		
 		// 输出请求信息
 		System.out.println("Filter 截获到用户倾听求地址:  " + hrequest.getServletPath());
 		long after = System.currentTimeMillis();

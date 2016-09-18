@@ -1,5 +1,7 @@
 package com.jinzht.web.manager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.jinzht.web.dao.ActionDAO;
 import com.jinzht.web.dao.ActioncommentDAO;
 import com.jinzht.web.dao.ActionimagesDAO;
+import com.jinzht.web.dao.ActionintroduceDAO;
 import com.jinzht.web.dao.ActionpriseDAO;
 import com.jinzht.web.dao.AttentionDAO;
 import com.jinzht.web.dao.CityDAO;
@@ -34,6 +37,7 @@ import com.jinzht.web.entity.Contentprise;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Industoryarea;
 import com.jinzht.web.entity.Loginfailrecord;
+import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Users;
 
@@ -45,6 +49,7 @@ public class ActionManager {
 	private ActionDAO actionDao;
 	private ActionimagesDAO actionImageDao;
 	private ActioncommentDAO actionCommentDao;
+	private ActionintroduceDAO actionIntroduceDao;
 
 	/***
 	 * 根据id获取活动
@@ -136,6 +141,12 @@ public class ActionManager {
 		return list;
 	}
 	
+	
+	public List findProjectByName(String name)
+	{
+		List<Action> projects = getActionDao().findByName(name);
+		return projects;
+	}
 	public Actionprise findActionPrise(Action action,Users user)
 	{
 		Actionprise prise = null;
@@ -168,20 +179,11 @@ public class ActionManager {
 		
 		return null;
 	}
+	
 	public Actionprise findPriseByActionIdAndUser(Action action,Users user)
 	{
-		List list =  getActionPriseDao().findByProperty("users", user);
-		Actionprise prise;
-		if(list!=null && list.size()>0){
-			for(int i = 0;i<list.size();i++){
-				prise = (Actionprise) list.get(0);
-				if(prise.getAction().getActionId() == action.getActionId()){
-					return prise;
-				}
-			}
-		}
-		
-		return null;
+		Actionprise prise =getActionPriseDao().findByActionIdAndUserId(action.getActionId(), user.getUserId());
+		return prise;
 	}
 
 	/***
@@ -241,8 +243,30 @@ public class ActionManager {
 	 * @param action
 	 * @return
 	 */
-	public List findCommentListByAction(Action action,Integer page){
-		return getActionCommentDao().findByPropertyWithPage("action", action,page);
+	public List findCommentListByAction(Action action,Integer page,int platform){
+		List list =  getActionCommentDao().findByPropertyWithPage("action", action,page);
+		
+		if(list!=null && list.size()>0)
+		{
+			for(int  i = 0;i<list.size();i++)
+			{
+				Actioncomment comment = (Actioncomment)list.get(i);
+				//兼容表情内容
+				String c = comment.getContent();
+				if(platform!=0)
+				{
+					
+					try {
+						c=URLEncoder.encode(c, "utf-8");
+						comment.setContent(c);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return list;
 	}
 	
 	/***
@@ -251,7 +275,7 @@ public class ActionManager {
 	 * @return
 	 */
 	public List findPriseListByAction(Action action){
-		return getActionPriseDao().findByProperty("action", action);
+		return getActionPriseDao().findByAction("action", action);
 	}
 	public Integer findUserByAttention(Attention attention)
 	{
@@ -333,6 +357,13 @@ public class ActionManager {
 	@Autowired
 	public void setActionCommentDao(ActioncommentDAO actionCommentDao) {
 		this.actionCommentDao = actionCommentDao;
+	}
+	public ActionintroduceDAO getActionIntroduceDao() {
+		return actionIntroduceDao;
+	}
+	@Autowired
+	public void setActionIntroduceDao(ActionintroduceDAO actionIntroduceDao) {
+		this.actionIntroduceDao = actionIntroduceDao;
 	}
 
 }

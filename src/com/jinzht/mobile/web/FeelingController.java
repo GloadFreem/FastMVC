@@ -39,6 +39,9 @@ import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Comment;
 import com.jinzht.web.entity.Contentimages;
 import com.jinzht.web.entity.Contentprise;
+import com.jinzht.web.entity.Contentshare;
+import com.jinzht.web.entity.Contenttype;
+import com.jinzht.web.entity.Feelingtype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Share;
@@ -70,6 +73,7 @@ public class FeelingController extends BaseController {
 	 */
 	public Map requestFeelingList(
 			@RequestParam(value = "page", required = true) Integer page,
+			@RequestParam(value = "platform", required = false) Integer platform,
 			HttpSession session) {
 		this.result = new HashMap();
 
@@ -80,8 +84,12 @@ public class FeelingController extends BaseController {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
+			if(platform==null)
+			{
+				platform=0;
+			}
 			List list = this.feelingManager.findFeelingByCursor(page,
-					user.getUserId());
+					user.getUserId(),platform);
 			if (list != null && list.size() > 0) {
 				this.status = 200;
 				this.message = "";
@@ -106,6 +114,7 @@ public class FeelingController extends BaseController {
 	public Map requestUsersFeelingList(
 			@RequestParam(value = "userId", required = true) Integer userId,
 			@RequestParam(value = "page", required = true) Integer page,
+			@RequestParam(value = "platform", required = false) Integer platform,
 			HttpSession session) {
 		this.result = new HashMap();
 		
@@ -116,13 +125,13 @@ public class FeelingController extends BaseController {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			List list = this.feelingManager.findFeelingByUser(user,page);
+			List list = this.feelingManager.findFeelingByUser(user,page,platform);
 			if (list != null && list.size() > 0) {
 				this.status = 200;
 				this.message = "";
 				this.result.put("data", list);
 			} else {
-				this.status = 201;
+				this.status = 200;
 				this.result.put("data", new ArrayList());
 				this.message = Config.STRING_FEELING_NO_DATA;
 			}
@@ -142,6 +151,7 @@ public class FeelingController extends BaseController {
 	public Map requestFeelingDetail(
 			@RequestParam(value = "feelingId", required = true) Integer feelingId, 
 			@RequestParam(value = "page", required = true) Integer page, 
+			@RequestParam(value = "platform", required = false) Integer platform, 
 			HttpSession session) {
 		this.result = new HashMap();
 
@@ -153,7 +163,7 @@ public class FeelingController extends BaseController {
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
 			if(page !=0){
-				List list = this.feelingManager.findFeelingCommentByPage(page, feelingId);
+				List list = this.feelingManager.findFeelingCommentByPage(page, feelingId,platform);
 				if(list!=null && list.size()>0)
 				{
 					this.status = 200;
@@ -163,8 +173,14 @@ public class FeelingController extends BaseController {
 					this.result.put("data", new ArrayList());
 				}
 			}else{
+				if(platform==null)
+				{
+					platform=0;
+				}
 				Publiccontent content = this.feelingManager.findFeelingById(
-						feelingId, user.getUserId());
+						feelingId, user.getUserId(),platform);
+				
+				
 				this.status = 200;
 				this.result.put("data", content);
 			}
@@ -205,6 +221,11 @@ public class FeelingController extends BaseController {
 				// 关联用户
 				content.setUsers(user);
 				content.setPublicDate(new Date());
+				
+				Feelingtype type = new Feelingtype();
+				type.setFeelingTypeId(1);
+				
+				content.setFeeingtype(type);
 
 				// 保存圈子内容
 				this.feelingManager.addPublicContent(content);
@@ -309,9 +330,18 @@ public class FeelingController extends BaseController {
 			
 			if(name==null || name.equals(""))
 			{
-				String telephone = user.getTelephone();
-				Integer length = telephone.length();
-				name = "用户"+telephone.substring(length-4, length);
+				if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
+				{
+					String telephone = user.getTelephone();
+					Integer length = telephone.length();
+					name = "用户" + telephone.substring(length - 4, length);
+				}else{
+					String userIdStr = user.getUserId().toString();
+					Integer length = userIdStr.length();
+					name =length>4?userIdStr.substring(length-4, length):userIdStr;
+					name = "用户"+name;
+				}
+				
 			}
 			
 			Map map = new HashMap();
@@ -583,6 +613,80 @@ public class FeelingController extends BaseController {
 		this.message = Config.STRING_PROJECT_DELETE_SUCCESS;
 		return getResult();
 	}
+	@RequestMapping(value = "/shareContentToFeeling")
+	@ResponseBody
+	public Map shareContentToFeeling(
+			@RequestParam(value = "contentId",required=false) Integer contentId,
+			@RequestParam(value = "comment",required=false) String comment,
+			@RequestParam(value = "tag",required=false) String tag,
+			@RequestParam(value = "content",required=false) String content,
+			@RequestParam(value = "description",required=false) String description,
+			@RequestParam(value = "type",required=false) Integer type,
+			@RequestParam(value = "image",required=false) String image,
+			HttpSession session
+			)
+	{
+		
+		this.result = new HashMap();
+		this.result.put("data", "");
+		// 获取当前发布内容用户
+		Users user = this.findUserInSession(session);
+		
+		if (user == null) {
+			this.status = 400;
+
+			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		} else {
+
+			Contentshare share = new Contentshare();
+			share.setImage(image);
+			share.setDesc(description);
+			share.setContent(content);
+			share.setTag(tag);
+			Contenttype t = new Contenttype();
+//			if(type==0)
+//			{
+//				type=6;
+//			}else  if(type==1)
+//			{
+//				type=7;
+//			}else if(type==2)
+//			{
+//				type=8;
+//			}
+			
+			t.setTypeId(type);
+			share.setContenttype(t);
+			this.systemManager.getContentShareDao().save(share);
+			
+			Publiccontent c = new Publiccontent(); 
+			c.setUsers(user);
+			c.setContent(comment);
+			c.setPublicDate(new Date());
+			c.setContentshare(share);
+			
+			Feelingtype feelingType = new Feelingtype();
+			
+			if(type==6)
+			{
+				feelingType.setFeelingTypeId(4);
+			}else if(type==7){
+				feelingType.setFeelingTypeId(3);
+			}else{
+				feelingType.setFeelingTypeId(2);
+			}
+			c.setFeeingtype(feelingType);
+			this.feelingManager.addPublicContent(c);
+			
+			this.status=200;
+			this.message="内容分享成功！";
+			this.result.put("data", "");
+		}
+		
+		
+		return getResult();
+	}
+	
 
 	/***
 	 * 从当前session获取用户对象

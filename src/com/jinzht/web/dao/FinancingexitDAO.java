@@ -60,6 +60,16 @@ public class FinancingexitDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Financingexit transientInstance) {
+		log.debug("saving Financingexit instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Financingexit persistentInstance) {
 		log.debug("deleting Financingexit instance");
@@ -76,7 +86,7 @@ public class FinancingexitDAO {
 		log.debug("getting Financingexit instance with id: " + id);
 		try {
 			Financingexit instance = (Financingexit) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Financingexit", id);
+					"com.jinzht.web.entity.Financingexit", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

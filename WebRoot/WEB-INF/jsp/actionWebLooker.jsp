@@ -63,9 +63,7 @@
 
 			</c:forEach>
 		</div>
-		<div class="more">
-			<img src="./images/share/更多@2x.png"/>
-		</div>
+		
 	</div>
 	<div class="line"></div>
 	<div class="tableinfo">

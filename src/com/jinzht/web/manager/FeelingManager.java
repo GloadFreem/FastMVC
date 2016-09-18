@@ -1,12 +1,17 @@
 package com.jinzht.web.manager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jinzht.web.dao.CityDAO;
@@ -39,7 +44,7 @@ public class FeelingManager {
 	private ShareDAO shareDao;
 	private CommentDAO commentDao;
 	private ContentimagesDAO contentImagesDao;
-	
+
 	public Publiccontent findPublicContentById(Integer contentId) {
 		return getPublicContentDao().findById(contentId);
 	}
@@ -51,7 +56,8 @@ public class FeelingManager {
 	 *            当前页
 	 * @return
 	 */
-	public List findFeelingByCursor(int currentPage, Integer userId) {
+	public List findFeelingByCursor(int currentPage, Integer userId,
+			Integer platform) {
 		List list = getPublicContentDao().findByCursor(currentPage);
 		if (list != null && list.size() > 0) {
 			Publiccontent content = null;
@@ -68,7 +74,7 @@ public class FeelingManager {
 					Authentic authentic = (Authentic) authentices[0];
 
 					authentic.setAuthenticstatus(null);
-					authentic.setIdentiytype(null);
+					// authentic.setIdentiytype(null);
 					authentic.setIdentiyCarA(null);
 					authentic.setIdentiyCarB(null);
 					authentic.setIdentiyCarNo(null);
@@ -82,14 +88,20 @@ public class FeelingManager {
 
 					if (authentic.getName() == null
 							|| authentic.getName().equals("")) {
-						if (user.getTelephone() != null) {
+						if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
+						{
 							String telephone = user.getTelephone();
 							Integer length = telephone.length();
-							String name = "用户"
-									+ user.getTelephone().substring(length - 4,
-											length);
+							String name = "用户" + telephone.substring(length - 4, length);
+							authentic.setName(name);
+						}else{
+							String userIdStr = user.getUserId().toString();
+							Integer length = userIdStr.length();
+							String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+							name = "用户"+name;
 							authentic.setName(name);
 						}
+						
 					}
 
 					userPublic.setAuthentics(user.getAuthentics());
@@ -158,12 +170,27 @@ public class FeelingManager {
 
 				content.setComments(null);
 				content.setContentprises(null);
+
+				String c = content.getContent();
+
+				if (platform != 0) {
+
+					try {
+						c = URLEncoder.encode(c, "utf-8");
+						content.setContent(c);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
 			}
 
 		}
 
 		return list;
 	}
+
 	/***
 	 * 分页查询圈子信息
 	 * 
@@ -171,22 +198,22 @@ public class FeelingManager {
 	 *            当前页
 	 * @return
 	 */
-	public List findFeelingByUser( Users u,int currentPage) {
-		List list = getPublicContentDao().findByUserAndCursor(u,currentPage);
+	public List findFeelingByUser(Users u, int currentPage, int platform) {
+		List list = getPublicContentDao().findByUserAndCursor(u, currentPage);
 		if (list != null && list.size() > 0) {
 			Publiccontent content = null;
 			for (int i = 0; i < list.size(); i++) {
 				content = (Publiccontent) list.get(i);
-				
+
 				Users userPublic = new Users();
-				
+
 				Users user = content.getUsers();
 				// 获取认证信息
 				if (user.getAuthentics() != null
 						&& user.getAuthentics().size() > 0) {
 					Object[] authentices = user.getAuthentics().toArray();
 					Authentic authentic = (Authentic) authentices[0];
-					
+
 					authentic.setAuthenticstatus(null);
 					authentic.setIdentiytype(null);
 					authentic.setIdentiyCarA(null);
@@ -199,27 +226,32 @@ public class FeelingManager {
 					authentic.setCompanyIntroduce(null);
 					authentic.setAutrhrecords(null);
 					authentic.setOptional(null);
-					
+
 					if (authentic.getName() == null
 							|| authentic.getName().equals("")) {
-						if (user.getTelephone() != null) {
+						if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
+						{
 							String telephone = user.getTelephone();
 							Integer length = telephone.length();
-							String name = "用户"
-									+ user.getTelephone().substring(length - 4,
-											length);
+							String name = "用户" + telephone.substring(length - 4, length);
+							authentic.setName(name);
+						}else{
+							String userIdStr = user.getUserId().toString();
+							Integer length = userIdStr.length();
+							String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+							name = "用户"+name;
 							authentic.setName(name);
 						}
 					}
-					
+
 					userPublic.setAuthentics(user.getAuthentics());
 					userPublic.setUserId(user.getUserId());
 					userPublic.setHeadSculpture(user.getHeadSculpture());
 					userPublic.setName(authentic.getName());
 				}
-				
+
 				content.setUsers(userPublic);
-				
+
 				// 开始排除点赞中不需要字段
 				if (content.getContentprises() != null
 						&& content.getContentprises().size() > 0) {
@@ -237,51 +269,63 @@ public class FeelingManager {
 							} else {
 								user.setName("");
 							}
-							
+
 						} else {
 							user.setName("");
 						}
-						
+
 						if (user.getUserId() == u.getUserId()) {
 							content.setFlag(true);
 						}
-						
+
 						temp.setAuthentics(null);
 						temp.setName(user.getName());
 						temp.setUserId(user.getUserId());
 						temp.setHeadSculpture(user.getHeadSculpture());
-						
+
 						contentprise.setUsers(temp);
-						
+
 						Integer userInstanceId = contentprise.getUsers()
 								.getUserId();
-						
+
 						if (userInstanceId.equals(u.getUserId())) {
 							content.setFlag(true);
 						}
 					}
 				}
-				
+
 				// 转发量
 				Sharetype type = new Sharetype();
 				type.setShareTypeId(2);
-				
+
 				Map map = new HashMap();
 				map.put("sharetype", type);
 				map.put("contentId", content.getPublicContentId());
-				
+
 				// 获取转发量
 				Integer count = getShareDao().counterByProperties(map);
 				content.setShareCount(count);
 				content.setPriseCount(content.getContentprises().size());
 				content.setCommentCount(content.getComments().size());
-				
+
 				content.setComments(null);
 				content.setContentprises(null);
+
+				String c = content.getContent();
+				if (platform != 0) {
+
+					try {
+						c = URLEncoder.encode(c, "utf-8");
+						content.setContent(c);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
-			
+
 		}
-		
+
 		return list;
 	}
 
@@ -291,7 +335,8 @@ public class FeelingManager {
 	 * @param feelingId
 	 * @return
 	 */
-	public Publiccontent findFeelingById(Integer feelingId, Integer userId) {
+	public Publiccontent findFeelingById(Integer feelingId, Integer userId,
+			int platform) {
 		Publiccontent content = getPublicContentDao().findById(feelingId);
 		Users userPublic = new Users();
 
@@ -319,11 +364,21 @@ public class FeelingManager {
 			userPublic.setHeadSculpture(user.getHeadSculpture());
 			userPublic.setName(authentic.getName());
 
-			if (userPublic.getName() == null || userPublic.getName().equals("")) {
-				String telephone = user.getTelephone();
-				Integer length = telephone.length();
-				String name = "用户" + telephone.substring(length - 4, length);
-				userPublic.setName(name);
+			if (authentic.getName() == null || authentic.getName().equals("")) {
+				
+				if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
+				{
+					String telephone = user.getTelephone();
+					Integer length = telephone.length();
+					String name = "用户" + telephone.substring(length - 4, length);
+					userPublic.setName(name);
+				}else{
+					String userIdStr = user.getUserId().toString();
+					Integer length = userIdStr.length();
+					String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+					name = "用户"+name;
+					userPublic.setName(name);
+				}
 			}
 		}
 
@@ -356,12 +411,18 @@ public class FeelingManager {
 				temp.setHeadSculpture(user.getHeadSculpture());
 
 				if (temp.getName() == null || temp.getName().equals("")) {
-					String telephone = user.getTelephone();
-					if(telephone!=null && telephone.equals(""))
+					
+					if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
 					{
+						String telephone = user.getTelephone();
 						Integer length = telephone.length();
-						String name = "用户"
-								+ telephone.substring(length - 4, length);
+						String name = "用户" + telephone.substring(length - 4, length);
+						temp.setName(name);
+					}else{
+						String userIdStr = user.getUserId().toString();
+						Integer length = userIdStr.length();
+						String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+						name = "用户"+name;
 						temp.setName(name);
 					}
 				}
@@ -384,14 +445,34 @@ public class FeelingManager {
 					temp.setUserId(user.getUserId());
 					temp.setHeadSculpture(user.getHeadSculpture());
 					if (temp.getName() == null || temp.getName().equals("")) {
-						String telephone = user.getTelephone();
-						Integer length = telephone.length();
-						String name = "用户"
-								+ telephone.substring(length - 4, length);
-						temp.setName(name);
+						if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
+						{
+							String telephone = user.getTelephone();
+							Integer length = telephone.length();
+							String name = "用户" + telephone.substring(length - 4, length);
+							temp.setName(name);
+						}else{
+							String userIdStr = user.getUserId().toString();
+							Integer length = userIdStr.length();
+							String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+							name = "用户"+name;
+							temp.setName(name);
+						}
 					}
 
 					comment.setUsersByAtUserId(temp);
+				}
+				
+				String c = comment.getContent();
+				if (platform != 0) {
+
+					try {
+						c = URLEncoder.encode(c, "utf-8");
+						comment.setContent(c);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 
 			}
@@ -433,11 +514,19 @@ public class FeelingManager {
 				temp.setHeadSculpture(user.getHeadSculpture());
 
 				if (temp.getName() == null || temp.getName().equals("")) {
-					String telephone = user.getTelephone();
-					Integer length = telephone.length();
-					String name = "用户"
-							+ telephone.substring(length - 4, length);
-					temp.setName(name);
+					if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
+					{
+						String telephone = user.getTelephone();
+						Integer length = telephone.length();
+						String name = "用户" + telephone.substring(length - 4, length);
+						temp.setName(name);
+					}else{
+						String userIdStr = user.getUserId().toString();
+						Integer length = userIdStr.length();
+						String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+						name = "用户"+name;
+						temp.setName(name);
+					}
 				}
 
 				//
@@ -465,6 +554,18 @@ public class FeelingManager {
 		content.setPriseCount(content.getContentprises().size());
 		content.setCommentCount(content.getComments().size());
 
+
+		String c = content.getContent();
+		if (platform != 0) {
+
+			try {
+				c = URLEncoder.encode(c, "utf-8");
+				content.setContent(c);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return content;
 	}
 
@@ -475,7 +576,8 @@ public class FeelingManager {
 	 * @param feelingId
 	 * @return
 	 */
-	public List findFeelingCommentByPage(Integer page, Integer feelingId) {
+	public List findFeelingCommentByPage(Integer page, Integer feelingId,
+			int platform) {
 		Publiccontent content = this.findPublicContentById(feelingId);
 
 		List list = null;
@@ -506,11 +608,17 @@ public class FeelingManager {
 				temp.setHeadSculpture(user.getHeadSculpture());
 
 				if (temp.getName() == null || temp.getName().equals("")) {
-					if (user.getTelephone() != null) {
+					if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
+					{
 						String telephone = user.getTelephone();
 						Integer length = telephone.length();
-						String name = "用户"
-								+ telephone.substring(length - 4, length);
+						String name = "用户" + telephone.substring(length - 4, length);
+						temp.setName(name);
+					}else{
+						String userIdStr = user.getUserId().toString();
+						Integer length = userIdStr.length();
+						String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+						name = "用户"+name;
 						temp.setName(name);
 					}
 				}
@@ -534,16 +642,35 @@ public class FeelingManager {
 					temp.setHeadSculpture(user.getHeadSculpture());
 
 					if (temp.getName() == null || temp.getName().equals("")) {
-						if (user.getTelephone() != null) {
+						if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
+						{
 							String telephone = user.getTelephone();
 							Integer length = telephone.length();
-							String name = "用户"
-									+ telephone.substring(length - 4, length);
+							String name = "用户" + telephone.substring(length - 4, length);
+							temp.setName(name);
+						}else{
+							String userIdStr = user.getUserId().toString();
+							Integer length = userIdStr.length();
+							String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+							name = "用户"+name;
 							temp.setName(name);
 						}
 					}
 
 					comment.setUsersByAtUserId(temp);
+				}
+
+				String c = comment.getContent();
+
+				if (platform != 0) {
+
+					try {
+						c = URLEncoder.encode(c, "utf-8");
+						comment.setContent(c);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -655,6 +782,7 @@ public class FeelingManager {
 	public ContentimagesDAO getContentImagesDao() {
 		return contentImagesDao;
 	}
+
 	@Autowired
 	public void setContentImagesDao(ContentimagesDAO contentImagesDao) {
 		this.contentImagesDao = contentImagesDao;

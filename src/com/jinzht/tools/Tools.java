@@ -95,6 +95,18 @@ public class Tools {
 		return String.format(Config.STRING_SYSTEM_ADDRESS+"%s.action", actionUrl);
 	}
 	
+	/***
+	 * 根据内容id生成网页查看链接
+	 * @param contentId
+	 * @return
+	 */
+	public static String  generateWebRecordUrl(Integer contentId)
+	{
+		String path = String.format("%swebUrlLooker.action?contentId=%d",
+				Config.STRING_SYSTEM_ADDRESS, contentId);
+		return path;
+	}
+	
 	
 	/***
 	 * 按照密码生成规则生成密码

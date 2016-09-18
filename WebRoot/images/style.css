@@ -136,6 +136,7 @@ a:hover {
 	padding-top: 43px;
 	padding-bottom: 5px;
 	background: url(../images/qrbg.png) no-repeat;
+	/*background: url(../images/qrbg.png) no-repeat;*/
 	background-position: 91px 30px;
 }
 
@@ -183,7 +184,7 @@ a:hover {
 	background-color: #12c56a
 }
 
-;
+
 
 .info-box {
 	width: 100%;
@@ -235,9 +236,11 @@ a:hover {
 }
 
 .foot-box p {
-	color: #65636b;
-	font-size: 42px;
-	margin-top: 25px;
+	color: #d3d1d9;
+	font-size: 35px;
+	/*margin-top: 25px;*/
+	text-align: center;
+	line-height: 150px;
 }
 
 /* 图片切换 */

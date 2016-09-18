@@ -463,7 +463,7 @@
 										<div class="name">
 											<div class="name-key">认证状态</div>
 											<div class="name-value">
-												<select name="city" id="city">
+												<select name="status" id="status">
 													<c:forEach items="${identities}" var="c" varStatus="v">
 														<option value=${c.identiyTypeId }>${c.name}</option>
 													</c:forEach>

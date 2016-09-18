@@ -17,7 +17,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jinzht.tools.Config;
+import com.jinzht.web.entity.Action;
 import com.jinzht.web.entity.Actionprise;
+import com.jinzht.web.entity.Project;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -113,6 +115,35 @@ public class ActionpriseDAO {
 			throw re;
 		}
 	}
+	public List findByAction(String propertyName, Action value) {
+		log.debug("finding Actionprise instance with property: " + propertyName
+				+ ", value: " + value);
+		try {
+			String queryString = "select * from actionprise as model where model.action_id = ? order by prise_id asc";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString).addEntity(Actionprise.class);
+			queryObject.setParameter(0, value.getActionId());
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public Actionprise findByActionIdAndUserId(Integer actionId,Integer userId)
+	{
+		Actionprise prise=null;
+		String sqlString="select * from actionprise where action_id=? and user_id=?";
+		SQLQuery queryObject =getCurrentSession().createSQLQuery(sqlString).addEntity(Actionprise.class);
+		queryObject.setParameter(0, actionId);
+		queryObject.setParameter(1, userId);
+		List list = queryObject.list();
+		
+		if(list!=null && list.size()>0)
+		{
+			return (Actionprise)list.get(0);
+		}
+		return prise;
+	}
 	public List findByProperties(Map requestMap,Integer page) {
 		try {
 //			String debugInfo= "finding Authentic instance with property: ";
@@ -139,6 +170,15 @@ public class ActionpriseDAO {
 			log.error("find by property name failed", re);
 			throw re;
 		}
+	}
+	
+	public List<Project> findByName(Object name) {
+		String sqlString = "select * from action where name like ?";
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Project.class);
+		queryObject.setParameter(0, "%"+name+"%");
+		
+		return queryObject.list();
 	}
 	
 	public List findUsersIdByPriseId(Integer priseId)

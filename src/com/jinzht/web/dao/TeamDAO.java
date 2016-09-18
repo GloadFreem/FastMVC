@@ -63,6 +63,16 @@ public class TeamDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Team transientInstance) {
+		log.debug("saving Team instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Team persistentInstance) {
 		log.debug("deleting Team instance");
@@ -79,7 +89,7 @@ public class TeamDAO {
 		log.debug("getting Team instance with id: " + id);
 		try {
 			Team instance = (Team) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Team", id);
+					"com.jinzht.web.entity.Team", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

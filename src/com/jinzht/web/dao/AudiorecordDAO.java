@@ -120,8 +120,8 @@ public class AudiorecordDAO {
 					+ propertyName + "= ? order by model.playId asc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
-			queryObject.setFirstResult((page)*5);
-			queryObject.setMaxResults(5);
+//			queryObject.setFirstResult((page)*5);
+//			queryObject.setMaxResults(5);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);

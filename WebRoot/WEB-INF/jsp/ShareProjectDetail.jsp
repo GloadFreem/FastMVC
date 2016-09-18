@@ -52,7 +52,7 @@
 		<img class="status-image" src="./images/share/status.png">
 		<div class="status-name"><%=project.getFinancestatus().getName()%></div>
 	</div>
-		<div class="header">
+		<div class="header" style="margin-top: -30%;">
 			<img class="header-image" src="./images/share/header-icon.png">
 			<p class="project-name"><%=project.getFullName()%></p>
 		</div>
@@ -149,13 +149,13 @@
 			<div class="line"></div>
 			<!-- 项目描述 -->
 			<div class="finance-desc">
-				<div>
+				<div style=" display: -webkit-flex;display: flex;justify-content: center;">
 					<c:if test="${not empty extr}">
 						<c:forEach items="${extr}" var="member" varStatus="vs">
 
 							<c:choose>
 								<c:when test="${vs.index==0}">
-									<div class="team-item-none">
+									<div class="team-item">
 										<img class="team-desc-image" src=${member.icon}>
 										<div class="team-desc-name">${member.content}</div>
 									</div>
@@ -172,21 +172,21 @@
 						</c:forEach>
 					</c:if>
 
-					<div class="team-item">
-						<img class="team-desc-image" src="./images/share/Bar-chart.png" />
-						<div class="team-desc-name">财务</div>
-						<div class="team-desc-value">状况</div>
-					</div>
-					<div class="team-item">
-						<img class="team-desc-image" src="./images/share/Pie-chart.png" />
-						<div class="team-desc-name">融资</div>
-						<div class="team-desc-value">方案</div>
-					</div>
-					<div class="">
-						<img class="team-desc-image" src="./images/share/Loop.png" />
-						<div class="team-desc-name">退出</div>
-						<div class="team-desc-value">渠道</div>
-					</div>
+					<%--<div class="team-item">--%>
+						<%--<img class="team-desc-image" src="./images/share/Bar-chart.png" />--%>
+						<%--<div class="team-desc-name">财务</div>--%>
+						<%--<div class="team-desc-value">状况</div>--%>
+					<%--</div>--%>
+					<%--<div class="team-item">--%>
+						<%--<img class="team-desc-image" src="./images/share/Pie-chart.png" />--%>
+						<%--<div class="team-desc-name">融资</div>--%>
+						<%--<div class="team-desc-value">方案</div>--%>
+					<%--</div>--%>
+					<%--<div class="">--%>
+						<%--<img class="team-desc-image" src="./images/share/Loop.png" />--%>
+						<%--<div class="team-desc-name">退出</div>--%>
+						<%--<div class="team-desc-value">渠道</div>--%>
+					<%--</div>--%>
 				</div>
 			</div>
 			<div class="line-separte" style="margin-top: 0%;"></div>

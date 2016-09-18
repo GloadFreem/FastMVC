@@ -37,6 +37,7 @@ public class Contentshare implements java.io.Serializable {
 	private Contenttype contenttype;
 	private String image;
 	private String desc;
+	private String tag;
 	private String content;
 	private Set<Publiccontent> publiccontents = new HashSet<Publiccontent>(0);
 
@@ -87,7 +88,7 @@ public class Contentshare implements java.io.Serializable {
 		this.image = image;
 	}
 
-	@Column(name = "desc")
+	@Column(name = "description")
 	public String getDesc() {
 		return this.desc;
 	}
@@ -112,6 +113,14 @@ public class Contentshare implements java.io.Serializable {
 
 	public void setPubliccontents(Set<Publiccontent> publiccontents) {
 		this.publiccontents = publiccontents;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 
 }

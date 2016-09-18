@@ -198,10 +198,19 @@ public class ActionController extends BaseController {
 			
 			if(user.getName()==null || user.getName().equals(""))
 			{
-				String telephone = user.getTelephone();
-				Integer length = telephone.length();
-				String name = "用户"+telephone.substring(length-4, length);
-				user.setName(name);
+				if(user.getTelephone()!=null&&!user.getTelephone().equals(""))
+				{
+					String telephone = user.getTelephone();
+					Integer length = telephone.length();
+					String name = "用户"+telephone.substring(length-4, length);
+					user.setName(name);
+				}else{
+					String userId = user.getUserId().toString();
+					Integer length = userId.length();
+					String name =length>4?userId.substring(length-4, length):userId;
+					name = "用户"+name;
+					user.setName(name);
+				}
 			}
 
 			// 封装返回结果
@@ -279,11 +288,20 @@ public class ActionController extends BaseController {
 			
 			if(user1.getName()==null || user1.getName().equals(""))
 			{
-				String telephone = user1.getTelephone();
-				Integer length = telephone.length();
-				String name = "用户"+telephone.substring(length-4, length);
-				user1.setName(name);
-				comment.setUserName(name);
+				
+				if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
+				{
+					String telephone = user.getTelephone();
+					Integer length = telephone.length();
+					String name = "用户" + telephone.substring(length - 4, length);
+					comment.setUserName(name);
+				}else{
+					String userIdStr = user.getUserId().toString();
+					Integer length = userIdStr.length();
+					String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+					name = "用户"+name;
+					comment.setUserName(name);
+				}
 			}
 			
 			user1.setAuthentics(null);
@@ -435,7 +453,6 @@ public class ActionController extends BaseController {
 			}
 			action.setActionimages(set);
 			action.setActionprises(null);
-			action.setActionprises(null);
 			action.setAttentions(null);
 			
 			//兼容3.1.0版本活动升级
@@ -450,6 +467,13 @@ public class ActionController extends BaseController {
 			{
 				action.setAttended(true);
 			}
+			
+			Actionprise prise =this.actionManager.findPriseByActionIdAndUser(action, user);
+			if(prise!=null)
+			{
+				action.setFlag(true);
+			}
+			
 			
 
 			// 封装返回结果
@@ -471,7 +495,9 @@ public class ActionController extends BaseController {
 	 */
 	public Map requestPriseListAction(
 			@RequestParam(value = "contentId") Integer contentId,
-			@RequestParam(value = "page") Integer page, HttpSession session) {
+			@RequestParam(value = "page") Integer page,
+			@RequestParam(value = "platform",required=false) Integer platform,
+			HttpSession session) {
 
 		this.result = new HashMap();
 		this.result.put("data", "");
@@ -485,10 +511,14 @@ public class ActionController extends BaseController {
 		} else {
 			// 查看当前操作状态，1:评论,2:回复
 			Action action = this.actionManager.findActionById(contentId);
-
+			if(platform==null)
+			{
+				platform=0;
+			}
+			
 			// 评论
 			List list = this.actionManager
-					.findCommentListByAction(action, page);
+					.findCommentListByAction(action, page,platform);
 			List l = new ArrayList();
 			Map map = new HashMap();
 
@@ -520,10 +550,19 @@ public class ActionController extends BaseController {
 					
 					if(comment.getUserName()==null || comment.getUserName().equals(""))
 					{
-						String telephone = u.getTelephone();
-						Integer length = telephone.length();
-						String name = "用户"+telephone.substring(length-4, length);
-						comment.setUserName(name);
+						if(u.getTelephone()!=null &&!u.getTelephone().equals(""))
+						{
+							String telephone = u.getTelephone();
+							Integer length = telephone.length();
+							String name = "用户"+telephone.substring(length-4, length);
+							comment.setUserName(name);
+						}else{
+							String userIdStr = u.getUserId().toString();
+							Integer length = userIdStr.length();
+							String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+							name = "用户"+name;
+							comment.setUserName(name);
+						}
 					}
 
 					Integer atUserId = this.actionManager.findAtUserIdByCommentId(comment);
@@ -543,10 +582,20 @@ public class ActionController extends BaseController {
 							
 							if(comment.getUserName()==null || comment.getUserName().equals(""))
 							{
-								String telephone = u.getTelephone();
-								Integer length = telephone.length();
-								String name = "用户"+telephone.substring(length-4, length);
-								comment.setUserName(name);
+								
+								if(u.getTelephone()!=null &&!u.getTelephone().equals(""))
+								{
+									String telephone = u.getTelephone();
+									Integer length = telephone.length();
+									String name = "用户"+telephone.substring(length-4, length);
+									comment.setUserName(name);
+								}else{
+									String userIdStr = u.getUserId().toString();
+									Integer length = userIdStr.length();
+									String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+									name = "用户"+name;
+									comment.setUserName(name);
+								}
 							}
 						}
 
@@ -563,7 +612,7 @@ public class ActionController extends BaseController {
 				// 点赞
 				list = this.actionManager.findPriseListByAction(action);
 				Set set = new HashSet();
-				for (int i = 0; i < list.size(); i++) {
+				for (int i = list.size()-1; i >=0; i--) {
 					Actionprise prise = (Actionprise) list.get(i);
 					
 					Integer userId = this.actionManager.findActionPriseUserId(prise);
@@ -576,6 +625,24 @@ public class ActionController extends BaseController {
 						u.setName(authentic.getName());
 					} else {
 						u.setName("匿名用户");
+					}
+					
+					if(u.getName()==null || u.getName().equals(""))
+					{
+						
+						if(u.getTelephone()!=null &&!u.getTelephone().equals(""))
+						{
+							String telephone = u.getTelephone();
+							Integer length = telephone.length();
+							String name = "用户"+telephone.substring(length-4, length);
+							u.setName(name);
+						}else{
+							String userIdStr = u.getUserId().toString();
+							Integer length = userIdStr.length();
+							String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+							name = "用户"+name;
+							u.setName(name);
+						}
 					}
 
 					set.add(u.getName());
@@ -659,7 +726,11 @@ public class ActionController extends BaseController {
 								String name = "用户"+telephone.substring(length-4, length);
 								authentic.setName(name);
 							}else{
-								authentic.setName("");
+								String userIdStr = user.getUserId().toString();
+								Integer length = userIdStr.length();
+								String name =length>4?userIdStr.substring(length-4, length):userIdStr;
+								name = "用户"+name;
+								authentic.setName(name);
 							}
 						}
 						

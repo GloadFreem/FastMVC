@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.httpclient.util.DateParseException;
 import org.apache.commons.httpclient.util.DateUtil;
 import org.hibernate.type.IdentifierType;
@@ -41,19 +44,26 @@ import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
 import com.jinzht.tools.Tools;
 import com.jinzht.web.dao.ContenttypeDAO;
+import com.jinzht.web.dao.FinancestatusDAO;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Action;
 import com.jinzht.web.entity.Actionimages;
+import com.jinzht.web.entity.Actionintroduce;
 import com.jinzht.web.entity.Audiorecord;
 import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Authenticstatus;
 import com.jinzht.web.entity.Banner;
+import com.jinzht.web.entity.Businessplan;
 import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Contentimages;
 import com.jinzht.web.entity.Contenttype;
 import com.jinzht.web.entity.Financestatus;
+import com.jinzht.web.entity.Financialstanding;
+import com.jinzht.web.entity.Financingcase;
+import com.jinzht.web.entity.Financingexit;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
+import com.jinzht.web.entity.Member;
 import com.jinzht.web.entity.MessageBean;
 import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Publiccontent;
@@ -63,6 +73,7 @@ import com.jinzht.web.entity.Roadshowplan;
 import com.jinzht.web.entity.Scene;
 import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Systemuser;
+import com.jinzht.web.entity.Team;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Weburlrecord;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
@@ -92,6 +103,7 @@ public class WebAdminController extends BaseController {
 	private ActionManager actionManaer;
 	@Autowired
 	private FeelingManager feelingManager;
+
 
 	@RequestMapping(value = "/admin/adminLogin")
 	public String webEditor() {
@@ -188,9 +200,24 @@ public class WebAdminController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminBannerListAdmin")
-	public String bannerListAdmin(ModelMap map) {
-		List<Banner> list = this.systemManger.findBannerInfoList();
+	public String bannerListAdmin(
+			@RequestParam(value="start",required=false)Integer start,
+			@RequestParam(value="size",required=false)Integer size,
+			ModelMap map) {
+		if(start==null)
+		{
+			start=0;
+		}
+		
+		if(size==null)
+		{
+			size=10;
+		}
+		
+		List<Banner> list = this.systemManger.findBannerInfoByPageList(start,size);
 		map.put("items", list.iterator());
+		map.put("count", 2000);
+		map.put("page", 1);
 		return "/admin/banner/bannerList";
 	}
 	/***
@@ -220,6 +247,67 @@ public class WebAdminController extends BaseController {
 		}
 
 		return "/admin/banner/editorBanner";
+	}
+	
+	/***
+	 * 核心成员
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminMembersListAdmin")
+	public String adminMembersListAdmin(
+			ModelMap map) {
+		
+		List<Member> list = this.projectManager.getMemberDao().findAll();
+		map.put("items",list);
+		return "/admin/project/membersList";
+	}
+	
+	/***
+	 * 团队成员
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminTeamsListAdmin")
+	public String adminTeamsListAdmin(
+			ModelMap map) {
+		List<Team> list = this.projectManager.getTeamDao().findAll();
+		map.put("items", list);
+		return "/admin/project/teamsList";
+	}
+	/***
+	 * 编辑成员
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminEditMember")
+	public String adminEditMember(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap map) {
+		if(contentId!=null)
+		{
+			Member member = this.projectManager.getMemberDao().findById(contentId);
+			map.put("member", member);
+		}
+		
+		return "/admin/project/editorMember";
+	}
+	/***
+	 * 编辑团队
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminEditTeam")
+	public String adminEditTeam(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap map) {
+		if(contentId!=null)
+		{
+			Team member = this.projectManager.getTeamDao().findById(contentId);
+			map.put("member", member);
+		}
+		
+		return "/admin/project/editorTeam";
 	}
 	/***
 	 * 编辑消息
@@ -440,9 +528,32 @@ public class WebAdminController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminUserListAdmin")
-	public String userListAdmin(ModelMap map) {
-		List<Users> list = this.userManager.getUserDao().findAll();
+	public String userListAdmin(
+			@RequestParam(value="page",required=false)Integer page,
+			@RequestParam(value="size",required=false)Integer size,
+			ModelMap map) {
+		if(page==null)
+		{
+			page=0;
+		}
+		
+		if(size==null)
+		{
+			size=10;
+		}
+		Integer count = this.userManager.getUserDao().countOfAllUsers();
+		List<Users> list = this.userManager.getUserDao().findByPage(page, size);
+		size = count/size;
+		List pageSize = new ArrayList();
+		for(int i =1;i<=size;i++)
+		{
+			pageSize.add(i);
+		}
+		
 		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
 		return "/admin/Users/userList";
 	}
 	
@@ -468,6 +579,50 @@ public class WebAdminController extends BaseController {
 		List<Users> list = this.projectManager.getProjectDao().findAll();
 		map.put("items", list.iterator());
 		return "/admin/project/projectList";
+	}
+	/***
+	 * 财务状况列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminFinancestandingListAdmin")
+	public String adminFinancestandingListAdmin(ModelMap map) {
+		List<Financialstanding> list = this.projectManager.getFinanceStandingDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/project/financeStandingList";
+	}
+	/***
+	 * 商业计划列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminBusinessPlanListAdmin")
+	public String adminBusinessPlanListAdmin(ModelMap map) {
+		List<Businessplan> list = this.projectManager.getBusinessPlanDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/project/bussinessPlanList";
+	}
+	/***
+	 * 融资方案列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminFinanceCaseListAdmin")
+	public String adminFinanceCaseListAdmin(ModelMap map) {
+		List<Financingcase> list = this.projectManager.getFinancingCaseDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/project/financeCaseList";
+	}
+	/***
+	 * 退出渠道列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminExitCaseListAdmin")
+	public String adminExitCaseListAdmin(ModelMap map) {
+		List<Financingexit> list = this.projectManager.getFinancingexitDao().findAll();
+		map.put("items", list.iterator());
+		return "/admin/project/financeExitList";
 	}
 
 	/***
@@ -638,6 +793,110 @@ public class WebAdminController extends BaseController {
 		List list = this.projectManager.getFinancestatusDao().findAll();
 		map.put("status", list);
 		return "/admin/project/editorProject";
+	}
+	/***
+	 * 编辑财务状况
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminEditFinancestanding")
+	public String adminEditFinancestanding(
+			@RequestParam(value = "financeId", required = false) Integer financeId,
+			ModelMap map) {
+		if (financeId != null) {
+			Financialstanding standing = this.projectManager.getFinanceStandingDao().findById(financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if(index>3)
+			{
+				String  contentIdStr = url.substring(index+1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				Weburlrecord record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				map.put("record", record);
+			}
+			
+			map.put("standing", standing);
+		}
+	
+		return "/test/editorProjectFinanceStanding";
+	}
+	/***
+	 * 编辑融资方案
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminEditFinanceCase")
+	public String adminEditFinanceCase(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap map) {
+		if (contentId != null) {
+			Financingcase standing = this.projectManager.getFinancingCaseDao().findById(contentId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if(index>3)
+			{
+				String  contentIdStr = url.substring(index+1);
+				Integer itemId = Integer.parseInt(contentIdStr);
+				Weburlrecord record = this.webManager.getWebUrlRecordDao().findById(itemId);
+				map.put("record", record);
+			}
+			
+			map.put("standing", standing);
+		}
+		
+		return "/test/editorProjectFinanceCase";
+	}
+	/***
+	 * 编辑财务状况
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminEditFinanceExit")
+	public String adminEditFinanceExit(
+			@RequestParam(value = "contentId", required = false) Integer financeId,
+			ModelMap map) {
+		if (financeId != null) {
+			Financingexit standing = this.projectManager.getFinancingexitDao().findById(financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if(index>3)
+			{
+				String  contentIdStr = url.substring(index+1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				Weburlrecord record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				map.put("record", record);
+			}
+			
+			map.put("standing", standing);
+		}
+		
+		return "/test/editorProjectFinanceExit";
+	}
+	/***
+	 * 编辑财务状况
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminEditBussinessPlan")
+	public String adminEditBussinessPlan(
+			@RequestParam(value = "contentId", required = false) Integer financeId,
+			ModelMap map) {
+		if (financeId != null) {
+			Businessplan standing = this.projectManager.getBusinessPlanDao().findById(financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if(index>3)
+			{
+				String  contentIdStr = url.substring(index+1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				Weburlrecord record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				map.put("record", record);
+			}
+			
+			map.put("standing", standing);
+		}
+		
+		return "/test/editorProjectBussinessPlan";
 	}
 
 	/***
@@ -1708,6 +1967,7 @@ public class WebAdminController extends BaseController {
 	public String addAction(
 			@RequestParam(value = "actionId", required = false) Integer actionId,
 			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "startPageImage", required = false) String startPageImage,
 			@RequestParam(value = "description", required = false) String description,
 			@RequestParam(value = "address", required = false) String address,
 			@RequestParam(value = "limit", required = false) String limit,
@@ -1738,9 +1998,9 @@ public class WebAdminController extends BaseController {
 		action.setDescription(description);
 		action.setType((short) Integer.parseInt(type));
 		action.setStartTime(DateUtils.stringToDate(beginTime,
-				"yyyy-MM-dd hh:mm:ss"));
+				"yyyy-MM-dd HH:mm:ss"));
 		action.setEndTime(DateUtils
-				.stringToDate(endTime, "yyyy-MM-dd hh:mm:ss"));
+				.stringToDate(endTime, "yyyy-MM-dd HH:mm:ss"));
 
 		// 更新头像
 		if (session.getAttribute("images") != null) {
@@ -1761,6 +2021,22 @@ public class WebAdminController extends BaseController {
 			action.setActionimages(set);
 			session.setAttribute("images", null);
 		}
+		
+		
+		if (session.getAttribute("actionStartPage") != null) {
+			String image = session.getAttribute("actionStartPage").toString();
+			if(image!=null && image.equals(""))
+			{
+				action.setStartPageImage(image);
+			}
+			
+			session.setAttribute("actionStartPage", null);
+		}else if(startPageImage!=null && startPageImage.equals(""))
+		{
+			action.setStartPageImage(startPageImage);
+		}
+		
+		
 
 		if (actionId != -1) {
 			this.actionManaer.saveOrUpdate(action);
@@ -1922,4 +2198,847 @@ public class WebAdminController extends BaseController {
 		map.put("data", projects);
 		return map;
 	}
+	@RequestMapping(value = "/admin/adminSearchActionByName")
+	@ResponseBody
+	public Map adminSearchActionByName(
+			@RequestParam(value = "name", required = false) String name) {
+		Map map = new HashMap();
+		
+		List<Action> actions = this.actionManaer.findProjectByName(name);
+		
+		map.put("data", actions);
+		return map;
+	}
+	@RequestMapping(value="admin/adminAddMember")
+	public String adminAddMember(
+			@RequestParam(value="memberId",required=false)Integer memberId,
+			@RequestParam(value="projectId",required=false)Integer projectId,
+			@RequestParam(value="name",required=false)String name,
+			@RequestParam(value="company",required=false)String company,
+			@RequestParam(value="position",required=false)String position,
+			@RequestParam(value="industory",required=false)String industory,
+			@RequestParam(value="address",required=false)String address,
+			@RequestParam(value="image",required=false)String image,
+			HttpSession session,
+			ModelMap map
+			)
+	{
+		//判断是否添加成员
+		Member member;
+		if(memberId!=-1)
+		{
+			//获取成员
+			member = this.projectManager.getMemberDao().findById(memberId);
+			if(projectId!=null&&projectId!=member.getProject().getProjectId())
+			{
+				Project project = this.projectManager.findProjectById(projectId);
+				member.setProject(project);
+			}
+			member.setName(name);
+			member.setIndustory(industory);
+			member.setCompany(company);
+			member.setPosition(position);
+			member.setAddress(address);
+			member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+			member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+			
+			if(image!=null&&!image.equals(member.getIcon()))
+			{
+				member.setIcon(image);
+			}
+			
+			//获取图片
+			if (session.getAttribute("header") != null) {
+				List images = (List) session.getAttribute("header");
+				if(images!=null)
+				{
+					image=images.get(0).toString();
+					member.setIcon(image);
+				}
+				
+				session.setAttribute("header", null);
+			}
+			
+			this.projectManager.getMemberDao().saveOrUpdate(member);
+		}else{
+			// 新添加成员
+			if(projectId!=null)
+			{
+				Project project = this.projectManager.findProjectById(projectId);
+				Object[] list =project.getMembers().toArray();
+				if(list!=null && list.length>0)
+				{
+					member=(Member)list[0];
+					member.setProject(project);
+					member.setName(name);
+					member.setCompany(company);
+					member.setIndustory(industory);
+					member.setPosition(position);
+					member.setAddress(address);
+					member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+					member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+					if(image!=null&&!image.equals(member.getIcon()))
+					{
+						member.setIcon(image);
+					}
+					
+					//获取图片
+					if (session.getAttribute("header") != null) {
+						List images = (List) session.getAttribute("header");
+						if(images!=null)
+						{
+							image=images.get(0).toString();
+							member.setIcon(image);
+						}
+						
+						session.setAttribute("header", null);
+					}
+					this.projectManager.getMemberDao().saveOrUpdate(member);
+				}else{
+					member = new Member();
+					member.setName(name);
+					member.setProject(project);
+					member.setCompany(company);
+					member.setIndustory(industory);
+					member.setPosition(position);
+					member.setAddress(address);
+					member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+					member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+					if(image!=null&&!image.equals(member.getIcon()))
+					{
+						member.setIcon(image);
+					}
+					
+					//获取图片
+					if (session.getAttribute("header") != null) {
+						List images = (List) session.getAttribute("header");
+						if(images!=null)
+						{
+							image=images.get(0).toString();
+							member.setIcon(image);
+						}
+						
+						session.setAttribute("header", null);
+					}
+					this.projectManager.getMemberDao().save(member);
+				}
+			}else
+			{
+				member = new Member();
+				member.setName(name);
+				member.setIndustory(industory);
+				member.setCompany(company);
+				member.setPosition(position);
+				member.setAddress(address);
+				member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+				member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+				if(image!=null&&!image.equals(member.getIcon()))
+				{
+					member.setIcon(image);
+				}
+				
+				//获取图片
+				if (session.getAttribute("header") != null) {
+					List images = (List) session.getAttribute("header");
+					if(images!=null)
+					{
+						image=images.get(0).toString();
+						member.setIcon(image);
+					}
+					
+					session.setAttribute("header", null);
+				}
+				this.projectManager.getMemberDao().save(member);
+			}
+			
+		}
+		
+		map.put("member", member);
+		return "admin/project/editorMember";
+	}
+	@RequestMapping(value="admin/adminAddTeam")
+	public String adminAddTeam(
+			@RequestParam(value="personId",required=false)Integer personId,
+			@RequestParam(value="projectId",required=false)Integer projectId,
+			@RequestParam(value="name",required=false)String name,
+			@RequestParam(value="company",required=false)String company,
+			@RequestParam(value="position",required=false)String position,
+			@RequestParam(value="address",required=false)String address,
+			@RequestParam(value="image",required=false)String image,
+			HttpSession session,
+			ModelMap map
+			)
+	{
+		//判断是否添加成员
+		Team member;
+		if(personId!=-1)
+		{
+			//获取成员
+			member = this.projectManager.getTeamDao().findById(personId);
+			if(projectId!=null)
+			{
+				Project project = this.projectManager.findProjectById(projectId);
+				member.setProject(project);
+			}
+			member.setName(name);
+			member.setCompany(company);
+			member.setPosition(position);
+			member.setAddress(address);
+			
+			if(image!=null&&!image.equals(member.getIcon()))
+			{
+				member.setIcon(image);
+			}
+			
+			//获取图片
+			if (session.getAttribute("header") != null) {
+				List images = (List) session.getAttribute("header");
+				if(images!=null)
+				{
+					image=images.get(0).toString();
+					member.setIcon(image);
+				}
+				
+				session.setAttribute("header", null);
+			}
+			
+			this.projectManager.getTeamDao().saveOrUpdate(member);
+		}else{
+			// 新添加成员
+			if(projectId!=null)
+			{
+				Project project = this.projectManager.findProjectById(projectId);
+				Object[] list =project.getTeams().toArray();
+				if(list!=null && list.length>0)
+				{
+					member=(Team)list[0];
+					member.setProject(project);
+					member.setName(name);
+					member.setCompany(company);
+					member.setPosition(position);
+					member.setAddress(address);
+					
+					
+					if(image!=null&&!image.equals(member.getIcon()))
+					{
+						member.setIcon(image);
+					}
+					
+					//获取图片
+					if (session.getAttribute("header") != null) {
+						List images = (List) session.getAttribute("header");
+						if(images!=null)
+						{
+							image=images.get(0).toString();
+							member.setIcon(image);
+						}
+						
+						session.setAttribute("header", null);
+					}
+					this.projectManager.getTeamDao().saveOrUpdate(member);
+				}else{
+					member = new Team();
+					member.setProject(project);
+					member.setName(name);
+					member.setCompany(company);
+					member.setPosition(position);
+					member.setAddress(address);
+					if(image!=null&&!image.equals(member.getIcon()))
+					{
+						member.setIcon(image);
+					}
+					
+					//获取图片
+					if (session.getAttribute("header") != null) {
+						List images = (List) session.getAttribute("header");
+						if(images!=null)
+						{
+							image=images.get(0).toString();
+							member.setIcon(image);
+						}
+						
+						session.setAttribute("header", null);
+					}
+					this.projectManager.getTeamDao().save(member);
+				}
+			}else
+			{
+				member = new Team();
+				member.setName(name);
+				member.setCompany(company);
+				member.setPosition(position);
+				member.setAddress(address);
+				if(image!=null&&!image.equals(member.getIcon()))
+				{
+					member.setIcon(image);
+				}
+				
+				//获取图片
+				if (session.getAttribute("header") != null) {
+					List images = (List) session.getAttribute("header");
+					if(images!=null)
+					{
+						image=images.get(0).toString();
+						member.setIcon(image);
+					}
+					
+					session.setAttribute("header", null);
+				}
+				this.projectManager.getTeamDao().save(member);
+			}
+			
+		}
+		
+		map.put("member", member);
+		return "admin/project/editorTeam";
+	}
+	
+	@RequestMapping(value = "/admin/adminAddProjectFinanceStanding")
+	public String adminAddProjectFinanceStanding(
+			@RequestParam(value = "financeId", required = false) Integer financeId,
+			@RequestParam(value = "projectId", required = false) Integer projectId,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "content", required = false) String content,
+			ModelMap map
+			) {
+		
+		Financialstanding standing;
+		Weburlrecord record;
+		if(financeId!=null)
+		{
+			standing = this.projectManager.getFinanceStandingDao().findById(financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if(index>3)
+			{
+				String  contentIdStr = url.substring(index+1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				record.setContent(content);
+				
+				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+				
+			}else{
+				record = new Weburlrecord();
+				record.setTitle(title);
+				
+				//财务状况
+				Contenttype type  = new Contenttype();
+				type.setTypeId(9);
+				
+				record.setContenttype(type);
+				record.setTag(title);
+				record.setUrl("");
+				record.setContent(content);
+				record.setCreateDate(new Date());
+				
+				this.webManager.getWebUrlRecordDao().save(record);
+			}
+			
+			url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+			
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			
+			this.projectManager.getFinanceStandingDao().saveOrUpdate(standing);
+			
+		}else{
+			standing = new Financialstanding();
+			if(projectId!=null)
+			{
+				Project project = this.projectManager.findProjectById(projectId);
+				standing.setProject(project);
+			}
+			
+			record = new Weburlrecord();
+			record.setTitle(title);
+			
+			//财务状况
+			Contenttype type  = new Contenttype();
+			type.setTypeId(9);
+			
+			record.setContenttype(type);
+			record.setTag(title);
+			record.setUrl("");
+			record.setContent(content);
+			record.setCreateDate(new Date());
+			
+			this.webManager.getWebUrlRecordDao().save(record);
+			
+			
+			String  url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+			
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			standing.setContent(title);
+			
+			this.projectManager.getFinanceStandingDao().save(standing);
+		}
+		
+		map.put("standing", standing);
+		map.put("record", record);
+		return "test/editorProjectFinanceStanding";
+	}
+	@RequestMapping(value = "/admin/adminAddProjectFinanceCase")
+	public String adminAddProjectFinanceCase(
+			@RequestParam(value = "financeId", required = false) Integer financeId,
+			@RequestParam(value = "projectId", required = false) Integer projectId,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "content", required = false) String content,
+			ModelMap map
+			) {
+		
+		Financingcase standing;
+		Weburlrecord record;
+		if(financeId!=null)
+		{
+			standing = this.projectManager.getFinancingCaseDao().findById(financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if(index>3)
+			{
+				String  contentIdStr = url.substring(index+1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				record.setContent(content);
+				
+				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+				
+			}else{
+				record = new Weburlrecord();
+				record.setTitle(title);
+				
+				//财务状况
+				Contenttype type  = new Contenttype();
+				type.setTypeId(9);
+				
+				record.setContenttype(type);
+				record.setTag(title);
+				record.setUrl("");
+				record.setContent(content);
+				record.setCreateDate(new Date());
+				
+				this.webManager.getWebUrlRecordDao().save(record);
+			}
+			
+			url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+			
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			
+			this.projectManager.getFinancingCaseDao().saveOrUpdate(standing);
+			
+		}else{
+			standing = new Financingcase();
+			if(projectId!=null)
+			{
+				Project project = this.projectManager.findProjectById(projectId);
+				standing.setProject(project);
+			}
+			
+			record = new Weburlrecord();
+			record.setTitle(title);
+			
+			//财务状况
+			Contenttype type  = new Contenttype();
+			type.setTypeId(9);
+			
+			record.setContenttype(type);
+			record.setTag(title);
+			record.setUrl("");
+			record.setContent(content);
+			record.setCreateDate(new Date());
+			
+			this.webManager.getWebUrlRecordDao().save(record);
+			
+			
+			String  url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+			
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			standing.setContent(title);
+			
+			this.projectManager.getFinancingCaseDao().save(standing);
+		}
+		
+		map.put("standing", standing);
+		map.put("record", record);
+		return "test/editorProjectFinanceCase";
+	}
+	@RequestMapping(value = "/admin/adminAddProjectBussinessPlan")
+	public String adminAddProjectBussinessPlan(
+			@RequestParam(value = "financeId", required = false) Integer financeId,
+			@RequestParam(value = "projectId", required = false) Integer projectId,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "content", required = false) String content,
+			ModelMap map
+			) {
+		
+		Businessplan standing;
+		Weburlrecord record;
+		if(financeId!=null)
+		{
+			standing = this.projectManager.getBusinessPlanDao().findById(financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if(index>3)
+			{
+				String  contentIdStr = url.substring(index+1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				record.setContent(content);
+				
+				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+				
+			}else{
+				record = new Weburlrecord();
+				record.setTitle(title);
+				
+				//财务状况
+				Contenttype type  = new Contenttype();
+				type.setTypeId(9);
+				
+				record.setContenttype(type);
+				record.setTag(title);
+				record.setUrl("");
+				record.setContent(content);
+				record.setCreateDate(new Date());
+				
+				this.webManager.getWebUrlRecordDao().save(record);
+			}
+			
+			url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+			
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			
+			this.projectManager.getBusinessPlanDao().saveOrUpdate(standing);
+			
+		}else{
+			standing = new Businessplan();
+			if(projectId!=null)
+			{
+				Project project = this.projectManager.findProjectById(projectId);
+				standing.setProject(project);
+			}
+			
+			record = new Weburlrecord();
+			record.setTitle(title);
+			
+			//财务状况
+			Contenttype type  = new Contenttype();
+			type.setTypeId(9);
+			
+			record.setContenttype(type);
+			record.setTag(title);
+			record.setUrl("");
+			record.setContent(content);
+			record.setCreateDate(new Date());
+			
+			this.webManager.getWebUrlRecordDao().save(record);
+			
+			
+			String  url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+			
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			standing.setContent(title);
+			
+			this.projectManager.getBusinessPlanDao().save(standing);
+		}
+		
+		map.put("standing", standing);
+		map.put("record", record);
+		return "test/editorProjectBussinessPlan";
+	}
+	@RequestMapping(value = "/admin/adminAddProjectFinanceExit")
+	public String adminAddProjectFinanceExit(
+			@RequestParam(value = "financeId", required = false) Integer financeId,
+			@RequestParam(value = "projectId", required = false) Integer projectId,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "content", required = false) String content,
+			ModelMap map
+			) {
+		
+		Financingexit standing;
+		Weburlrecord record;
+		if(financeId!=null)
+		{
+			standing = this.projectManager.getFinancingexitDao().findById(financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if(index>3)
+			{
+				String  contentIdStr = url.substring(index+1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				record.setContent(content);
+				
+				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+				
+			}else{
+				record = new Weburlrecord();
+				record.setTitle(title);
+				
+				//财务状况
+				Contenttype type  = new Contenttype();
+				type.setTypeId(9);
+				
+				record.setContenttype(type);
+				record.setTag(title);
+				record.setUrl("");
+				record.setContent(content);
+				record.setCreateDate(new Date());
+				
+				this.webManager.getWebUrlRecordDao().save(record);
+			}
+			
+			url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+			
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			
+			this.projectManager.getFinancingexitDao().saveOrUpdate(standing);
+			
+		}else{
+			standing = new Financingexit();
+			if(projectId!=null)
+			{
+				Project project = this.projectManager.findProjectById(projectId);
+				standing.setProject(project);
+			}
+			
+			record = new Weburlrecord();
+			record.setTitle(title);
+			
+			//财务状况
+			Contenttype type  = new Contenttype();
+			type.setTypeId(9);
+			
+			record.setContenttype(type);
+			record.setTag(title);
+			record.setUrl("");
+			record.setContent(content);
+			record.setCreateDate(new Date());
+			
+			this.webManager.getWebUrlRecordDao().save(record);
+			
+			
+			String  url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+			
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			standing.setContent(title);
+			
+			this.projectManager.getFinancingexitDao().save(standing);
+		}
+		
+		map.put("standing", standing);
+		map.put("record", record);
+		return "test/editorProjectFinanceExit";
+	}
+	
+	
+	/**
+	 * 活动内容
+	 */
+	@RequestMapping(value="/admin/adminActionContentListAdmin")
+	public String adminActionContentListAdmin(ModelMap map)
+	{
+		List<Actionintroduce> list = this.actionManaer.getActionIntroduceDao().findAll();
+		String[] l = {"文字","图片"};
+		map.put("types", l);
+		map.put("items", list);
+		return "admin/action/actionContentList";
+	}
+	/**
+	 * 活动内容详情
+	 */
+	@RequestMapping(value="/admin/adminEditActionContent")
+	public String adminEditActionContent(
+			@RequestParam(value="contentId",required=false)Integer contentId,
+			ModelMap map)
+	{
+		if(contentId!=null)
+		{
+			Actionintroduce introduce = this.actionManaer.getActionIntroduceDao().findById(contentId);
+			
+			map.put("content", introduce);
+		}
+		String[] list = {"文字","图片"};
+		map.put("types", list);
+		return "admin/action/editorActionContent";
+	}
+	
+	
+	@RequestMapping(value="/admin/adminAddActionContent")
+	public String adminAddActionContent(
+			@RequestParam(value="contentId",required=false)Integer contentId,
+			@RequestParam(value="actionId",required=false)Integer actionId,
+			@RequestParam(value="type",required=false)short type,
+			@RequestParam(value="content",required=false)String content,
+			HttpSession session,
+			ModelMap map)
+	{
+		Actionintroduce introduce;
+		if(contentId!=-1)
+		{
+			introduce = this.actionManaer.getActionIntroduceDao().findById(contentId);
+			introduce.setType(type);
+			introduce.setContent(content);
+			
+			if(type!=0){
+				// 更新身份证B面
+				if (session.getAttribute("images") != null) {
+					List images = (List) session.getAttribute("images");
+					introduce.setContent(images.get(0).toString());
+
+					session.setAttribute("images", null);
+
+				}
+			}
+			
+			this.actionManaer.getActionIntroduceDao().saveOrUpdate(introduce);
+		}else{
+			Action action = this.actionManaer.findActionById(actionId);
+			introduce = new Actionintroduce();
+			introduce.setContent(content);
+			introduce.setAction(action);
+			introduce.setType(type);
+			if(type!=0){
+				// 更新身份证B面
+				if (session.getAttribute("images") != null) {
+					List images = (List) session.getAttribute("images");
+					introduce.setContent(images.get(0).toString());
+
+					session.setAttribute("images", null);
+
+				}
+			}
+			
+			this.actionManaer.getActionIntroduceDao().save(introduce);
+		}
+		
+		String[] list = {"文字","图片"};
+		map.put("types", list);
+		map.put("content", introduce);
+		return "admin/action/editorActionContent";
+	}
+	
+	/***
+	 * 金日投条
+	 * @return
+	 */
+	@RequestMapping(value="admin/adminKingCapitalListAdmin")
+	public String adminKingCapitalListAdmin(ModelMap map)
+	{
+		List<Weburlrecord> list = this.webManager.getWebUrlRecordDao().findKingCapital();
+		map.put("items", list);
+		return "admin/KingCapital/kingcapitalList";
+	}
+	
+	/***
+	 * 金日投条详情
+	 * @return
+	 */
+	@RequestMapping(value="admin/adminEditKingCapital")
+	public String adminEditKingCapital(
+			@RequestParam(value="contentId",required=false)Integer contentId,
+			ModelMap map)
+	{
+		if(contentId!=null)
+		{
+			Weburlrecord record = this.webManager.findRecordById(contentId);
+			map.put("content", record);
+		}
+		return "test/editorKingCapital";
+	}
+	/***
+	 * 添加金日投条
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value="admin/adminAddKingCapital")
+	public String adminAddKingCapital(
+			@RequestParam(value="contentId",required=false)Integer contentId, 
+			@RequestParam(value="title",required=false)String title, 
+			@RequestParam(value="tag",required=false)String tag, 
+			@RequestParam(value="url",required=false)String url, 
+			@RequestParam(value="image",required=false)String image, 
+			@RequestParam(value="content",required=false)String content, 
+			@RequestParam(value="orignal",required=false)String orignal, 
+			@RequestParam(value="flag",required=false)Boolean flag, 
+			@RequestParam(value="beginTime",required=false)String beginTime, 
+			HttpSession session,
+			ModelMap map) throws Exception
+	{
+		Weburlrecord record;
+		Contenttype type = new Contenttype();
+		type.setTypeId(1);
+		
+		if (session.getAttribute("images") != null) {
+			List images = (List) session.getAttribute("images");
+			image = images.get(0).toString();
+			session.setAttribute("images", null);
+
+		}
+		
+		if(contentId!=null)
+		{
+			record = this.webManager.findRecordById(contentId);
+			record.setUrl(url);
+			record.setTag(tag);
+			record.setFlag(flag);
+			record.setTitle(title);
+			record.setImage(image);
+			record.setContent(content);
+			record.setOrignal(orignal);
+			record.setContenttype(type);
+			if(beginTime!=null)
+			{
+				record.setCreateDate(DateUtils.stringToDate(beginTime, "yyyy-MM-dd HH:mm:ss"));
+			}else{
+				record.setCreateDate(new Date());
+			}
+			
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+		}else{
+			record = new Weburlrecord();
+			record.setTag(tag);
+			record.setUrl(url);
+			record.setFlag(flag);
+			record.setTitle(title);
+			record.setImage(image);
+			record.setOrignal(orignal);
+			record.setContent(content);
+			record.setContenttype(type);
+			if(beginTime!=null)
+			{
+				record.setCreateDate(DateUtils.stringToDate(beginTime, "yyyy-MM-dd HH:mm:ss"));
+			}else{
+				record.setCreateDate(new Date());
+			}
+			
+			this.webManager.getWebUrlRecordDao().save(record);
+		}
+		map.put("content", record);
+		return "test/editorKingCapital";
+	}
+	
 }

@@ -178,7 +178,12 @@ public class Authentic implements java.io.Serializable {
 
 	@Column(name = "company_name")
 	public String getCompanyName() {
-		return this.companyName;
+		if(this.companyName!=null)
+		{
+			return this.companyName;
+		}else{
+			return "";
+		}
 	}
 
 	public void setCompanyName(String companyName) {
@@ -196,7 +201,12 @@ public class Authentic implements java.io.Serializable {
 
 	@Column(name = "position", length = 20)
 	public String getPosition() {
-		return this.position;
+		if(this.position!=null)
+		{
+			return this.position;
+		}else{
+			return "";
+		}
 	}
 
 	public void setPosition(String position) {

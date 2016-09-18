@@ -54,8 +54,8 @@ public class Action implements java.io.Serializable {
 	private Set<Actionintroduce> actionintroduces = new HashSet<Actionintroduce>(
 			0);
 	private short type;
-	private boolean flag; //是否参加报名
-	private boolean attended;
+	private boolean flag; 
+	private boolean attended; //是否参加报名
 	
 
 	// Constructors
@@ -84,7 +84,6 @@ public class Action implements java.io.Serializable {
 		this.actionintroduces = actionintroduces;
 	}
 
-	// Property accessors
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "action_id", unique = true, nullable = false)
@@ -166,7 +165,7 @@ public class Action implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "action")
-	@OrderBy(value = "priseId desc")
+	@OrderBy(value = "priseId asc")
 	public Set<Actionprise> getActionprises() {
 		return this.actionprises;
 	}

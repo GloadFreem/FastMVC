@@ -218,26 +218,39 @@ public class UserController extends BaseController {
 						user = userInstance;
 						// 添加至事务操作
 						user = this.userManger.addUser(user);
+						
+						 final Users u = user;
 						// 判断用户是否保存成功
 						if (user != null) {
-							// 发送用户注册成功短信
-							MsgUtil SMS = new MsgUtil();
-							SMS.setTelePhone(user.getTelephone());
-							SMS.setMsgType(MessageType.NormalMessage);
-							// 短信内容：感谢你注册金指投--专注中国成长型企业股权投融资
-							SMS.setContent(Config.STRING_SMS_REGISTE);
-							// 发送短信
-							MsgUtil.send();
+							new Thread(){
+								public void run()
+								{
+									try {
+										// 发送用户注册成功短信
+										MsgUtil SMS = new MsgUtil();
+										SMS.setTelePhone(u.getTelephone());
+										SMS.setMsgType(MessageType.NormalMessage);
+										// 短信内容：感谢你注册金指投--专注中国成长型企业股权投融资
+										SMS.setContent(Config.STRING_SMS_REGISTE);
+										// 发送短信
+										MsgUtil.send();
+
+										// 发送注册成功邮件
+										MailUtil mu = new MailUtil();
+										try {
+											mu.sendUserRegist(mu, u.getTelephone());
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+
+									} catch (Exception e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+							}.start();
 							
-							//发送注册成功邮件
-							MailUtil mu = new MailUtil();
-							try {
-								mu.sendUserRegist(mu,user.getTelephone());
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							
-							userRewardInvite(user,inviteCode,session);
+							userRewardInvite(user, inviteCode, session);
 
 							// 封装返回数据对象
 							Map map = new HashMap();
@@ -255,9 +268,20 @@ public class UserController extends BaseController {
 							this.message = Config.STRING_REGIST_FAIL;
 						}
 					} else {
-						session.setAttribute("userId", user.getUserId());
-						this.status = 400;
-						this.message = Config.STRING_LOGING_FAIL_HAS_REGISTED;
+						if (user.getTelephone() != null
+								&& user.getTelephone().equals(
+										userInstance.getTelephone())) {
+							session.setAttribute("userId", user.getUserId());
+							this.status = 400;
+							this.message = Config.STRING_LOGING_FAIL_HAS_REGISTED;
+						}else{
+							user.setTelephone(userInstance.getTelephone());
+							user.setPassword(userInstance.getPassword());
+							
+							this.userManger.saveOrUpdateUser(user);
+							this.status = 200;
+							this.message = "";
+						}
 					}
 				}
 			} else {
@@ -410,7 +434,8 @@ public class UserController extends BaseController {
 					user.setPlatform(userInstance.getPlatform());
 					user.setLastLoginDate(new Date());
 
-					if (!userInstance.getRegId().equals("")) {
+					if (userInstance.getRegId() != null
+							&& !userInstance.getRegId().equals("")) {
 						user.setRegId(userInstance.getRegId());
 					}
 
@@ -653,7 +678,7 @@ public class UserController extends BaseController {
 				this.message = Config.STRING_LOGING_WECHAT_FAIL;
 			}
 		}
-		
+
 		// 金条奖励
 		checkUserLoginRecord(user, session);
 		return getResult();
@@ -1219,8 +1244,7 @@ public class UserController extends BaseController {
 	private Map userRewardInvite(Users user, String inviteCode,
 			HttpSession session) {
 		Map map = new HashMap();
-		if(inviteCode!=null && !inviteCode.equals(""))
-		{
+		if (inviteCode != null && !inviteCode.equals("")) {
 			// 根据邀请码获取用户
 			List l = this.userManger.getSystemCodeDao().findByCode(inviteCode);
 			if (l != null && l.size() > 0) {
@@ -1253,8 +1277,7 @@ public class UserController extends BaseController {
 				}
 			}
 		}
-		
-		
+
 		rewardNewUser(user);
 		return map;
 	}

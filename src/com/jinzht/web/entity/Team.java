@@ -67,7 +67,7 @@ public class Team implements java.io.Serializable {
 		this.personId = personId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id")
 	public Project getProject() {
 		return this.project;

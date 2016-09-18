@@ -145,7 +145,7 @@ public class InvestorManager {
 					}
 				}
 				
-				int radomIndex = (int)(1+Math.random()*(1000-1+1));
+				int radomIndex = (int)(500+Math.random()*(800-500+1));
 				requestMap.put("collectCount", radomIndex);
 
 				requestMap.put("user", u);
@@ -202,16 +202,24 @@ public class InvestorManager {
 						authentic.setOptional(null);
 						
 						String[] aa = authentic.getIndustoryArea().split(",");
-						String str = "";
-						for (int k = 0;k < aa.length; k++) {
-							Industoryarea area = getIndustoryAreaDao().findById(
-									Integer.parseInt(aa[k].toString()));
-							str +=area.getName();
-							if(k!=aa.length-1){
-								str+="，";
+						if(aa!=null && aa.length>0)
+						{
+							
+							String str = "";
+							for (int k = 0;k < aa.length; k++) {
+								String s =aa[k].toString();
+								s=s.replace(" ", "");
+								if(!s.equals("")){
+									Industoryarea area = getIndustoryAreaDao().findById(
+											Integer.parseInt(s));
+									str +=area.getName();
+									if(k!=aa.length-1){
+										str+="，";
+									}
+								}
 							}
+							authentic.setIndustoryArea(str);
 						}
-						authentic.setIndustoryArea(str);
 					}
 				}
 			}

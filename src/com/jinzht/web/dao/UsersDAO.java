@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -187,6 +188,30 @@ public class UsersDAO {
 			String queryString = "from Users";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public List findByPage(Integer start,Integer size) {
+		log.debug("finding all Users instances");
+		try {
+			String queryString = "from Users";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(start*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public Integer countOfAllUsers() {
+		log.debug("finding all Users instances");
+		try {
+			String queryString = "select count(*) from users";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

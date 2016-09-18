@@ -387,7 +387,7 @@ public class MailUtil {
 
 	public static void main(String[] args) throws Exception {
 		MailUtil mu = new MailUtil();
-//		 test2(mu);
+		 test2(mu);
 //		 test3(mu);
 //		 test4(mu);
 		// test5(mu);

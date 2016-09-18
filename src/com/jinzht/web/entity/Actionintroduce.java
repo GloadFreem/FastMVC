@@ -2,9 +2,12 @@ package com.jinzht.web.entity;
 // default package
 
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -51,6 +54,7 @@ public class Actionintroduce implements java.io.Serializable {
 
 	// Property accessors
 	@Id
+	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "introduce_id", unique = true, nullable = false)
 	public Integer getIntroduceId() {
 		return this.introduceId;
@@ -60,7 +64,7 @@ public class Actionintroduce implements java.io.Serializable {
 		this.introduceId = introduceId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "action_id")
 	public Action getAction() {
 		return this.action;

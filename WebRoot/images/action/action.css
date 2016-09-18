@@ -17,8 +17,8 @@ body{
 	width: 100%;
 	color: #FF6700;
 	text-indent:2em;
- 	font-size: 80%;
- 	margin-top:-35% ;
+	font-size: 80%;
+	margin-top:-35% ;
 }
 .title{
 	background-color: #FF6700;
@@ -44,17 +44,19 @@ body{
 .content{
 	background-color:#FFFFFF;
 	width: 100%;
-	margin-bottom: 50%;
-	
+	margin-bottom: 40%;
+
 }
 .tableimg{
 	width: 100%;
+	margin-left: 3%;
+margin-right: 5%;
 }
 .tableimg table{
 	width: 100%;
 	display: block;
 	margin: auto 45
-	;
+;
 }
 .more{
 	width: 100%;
@@ -78,17 +80,37 @@ body{
 	border-bottom:solid 2px #CCCCCC ;
 }
 .tableinfo img{
-	margin: 8px 6px auto 28px;
+	margin: 7px 6px auto 15px;
+	height: 20px;
 }
 .act-det{
-	margin: 25px 28px;
+	margin: 25px 15px 73px 15px;
 }
+
+@media screen and (width: 600px){
+	.act-det{
+		margin-bottom: 110px;
+	}
+}
+
+@media screen and (min-width: 375px) and (max-width: 414px){
+	.act-det{
+		margin-bottom: 100px;
+	}
+}
+
 .act-det td {
-	padding: 0px 8px;
+	padding: 0px 0px;
 }
+
+.act-det img {
+	width: 20px;
+	height: 20px;
+}
+
 .act-det p{
 	font-size: 80%;
-	color: #474747;	
+	color: #474747;
 }
 .border{
 	color: #FFFFFF;
@@ -99,7 +121,7 @@ body{
 
 .footer-tip
 {
-    background-color:orange;
+	background-color:orange;
 	z-index:999;
 	position:fixed;
 	bottom:0;
@@ -128,9 +150,11 @@ body{
 }
 
 .item-img{
-	width: 33%;
+	width: 30%;
 	float: left;
 	height: 90px;
+	margin-left: 1%;
+margin-top: 1%;
 }
 
 .item-img1

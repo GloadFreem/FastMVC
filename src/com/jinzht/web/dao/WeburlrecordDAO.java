@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.web.entity.Contenttype;
 import com.jinzht.web.entity.Weburlrecord;
 
 /**
@@ -148,6 +150,34 @@ public class WeburlrecordDAO {
 		try {
 			String queryString = "from Weburlrecord";
 			Query queryObject = getCurrentSession().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public List findKingCapital() {
+		log.debug("finding all Weburlrecord instances");
+		try {
+			String queryString = "select * from weburlrecord where type_id<3 order by  create_date desc";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString).addEntity(Weburlrecord.class);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public List findByPage(Integer page) {
+		log.debug("finding all Weburlrecord instances");
+		try {
+			Contenttype type  = new Contenttype();
+			type.setTypeId(1);
+			
+			String queryString = "from Weburlrecord where contenttype=? order by createDate desc";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setParameter(0, type);
+			queryObject.setFirstResult(page*10);
+			queryObject.setMaxResults(10);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);

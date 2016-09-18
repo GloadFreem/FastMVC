@@ -123,58 +123,68 @@ public class ProjectController extends BaseController {
 		if (user != null) {
 			// 获取项目
 			Project project = this.ProjectManager.findProjectById(projectId);
-			// 获取用户是否已关注该项目
-			Collection collection = this.ProjectManager
-					.findProjectCollectionByUser(project, user);
+			if(project!=null)
+			{
+				// 获取用户是否已关注该项目
+				Collection collection = this.ProjectManager
+						.findProjectCollectionByUser(project, user);
 
-			if (collection != null) {
-				project.setCollected(true);
-			} else {
-				project.setCollected(false);
-			}
-			List list = new ArrayList();
+				if (collection != null) {
+					project.setCollected(true);
+				} else {
+					project.setCollected(false);
+				}
+				List list = new ArrayList();
 
-			// 商业计划书
-			Object[] objs = project.getBusinessplans().toArray();
-			if (objs != null && objs.length>0) {
-				list.add(objs[0]);
+				// 商业计划书
+				Object[] objs = project.getBusinessplans().toArray();
+				if (objs != null && objs.length>0) {
+					list.add(objs[0]);
+				}
+
+				// 风险报告
+				objs = project.getControlreports().toArray();
+				if (objs != null && objs.length>0) {
+					list.add(objs[0]);
+				}
+				// 融资计划
+				objs = project.getFinancialstandings().toArray();
+				if (objs != null && objs.length>0) {
+					list.add(objs[0]);
+				}
+				// 融资案例
+				objs = project.getFinancingcases().toArray();
+				if (objs != null && objs.length>0) {
+					list.add(objs[0]);
+				}
+				// 退出渠道
+				objs = project.getFinancingexits().toArray();
+				if (objs != null && objs.length>0) {
+					list.add(objs[0]);
+				}
+
+				Map map = new HashMap();
+				map.put("project", project);
+				map.put("extr", list);
+
+				project.setBusinessplans(null);
+				project.setControlreports(null);
+				project.setFinancialstandings(null);
+				project.setFinancingcases(null);
+				project.setFinancingexits(null);
+				
+				// 封装返回结果
+				this.status = 200;
+				this.result.put("data", map);
+				this.message = "";
+			}else{
+				// 封装返回结果
+				this.status = 400;
+				this.result.put("data", "");
+				this.message = "无法获取该项目详情";
 			}
 
-			// 风险报告
-			objs = project.getControlreports().toArray();
-			if (objs != null && objs.length>0) {
-				list.add(objs[0]);
-			}
-			// 融资计划
-			objs = project.getFinancialstandings().toArray();
-			if (objs != null && objs.length>0) {
-				list.add(objs[0]);
-			}
-			// 融资案例
-			objs = project.getFinancingcases().toArray();
-			if (objs != null && objs.length>0) {
-				list.add(objs[0]);
-			}
-			// 退出渠道
-			objs = project.getFinancingexits().toArray();
-			if (objs != null && objs.length>0) {
-				list.add(objs[0]);
-			}
-
-			Map map = new HashMap();
-			map.put("project", project);
-			map.put("extr", list);
-
-			project.setBusinessplans(null);
-			project.setControlreports(null);
-			project.setFinancialstandings(null);
-			project.setFinancingcases(null);
-			project.setFinancingexits(null);
-
-			// 封装返回结果
-			this.status = 200;
-			this.result.put("data", map);
-			this.message = "";
+			
 		} else {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
@@ -299,6 +309,7 @@ public class ProjectController extends BaseController {
 	public Map requestProjectCommentList(
 			@RequestParam(value = "projectId", required = true) Integer projectId,
 			@RequestParam(value = "page", required = true) Integer page,
+			@RequestParam(value = "platform", required = false) Integer platform,
 			HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
@@ -309,8 +320,12 @@ public class ProjectController extends BaseController {
 
 			// 获取项目
 			Project project = this.ProjectManager.findProjectById(projectId);
+			if(platform==null)
+			{
+				platform=0;
+			}
 			// 获取项目评论数量
-			List list = this.ProjectManager.findProjectComment(project, page);
+			List list = this.ProjectManager.findProjectComment(project, page,platform);
 			// 返回数据
 			this.status = 200;
 			this.result.put("data", list);
@@ -811,6 +826,7 @@ public class ProjectController extends BaseController {
 	public Map requestProjectSceneCommentList(
 			@RequestParam(value = "sceneId", required = true) Integer sceneId,
 			@RequestParam(value = "page", required = true) Integer page,
+			@RequestParam(value = "platform", required = false) Integer platform,
 			HttpSession session) {
 		this.result = new HashMap();
 
@@ -818,8 +834,12 @@ public class ProjectController extends BaseController {
 		if (session.getAttribute("userId") != null) {
 			Integer userId = Integer.parseInt(session.getAttribute("userId")
 					.toString());
+			if(platform==null)
+			{
+				platform=0;
+			}
 			List list = this.ProjectManager.findProjectSceneCommentList(
-					sceneId, page, userId);
+					sceneId, page, userId,platform);
 
 			// 封装返回数据
 			this.status = 200;

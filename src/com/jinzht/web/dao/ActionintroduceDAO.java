@@ -60,6 +60,16 @@ public class ActionintroduceDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Actionintroduce transientInstance) {
+		log.debug("saving Actionintroduce instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Actionintroduce persistentInstance) {
 		log.debug("deleting Actionintroduce instance");
@@ -76,7 +86,7 @@ public class ActionintroduceDAO {
 		log.debug("getting Actionintroduce instance with id: " + id);
 		try {
 			Actionintroduce instance = (Actionintroduce) getCurrentSession()
-					.get("Actionintroduce", id);
+					.get("com.jinzht.web.entity.Actionintroduce", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

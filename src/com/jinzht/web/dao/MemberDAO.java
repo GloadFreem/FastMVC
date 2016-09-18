@@ -62,6 +62,16 @@ public class MemberDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Member transientInstance) {
+		log.debug("saving Member instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Member persistentInstance) {
 		log.debug("deleting Member instance");
@@ -78,7 +88,7 @@ public class MemberDAO {
 		log.debug("getting Member instance with id: " + id);
 		try {
 			Member instance = (Member) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Member", id);
+					"com.jinzht.web.entity.Member", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

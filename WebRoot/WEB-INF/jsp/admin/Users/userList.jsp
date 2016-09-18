@@ -1,3 +1,4 @@
+
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
@@ -50,10 +51,39 @@
 <script src="js/setup.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+			
+		$("div.footer-page-item").click(function(){
+			page = $(this).text();
+			if(page!="..."){
+				size = $("select[name='example_length']").val();
+				url = "adminUserListAdmin.action?";
+				url += "page="+page;
+				url += "&size="+size;
+				window.location=url;
+			}
+		});
+		$("div.footer-page-last").click(function(){
+			size = $("select[name='example_length']").val();
+			page = $(this).text();
+			url = "adminUserListAdmin.action?";
+			url += "page="+page;
+			url += "&size="+size;
+			window.location=url;
+		});
+		$("div.footer-page-pre").click(function(){
+			size = $("select[name='example_length']").val();
+			page = 0;
+			url = "adminUserListAdmin.action?";
+			url += "page="+page;
+			url += "&size="+size;
+			window.location=url;
+		});
+
+	$("select[name='example_length']").val(100);
 
 		$('.datatable').dataTable({
+		
 			scrollY : 500,
-			deferRender : true,
 			processing : true,
 			language : {
 				"sProcessing" : "处理中...",
@@ -80,6 +110,7 @@
 				}
 			}
 		});
+
 	});
 </script>
 </head>
@@ -113,8 +144,9 @@
 									target="content">${item.userId}</a></td>
 								<td class="center">${item.name}</td>
 								<td class="center">${item.telephone}</td>
-								<td class="center"><a href=${item.headSculpture
-									} target="blank">${item.headSculpture}</a></td>
+								<td class="center"><a
+									href=${item.headSculpture
+                } target="blank">${item.headSculpture}</a></td>
 								<td class="center"><c:choose>
 										<c:when test="${item.platform==1}">
 											<select name="platform" id="platform">
@@ -138,6 +170,31 @@
 				</table>
 			</div>
 		</div>
-	</div>
+		<div class="footer-page">
+			<div class="footer-page-pre">首页</div>
+			<c:choose>
+				<c:when test="${pageItem.size()>4}">
+					<c:forEach items="${pageItem}" var="item" varStatus="vs">
+						<c:choose>
+							<c:when test="${vs.index<3  || vs.index>pageItem.size()-4}">
+								<div class="footer-page-item">${item}</div>
+							</c:when>
+							<c:when test="${vs.index==3  || vs.index==pageItem.size()-4}">
+								<div class="footer-page-item">...</div>
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<c:forEach items="${pageItem}" var="item" varStatus="vs">
+						<div class="footer-page-item">${item}</div>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+
+			<div class="footer-page-last">尾页</div>
+		</div>
 </body>
 </html>
