@@ -182,7 +182,7 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE ="【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT ="金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS ="http://www.jinzht.com/phone5/";
-//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.111:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS ="http://192.168.5.164:8080/jinzht/";
 	public static String STRING_SYSTEM_ADDRESS ="http://www.jinzht.com:8080/jinzht/";
 //	public static String STRING_SYSTEM_INTRODUCE ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE ="http://www.jinzht.com:8080/jinzht/images/icon.jpg";
@@ -192,6 +192,7 @@ public class Config {
 	public static String  STRING_USER_COMPNY_UPDATE_SUCCESS = "公司更新成功！";
 	public static String  STRING_USER_POSITION_UPDATE_SUCCESS = "职位更新成功！";
 	public static String  STRING_USER_ADDRESS_UPDATE_SUCCESS = "地址更新成功！";
+	public static String  STRING_USER_INFO_UPDATE_SUCCESS = "用户信息更新成功！";
 	public static String  STRING_USER_TELEPHONE_UPDATE_SUCCESS = "手机绑定成功！";
 	public static String  STRING_USER_TELEPHONE_EQUAL_FAIL = "该手机已注册账户，请更换其他手机号码！";
 	public static String  STRING_USER_PASSWORD_COMPARE_FAIL = "旧密码输入错误，请重新输入！";
@@ -318,7 +319,7 @@ public class Config {
 	//友盟推送
 	public static String STRING_JAK = "cc3fdb255d49497c5fd3d402"; // access key
 	public static String STRING_JMS = "4bcf1021c013e29b4f77a7b7"; //master secret
-	public static String STRING_PUSH_ALERT = "【金指投投融资】--投资学院";	
+	public static String STRING_PUSH_ALERT = "【金指投投融资】--金日投条";	
 	public static String STRING_PUSH_TITLE = "【金指投投融资】";	
 	public static String STRING_PUSH_CONTENT = "【金指投投融资】";	
 	

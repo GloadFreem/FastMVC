@@ -156,18 +156,31 @@ public class WeburlrecordDAO {
 			throw re;
 		}
 	}
-	public List findKingCapital() {
+	public Integer countOfAllUsers() {
+		log.debug("finding all Weburlrecord instances");
+		try {
+			String queryString = "select count(*) from weburlrecord where type_id<3 order by  create_date desc";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public List findKingCapital(Integer page ,Integer size) {
 		log.debug("finding all Weburlrecord instances");
 		try {
 			String queryString = "select * from weburlrecord where type_id<3 order by  create_date desc";
 			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString).addEntity(Weburlrecord.class);
+			queryObject.setFirstResult(page*size);
+			queryObject.setMaxResults(size);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
 		}
 	}
-	public List findByPage(Integer page) {
+	public List findByPage(Integer page,Integer size) {
 		log.debug("finding all Weburlrecord instances");
 		try {
 			Contenttype type  = new Contenttype();
@@ -176,8 +189,8 @@ public class WeburlrecordDAO {
 			String queryString = "from Weburlrecord where contenttype=? order by createDate desc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, type);
-			queryObject.setFirstResult(page*10);
-			queryObject.setMaxResults(10);
+			queryObject.setFirstResult(page*size);
+			queryObject.setMaxResults(size);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);

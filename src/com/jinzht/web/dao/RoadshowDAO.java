@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Roadshow;
 
 /**
@@ -127,6 +129,39 @@ public class RoadshowDAO {
 			String queryString = "from Roadshow";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List<Project> findByName(Object name) {
+		String sqlString = "select * from roadshow where full_name like ?";
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Project.class);
+		queryObject.setParameter(0, "%"+name+"%");
+		
+		return queryObject.list();
+	}
+	public List findByPage(Integer start,Integer size) {
+		log.debug("finding all Roadshow instances");
+		try {
+			String queryString = "from Roadshow";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(start*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public Integer countOfAllUsers() {
+		log.debug("finding all Roadshow instances");
+		try {
+			String queryString = "select count(*) from roadshow";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

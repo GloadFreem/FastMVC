@@ -169,22 +169,21 @@
 			$('#play').attr("src", "images/播放.png");
 		}
 
-		$(".diyCancel").click(
-				function() {
-				el=$(this);
-					//删除
-					$.ajax({
-						url : "adminDeleteSceneAudioRecord.action",
-						data : {
-							"recordId" : $(this).parent("li").children("input").val(),
-						},
-						success : function(data) {
-							//alert(data.message);
-							obj = el.parent("li").parent("ul");
-							obj.remove();
-						}
-					});
-				});
+		$(".diyCancel").click(function() {
+			el = $(this);
+			//删除
+			$.ajax({
+				url : "adminDeleteSceneAudioRecord.action",
+				data : {
+					"recordId" : $(this).parent("li").children("input").val(),
+				},
+				success : function(data) {
+					//alert(data.message);
+					obj = el.parent("li").parent("ul");
+					obj.remove();
+				}
+			});
+		});
 
 		$(".viewThumb").click(function() {
 			src = $(this).children("img").attr("src");

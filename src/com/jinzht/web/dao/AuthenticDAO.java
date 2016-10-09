@@ -220,12 +220,38 @@ public class AuthenticDAO {
 	public List<Authentic> findByOptional(Object optional) {
 		return findByProperty(OPTIONAL, optional);
 	}
+	
+	public Integer countOfAllUsers() {
+		log.debug("finding all Authentic instances");
+		try {
+			String queryString = "select count(*) from authentic";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
 
 	public List findAll() {
 		log.debug("finding all Authentic instances");
 		try {
 			String queryString = "from Authentic  order by sort_index desc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findByPage(Integer start,Integer size) {
+		log.debug("finding all Users instances");
+		try {
+			String queryString = "from Authentic order by sort_index desc";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(start*size);
+			queryObject.setMaxResults(size);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);

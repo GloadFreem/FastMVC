@@ -61,7 +61,7 @@ public class WebController extends BaseController {
 			@RequestParam(value = "recordId", required = false) Integer recordId,
 			@RequestParam(value = "title", required = false) String title,
 			@RequestParam(value = "type", required = false) Integer type,
-			@RequestParam(value = "content", required = false) String content,
+			@RequestParam(value = "editorValue", required = false) String content,
 			ModelMap map) {
 		Weburlrecord record;
 		if (recordId != null) {

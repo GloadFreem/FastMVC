@@ -20,6 +20,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jinzht.tools.Config;
+import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Users;
 
 /**
@@ -192,6 +193,15 @@ public class UsersDAO {
 			log.error("find all failed", re);
 			throw re;
 		}
+	}
+	
+	public List<Users> findByName(Object name) {
+		String sqlString = "select * from users where name like ?";
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Users.class);
+		queryObject.setParameter(0, "%"+name+"%");
+		
+		return queryObject.list();
 	}
 	public List findByPage(Integer start,Integer size) {
 		log.debug("finding all Users instances");

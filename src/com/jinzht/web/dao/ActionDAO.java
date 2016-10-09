@@ -225,6 +225,30 @@ public class ActionDAO {
 			throw re;
 		}
 	}
+	public List findByPage(Integer start,Integer size) {
+		log.debug("finding all Action instances");
+		try {
+			String queryString = "from Action";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(start*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public Integer countOfAllUsers() {
+		log.debug("finding all Action instances");
+		try {
+			String queryString = "select count(*) from action";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
 
 	public Action merge(Action detachedInstance) {
 		log.debug("merging Action instance");

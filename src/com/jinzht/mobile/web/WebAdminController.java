@@ -42,6 +42,7 @@ import com.jinzht.tools.FileUtil;
 import com.jinzht.tools.MD5;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
+import com.jinzht.tools.PushUtil;
 import com.jinzht.tools.Tools;
 import com.jinzht.web.dao.ContenttypeDAO;
 import com.jinzht.web.dao.FinancestatusDAO;
@@ -103,7 +104,6 @@ public class WebAdminController extends BaseController {
 	private ActionManager actionManaer;
 	@Autowired
 	private FeelingManager feelingManager;
-
 
 	@RequestMapping(value = "/admin/adminLogin")
 	public String webEditor() {
@@ -201,25 +201,25 @@ public class WebAdminController extends BaseController {
 	 */
 	@RequestMapping(value = "/admin/adminBannerListAdmin")
 	public String bannerListAdmin(
-			@RequestParam(value="start",required=false)Integer start,
-			@RequestParam(value="size",required=false)Integer size,
+			@RequestParam(value = "start", required = false) Integer start,
+			@RequestParam(value = "size", required = false) Integer size,
 			ModelMap map) {
-		if(start==null)
-		{
-			start=0;
+		if (start == null) {
+			start = 0;
 		}
-		
-		if(size==null)
-		{
-			size=10;
+
+		if (size == null) {
+			size = 10;
 		}
-		
-		List<Banner> list = this.systemManger.findBannerInfoByPageList(start,size);
+
+		List<Banner> list = this.systemManger.findBannerInfoByPageList(start,
+				size);
 		map.put("items", list.iterator());
 		map.put("count", 2000);
 		map.put("page", 1);
 		return "/admin/banner/bannerList";
 	}
+
 	/***
 	 * 消息列表
 	 * 
@@ -227,7 +227,8 @@ public class WebAdminController extends BaseController {
 	 */
 	@RequestMapping(value = "/admin/adminPushListAdmin")
 	public String adminPushListAdmin(ModelMap map) {
-		List<Systemmessage> list = this.systemManger.getSystemMessageDao().findAll();
+		List<Systemmessage> list = this.systemManger.getSystemMessageDao()
+				.findAll();
 		map.put("items", list.iterator());
 		return "/admin/push/pushList";
 	}
@@ -248,33 +249,127 @@ public class WebAdminController extends BaseController {
 
 		return "/admin/banner/editorBanner";
 	}
-	
+
 	/***
 	 * 核心成员
+	 * 
 	 * @param map
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminMembersListAdmin")
 	public String adminMembersListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
 			ModelMap map) {
-		
-		List<Member> list = this.projectManager.getMemberDao().findAll();
-		map.put("items",list);
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+
+		Integer count = this.projectManager.getMemberDao().countOfAllUsers();
+		List<Member> list = this.projectManager.getMemberDao().findByPage(page,
+				size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
 		return "/admin/project/membersList";
 	}
-	
+
 	/***
 	 * 团队成员
+	 * 
 	 * @param map
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminTeamsListAdmin")
 	public String adminTeamsListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
 			ModelMap map) {
-		List<Team> list = this.projectManager.getTeamDao().findAll();
-		map.put("items", list);
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+
+		Integer count = this.projectManager.getTeamDao().countOfAllUsers();
+		List<Team> list = this.projectManager.getTeamDao().findByPage(page,
+				size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("size", size);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
 		return "/admin/project/teamsList";
 	}
+
 	/***
 	 * 编辑成员
 	 * 
@@ -284,14 +379,15 @@ public class WebAdminController extends BaseController {
 	public String adminEditMember(
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			ModelMap map) {
-		if(contentId!=null)
-		{
-			Member member = this.projectManager.getMemberDao().findById(contentId);
+		if (contentId != null) {
+			Member member = this.projectManager.getMemberDao().findById(
+					contentId);
 			map.put("member", member);
 		}
-		
+
 		return "/admin/project/editorMember";
 	}
+
 	/***
 	 * 编辑团队
 	 * 
@@ -301,14 +397,14 @@ public class WebAdminController extends BaseController {
 	public String adminEditTeam(
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			ModelMap map) {
-		if(contentId!=null)
-		{
+		if (contentId != null) {
 			Team member = this.projectManager.getTeamDao().findById(contentId);
 			map.put("member", member);
 		}
-		
+
 		return "/admin/project/editorTeam";
 	}
+
 	/***
 	 * 编辑消息
 	 * 
@@ -319,10 +415,11 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "pushId", required = false) Integer pushId,
 			ModelMap map) {
 		if (pushId != null) {
-			Systemmessage message = this.systemManger.getSystemMessageDao().findById(pushId);
+			Systemmessage message = this.systemManger.getSystemMessageDao()
+					.findById(pushId);
 			map.put("message", message);
 		}
-		
+
 		return "/admin/push/editorPush";
 	}
 
@@ -339,15 +436,14 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "file", required = false) MultipartFile[] images,
 			HttpSession session) {
 
-		List list ;
-		if(session.getAttribute(type)!=null)
-		{
-			list = (ArrayList)session.getAttribute(type);
-			
-		}else{
+		List list;
+		if (session.getAttribute(type) != null) {
+			list = (ArrayList) session.getAttribute(type);
+
+		} else {
 			list = new ArrayList();
 		}
-//		session.setAttribute(type, null);
+		// session.setAttribute(type, null);
 
 		this.result = new HashMap();
 		this.result.put("data", "");
@@ -529,43 +625,114 @@ public class WebAdminController extends BaseController {
 	 */
 	@RequestMapping(value = "/admin/adminUserListAdmin")
 	public String userListAdmin(
-			@RequestParam(value="page",required=false)Integer page,
-			@RequestParam(value="size",required=false)Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
 			ModelMap map) {
-		if(page==null)
-		{
-			page=0;
+		if (page == null) {
+			page = 0;
 		}
-		
-		if(size==null)
-		{
-			size=10;
+
+		if (size == null) {
+			size = 10;
 		}
 		Integer count = this.userManager.getUserDao().countOfAllUsers();
 		List<Users> list = this.userManager.getUserDao().findByPage(page, size);
-		size = count/size;
+		size = count / size;
 		List pageSize = new ArrayList();
-		for(int i =1;i<=size;i++)
-		{
-			pageSize.add(i);
+
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
+		map.put("size", size);
 		map.put("pageItem", pageSize);
 		return "/admin/Users/userList";
 	}
-	
+
 	/***
 	 * 资讯列表
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminContentsListAdmin")
-	public String adminContentsListAdmin(ModelMap map) {
-		List list = this.systemManger.getWebUrlRecordDao().findAll();
+	public String adminContentsListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+
+		Integer count = this.systemManger.getWebUrlRecordDao()
+				.countOfAllUsers();
+		List list = this.systemManger.getWebUrlRecordDao().findByPage(page,
+				size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
 		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
 		return "/admin/banner/webContentList";
 	}
 
@@ -575,53 +742,295 @@ public class WebAdminController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminProjectListAdmin")
-	public String projectListAdmin(ModelMap map) {
-		List<Users> list = this.projectManager.getProjectDao().findAll();
+	public String projectListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		Integer count = this.projectManager.getProjectDao().countOfAllUsers();
+		List<Users> list = this.projectManager.getProjectDao().findByPage(page,
+				size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
 		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("size", size);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
 		return "/admin/project/projectList";
 	}
+
 	/***
 	 * 财务状况列表
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminFinancestandingListAdmin")
-	public String adminFinancestandingListAdmin(ModelMap map) {
-		List<Financialstanding> list = this.projectManager.getFinanceStandingDao().findAll();
+	public String adminFinancestandingListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+
+		Integer count = this.projectManager.getFinanceStandingDao()
+				.countOfAllUsers();
+		List<Financialstanding> list = this.projectManager
+				.getFinanceStandingDao().findByPage(page, size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
 		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
 		return "/admin/project/financeStandingList";
 	}
+
 	/***
 	 * 商业计划列表
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminBusinessPlanListAdmin")
-	public String adminBusinessPlanListAdmin(ModelMap map) {
-		List<Businessplan> list = this.projectManager.getBusinessPlanDao().findAll();
+	public String adminBusinessPlanListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+
+		Integer count = this.projectManager.getBusinessPlanDao()
+				.countOfAllUsers();
+		List<Businessplan> list = this.projectManager.getBusinessPlanDao()
+				.findByPage(page, size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
 		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("size", size);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
 		return "/admin/project/bussinessPlanList";
 	}
+
 	/***
 	 * 融资方案列表
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminFinanceCaseListAdmin")
-	public String adminFinanceCaseListAdmin(ModelMap map) {
-		List<Financingcase> list = this.projectManager.getFinancingCaseDao().findAll();
+	public String adminFinanceCaseListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+
+		Integer count = this.projectManager.getFinancingCaseDao()
+				.countOfAllUsers();
+		List<Financingcase> list = this.projectManager.getFinancingCaseDao()
+				.findByPage(page, size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
 		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("size", size);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
 		return "/admin/project/financeCaseList";
 	}
+
 	/***
 	 * 退出渠道列表
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminExitCaseListAdmin")
-	public String adminExitCaseListAdmin(ModelMap map) {
-		List<Financingexit> list = this.projectManager.getFinancingexitDao().findAll();
+	public String adminExitCaseListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+
+		Integer count = this.projectManager.getFinancingexitDao()
+				.countOfAllUsers();
+		List<Financingexit> list = this.projectManager.getFinancingexitDao()
+				.findByPage(page, size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
 		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("size", size);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
 		return "/admin/project/financeExitList";
 	}
 
@@ -631,9 +1040,55 @@ public class WebAdminController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminRoadShowListAdmin")
-	public String roadShowListAdmin(ModelMap map) {
-		List<Roadshow> list = this.projectManager.getRoadShowDao().findAll();
+	public String roadShowListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		Integer count = this.projectManager.getRoadShowDao().countOfAllUsers();
+		List<Roadshow> list = this.projectManager.getRoadShowDao().findByPage(
+				page, size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
 		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("size", size);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
 		return "/admin/project/roadShowList";
 	}
 
@@ -643,9 +1098,55 @@ public class WebAdminController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminSceneListAdmin")
-	public String sceneListAdmin(ModelMap map) {
-		List<Scene> list = this.projectManager.getSceneDao().findAll();
+	public String sceneListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		Integer count = this.projectManager.getSceneDao().countOfAllUsers();
+		List<Scene> list = this.projectManager.getSceneDao().findByPage(page,
+				size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
 		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("size", size);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
 		return "/admin/project/sceneList";
 	}
 
@@ -655,9 +1156,54 @@ public class WebAdminController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminActionListAdmin")
-	public String actionListAdmin(ModelMap map) {
-		List<Action> list = this.actionManaer.getActionDao().findAll();
+	public String actionListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		Integer count = this.actionManaer.getActionDao().countOfAllUsers();
+		List<Action> list = this.actionManaer.getActionDao().findByPage(page,
+				size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
 		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("size", size);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
 		return "/admin/action/actionList";
 	}
 
@@ -667,9 +1213,56 @@ public class WebAdminController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminCycleListAdmin")
-	public String cycleListAdmin(ModelMap map) {
+	public String cycleListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		Integer count = this.feelingManager.getPublicContentDao()
+				.countOfAllUsers();
 		List<Publiccontent> list = this.feelingManager.getPublicContentDao()
-				.findAll();
+				.findByPage(page, size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("page", page);
+		map.put("size", size);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
+
 		map.put("items", list.iterator());
 		return "/admin/cycle/cycleList";
 	}
@@ -680,12 +1273,65 @@ public class WebAdminController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin/adminUserAuthenticListAdmin")
-	public String userAuthenticListAdmin(ModelMap map) {
+	public String userAuthenticListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		Integer count = this.userManager.getAuthenticDao().countOfAllUsers();
+
 		List citys = this.authenticManager.getCityDao().findAll();
 		List areas = this.authenticManager.getIndustoryareaDao().findAll();
-		List<Authentic> list = this.userManager.getAuthenticDao().findAll();
+		List<Authentic> list = this.userManager.getAuthenticDao().findByPage(
+				page, size);
 		List authenticStatus = this.authenticManager.getAuthenticStatus()
 				.findAll();
+
+//		int left = count % size;
+		size = count / size;
+//		if(left>0)
+//		{
+//			size++;
+//		}
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("page", page);
+		map.put("size", size);
+		map.put("count", count);
+		map.put("pageItem", pageSize);
 
 		map.put("authenticStatus", authenticStatus);
 		map.put("areas", areas);
@@ -794,6 +1440,7 @@ public class WebAdminController extends BaseController {
 		map.put("status", list);
 		return "/admin/project/editorProject";
 	}
+
 	/***
 	 * 编辑财务状况
 	 * 
@@ -804,22 +1451,24 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "financeId", required = false) Integer financeId,
 			ModelMap map) {
 		if (financeId != null) {
-			Financialstanding standing = this.projectManager.getFinanceStandingDao().findById(financeId);
+			Financialstanding standing = this.projectManager
+					.getFinanceStandingDao().findById(financeId);
 			String url = standing.getUrl();
 			Integer index = url.indexOf("=");
-			if(index>3)
-			{
-				String  contentIdStr = url.substring(index+1);
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
 				Integer contentId = Integer.parseInt(contentIdStr);
-				Weburlrecord record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				Weburlrecord record = this.webManager.getWebUrlRecordDao()
+						.findById(contentId);
 				map.put("record", record);
 			}
-			
+
 			map.put("standing", standing);
 		}
-	
+
 		return "/test/editorProjectFinanceStanding";
 	}
+
 	/***
 	 * 编辑融资方案
 	 * 
@@ -830,22 +1479,24 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			ModelMap map) {
 		if (contentId != null) {
-			Financingcase standing = this.projectManager.getFinancingCaseDao().findById(contentId);
+			Financingcase standing = this.projectManager.getFinancingCaseDao()
+					.findById(contentId);
 			String url = standing.getUrl();
 			Integer index = url.indexOf("=");
-			if(index>3)
-			{
-				String  contentIdStr = url.substring(index+1);
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
 				Integer itemId = Integer.parseInt(contentIdStr);
-				Weburlrecord record = this.webManager.getWebUrlRecordDao().findById(itemId);
+				Weburlrecord record = this.webManager.getWebUrlRecordDao()
+						.findById(itemId);
 				map.put("record", record);
 			}
-			
+
 			map.put("standing", standing);
 		}
-		
+
 		return "/test/editorProjectFinanceCase";
 	}
+
 	/***
 	 * 编辑财务状况
 	 * 
@@ -856,22 +1507,24 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "contentId", required = false) Integer financeId,
 			ModelMap map) {
 		if (financeId != null) {
-			Financingexit standing = this.projectManager.getFinancingexitDao().findById(financeId);
+			Financingexit standing = this.projectManager.getFinancingexitDao()
+					.findById(financeId);
 			String url = standing.getUrl();
 			Integer index = url.indexOf("=");
-			if(index>3)
-			{
-				String  contentIdStr = url.substring(index+1);
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
 				Integer contentId = Integer.parseInt(contentIdStr);
-				Weburlrecord record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				Weburlrecord record = this.webManager.getWebUrlRecordDao()
+						.findById(contentId);
 				map.put("record", record);
 			}
-			
+
 			map.put("standing", standing);
 		}
-		
+
 		return "/test/editorProjectFinanceExit";
 	}
+
 	/***
 	 * 编辑财务状况
 	 * 
@@ -882,20 +1535,21 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "contentId", required = false) Integer financeId,
 			ModelMap map) {
 		if (financeId != null) {
-			Businessplan standing = this.projectManager.getBusinessPlanDao().findById(financeId);
+			Businessplan standing = this.projectManager.getBusinessPlanDao()
+					.findById(financeId);
 			String url = standing.getUrl();
 			Integer index = url.indexOf("=");
-			if(index>3)
-			{
-				String  contentIdStr = url.substring(index+1);
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
 				Integer contentId = Integer.parseInt(contentIdStr);
-				Weburlrecord record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				Weburlrecord record = this.webManager.getWebUrlRecordDao()
+						.findById(contentId);
 				map.put("record", record);
 			}
-			
+
 			map.put("standing", standing);
 		}
-		
+
 		return "/test/editorProjectBussinessPlan";
 	}
 
@@ -934,6 +1588,7 @@ public class WebAdminController extends BaseController {
 
 		return "/admin/action/editorAction";
 	}
+
 	/***
 	 * 编辑资讯
 	 * 
@@ -944,13 +1599,14 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			ModelMap map) {
 		if (contentId != null) {
-			Weburlrecord record = this.systemManger.getWebUrlRecordDao().findById(contentId);
+			Weburlrecord record = this.systemManger.getWebUrlRecordDao()
+					.findById(contentId);
 			map.put("record", record);
 		}
-		
+
 		List<Contenttype> l = this.systemManger.getContentTypeDao().findAll();
 		map.put("types", l);
-		
+
 		return "/test/editor";
 	}
 
@@ -1031,8 +1687,7 @@ public class WebAdminController extends BaseController {
 
 					}
 				}
-				if(!fileName.equals(""))
-				{
+				if (!fileName.equals("")) {
 					scene.setAudioPath(fileName);
 				}
 			}
@@ -1106,41 +1761,37 @@ public class WebAdminController extends BaseController {
 		map.put("scene", scene);
 		return "/admin/project/editorScene";
 	}
-	@RequestMapping(value="admin/adminDeleteSceneAudioRecord")
+
+	@RequestMapping(value = "admin/adminDeleteSceneAudioRecord")
 	@ResponseBody
 	public Map adminDeleteSceneAudioRecord(
-			@RequestParam(value="recordId",required=false)Integer recordId
-			)
-	{
+			@RequestParam(value = "recordId", required = false) Integer recordId) {
 		this.result = new HashMap();
-		if(recordId!=null && recordId!=-1 )
-		{
-			Audiorecord record = this.projectManager.getAudioRecordDao().findById(recordId);
-			if(record!=null)
-			{
+		if (recordId != null && recordId != -1) {
+			Audiorecord record = this.projectManager.getAudioRecordDao()
+					.findById(recordId);
+			if (record != null) {
 				this.projectManager.getAudioRecordDao().delete(record);
-				this.status=200;
-				this.message="删除成功!";
+				this.status = 200;
+				this.message = "删除成功!";
 			}
 		}
 		return getResult();
 	}
-	@RequestMapping(value="admin/adminDeleteActionImage")
+
+	@RequestMapping(value = "admin/adminDeleteActionImage")
 	@ResponseBody
 	public Map adminDeleteActionImage(
-			@RequestParam(value="recordId",required=false)Integer recordId
-			)
-	{
+			@RequestParam(value = "recordId", required = false) Integer recordId) {
 		this.result = new HashMap();
-		if(recordId!=null && recordId!=-1 )
-		{
-			List<Actionimages> images = this.actionManaer.getActionImageDao().findByProperty("imgId", recordId);
-			if(images!=null&&images.size()>0)
-			{
+		if (recordId != null && recordId != -1) {
+			List<Actionimages> images = this.actionManaer.getActionImageDao()
+					.findByProperty("imgId", recordId);
+			if (images != null && images.size() > 0) {
 				Actionimages item = images.get(0);
 				this.actionManaer.getActionImageDao().delete(item);
-				this.status=200;
-				this.message="删除成功!";
+				this.status = 200;
+				this.message = "删除成功!";
 			}
 		}
 		return getResult();
@@ -1275,48 +1926,45 @@ public class WebAdminController extends BaseController {
 
 		return "/admin/Users/editorUserAuthentic";
 	}
-	
-	@RequestMapping(value="/admin/adminSortAuthentic")
+
+	@RequestMapping(value = "/admin/adminSortAuthentic")
 	@ResponseBody
 	/***
 	 * 排序用户
 	 * @return
 	 */
 	public Map adminSortAuthentic(
-				@RequestParam(value="authId",required=false)Integer authId,
-				@RequestParam(value="type",required=false)Integer type,
-				@RequestParam(value="data",required=false)Integer data
-			)
-	{
+			@RequestParam(value = "authId", required = false) Integer authId,
+			@RequestParam(value = "type", required = false) Integer type,
+			@RequestParam(value = "data", required = false) Integer data) {
 		this.result = new HashMap();
-		//获取authentic
-		Integer sortIndex=0;
-		if(authId!=null)
-		{
-			Authentic authentic = this.authenticManager.findAuthenticById(authId);
+		// 获取authentic
+		Integer sortIndex = 0;
+		if (authId != null) {
+			Authentic authentic = this.authenticManager
+					.findAuthenticById(authId);
 			sortIndex = authentic.getSortIndex();
-			if(type==0)
-			{
-				//up
+			if (type == 0) {
+				// up
 				sortIndex--;
-			}else if(type==1){
+			} else if (type == 1) {
 				sortIndex++;
-				//down
-			}else{
+				// down
+			} else {
 				sortIndex = data;
 			}
-			
+
 			authentic.setSortIndex(sortIndex);
-			
-			//保存
+
+			// 保存
 			this.authenticManager.getAuthenticDao().saveOrUpdate(authentic);
-			this.status=200;
-		}else{
-			this.status=400;
+			this.status = 200;
+		} else {
+			this.status = 400;
 		}
-	
+
 		this.result.put("data", sortIndex);
-		
+
 		return this.getResult();
 	}
 
@@ -1498,7 +2146,7 @@ public class WebAdminController extends BaseController {
 			// 保存
 			this.userManager.saveOrUpdateUser(user);
 		}
-		
+
 		List citys = this.authenticManager.getCityDao().findAll();
 		List areaList = this.authenticManager.getIndustoryareaDao().findAll();
 		if (userId != null) {
@@ -1562,7 +2210,7 @@ public class WebAdminController extends BaseController {
 		map.put("areas", areaList);
 		map.put("cities", citys);
 		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
-		
+
 		return "admin/Users/editorUser";
 	}
 
@@ -1713,7 +2361,7 @@ public class WebAdminController extends BaseController {
 
 		Map m = new HashMap();
 
-	    List list = new ArrayList();
+		List list = new ArrayList();
 		if (!optional.equals(null)) {
 			if (optional.equals("")) {
 				list.add(0);
@@ -1758,7 +2406,7 @@ public class WebAdminController extends BaseController {
 		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
 
 		return "/admin/Users/editorUserAuthentic";
-		
+
 	}
 
 	@RequestMapping(value = "/admin/adminAddProject")
@@ -1990,11 +2638,11 @@ public class WebAdminController extends BaseController {
 		beginTime = beginTime.replace(".0", "");
 		endTime = endTime.replace(".0", "");
 
-		//限制人数
+		// 限制人数
 		limit = limit.replace("人", "");
 		action.setAddress(address);
 		action.setName(name);
-		action.setMemberLimit((short)Integer.parseInt(limit));
+		action.setMemberLimit((short) Integer.parseInt(limit));
 		action.setDescription(description);
 		action.setType((short) Integer.parseInt(type));
 		action.setStartTime(DateUtils.stringToDate(beginTime,
@@ -2021,22 +2669,20 @@ public class WebAdminController extends BaseController {
 			action.setActionimages(set);
 			session.setAttribute("images", null);
 		}
-		
-		
+
 		if (session.getAttribute("actionStartPage") != null) {
 			String image = session.getAttribute("actionStartPage").toString();
-			if(image!=null && image.equals(""))
-			{
+			if (image != null && !image.equals("")) {
+				image = image.replace("[", "");
+				image = image.replace("]", "");
+				image = image.replace(",", "");
 				action.setStartPageImage(image);
 			}
-			
+
 			session.setAttribute("actionStartPage", null);
-		}else if(startPageImage!=null && startPageImage.equals(""))
-		{
+		} else if (startPageImage != null && !startPageImage.equals("")) {
 			action.setStartPageImage(startPageImage);
 		}
-		
-		
 
 		if (actionId != -1) {
 			this.actionManaer.saveOrUpdate(action);
@@ -2117,6 +2763,7 @@ public class WebAdminController extends BaseController {
 		map.put("items", list.iterator());
 		return "/admin/cycle/cycleList";
 	}
+
 	@RequestMapping(value = "/admin/adminAddPush")
 	/***
 	 * 添加推送
@@ -2124,37 +2771,40 @@ public class WebAdminController extends BaseController {
 	 */
 	public String adminAddPush(
 			@RequestParam(value = "messageId", required = false) Integer messageId,
-			@RequestParam(value = "authId", required = false) Integer authId,
-			@RequestParam(value = "title", required = false) String title,
-			@RequestParam(value = "content", required = false) String content,
+			@RequestParam(value = "authId", required = false) final Integer authId,
+			@RequestParam(value = "title", required = false) final String title,
+			@RequestParam(value = "content", required = false) final String content,
 			@RequestParam(value = "publicDate", required = false) String publicDate,
 			ModelMap map, HttpSession session) throws Exception {
 		this.result = new HashMap();
 		this.result.put("data", "");
-		
+
 		Systemmessage message;
-		
+
 		if (messageId != -1) {
-			message = this.systemManger.getSystemMessageDao().findById(messageId);
+			message = this.systemManger.getSystemMessageDao().findById(
+					messageId);
 		} else {
 			message = new Systemmessage();
 		}
 		
+		final Users user;
+
 		if (authId != null) {
-			if(authId!=-1)
-			{
+			if (authId != -1) {
 				Integer userId = this.authenticManager.getAuthenticDao()
 						.findUserIdByAuthId(authId);
-				
-				Users user = this.userManager.findUserById(userId);
-				
+
+				user = this.userManager.findUserById(userId);
+
 				message.setUsers(user);
-			}else{
-				
+			} else {
+				user=null;
 			}
-			
+		}else{
+			user = null;
 		}
-		
+
 		message.setTitle(title);
 		message.setContent(content);
 		Date date = DateUtils.stringToDate(publicDate,
@@ -2162,16 +2812,40 @@ public class WebAdminController extends BaseController {
 		if (date != null) {
 			message.setMessageDate(date);
 		}
-		
-		
+
 		if (messageId != -1) {
 			this.systemManger.getSystemMessageDao().saveOrUpdate(message);
 		} else {
 			this.systemManger.getSystemMessageDao().save(message);
 		}
 		
+		
+		//开始推送
+		new Thread()
+		{
+			public void run() {
+				PushUtil pushUtil = new PushUtil();
+				pushUtil.setTitle(title);
+				pushUtil.setContent(content);
+				if(authId!=-1)
+				{
+					if(user!=null && !user.getRegId().equals(null))
+					{
+						pushUtil.setRegId(user.getRegId());
+						pushUtil.setPlatform(user.getPlatform());
+						pushUtil.send();
+					}else{
+						pushUtil.setIsAllPush(true);
+						pushUtil.send();
+					}
+				}else{
+					pushUtil.setIsAllPush(true);
+					pushUtil.send();
+				}
+			};
+		}.start();
 
-		map.put("message",message);
+		map.put("message", message);
 		return "/admin/push/editorPush";
 	}
 
@@ -2186,6 +2860,736 @@ public class WebAdminController extends BaseController {
 		map.put("data", users);
 		return map;
 	}
+	
+	
+	@RequestMapping(value = "/admin/adminSearchUserListByName")
+	public String  adminSearchUserListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		List<User> list = this.userManager.findUserListByName(name);
+		Integer count = list.size();
+//		List<Users> list = this.userManager.getUserDao().findByPage(page, size);
+		size = count / size;
+		List pageSize = new ArrayList();
+
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/Users/userList";
+	}
+	@RequestMapping(value = "/admin/adminSearchAuthenticListByName")
+	public String  adminSearchAuthenticListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Authentic> list = this.userManager.getAuthenticDao().findByName(name);
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/Users/userAuthenticList";
+	}
+	@RequestMapping(value = "/admin/adminSearchProjectListByName")
+	public String  adminSearchProjectListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Project> list = this.projectManager.getProjectDao().findByName(name);
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/project/projectList";
+	}
+	@RequestMapping(value = "/admin/adminSearchActionListByName")
+	public String  adminSearchActionListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Action> list = this.actionManaer.getActionDao().findByName(name);
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/action/actionList";
+	}
+	@RequestMapping(value = "/admin/adminSearchFinanceStandingListByName")
+	public String  adminSearchFinanceStandingListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
+		
+		List list = new ArrayList();
+		for(Project p : projects)
+		{
+			Object[] objs = p.getFinancialstandings().toArray();
+			if(objs!=null && objs.length>0)
+			{
+				list.add(objs[0]);
+			}
+		}
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/project/financeStandingList";
+	}
+	@RequestMapping(value = "/admin/adminSearchBuinessPlanListByName")
+	public String  adminSearchBuinessPlanListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
+		
+		List list = new ArrayList();
+		for(Project p : projects)
+		{
+			Object[] objs = p.getBusinessplans().toArray();
+			if(objs!=null && objs.length>0)
+			{
+				list.add(objs[0]);
+			}
+		}
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/project/bussinessPlanList";
+	}
+	@RequestMapping(value = "/admin/adminSearchFinanceCaseListByName")
+	public String  adminSearchFinanceCaseListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
+		
+		List list = new ArrayList();
+		for(Project p : projects)
+		{
+			Object[] objs = p.getFinancingcases().toArray();
+			if(objs!=null && objs.length>0)
+			{
+				list.add(objs[0]);
+			}
+		}
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/project/financeCaseList";
+	}
+	@RequestMapping(value = "/admin/adminSearchFinanceExitListByName")
+	public String  adminSearchFinanceExitListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
+		
+		List list = new ArrayList();
+		for(Project p : projects)
+		{
+			Object[] objs = p.getFinancingexits().toArray();
+			if(objs!=null && objs.length>0)
+			{
+				list.add(objs[0]);
+			}
+		}
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/project/financeExitList";
+	}
+	@RequestMapping(value = "/admin/adminSearchMemberListByName")
+	public String  adminSearchMemberListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
+		
+		List list = new ArrayList();
+		for(Project p : projects)
+		{
+			Object[] objs = p.getMembers().toArray();
+			if(objs!=null && objs.length>0)
+			{
+				list.add(objs[0]);
+			}
+		}
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/project/membersList";
+	}
+	@RequestMapping(value = "/admin/adminSearchTeamListByName")
+	public String  adminSearchTeamListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
+		
+		List list = new ArrayList();
+		for(Project p : projects)
+		{
+			Object[] objs = p.getTeams().toArray();
+			if(objs!=null && objs.length>0)
+			{
+				list.add(objs[0]);
+			}
+		}
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/project/teamsList";
+	}
+	@RequestMapping(value = "/admin/adminSearchRoadShowListByName")
+	public String  adminSearchRoadShowListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Project> projectList = this.projectManager.getProjectDao().findByName(name);
+		List list = new ArrayList();
+		for(int i = 0;i<projectList.size();i++)
+		{
+			if(projectList.get(i).getRoadshows()!=null)
+			{
+				Object[] obj = projectList.get(i).getRoadshows().toArray();
+				
+				list.add(obj[0]);
+			}
+		}
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/project/roadShowList";
+	}
+	@RequestMapping(value = "/admin/adminSearchSceneListByName")
+	public String  adminSearchSceneListByName(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+		
+		if (size == null) {
+			size = 10;
+		}
+		List<Project> projectList = this.projectManager.getProjectDao().findByName(name);
+		List list = new ArrayList();
+		for(int i = 0;i<projectList.size();i++)
+		{
+			List l = this.projectManager.findSceneByProjectId(projectList.get(i).getProjectId(), null);
+			if(l!=null && l.size()>0)
+			{
+				list.add(l.get(0)); 
+			}
+		}
+		Integer count = list.size();
+		size = count / size;
+		List pageSize = new ArrayList();
+		
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+					
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+		
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+		return "/admin/project/sceneList";
+	}
 
 	@RequestMapping(value = "/admin/adminSearchProjectByName")
 	@ResponseBody
@@ -2198,40 +3602,39 @@ public class WebAdminController extends BaseController {
 		map.put("data", projects);
 		return map;
 	}
+
 	@RequestMapping(value = "/admin/adminSearchActionByName")
 	@ResponseBody
 	public Map adminSearchActionByName(
 			@RequestParam(value = "name", required = false) String name) {
 		Map map = new HashMap();
-		
+
 		List<Action> actions = this.actionManaer.findProjectByName(name);
-		
+
 		map.put("data", actions);
 		return map;
 	}
-	@RequestMapping(value="admin/adminAddMember")
+
+	@RequestMapping(value = "admin/adminAddMember")
 	public String adminAddMember(
-			@RequestParam(value="memberId",required=false)Integer memberId,
-			@RequestParam(value="projectId",required=false)Integer projectId,
-			@RequestParam(value="name",required=false)String name,
-			@RequestParam(value="company",required=false)String company,
-			@RequestParam(value="position",required=false)String position,
-			@RequestParam(value="industory",required=false)String industory,
-			@RequestParam(value="address",required=false)String address,
-			@RequestParam(value="image",required=false)String image,
-			HttpSession session,
-			ModelMap map
-			)
-	{
-		//判断是否添加成员
+			@RequestParam(value = "memberId", required = false) Integer memberId,
+			@RequestParam(value = "projectId", required = false) Integer projectId,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "company", required = false) String company,
+			@RequestParam(value = "position", required = false) String position,
+			@RequestParam(value = "industory", required = false) String industory,
+			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "image", required = false) String image,
+			HttpSession session, ModelMap map) {
+		// 判断是否添加成员
 		Member member;
-		if(memberId!=-1)
-		{
-			//获取成员
+		if (memberId != -1) {
+			// 获取成员
 			member = this.projectManager.getMemberDao().findById(memberId);
-			if(projectId!=null&&projectId!=member.getProject().getProjectId())
-			{
-				Project project = this.projectManager.findProjectById(projectId);
+			if (projectId != null
+					&& projectId != member.getProject().getProjectId()) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
 				member.setProject(project);
 			}
 			member.setName(name);
@@ -2241,34 +3644,31 @@ public class WebAdminController extends BaseController {
 			member.setAddress(address);
 			member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
 			member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-			
-			if(image!=null&&!image.equals(member.getIcon()))
-			{
+
+			if (image != null && !image.equals(member.getIcon())) {
 				member.setIcon(image);
 			}
-			
-			//获取图片
+
+			// 获取图片
 			if (session.getAttribute("header") != null) {
 				List images = (List) session.getAttribute("header");
-				if(images!=null)
-				{
-					image=images.get(0).toString();
+				if (images != null) {
+					image = images.get(0).toString();
 					member.setIcon(image);
 				}
-				
+
 				session.setAttribute("header", null);
 			}
-			
+
 			this.projectManager.getMemberDao().saveOrUpdate(member);
-		}else{
+		} else {
 			// 新添加成员
-			if(projectId!=null)
-			{
-				Project project = this.projectManager.findProjectById(projectId);
-				Object[] list =project.getMembers().toArray();
-				if(list!=null && list.length>0)
-				{
-					member=(Member)list[0];
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
+				Object[] list = project.getMembers().toArray();
+				if (list != null && list.length > 0) {
+					member = (Member) list[0];
 					member.setProject(project);
 					member.setName(name);
 					member.setCompany(company);
@@ -2277,24 +3677,22 @@ public class WebAdminController extends BaseController {
 					member.setAddress(address);
 					member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
 					member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-					if(image!=null&&!image.equals(member.getIcon()))
-					{
+					if (image != null && !image.equals(member.getIcon())) {
 						member.setIcon(image);
 					}
-					
-					//获取图片
+
+					// 获取图片
 					if (session.getAttribute("header") != null) {
 						List images = (List) session.getAttribute("header");
-						if(images!=null)
-						{
-							image=images.get(0).toString();
+						if (images != null) {
+							image = images.get(0).toString();
 							member.setIcon(image);
 						}
-						
+
 						session.setAttribute("header", null);
 					}
 					this.projectManager.getMemberDao().saveOrUpdate(member);
-				}else{
+				} else {
 					member = new Member();
 					member.setName(name);
 					member.setProject(project);
@@ -2304,26 +3702,23 @@ public class WebAdminController extends BaseController {
 					member.setAddress(address);
 					member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
 					member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-					if(image!=null&&!image.equals(member.getIcon()))
-					{
+					if (image != null && !image.equals(member.getIcon())) {
 						member.setIcon(image);
 					}
-					
-					//获取图片
+
+					// 获取图片
 					if (session.getAttribute("header") != null) {
 						List images = (List) session.getAttribute("header");
-						if(images!=null)
-						{
-							image=images.get(0).toString();
+						if (images != null) {
+							image = images.get(0).toString();
 							member.setIcon(image);
 						}
-						
+
 						session.setAttribute("header", null);
 					}
 					this.projectManager.getMemberDao().save(member);
 				}
-			}else
-			{
+			} else {
 				member = new Member();
 				member.setName(name);
 				member.setIndustory(industory);
@@ -2332,578 +3727,588 @@ public class WebAdminController extends BaseController {
 				member.setAddress(address);
 				member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
 				member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-				if(image!=null&&!image.equals(member.getIcon()))
-				{
+				if (image != null && !image.equals(member.getIcon())) {
 					member.setIcon(image);
 				}
-				
-				//获取图片
+
+				// 获取图片
 				if (session.getAttribute("header") != null) {
 					List images = (List) session.getAttribute("header");
-					if(images!=null)
-					{
-						image=images.get(0).toString();
+					if (images != null) {
+						image = images.get(0).toString();
 						member.setIcon(image);
 					}
-					
+
 					session.setAttribute("header", null);
 				}
 				this.projectManager.getMemberDao().save(member);
 			}
-			
+
 		}
-		
+
 		map.put("member", member);
 		return "admin/project/editorMember";
 	}
-	@RequestMapping(value="admin/adminAddTeam")
+
+	@RequestMapping(value = "admin/adminAddTeam")
 	public String adminAddTeam(
-			@RequestParam(value="personId",required=false)Integer personId,
-			@RequestParam(value="projectId",required=false)Integer projectId,
-			@RequestParam(value="name",required=false)String name,
-			@RequestParam(value="company",required=false)String company,
-			@RequestParam(value="position",required=false)String position,
-			@RequestParam(value="address",required=false)String address,
-			@RequestParam(value="image",required=false)String image,
-			HttpSession session,
-			ModelMap map
-			)
-	{
-		//判断是否添加成员
+			@RequestParam(value = "personId", required = false) Integer personId,
+			@RequestParam(value = "projectId", required = false) Integer projectId,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "company", required = false) String company,
+			@RequestParam(value = "position", required = false) String position,
+			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "image", required = false) String image,
+			HttpSession session, ModelMap map) {
+		// 判断是否添加成员
 		Team member;
-		if(personId!=-1)
-		{
-			//获取成员
+		if (personId != -1) {
+			// 获取成员
 			member = this.projectManager.getTeamDao().findById(personId);
-			if(projectId!=null)
-			{
-				Project project = this.projectManager.findProjectById(projectId);
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
 				member.setProject(project);
 			}
 			member.setName(name);
 			member.setCompany(company);
 			member.setPosition(position);
 			member.setAddress(address);
-			
-			if(image!=null&&!image.equals(member.getIcon()))
-			{
+
+			if (image != null && !image.equals(member.getIcon())) {
 				member.setIcon(image);
 			}
-			
-			//获取图片
+
+			// 获取图片
 			if (session.getAttribute("header") != null) {
 				List images = (List) session.getAttribute("header");
-				if(images!=null)
-				{
-					image=images.get(0).toString();
+				if (images != null) {
+					image = images.get(0).toString();
 					member.setIcon(image);
 				}
-				
+
 				session.setAttribute("header", null);
 			}
-			
+
 			this.projectManager.getTeamDao().saveOrUpdate(member);
-		}else{
+		} else {
 			// 新添加成员
-			if(projectId!=null)
-			{
-				Project project = this.projectManager.findProjectById(projectId);
-				Object[] list =project.getTeams().toArray();
-				if(list!=null && list.length>0)
-				{
-					member=(Team)list[0];
-					member.setProject(project);
-					member.setName(name);
-					member.setCompany(company);
-					member.setPosition(position);
-					member.setAddress(address);
-					
-					
-					if(image!=null&&!image.equals(member.getIcon()))
-					{
-						member.setIcon(image);
-					}
-					
-					//获取图片
-					if (session.getAttribute("header") != null) {
-						List images = (List) session.getAttribute("header");
-						if(images!=null)
-						{
-							image=images.get(0).toString();
-							member.setIcon(image);
-						}
-						
-						session.setAttribute("header", null);
-					}
-					this.projectManager.getTeamDao().saveOrUpdate(member);
-				}else{
-					member = new Team();
-					member.setProject(project);
-					member.setName(name);
-					member.setCompany(company);
-					member.setPosition(position);
-					member.setAddress(address);
-					if(image!=null&&!image.equals(member.getIcon()))
-					{
-						member.setIcon(image);
-					}
-					
-					//获取图片
-					if (session.getAttribute("header") != null) {
-						List images = (List) session.getAttribute("header");
-						if(images!=null)
-						{
-							image=images.get(0).toString();
-							member.setIcon(image);
-						}
-						
-						session.setAttribute("header", null);
-					}
-					this.projectManager.getTeamDao().save(member);
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
+				member = new Team();
+				member.setProject(project);
+				member.setName(name);
+				member.setCompany(company);
+				member.setPosition(position);
+				member.setAddress(address);
+				if (image != null && !image.equals(member.getIcon())) {
+					member.setIcon(image);
 				}
-			}else
-			{
+
+				// 获取图片
+				if (session.getAttribute("header") != null) {
+					List images = (List) session.getAttribute("header");
+					if (images != null) {
+						image = images.get(0).toString();
+						member.setIcon(image);
+					}
+
+					session.setAttribute("header", null);
+				}
+				this.projectManager.getTeamDao().save(member);
+			} else {
 				member = new Team();
 				member.setName(name);
 				member.setCompany(company);
 				member.setPosition(position);
 				member.setAddress(address);
-				if(image!=null&&!image.equals(member.getIcon()))
-				{
+				if (image != null && !image.equals(member.getIcon())) {
 					member.setIcon(image);
 				}
-				
-				//获取图片
+
+				// 获取图片
 				if (session.getAttribute("header") != null) {
 					List images = (List) session.getAttribute("header");
-					if(images!=null)
-					{
-						image=images.get(0).toString();
+					if (images != null) {
+						image = images.get(0).toString();
 						member.setIcon(image);
 					}
-					
+
 					session.setAttribute("header", null);
 				}
 				this.projectManager.getTeamDao().save(member);
 			}
-			
+
 		}
-		
+
 		map.put("member", member);
 		return "admin/project/editorTeam";
 	}
-	
+
 	@RequestMapping(value = "/admin/adminAddProjectFinanceStanding")
 	public String adminAddProjectFinanceStanding(
 			@RequestParam(value = "financeId", required = false) Integer financeId,
 			@RequestParam(value = "projectId", required = false) Integer projectId,
 			@RequestParam(value = "title", required = false) String title,
-			@RequestParam(value = "content", required = false) String content,
-			ModelMap map
-			) {
-		
+			@RequestParam(value = "editorValue", required = false) String content,
+			ModelMap map) {
+
 		Financialstanding standing;
 		Weburlrecord record;
-		if(financeId!=null)
-		{
-			standing = this.projectManager.getFinanceStandingDao().findById(financeId);
+
+		if (content == null) {
+			content = "";
+		}
+		if (financeId != null) {
+			standing = this.projectManager.getFinanceStandingDao().findById(
+					financeId);
 			String url = standing.getUrl();
 			Integer index = url.indexOf("=");
-			if(index>3)
-			{
-				String  contentIdStr = url.substring(index+1);
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
 				Integer contentId = Integer.parseInt(contentIdStr);
-				record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				record = this.webManager.getWebUrlRecordDao().findById(
+						contentId);
 				record.setContent(content);
-				
+
 				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-				
-			}else{
+
+			} else {
 				record = new Weburlrecord();
 				record.setTitle(title);
-				
-				//财务状况
-				Contenttype type  = new Contenttype();
+
+				// 财务状况
+				Contenttype type = new Contenttype();
 				type.setTypeId(9);
-				
+
 				record.setContenttype(type);
 				record.setTag(title);
 				record.setUrl("");
 				record.setContent(content);
 				record.setCreateDate(new Date());
-				
+
 				this.webManager.getWebUrlRecordDao().save(record);
 			}
-			
+
 			url = Tools.generateWebRecordUrl(record.getRecordId());
 			record.setUrl(url);
-			
+
 			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
 			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
 			standing.setUrl(url);
-			
+
 			this.projectManager.getFinanceStandingDao().saveOrUpdate(standing);
-			
-		}else{
+
+		} else {
 			standing = new Financialstanding();
-			if(projectId!=null)
-			{
-				Project project = this.projectManager.findProjectById(projectId);
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
 				standing.setProject(project);
 			}
-			
+
 			record = new Weburlrecord();
 			record.setTitle(title);
-			
-			//财务状况
-			Contenttype type  = new Contenttype();
+
+			// 财务状况
+			Contenttype type = new Contenttype();
 			type.setTypeId(9);
-			
+
 			record.setContenttype(type);
 			record.setTag(title);
 			record.setUrl("");
 			record.setContent(content);
 			record.setCreateDate(new Date());
-			
+
 			this.webManager.getWebUrlRecordDao().save(record);
-			
-			
-			String  url = Tools.generateWebRecordUrl(record.getRecordId());
+
+			String url = Tools.generateWebRecordUrl(record.getRecordId());
 			record.setUrl(url);
-			
+
 			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
 			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
 			standing.setUrl(url);
 			standing.setContent(title);
-			
+
 			this.projectManager.getFinanceStandingDao().save(standing);
 		}
-		
+
 		map.put("standing", standing);
 		map.put("record", record);
 		return "test/editorProjectFinanceStanding";
 	}
+
 	@RequestMapping(value = "/admin/adminAddProjectFinanceCase")
 	public String adminAddProjectFinanceCase(
 			@RequestParam(value = "financeId", required = false) Integer financeId,
 			@RequestParam(value = "projectId", required = false) Integer projectId,
 			@RequestParam(value = "title", required = false) String title,
-			@RequestParam(value = "content", required = false) String content,
-			ModelMap map
-			) {
-		
+			@RequestParam(value = "editorValue", required = false) String content,
+			ModelMap map) {
+
 		Financingcase standing;
 		Weburlrecord record;
-		if(financeId!=null)
-		{
-			standing = this.projectManager.getFinancingCaseDao().findById(financeId);
+		if (content == null) {
+			content = "";
+		}
+		if (financeId != null) {
+			standing = this.projectManager.getFinancingCaseDao().findById(
+					financeId);
 			String url = standing.getUrl();
 			Integer index = url.indexOf("=");
-			if(index>3)
-			{
-				String  contentIdStr = url.substring(index+1);
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
 				Integer contentId = Integer.parseInt(contentIdStr);
-				record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				record = this.webManager.getWebUrlRecordDao().findById(
+						contentId);
 				record.setContent(content);
-				
+
 				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-				
-			}else{
+
+			} else {
 				record = new Weburlrecord();
 				record.setTitle(title);
-				
-				//财务状况
-				Contenttype type  = new Contenttype();
+
+				// 财务状况
+				Contenttype type = new Contenttype();
 				type.setTypeId(9);
-				
+
 				record.setContenttype(type);
 				record.setTag(title);
 				record.setUrl("");
 				record.setContent(content);
 				record.setCreateDate(new Date());
-				
+
 				this.webManager.getWebUrlRecordDao().save(record);
 			}
-			
+
 			url = Tools.generateWebRecordUrl(record.getRecordId());
 			record.setUrl(url);
-			
+
 			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
 			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
 			standing.setUrl(url);
-			
+
 			this.projectManager.getFinancingCaseDao().saveOrUpdate(standing);
-			
-		}else{
+
+		} else {
 			standing = new Financingcase();
-			if(projectId!=null)
-			{
-				Project project = this.projectManager.findProjectById(projectId);
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
 				standing.setProject(project);
 			}
-			
+
 			record = new Weburlrecord();
 			record.setTitle(title);
-			
-			//财务状况
-			Contenttype type  = new Contenttype();
+
+			// 财务状况
+			Contenttype type = new Contenttype();
 			type.setTypeId(9);
-			
+
 			record.setContenttype(type);
 			record.setTag(title);
 			record.setUrl("");
 			record.setContent(content);
 			record.setCreateDate(new Date());
-			
+
 			this.webManager.getWebUrlRecordDao().save(record);
-			
-			
-			String  url = Tools.generateWebRecordUrl(record.getRecordId());
+
+			String url = Tools.generateWebRecordUrl(record.getRecordId());
 			record.setUrl(url);
-			
+
 			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
 			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
 			standing.setUrl(url);
 			standing.setContent(title);
-			
+
 			this.projectManager.getFinancingCaseDao().save(standing);
 		}
-		
+
 		map.put("standing", standing);
 		map.put("record", record);
 		return "test/editorProjectFinanceCase";
 	}
+
 	@RequestMapping(value = "/admin/adminAddProjectBussinessPlan")
 	public String adminAddProjectBussinessPlan(
 			@RequestParam(value = "financeId", required = false) Integer financeId,
 			@RequestParam(value = "projectId", required = false) Integer projectId,
 			@RequestParam(value = "title", required = false) String title,
-			@RequestParam(value = "content", required = false) String content,
-			ModelMap map
-			) {
-		
+			@RequestParam(value = "editorValue", required = false) String content,
+			ModelMap map) {
+
 		Businessplan standing;
 		Weburlrecord record;
-		if(financeId!=null)
-		{
-			standing = this.projectManager.getBusinessPlanDao().findById(financeId);
+		if (content == null) {
+			content = "";
+		}
+		if (financeId != null) {
+			standing = this.projectManager.getBusinessPlanDao().findById(
+					financeId);
 			String url = standing.getUrl();
 			Integer index = url.indexOf("=");
-			if(index>3)
-			{
-				String  contentIdStr = url.substring(index+1);
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
 				Integer contentId = Integer.parseInt(contentIdStr);
-				record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				record = this.webManager.getWebUrlRecordDao().findById(
+						contentId);
 				record.setContent(content);
-				
+
 				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-				
-			}else{
+
+			} else {
 				record = new Weburlrecord();
 				record.setTitle(title);
-				
-				//财务状况
-				Contenttype type  = new Contenttype();
+
+				// 财务状况
+				Contenttype type = new Contenttype();
 				type.setTypeId(9);
-				
+
 				record.setContenttype(type);
 				record.setTag(title);
 				record.setUrl("");
 				record.setContent(content);
 				record.setCreateDate(new Date());
-				
+
 				this.webManager.getWebUrlRecordDao().save(record);
 			}
-			
+
 			url = Tools.generateWebRecordUrl(record.getRecordId());
 			record.setUrl(url);
-			
+
 			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
 			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
 			standing.setUrl(url);
-			
+
 			this.projectManager.getBusinessPlanDao().saveOrUpdate(standing);
-			
-		}else{
+
+		} else {
 			standing = new Businessplan();
-			if(projectId!=null)
-			{
-				Project project = this.projectManager.findProjectById(projectId);
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
 				standing.setProject(project);
 			}
-			
+
 			record = new Weburlrecord();
 			record.setTitle(title);
-			
-			//财务状况
-			Contenttype type  = new Contenttype();
+
+			// 财务状况
+			Contenttype type = new Contenttype();
 			type.setTypeId(9);
-			
+
 			record.setContenttype(type);
 			record.setTag(title);
 			record.setUrl("");
 			record.setContent(content);
 			record.setCreateDate(new Date());
-			
+
 			this.webManager.getWebUrlRecordDao().save(record);
-			
-			
-			String  url = Tools.generateWebRecordUrl(record.getRecordId());
+
+			String url = Tools.generateWebRecordUrl(record.getRecordId());
 			record.setUrl(url);
-			
+
 			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
 			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
 			standing.setUrl(url);
 			standing.setContent(title);
-			
+
 			this.projectManager.getBusinessPlanDao().save(standing);
 		}
-		
+
 		map.put("standing", standing);
 		map.put("record", record);
 		return "test/editorProjectBussinessPlan";
 	}
+
 	@RequestMapping(value = "/admin/adminAddProjectFinanceExit")
 	public String adminAddProjectFinanceExit(
 			@RequestParam(value = "financeId", required = false) Integer financeId,
 			@RequestParam(value = "projectId", required = false) Integer projectId,
 			@RequestParam(value = "title", required = false) String title,
-			@RequestParam(value = "content", required = false) String content,
-			ModelMap map
-			) {
-		
+			@RequestParam(value = "editorValue", required = false) String content,
+			ModelMap map) {
+
 		Financingexit standing;
 		Weburlrecord record;
-		if(financeId!=null)
-		{
-			standing = this.projectManager.getFinancingexitDao().findById(financeId);
+		if (content == null) {
+			content = "";
+		}
+		if (financeId != null) {
+			standing = this.projectManager.getFinancingexitDao().findById(
+					financeId);
 			String url = standing.getUrl();
 			Integer index = url.indexOf("=");
-			if(index>3)
-			{
-				String  contentIdStr = url.substring(index+1);
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
 				Integer contentId = Integer.parseInt(contentIdStr);
-				record = this.webManager.getWebUrlRecordDao().findById(contentId);
+				record = this.webManager.getWebUrlRecordDao().findById(
+						contentId);
 				record.setContent(content);
-				
+
 				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-				
-			}else{
+
+			} else {
 				record = new Weburlrecord();
 				record.setTitle(title);
-				
-				//财务状况
-				Contenttype type  = new Contenttype();
+
+				// 财务状况
+				Contenttype type = new Contenttype();
 				type.setTypeId(9);
-				
+
 				record.setContenttype(type);
 				record.setTag(title);
 				record.setUrl("");
 				record.setContent(content);
 				record.setCreateDate(new Date());
-				
+
 				this.webManager.getWebUrlRecordDao().save(record);
 			}
-			
+
 			url = Tools.generateWebRecordUrl(record.getRecordId());
 			record.setUrl(url);
-			
+
 			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
 			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
 			standing.setUrl(url);
-			
+
 			this.projectManager.getFinancingexitDao().saveOrUpdate(standing);
-			
-		}else{
+
+		} else {
 			standing = new Financingexit();
-			if(projectId!=null)
-			{
-				Project project = this.projectManager.findProjectById(projectId);
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
 				standing.setProject(project);
 			}
-			
+
 			record = new Weburlrecord();
 			record.setTitle(title);
-			
-			//财务状况
-			Contenttype type  = new Contenttype();
+
+			// 财务状况
+			Contenttype type = new Contenttype();
 			type.setTypeId(9);
-			
+
 			record.setContenttype(type);
 			record.setTag(title);
 			record.setUrl("");
 			record.setContent(content);
 			record.setCreateDate(new Date());
-			
+
 			this.webManager.getWebUrlRecordDao().save(record);
-			
-			
-			String  url = Tools.generateWebRecordUrl(record.getRecordId());
+
+			String url = Tools.generateWebRecordUrl(record.getRecordId());
 			record.setUrl(url);
-			
+
 			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
 			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
 			standing.setUrl(url);
 			standing.setContent(title);
-			
+
 			this.projectManager.getFinancingexitDao().save(standing);
 		}
-		
+
 		map.put("standing", standing);
 		map.put("record", record);
 		return "test/editorProjectFinanceExit";
 	}
-	
-	
+
 	/**
 	 * 活动内容
 	 */
-	@RequestMapping(value="/admin/adminActionContentListAdmin")
-	public String adminActionContentListAdmin(ModelMap map)
-	{
-		List<Actionintroduce> list = this.actionManaer.getActionIntroduceDao().findAll();
-		String[] l = {"文字","图片"};
+	@RequestMapping(value = "/admin/adminActionContentListAdmin")
+	public String adminActionContentListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+
+		Integer count = this.actionManaer.getActionIntroduceDao()
+				.countOfAllUsers();
+
+		List<Actionintroduce> list = this.actionManaer.getActionIntroduceDao()
+				.findByPage(page, size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		String[] l = { "文字", "图片" };
 		map.put("types", l);
 		map.put("items", list);
 		return "admin/action/actionContentList";
 	}
+
 	/**
 	 * 活动内容详情
 	 */
-	@RequestMapping(value="/admin/adminEditActionContent")
+	@RequestMapping(value = "/admin/adminEditActionContent")
 	public String adminEditActionContent(
-			@RequestParam(value="contentId",required=false)Integer contentId,
-			ModelMap map)
-	{
-		if(contentId!=null)
-		{
-			Actionintroduce introduce = this.actionManaer.getActionIntroduceDao().findById(contentId);
-			
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap map) {
+		if (contentId != null) {
+			Actionintroduce introduce = this.actionManaer
+					.getActionIntroduceDao().findById(contentId);
+
 			map.put("content", introduce);
 		}
-		String[] list = {"文字","图片"};
+		String[] list = { "文字", "图片" };
 		map.put("types", list);
 		return "admin/action/editorActionContent";
 	}
-	
-	
-	@RequestMapping(value="/admin/adminAddActionContent")
+
+	@RequestMapping(value = "/admin/adminAddActionContent")
 	public String adminAddActionContent(
-			@RequestParam(value="contentId",required=false)Integer contentId,
-			@RequestParam(value="actionId",required=false)Integer actionId,
-			@RequestParam(value="type",required=false)short type,
-			@RequestParam(value="content",required=false)String content,
-			HttpSession session,
-			ModelMap map)
-	{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "actionId", required = false) Integer actionId,
+			@RequestParam(value = "type", required = false) short type,
+			@RequestParam(value = "content", required = false) String content,
+			HttpSession session, ModelMap map) {
 		Actionintroduce introduce;
-		if(contentId!=-1)
-		{
-			introduce = this.actionManaer.getActionIntroduceDao().findById(contentId);
+		if (contentId != -1) {
+			introduce = this.actionManaer.getActionIntroduceDao().findById(
+					contentId);
 			introduce.setType(type);
 			introduce.setContent(content);
-			
-			if(type!=0){
+
+			if (type != 0) {
 				// 更新身份证B面
 				if (session.getAttribute("images") != null) {
 					List images = (List) session.getAttribute("images");
@@ -2913,15 +4318,15 @@ public class WebAdminController extends BaseController {
 
 				}
 			}
-			
+
 			this.actionManaer.getActionIntroduceDao().saveOrUpdate(introduce);
-		}else{
+		} else {
 			Action action = this.actionManaer.findActionById(actionId);
 			introduce = new Actionintroduce();
 			introduce.setContent(content);
 			introduce.setAction(action);
 			introduce.setType(type);
-			if(type!=0){
+			if (type != 0) {
 				// 更新身份证B面
 				if (session.getAttribute("images") != null) {
 					List images = (List) session.getAttribute("images");
@@ -2931,76 +4336,124 @@ public class WebAdminController extends BaseController {
 
 				}
 			}
-			
+
 			this.actionManaer.getActionIntroduceDao().save(introduce);
 		}
-		
-		String[] list = {"文字","图片"};
+
+		String[] list = { "文字", "图片" };
 		map.put("types", list);
 		map.put("content", introduce);
 		return "admin/action/editorActionContent";
 	}
-	
+
 	/***
 	 * 金日投条
+	 * 
 	 * @return
 	 */
-	@RequestMapping(value="admin/adminKingCapitalListAdmin")
-	public String adminKingCapitalListAdmin(ModelMap map)
-	{
-		List<Weburlrecord> list = this.webManager.getWebUrlRecordDao().findKingCapital();
-		map.put("items", list);
+	@RequestMapping(value = "admin/adminKingCapitalListAdmin")
+	public String adminKingCapitalListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+
+		Integer count = this.webManager.getWebUrlRecordDao().countOfAllUsers();
+		List<Weburlrecord> list = this.webManager.getWebUrlRecordDao()
+				.findKingCapital(page, size);
+		size = count / size;
+		List pageSize = new ArrayList();
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
 		return "admin/KingCapital/kingcapitalList";
 	}
-	
+
 	/***
 	 * 金日投条详情
+	 * 
 	 * @return
 	 */
-	@RequestMapping(value="admin/adminEditKingCapital")
+	@RequestMapping(value = "admin/adminEditKingCapital")
 	public String adminEditKingCapital(
-			@RequestParam(value="contentId",required=false)Integer contentId,
-			ModelMap map)
-	{
-		if(contentId!=null)
-		{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap map) {
+		if (contentId != null) {
 			Weburlrecord record = this.webManager.findRecordById(contentId);
 			map.put("content", record);
 		}
 		return "test/editorKingCapital";
 	}
+
 	/***
 	 * 添加金日投条
+	 * 
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	@RequestMapping(value="admin/adminAddKingCapital")
+	@RequestMapping(value = "admin/adminAddKingCapital")
 	public String adminAddKingCapital(
-			@RequestParam(value="contentId",required=false)Integer contentId, 
-			@RequestParam(value="title",required=false)String title, 
-			@RequestParam(value="tag",required=false)String tag, 
-			@RequestParam(value="url",required=false)String url, 
-			@RequestParam(value="image",required=false)String image, 
-			@RequestParam(value="content",required=false)String content, 
-			@RequestParam(value="orignal",required=false)String orignal, 
-			@RequestParam(value="flag",required=false)Boolean flag, 
-			@RequestParam(value="beginTime",required=false)String beginTime, 
-			HttpSession session,
-			ModelMap map) throws Exception
-	{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "tag", required = false) String tag,
+			@RequestParam(value = "url", required = false) String url,
+			@RequestParam(value = "image", required = false) String image,
+			@RequestParam(value = "editorValue", required = false) String content,
+			@RequestParam(value = "orignal", required = false) String orignal,
+			@RequestParam(value = "flag", required = false) Boolean flag,
+			@RequestParam(value = "beginTime", required = false) String beginTime,
+			HttpSession session, ModelMap map) throws Exception {
 		Weburlrecord record;
 		Contenttype type = new Contenttype();
 		type.setTypeId(1);
-		
+
 		if (session.getAttribute("images") != null) {
 			List images = (List) session.getAttribute("images");
 			image = images.get(0).toString();
 			session.setAttribute("images", null);
-
 		}
-		
-		if(contentId!=null)
-		{
+
+		if (content == null) {
+			content = "";
+		}
+
+		if (contentId != null) {
 			record = this.webManager.findRecordById(contentId);
 			record.setUrl(url);
 			record.setTag(tag);
@@ -3010,15 +4463,15 @@ public class WebAdminController extends BaseController {
 			record.setContent(content);
 			record.setOrignal(orignal);
 			record.setContenttype(type);
-			if(beginTime!=null)
-			{
-				record.setCreateDate(DateUtils.stringToDate(beginTime, "yyyy-MM-dd HH:mm:ss"));
-			}else{
+			if (beginTime != null) {
+				record.setCreateDate(DateUtils.stringToDate(beginTime,
+						"yyyy-MM-dd HH:mm:ss"));
+			} else {
 				record.setCreateDate(new Date());
 			}
-			
+
 			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-		}else{
+		} else {
 			record = new Weburlrecord();
 			record.setTag(tag);
 			record.setUrl(url);
@@ -3028,17 +4481,158 @@ public class WebAdminController extends BaseController {
 			record.setOrignal(orignal);
 			record.setContent(content);
 			record.setContenttype(type);
-			if(beginTime!=null)
-			{
-				record.setCreateDate(DateUtils.stringToDate(beginTime, "yyyy-MM-dd HH:mm:ss"));
-			}else{
+			if (beginTime != null) {
+				record.setCreateDate(DateUtils.stringToDate(beginTime,
+						"yyyy-MM-dd HH:mm:ss"));
+			} else {
 				record.setCreateDate(new Date());
 			}
-			
+
 			this.webManager.getWebUrlRecordDao().save(record);
 		}
 		map.put("content", record);
 		return "test/editorKingCapital";
 	}
-	
+
+	/***
+	 * 提交项目
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "submitProject")
+	public String submitProject(
+			@RequestParam(value = "name", required = false) String[] name,
+			@RequestParam(value = "area", required = false) String area,
+			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "account", required = false) Integer account,
+			@RequestParam(value = "pic", required = false) MultipartFile[] pic,
+			@RequestParam(value = "image", required = false) MultipartFile image,
+			@RequestParam(value = "telephone", required = false) String telephone,
+			@RequestParam(value = "position", required = false) String[] position,
+			@RequestParam(value = "selfDesc", required = false) String[] selfDesc,
+			@RequestParam(value = "projectName", required = false) String projectName,
+			@RequestParam(value = "projectDesc", required = false) String projectDesc,
+			@RequestParam(value = "companyName", required = false) String companyName,
+			@RequestParam(value = "companyDesc", required = false) String companyDesc,
+			@RequestParam(value = "bussinessPlan", required = false) MultipartFile bussinessPlan,
+			@RequestParam(value = "startPageImage", required = false) MultipartFile startPageImage,
+			HttpSession session, ModelMap map) throws Exception {
+
+		Project project = new Project();
+		project.setAbbrevName(telephone);
+		project.setFullName(companyName);
+		project.setDescription(companyDesc);
+		project.setAddress(address);
+		project.setIndustoryType(area);
+		// 保存图片
+		String fileName = "";
+		String result = "";
+		if (startPageImage != null) {
+
+			MultipartFile file = startPageImage;
+			fileName = String.format(
+					Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+					new Date().getTime(), 0);
+			result = FileUtil.savePicture(file, fileName,
+					"upload/uploadImages/");
+			if (!result.equals("")) {
+				fileName = Config.STRING_SYSTEM_ADDRESS
+						+ "upload/uploadImages/" + result;
+				project.setStartPageImage(fileName);
+			}
+		}
+
+		Financestatus status = new Financestatus();
+		status.setStatusId(7); // 待审核项目
+		project.setFinancestatus(status);
+
+		Roadshow roadShow = new Roadshow();
+		roadShow.setProject(project);
+
+		Roadshowplan plan = new Roadshowplan();
+		plan.setBeginDate(new Date());
+		plan.setEndDate(new Date());
+		plan.setFinancedMount(account);
+		
+		this.projectManager.getRoadShowPlanDao().save(plan);
+		roadShow.setRoadshowplan(plan);
+
+		// 保存
+		// 项目
+		this.projectManager.getProjectDao().save(project);
+		// 路演
+		this.projectManager.getRoadShowDao().save(roadShow);
+
+		if (name != null && name.length > 0) {
+			Member member = new Member();
+			member.setName(name[0]);
+			member.setPosition(position[0]);
+			member.setProject(project);
+			// 保存图片
+			fileName = "";
+			result = "";
+			if (pic != null && pic.length > 0) {
+
+				MultipartFile file = null;
+				Set items = new HashSet();
+				for (int i = 0; i < pic.length; i++) {
+					if (pic[i] != null) {
+						file = pic[i];
+						fileName = String.format(
+								Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+								new Date().getTime(), i);
+						result = FileUtil.savePicture(file, fileName,
+								"upload/uploadImages/");
+						if (!result.equals("")) {
+							fileName = Config.STRING_SYSTEM_ADDRESS
+									+ "upload/uploadImages/" + result;
+							member.setIcon(fileName);
+						}
+
+					}
+					break;
+				}
+			}
+
+			this.projectManager.getMemberDao().save(member);
+		}
+
+		Team team;
+		for (int i = 0; i < name.length; i++) {
+			team = new Team();
+			team.setIntroduce(selfDesc[i]);
+			team.setName(name[i]);
+			team.setPosition(position[i]);
+			// 保存图片
+			fileName = "";
+			result = "";
+			if (pic != null && pic.length > 0) {
+
+				MultipartFile file = null;
+				Set items = new HashSet();
+				for (int j = 0; j < pic.length; j++) {
+					if (pic[i] != null) {
+						file = pic[i];
+						fileName = String.format(
+								Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+								new Date().getTime(), i);
+						result = FileUtil.savePicture(file, fileName,
+								"upload/uploadImages/");
+						if (!result.equals("")) {
+							fileName = Config.STRING_SYSTEM_ADDRESS
+									+ "upload/uploadImages/" + result;
+							team.setIcon(fileName);
+						}
+
+					}
+				}
+			}
+
+			this.projectManager.getTeamDao().save(team);
+		}
+		 return "redirect:http://www.jinzht.com/app/submitSuccess/";
+//		return "redirect:http://www.jinzht.com/app/submitFail/";
+	}
+
 }

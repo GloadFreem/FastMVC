@@ -934,6 +934,62 @@ public class UserController extends BaseController {
 
 		return getResult();
 	}
+	@RequestMapping("/requestUpdateUserInfoAction")
+	@ResponseBody
+	/***
+	 * 更新地址
+	 * @param cityId 城市id
+	 * @param session
+	 * @return
+	 */
+	public Map requestUpdateUserInfoAction(
+			@RequestParam(value = "userIntroduce", required = false) String userIntroduce,
+			@RequestParam(value = "companyIntroduce", required = false) String companyIntroduce,
+			@RequestParam(value = "areas", required = false) String areas,
+			HttpSession session) {
+		this.result = new HashMap();
+		
+		this.status = 200;
+		this.result.put("data", "");
+		this.message = Config.STRING_LOGING_STATUS_ONLINE;
+		
+		// 获取用户
+		Users user = this.findUserInSession(session);
+		
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		} else {
+			
+			// 更新信息
+			Object[] authentics = user.getAuthentics().toArray();
+			
+			Authentic authentic = null;
+			for (int i = 0; i < authentics.length; i++) {
+				authentic = (Authentic) authentics[i];
+				if(userIntroduce!=null && !userIntroduce.equals(""))
+				{
+					authentic.setIntroduce(userIntroduce);
+				}
+				
+				if(companyIntroduce!=null && !companyIntroduce.equals(""))
+				{
+					authentic.setCompanyIntroduce(companyIntroduce);
+				}
+				
+				if(areas!=null && !areas.equals(""))
+				{
+					authentic.setIndustoryArea(areas);
+				}
+			}
+			this.userManger.saveOrUpdateUser(user);
+			// 返回信息
+			this.status = 200;
+			this.message = Config.STRING_USER_INFO_UPDATE_SUCCESS;
+		}
+		
+		return getResult();
+	}
 
 	@RequestMapping("/requestModifyPassword")
 	@ResponseBody
@@ -1281,6 +1337,8 @@ public class UserController extends BaseController {
 		rewardNewUser(user);
 		return map;
 	}
+	
+	
 
 	public void rewardNewUser(Users user) {
 		// 获取列表
@@ -1310,6 +1368,8 @@ public class UserController extends BaseController {
 			this.userManger.getRewardSystemDao().save(system);
 		}
 	}
+	
+	
 
 	/***
 	 * 从当前session获取用户对象

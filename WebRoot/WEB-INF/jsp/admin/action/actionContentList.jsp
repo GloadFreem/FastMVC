@@ -50,11 +50,38 @@
 <script src="js/setup.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-
+		$("div.footer-page-item").click(function() {
+			page = $(this).text();
+			if (page != "...") {
+				size = $("select[name='example_length']").val();
+				url = "adminActionContentListAdmin.action?";
+				url += "page=" + page;
+				url += "&size=" + size;
+				window.location = url;
+			}
+		});
+		$("div.footer-page-last").click(function() {
+			size = $("select[name='example_length']").val();
+			page = $("div.footer-page-item-selected").text();
+			page++;
+			url = "adminActionContentListAdmin.action?";
+			url += "page=" + page;
+			url += "&size=" + size;
+			window.location = url;
+		});
+		$("div.footer-page-pre").click(function() {
+			size = $("select[name='example_length']").val();
+			page = $("div.footer-page-item-selected").text();
+			page--;
+			url = "adminActionContentListAdmin.action?";
+			url += "page=" + page;
+			url += "&size=" + size;
+			window.location = url;
+		});
 		$('.datatable').dataTable({
 			scrollY : 500,
-			deferRender: true,
-			processing: true,
+			deferRender : true,
+			processing : true,
 			language : {
 				"sProcessing" : "处理中...",
 				"sLengthMenu" : "显示 _MENU_ 项结果",
@@ -86,11 +113,13 @@
 <body>
 	<div class="grid_10">
 		<div class="box round first grid">
-		<a href="adminEditActionContent.action?contentId=" target="content"><h2>
-			<div><img alt="添加活动内容" src="images/圆角矩形-3-拷贝-5.png"></div>
-			<div>添加活动内容</div>
-			</h2></a>
-			
+			<a href="adminEditActionContent.action?contentId=" target="content"><h2>
+					<div>
+						<img alt="添加活动内容" src="images/圆角矩形-3-拷贝-5.png">
+					</div>
+					<div>添加活动内容</div>
+				</h2></a>
+
 			<div class="block">
 				<table class="data display datatable" id="example">
 					<thead>
@@ -101,26 +130,63 @@
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach items="${items}" var="item" varStatus="vs">
-					<tr class="odd gradeX">
-							<td class="center"><a href="adminEditActionContent.action?contentId=${item.introduceId}" target="content">${item.introduceId}</a></td>
-							<td class="center">${item.action.name}</td>
-							<td class="center">
-							<c:choose>
-								<c:when test="${item.type==0}">
+						<c:forEach items="${items}" var="item" varStatus="vs">
+							<tr class="odd gradeX">
+								<td class="center"><a
+									href="adminEditActionContent.action?contentId=${item.introduceId}"
+									target="content">${item.introduceId}</a></td>
+								<td class="center">${item.action.name}</td>
+								<td class="center"><c:choose>
+										<c:when test="${item.type==0}">
 									${item.content}
 								</c:when>
-								<c:otherwise>
-									<a href="${item.content}" target="blank"><img alt="" src="${item.content}" style="width:450px;"/></a>
-								</c:otherwise>
+										<c:otherwise>
+											<a href="${item.content}" target="blank"><img alt=""
+												src="${item.content}" style="width:450px;" /></a>
+										</c:otherwise>
 
-							</c:choose>
-							</td>
-						</tr>
-					</c:forEach>
+									</c:choose></td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
+		</div>
+		<div class="footer-page">
+			<c:choose>
+				<c:when test="${page>0}">
+					<div class="footer-page-pre">上一页</div>
+				</c:when>
+				<c:otherwise>
+				</c:otherwise>
+			</c:choose>
+			<c:forEach items="${pageItem}" var="item" varStatus="vs">
+				<div
+					<c:choose>
+			<c:when test="${item!=-1 && item==page}">
+				class="footer-page-item-selected"
+			</c:when>
+			<c:otherwise>
+				class="footer-page-item"
+			</c:otherwise>
+		</c:choose>>
+					<c:choose>
+						<c:when test="${item==-1}">
+				...
+			</c:when>
+						<c:otherwise>
+				${item}
+			</c:otherwise>
+					</c:choose>
+				</div>
+			</c:forEach>
+			<c:choose>
+				<c:when test="${page!=size}">
+					<div class="footer-page-last">下一页</div>
+				</c:when>
+				<c:otherwise>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </body>

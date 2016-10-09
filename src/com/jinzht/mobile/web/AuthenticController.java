@@ -493,8 +493,23 @@ public class AuthenticController extends BaseController {
 				}
 				
 			}
-					
 			
+			
+			Authentic authentic = (Authentic)authentics[0];
+			String industoryArea = authentic.getIndustoryArea();
+			List l = new ArrayList();
+			if (industoryArea != null && !industoryArea.equals("")) {
+				String[] aa = industoryArea.split(",");
+				for (int j = 0; j < aa.length; j++) {
+					String  str = aa[j].toString();
+					str=str.replace(" ", "");
+					Industoryarea area = this.authenticManager.getIndustoryareaDao().findById(
+							Integer.parseInt(str));
+					l.add(area.getName());
+				}
+			}
+					
+			map.put("areas", l);
 			map.put("authentics", user.getAuthentics());
 			map.put("headSculpture", user.getHeadSculpture());
 			map.put("userId", user.getUserId());

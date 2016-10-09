@@ -587,4 +587,14 @@ table.dataTable, table.dataTable th, table.dataTable td {
 	width: 4%;
 	cursor: pointer;
 }
+
+.footer-page-item-selected {
+	color: rgb(51, 51, 51) !important;
+	border: 1px solid rgb(151, 151, 151);
+	background-color: rgb(47, 100, 132);
+	margin: 5px;
+	padding: 5px;
+	float: left;
+	width: 4%;
+	cursor: pointer;
 }

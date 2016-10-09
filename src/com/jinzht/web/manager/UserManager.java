@@ -84,6 +84,12 @@ public class UserManager {
 		return new ArrayList();
 	}
 	
+	public List findUserListByName(String name)
+	{
+		List<Users> users = getUserDao().findByName(name);
+		return  users;
+	}
+	
 	/***
 	 * 根据用户手机号码获取用户对象
 	 * @param telephone 手机号码

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -142,6 +143,30 @@ public class FinancingexitDAO {
 			String queryString = "from Financingexit";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public List findByPage(Integer start,Integer size) {
+		log.debug("finding all Financingexit instances");
+		try {
+			String queryString = "from Financingexit";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(start*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public Integer countOfAllUsers() {
+		log.debug("finding all Financingexit instances");
+		try {
+			String queryString = "select count(*) from financingexit";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

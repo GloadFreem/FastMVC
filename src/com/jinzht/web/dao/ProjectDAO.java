@@ -218,6 +218,31 @@ public class ProjectDAO {
 			throw re;
 		}
 	}
+	public List findByPage(Integer start,Integer size) {
+		log.debug("finding all Projects instances");
+		try {
+			String queryString = "from Project";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(start*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public Integer countOfAllUsers() {
+		log.debug("finding all Users instances");
+		try {
+			String queryString = "select count(*) from project";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
 	
 	public List findByCursor(int cursor){
 		log.debug("finding Project instances by cursor");

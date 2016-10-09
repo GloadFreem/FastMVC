@@ -14,7 +14,6 @@
 
 	<!-- if you use annotation you must configure following setting -->
 	<mvc:annotation-driven />
-	
 	<mvc:interceptors>
 		<bean class="com.jinzht.web.filter.LogInterceptor"></bean>
 	</mvc:interceptors>

@@ -43,14 +43,14 @@
             <div class="box sidemenu">
                 <div class="block" id="section-menu">
                     <ul class="section menu">
-                        <li><a class="menuitem">系统用户</a>
+                  <!--       <li><a class="menuitem">系统用户</a>
                             <ul class="submenu">
                                 <li><a>用户管理</a> </li>
                                 <li><a>权限管理</a> </li>
                                 <li><a class="active">登录记录</a> </li>
                                 <li><a>操作记录</a> </li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li><a class="menuitem">用户管理</a>
                             <ul class="submenu1">
                                 <li><a href="adminUserListAdmin.action" target="content">用户列表</a> </li>
@@ -71,7 +71,7 @@
                                 <li><a href="adminTeamsListAdmin.action" target="content">核心团队</a> </li>
                             </ul>
                         </li>
-                        <li><a class="menuitem">交易中心</a>
+            <!--             <li><a class="menuitem">交易中心</a>
                             <ul class="submenu1">
                                 <li><a>交易列表</a> </li>
                                 <li><a>交易历史</a> </li>
@@ -84,7 +84,7 @@
                                 <li><a>交易记录</a> </li>
                                 <li><a>提现记录</a> </li>
                             </ul>
-                        </li>
+                        </li> -->
                          <li><a class="menuitem">活动管理</a>
                             <ul class="submenu1">
                                 <li><a href="adminActionListAdmin.action" target="content">活动列表</a> </li>
@@ -100,14 +100,14 @@
                                 <li><a>黑名单</a> </li>
                             </ul>
                         </li>
-                         <li><a class="menuitem">数据统计</a>
+            <!--              <li><a class="menuitem">数据统计</a>
                             <ul class="submenu2">
                                 <li><a>投资统计</a> </li>
                                 <li><a>项目统计</a> </li>
                                 <li><a>圈子统计</a> </li>
                                 <li><a>活动统计</a> </li>
                             </ul>
-                        </li>
+                        </li> -->
                          <li><a class="menuitem">系统设置</a>
                             <ul class="submenu3">
                                 <li><a href="adminBannerListAdmin.action" target="content">Banner</a> </li>

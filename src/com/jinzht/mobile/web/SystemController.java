@@ -143,15 +143,24 @@ public class SystemController extends BaseController {
 	 * @param mm
 	 * @return Map 返回值
 	 */
-	public Map bannerSystem(ModelMap mm) {
+	public Map bannerSystem(ModelMap mm, HttpSession session) {
 		this.result = new HashMap();
 		List list = this.systemManger.findBannerInfoList();
 		this.status = 200;
-		if (list != null && list.size() > 0) {
-			this.result.put("data", list);
+		// 获取用户
+		Users user = this.findUserInSession(session);
+
+		if (user == null) {
+			this.status = 400;
+			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
 		} else {
-			this.result.put("data", new ArrayList());
+			if (list != null && list.size() > 0) {
+				this.result.put("data", list);
+			} else {
+				this.result.put("data", new ArrayList());
+			}
 		}
+
 		this.message = "";
 		return getResult();
 	}
@@ -733,7 +742,7 @@ public class SystemController extends BaseController {
 
 		return "ShareFeelingDetail";
 	}
-	
+
 	// 分享圈子内容
 	@RequestMapping(value = "/requestConsultList")
 	@ResponseBody
@@ -742,11 +751,9 @@ public class SystemController extends BaseController {
 			@RequestParam(value = "version", required = false) Integer version,
 			ModelMap model) {
 		this.result = new HashMap();
-		List list = this.systemManger.getWebUrlRecordDao().findByPage(page);
-		
-		
-		
-		this.status=200;
+		List list = this.systemManger.getWebUrlRecordDao().findByPage(page, 10);
+
+		this.status = 200;
 		this.result.put("data", list);
 		return getResult();
 	}

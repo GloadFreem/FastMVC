@@ -182,7 +182,6 @@ public class SystemManager {
 				}
 
 				result.add(map);
-
 			}
 		}
 		return result;

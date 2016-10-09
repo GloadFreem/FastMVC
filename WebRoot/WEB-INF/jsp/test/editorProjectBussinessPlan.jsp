@@ -15,24 +15,26 @@
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <title>编辑网页</title>
-<link rel="stylesheet" href="./kindeditor-master/lib/qunit/qunit.css" />
 <link rel="stylesheet"
-	href="./kindeditor-master/plugins/code/prettify.css" />
-<link rel="stylesheet"
-	href="./kindeditor-master/themes/default/default.css" />
+	href="./kindeditor-master/themes/default/style.css" />
+<!-- include src files -->
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="ueditor/ueditor.all.min.js">
+		
+	</script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8"
+	src="ueditor/lang/zh-cn/zh-cn.js"></script>
 <link rel="stylesheet"
 	href="./kindeditor-master/themes/default/style.css" />
 <link rel="stylesheet" type="text/css" href="css/user.css" />
 
 <script src="upload/js/jquery.js"></script>
 <script src="js/jquery-ui/jquery-ui.js"></script>
-<!-- <script src="./kindeditor-master/lib/firebug-lite/build/firebug-lite.js#startOpened"></script> -->
-<script src="./kindeditor-master/lib/qunit/qunit.js"></script>
-<!-- include src files -->
-<script src="./kindeditor-master/kindeditor-all.js"></script>
-<script src="./kindeditor-master/lang/zh-CN.js"></script>
-<script src="./kindeditor-master/plugins/code/prettify.js"></script>
-</head>
 
 <script language="JavaScript">
 	jQuery(function($) {
@@ -64,27 +66,8 @@
 							$(this).find("option:selected").text());
 				});
 	});
-	KindEditor.ready(function(K) {
-		var editor1 = K.create('textarea[name="content"]', {
-			cssPath : './kindeditor-master/plugins/code/prettify.css',
-			uploadJson : './kindeditor-master/jsp/upload_json.jsp',
-			fileManagerJson : './kindeditor-master/jsp/file_manager_json.jsp',
-			allowFileManager : true,
-			afterCreate : function() {
-				var self = this;
-				K.ctrl(document, 13, function() {
-					self.sync();
-					document.forms['example'].submit();
-				});
-				K.ctrl(self.edit.doc, 13, function() {
-					self.sync();
-					document.forms['example'].submit();
-				});
-			}
-		});
-		prettyPrint();
-	});
 </script>
+</head>
 <body>
 	<form action="adminAddProjectBussinessPlan.action" method="post">
 		<input name="financeId" value="${standing.buinessPlanId }"
@@ -131,11 +114,11 @@
 				<c:choose>
 					<c:when test="${standing!=null }">
 						<input id="title" name="title" class="title-enter-input"
-							type="text" value="${standing.content }"/>
+							type="text" value="${standing.content }" />
 					</c:when>
 					<c:otherwise>
 						<input id="title" name="title" class="title-enter-input"
-							type="text" value="商业计划"/>
+							type="text" value="商业计划" />
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -144,12 +127,12 @@
 		<div class="editor">
 			<c:choose>
 				<c:when test="${record!=null }">
-					<textarea id="editor_id" name="content"
-						style="width:90%;visibility:hidden;height:1450px;">${record.content }</textarea>
+					<script id="editor" type="text/plain"
+						style="width:1024px;height:500px;">${record.content}</script>
 				</c:when>
 				<c:otherwise>
-					<textarea id="editor_id" name="content"
-						style="width:90%;visibility:hidden;height:1450px;"></textarea>
+					<script id="editor" type="text/plain"
+						style="width:1024px;height:500px;"></script>
 				</c:otherwise>
 			</c:choose>
 
@@ -164,4 +147,20 @@
 	</form>
 
 </body>
+<script type="text/javascript">
+	//实例化编辑器
+	//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+	var ue = UE.getEditor('editor', {
+		imagePathFormat : "/upload/uploadImages/{filename}"
+	});
+	ue.setContent("heelooeorfwej");
+
+	function getContent() {
+		var arr = [];
+		arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+		arr.push("内容为：");
+		arr.push(UE.getEditor('editor').getContent());
+		alert(arr.join("\n"));
+	}
+</script>
 </html>
