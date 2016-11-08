@@ -45,6 +45,7 @@ public class Action implements java.io.Serializable {
 	private String initiateUser;
 	private Short memberLimit;
 	private Date startTime;
+	private String url;
 	private Date endTime;
 	private Set<Actionprise> actionprises = new HashSet<Actionprise>(0);
 	private Set<Attention> attentions = new HashSet<Attention>(0);
@@ -256,6 +257,14 @@ public class Action implements java.io.Serializable {
 
 	public void setActionintroduces(Set<Actionintroduce> actionintroduces) {
 		this.actionintroduces = actionintroduces;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 

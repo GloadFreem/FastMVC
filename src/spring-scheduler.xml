@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<context:component-scan base-package="net.itaem.wen" />
+
+
+	<bean id="anotherBean" class="com.message.Enity.AnotherBean"></bean>
+	<bean id="nightBean" class="com.message.Enity.NightBean"></bean>
+	<bean id="messageManager" class="com.message.manager.MessageMananger"></bean>
+
+
+
+	<bean name="complexJobDetail"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.message.Enity.ScheduledJob" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="anotherBean" value-ref="anotherBean" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+	
+	
+	<bean name="TimerDeleteDetail"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.message.Enity.NightScheduledJob" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="anotherBean" value-ref="nightBean" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+	
+	
+	<bean name="NightcomplexJobDetail"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.message.Enity.ScheduledJob" />
+		<property name="jobDataMap">
+			<map>
+				<entry key="anotherBean" value-ref="anotherBean" />
+			</map>
+		</property>
+		<property name="durability" value="true" />
+	</bean>
+
+
+
+
+	<!-- 5分钟  0:00到12:59 -->
+	<bean id="lightTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="complexJobDetail" />
+	    <property name="cronExpression" value="0 0/5 0-13 * * ?" />  
+	</bean>
+
+	<!-- 10分钟  13:00到23:59 -->
+	<bean id="nightTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="complexJobDetail" />
+		    <property name="cronExpression" value="0 0/1 14-23 * * ?" />  
+	</bean>
+	
+	
+	<!-- delete 删除任务 未设置-->
+	<bean id="delTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="TimerDeleteDetail" />
+		    <property name="cronExpression" value="0 10 0-23 * * ?" />  
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobDetails">
+			<list>
+				<ref bean="complexJobDetail" />
+					<ref bean="TimerDeleteDetail" />
+			</list>
+		</property>
+
+		<property name="triggers">
+			<list>
+				<ref bean="nightTrigger" />
+				<ref bean="lightTrigger" />
+				<ref bean="delTrigger" />
+			</list>
+		</property>
+	</bean>
+
+</beans>  

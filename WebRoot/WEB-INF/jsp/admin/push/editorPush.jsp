@@ -1,10 +1,15 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*,com.jinzht.tools.*"
+	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+
+	Date currentDate = new Date();
+	String date = DateUtils.dateToString(currentDate,
+			"YYYY-MM-dd HH:mm:ss");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -24,27 +29,17 @@
 		});
 		$("input:eq(1)").blur(function() {
 			$("input:eq(1)").css("background-color", "#D6D6FF");
-			if ($("input:eq(1)").val() == "") {
-				$("input:eq(1)").val("请输入名称");
-			}
 		});
 		$("input:eq(1)").focus(function() {
 			$("input:eq(1)").css("background-color", "#FFFFCC");
-			if ($("input:eq(1)").val() == "请输入名称") {
-				$("input:eq(1)").val("");
-			}
 		});
 		$("input:eq(2)").blur(function() {
 			$("input:eq(2)").css("background-color", "#D6D6FF");
 			if ($("input:eq(2)").val() == "") {
-				$("input:eq(2)").val("请输入描述");
 			}
 		});
 		$("input:eq(2)").focus(function() {
 			$("input:eq(2)").css("background-color", "#FFFFCC");
-			if ($("input:eq(2)").val() == "请输入描述") {
-				$("input:eq(2)").val("");
-			}
 		});
 		$("input:eq(3)").blur(function() {
 			$("input:eq(3)").css("background-color", "#D6D6FF");
@@ -85,7 +80,7 @@
 							data.data.forEach(function(e) {
 								select = "<option value='"+e.authId+"'>"
 										+ e.name + "</option>"
-										selector.append(select);
+								selector.append(select);
 							});
 
 						}
@@ -93,9 +88,11 @@
 
 				});
 
-		$("#user").change(function() {
-			$("input[name='authId']").val($(this).find("option:selected").text());
-		});
+		$("#user").change(
+				function() {
+					$("input[name='authId']").val(
+							$(this).find("option:selected").text());
+				});
 	});
 </script>
 </head>
@@ -135,7 +132,8 @@
 						</c:when>
 						<c:otherwise>
 							<div class="search">
-								<input style="color:black" id="name" name="name" type="text" value="请选择用户">
+								<input style="color:black" id="name" name="name" type="text"
+									placeholder="请选择用户">
 							</div>
 							<div>
 								<img name="search-img" class="search-img" alt=""
@@ -150,30 +148,97 @@
 					</c:choose>
 				</div>
 			</div>
-					<!-- 时间 -->
+			<!-- 标题 -->
 			<div class="name">
-				<div class="name-key">标题</div>
+				<div class="name-key">推送标题</div>
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${message!=null}">
-							<input style="color:black" id="title" name="title" value="${message.title }" type="text">
+							<input style="color:black" id="title" name="title"
+								value="" type="text">
 						</c:when>
 						<c:otherwise>
-							<input style="color:black" id="title" name="title" value="请输入标题" type="text">
+							<input style="color:black" id="title" name="title"
+								placeholder="请输入推送标题" type="text">
 						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>
 			<!-- 描述 -->
 			<div class="name">
-				<div class="name-key">推送內容</div>
+				<div class="name-key">推送链接</div>
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${message!=null}">
-							<textarea class="textarea" style="color:black" name="content">${message.content}</textarea>
+							<textarea class="textarea" style="color:black;height:70px;"
+								name="content">${message.content}</textarea>
 						</c:when>
 						<c:otherwise>
-							<textarea class="textarea" style="color:black" name="content">请输入推送内容</textarea>
+							<textarea class="textarea" style="color:black;height:70px;"
+								name="content" placeholder="请输入推送链接"></textarea>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+			<!-- WebView标题 -->
+			<div class="name">
+				<div class="name-key">短标题</div>
+				<div class="name-value">
+					<c:choose>
+						<c:when test="${message!=null}">
+							<input style="color:black" id="shareTitle" name="shareTitle"
+								value="" type="text">
+						</c:when>
+						<c:otherwise>
+							<input style="color:black" id="shareTitle" name="shareTitle"
+								placeholder="请输入标题" type="text">
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+			<!-- 分享图片 -->
+			<div class="name">
+				<div class="name-key">图片</div>
+				<div class="name-value">
+					<c:choose>
+						<c:when test="${message!=null}">
+							<input style="color:black" id="shareImage" name="shareImage"
+								value="" type="text">
+						</c:when>
+						<c:otherwise>
+							<input style="color:black" id="shareImage" name="shareImage"
+								placeholder="请输入分享图片地址" type="text">
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+			<!-- 链接 -->
+			<div class="name">
+				<div class="name-key">分享链接</div>
+				<div class="name-value">
+					<c:choose>
+						<c:when test="${message!=null}">
+							<input style="color:black" id="shareUrl" name="shareUrl"
+								value="" type="text">
+						</c:when>
+						<c:otherwise>
+							<input style="color:black" id="shareUrl" name="shareUrl"
+								placeholder="请输入分享链接" type="text">
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+			<!-- 分享 -->
+			<div class="name">
+				<div class="name-key">分享简介</div>
+				<div class="name-value">
+					<c:choose>
+						<c:when test="${message!=null}">
+							<textarea class="textarea" style="color:black;" name="shareIntroduce"></textarea>
+						</c:when>
+						<c:otherwise>
+							<textarea class="textarea" style="color:black;" name="shareIntroduce"
+								placeholder="请输入内容简介"></textarea>
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -184,10 +249,12 @@
 				<div class="name-value">
 					<c:choose>
 						<c:when test="${content!=null}">
-							<input style="color:black" id="publicDate" name="publicDate" value="${content.publicDate }" type="text">
+							<input style="color:black" id="publicDate" name="publicDate"
+								value="${content.publicDate }" type="text">
 						</c:when>
 						<c:otherwise>
-							<input style="color:black" id="publicDate" name="publicDate" value="请选择时间" type="text">
+							<input style="color:black" id="publicDate" name="publicDate"
+								value="<%=date%>" type="text">
 						</c:otherwise>
 					</c:choose>
 				</div>

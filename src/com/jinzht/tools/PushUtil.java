@@ -22,6 +22,11 @@ public class PushUtil {
 	private String content;
 	private Boolean isAllPush = false;
 
+	private String webViewTitle; // 客户端WebView标题
+	private String shareUrl; // 分享链接
+	private String shareImage; // 分享图片
+	private String shareIntroduce; // 分享内容简介
+
 	public static void main(String[] args) {
 		new PushUtil().send();
 	}
@@ -33,7 +38,11 @@ public class PushUtil {
 		// For push, all you need do is to build PushPayload object.
 		PushPayload payload;
 		if (isAllPush) {
-			payload = buildPushObject_all_all_alert();
+			PushPayload payload_ios = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
+			PushPayload payload_android = buildPushObject_android_tag_alertWithTitle();
+
+			this.SendPush(payload_ios, jpushClient);
+			this.SendPush(payload_android, jpushClient);
 		} else {
 			if (platform == 1) {
 				payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
@@ -41,9 +50,12 @@ public class PushUtil {
 				payload = buildPushObject_android_tag_alertWithTitle();
 			}
 
+			this.SendPush(payload, jpushClient);
 		}
 		// PushPayload payload = buildPushObject_android_tag_alertWithTitle();
+	}
 
+	private void SendPush(PushPayload payload, JPushClient jpushClient) {
 		try {
 			PushResult result = jpushClient.sendPush(payload);
 			// LOG.info("Got result - " + result);
@@ -89,7 +101,7 @@ public class PushUtil {
 												.addExtra("ext", "1").build())
 								.build()).build();
 
-//		 return PushPayload.alertAll(title);
+		// return PushPayload.alertAll(title);
 	}
 
 	public static PushPayload buildPushObject_all_alias_alert() {
@@ -123,6 +135,16 @@ public class PushUtil {
 													.addExtra("content",
 															content)
 													.addExtra("ext", title)
+													.addExtra("share_title",
+															this.title)
+													.addExtra("title",
+															this.webViewTitle)
+													.addExtra("share_url",
+															this.shareUrl)
+													.addExtra("share_img_url",
+															this.shareImage)
+													.addExtra("share_content",
+															this.shareIntroduce)
 													.build()).build()).build();
 		} else {
 			return PushPayload.newBuilder().setPlatform(Platform.android())
@@ -146,6 +168,16 @@ public class PushUtil {
 													.addExtra("content",
 															content)
 													.addExtra("ext", "金日投条")
+													.addExtra("share_title",
+															this.title)
+													.addExtra("title",
+															this.webViewTitle)
+													.addExtra("share_url",
+															this.shareUrl)
+													.addExtra("share_img_url",
+															this.shareImage)
+													.addExtra("share_content",
+															this.shareIntroduce)
 													.build()).build()).build();
 		}
 
@@ -173,12 +205,21 @@ public class PushUtil {
 													.addExtra("content",
 															content)
 													.addExtra("ext", "1")
+													.addExtra("share_title",
+															this.title)
+													.addExtra("title",
+															this.webViewTitle)
+													.addExtra("share_url",
+															this.shareUrl)
+													.addExtra("share_img_url",
+															this.shareImage)
+													.addExtra("share_content",
+															this.shareIntroduce)
 													.build()).build())
 					.setMessage(Message.content(Config.STRING_PUSH_CONTENT))
 					.setOptions(Options.newBuilder()
-//							.setApnsProduction(true)
-					 .setApnsProduction(false)
-							.build()).build();
+					// .setApnsProduction(true)
+							.setApnsProduction(false).build()).build();
 		} else {
 			return PushPayload
 					.newBuilder()
@@ -197,12 +238,19 @@ public class PushUtil {
 													.addExtra("type", "project")
 													.addExtra("content", "48")
 													.addExtra("ext", "1")
+													.addExtra("title",
+															this.webViewTitle)
+													.addExtra("share_url",
+															this.shareUrl)
+													.addExtra("share_img_url",
+															this.shareImage)
+													.addExtra("share_content",
+															this.shareIntroduce)
 													.build()).build())
 					.setMessage(Message.content(Config.STRING_PUSH_CONTENT))
 					.setOptions(Options.newBuilder()
-//							.setApnsProduction(true)
-					 .setApnsProduction(false)
-							.build()).build();
+					// .setApnsProduction(true)
+							.setApnsProduction(false).build()).build();
 		}
 
 	}
@@ -263,6 +311,38 @@ public class PushUtil {
 
 	public void setPlatform(Short platform) {
 		this.platform = platform;
+	}
+
+	public String getWebViewTitle() {
+		return webViewTitle;
+	}
+
+	public void setWebViewTitle(String webViewTitle) {
+		this.webViewTitle = webViewTitle;
+	}
+
+	public String getShareUrl() {
+		return shareUrl;
+	}
+
+	public void setShareUrl(String shareUrl) {
+		this.shareUrl = shareUrl;
+	}
+
+	public String getShareImage() {
+		return shareImage;
+	}
+
+	public void setShareImage(String shareImage) {
+		this.shareImage = shareImage;
+	}
+
+	public String getShareIntroduce() {
+		return shareIntroduce;
+	}
+
+	public void setShareIntroduce(String shareIntroduce) {
+		this.shareIntroduce = shareIntroduce;
 	}
 
 }

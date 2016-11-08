@@ -11,21 +11,16 @@
 			<value>com.mysql.jdbc.Driver</value>
 		</property>
 		<property name="url">
-			<!-- <value>jdbc:mysql://192.168.5.155:3306/jinzht2016?useUnicode=true&amp;characterEncoding=UTF-8 -->
-			<value>jdbc:mysql://localhost:3306/jinzht2016?useUnicode=true&amp;characterEncoding=UTF-8 
+			<value>jdbc:mysql://localhost:3306/jinzht2016?useUnicode=true&amp;characterEncoding=UTF-8
 			</value>
 		</property>
 		<property name="username">
 			<value>root</value>
 		</property>
 		<property name="password">
-			<value>Changeme_123</value>
+			<value></value>
 		</property>
-		<!-- 
-		<property name="password">
-			<value>Changeme_123</value>
-		</property> 
-		-->
+		<!-- <property name="password"> <value>Changeme_123</value> </property> -->
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -37,9 +32,7 @@
 				<prop key="hibernate.dialect">
 					org.hibernate.dialect.MySQLDialect
 				</prop>
-			   <!--  <prop key="hibernate.show_sql">
-					true
-				</prop> -->
+				<!-- <prop key="hibernate.show_sql"> true </prop> -->
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
@@ -122,6 +115,16 @@
 				<value>com.jinzht.web.entity.Feelingtype</value>
 				<value>com.jinzht.web.entity.Contentshare</value>
 				<value>com.jinzht.web.entity.Actionintroduce</value>
+				<value>com.jinzht.web.entity.Webcontenttype</value>
+				<value>com.jinzht.web.entity.Webcontentimages</value>
+
+				<value>com.message.Enity.Webrule</value>
+				<value>com.message.Enity.MsgImages</value>
+				<value>com.message.Enity.Msg</value>
+				<value>com.message.Enity.MsgDetail</value>
+				<value>com.message.Enity.OriginalImg</value>
+				<value>com.message.Enity.OriginalDetail</value>
+				<value>com.message.Enity.Original</value>
 			</list>
 		</property>
 	</bean>
@@ -134,6 +137,9 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<import resource="spring-scheduler.xml" />
+	
 	<bean id="TeamDAO" class="com.jinzht.web.dao.TeamDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -419,7 +425,7 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	
+
 	<bean id="AuthenticstatusDAO" class="com.jinzht.web.dao.AuthenticstatusDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -470,8 +476,7 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	<bean id="FeeingtypeDAO"
-		class="com.jinzht.web.dao.FeeingtypeDAO">
+	<bean id="FeeingtypeDAO" class="com.jinzht.web.dao.FeeingtypeDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
@@ -485,4 +490,57 @@
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
-	</bean></beans>
+	</bean>
+	<bean id="WebcontenttypeDAO" class="com.jinzht.web.entity.WebcontenttypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="WeburlrecordDAO" class="com.jinzht.web.entity.WeburlrecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="WebcontentimagesDAO" class="com.jinzht.web.entity.WebcontentimagesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="WebruleDAO" class="com.message.Enity.WebruleDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+
+	<bean id="MsgImagesDAO" class="com.message.Enity.MsgImagesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="MsgDAO" class="com.message.Enity.MsgDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="MsgDetailDAO" class="com.message.Enity.MsgDetailDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="OriginalImgDAO" class="com.message.Enity.OriginalImgDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="OriginalDetailDAO" class="com.message.Enity.OriginalDetailDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="OriginalDAO" class="com.message.Enity.OriginalDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+</beans>

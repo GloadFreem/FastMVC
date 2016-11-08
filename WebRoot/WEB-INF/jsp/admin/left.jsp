@@ -100,6 +100,12 @@
                                 <li><a>黑名单</a> </li>
                             </ul>
                         </li>
+                         <li><a class="menuitem">内容管理</a>
+                            <ul class="submenu1">
+                                <li><a href="adminNewsContentListAdmin.action" target="content">资讯内容</a>  </li>
+                                <li><a href="adminArticleListAdmin.action" target="content">原创内容</a> </li>
+                            </ul>
+                        </li>
             <!--              <li><a class="menuitem">数据统计</a>
                             <ul class="submenu2">
                                 <li><a>投资统计</a> </li>

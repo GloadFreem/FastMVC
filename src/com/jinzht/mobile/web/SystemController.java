@@ -42,6 +42,9 @@ import com.jinzht.web.entity.Systemcode;
 import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Versioncontroll;
+import com.jinzht.web.entity.Webcontentimages;
+import com.jinzht.web.entity.Webcontenttype;
+import com.jinzht.web.entity.Weburlrecord;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.FeelingManager;
 import com.jinzht.web.manager.SystemManager;
@@ -743,7 +746,7 @@ public class SystemController extends BaseController {
 		return "ShareFeelingDetail";
 	}
 
-	// 分享圈子内容
+	// 金日投条
 	@RequestMapping(value = "/requestConsultList")
 	@ResponseBody
 	public Map requestConsultList(
@@ -753,7 +756,59 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 		List list = this.systemManger.getWebUrlRecordDao().findByPage(page, 10);
 
-		this.status = 200;
+		for (int i = 0; i < list.size(); i++) {
+			Weburlrecord record = (Weburlrecord) list.get(i);
+			if (record.getWebcontentimageses() != null
+					&& record.getWebcontentimageses().size() == 0) {
+				Webcontenttype type = new Webcontenttype();
+				if (record.getImage() != null) {
+					type.setTypeId(2);
+
+					Webcontentimages images = new Webcontentimages();
+					images.setUrl(record.getImage());
+					images.setWeburlrecord(record);
+
+					// 保存
+					this.systemManger.getContentImagesDAO().save(images);
+
+				} else {
+
+					type.setTypeId(1);
+				}
+
+				record.setWebcontenttype(type);
+
+				this.systemManger.getWebUrlRecordDao().saveOrUpdate(record);
+			}
+		}
+
+		if (list != null && list.size() > 0) {
+			this.status = 200;
+
+		} else {
+			this.status = 201;
+
+		}
+		this.result.put("data", list);
+		return getResult();
+	}
+
+	// 搜索金日投条
+	@RequestMapping(value = "/requestSearchConsultList")
+	@ResponseBody
+	public Map requestConsultList(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "keyWord", required = false) String keyWord,
+			@RequestParam(value = "version", required = false) Integer version,
+			ModelMap model) {
+		this.result = new HashMap();
+		List list = this.systemManger.getWebUrlRecordDao().searchByKeyWord(
+				page, 1, keyWord);
+		if (list != null && list.size() > 0) {
+			this.status = 200;
+		} else {
+			this.status = 200;
+		}
 		this.result.put("data", list);
 		return getResult();
 	}

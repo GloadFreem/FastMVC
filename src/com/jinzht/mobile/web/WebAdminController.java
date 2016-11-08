@@ -66,6 +66,7 @@ import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Member;
 import com.jinzht.web.entity.MessageBean;
+import com.jinzht.web.entity.Messagetype;
 import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Rewardsystem;
@@ -76,6 +77,7 @@ import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Systemuser;
 import com.jinzht.web.entity.Team;
 import com.jinzht.web.entity.Users;
+import com.jinzht.web.entity.Webcontenttype;
 import com.jinzht.web.entity.Weburlrecord;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.ActionManager;
@@ -87,6 +89,14 @@ import com.jinzht.web.manager.SystemManager;
 import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.manager.WebManager;
 import com.jinzht.web.test.User;
+import com.message.Enity.Msg;
+import com.message.Enity.MsgDetail;
+import com.message.Enity.MsgImages;
+import com.message.Enity.Original;
+import com.message.Enity.OriginalDetail;
+import com.message.Enity.OriginalImg;
+import com.message.manager.MainManager;
+import com.message.manager.MessageMananger;
 
 @Controller
 public class WebAdminController extends BaseController {
@@ -104,6 +114,10 @@ public class WebAdminController extends BaseController {
 	private ActionManager actionManaer;
 	@Autowired
 	private FeelingManager feelingManager;
+	@Autowired
+	private MessageMananger messageManager;
+	@Autowired
+	private MainManager mainManager;
 
 	@RequestMapping(value = "/admin/adminLogin")
 	public String webEditor() {
@@ -1293,12 +1307,12 @@ public class WebAdminController extends BaseController {
 		List authenticStatus = this.authenticManager.getAuthenticStatus()
 				.findAll();
 
-//		int left = count % size;
+		// int left = count % size;
 		size = count / size;
-//		if(left>0)
-//		{
-//			size++;
-//		}
+		// if(left>0)
+		// {
+		// size++;
+		// }
 		List pageSize = new ArrayList();
 		int index = 1;
 		if (size > 10 && page > 10) {
@@ -2773,6 +2787,10 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "messageId", required = false) Integer messageId,
 			@RequestParam(value = "authId", required = false) final Integer authId,
 			@RequestParam(value = "title", required = false) final String title,
+			@RequestParam(value = "shareTitle", required = false) final String shareTitle,
+			@RequestParam(value = "shareIntroduce", required = false) final String shareIntroduce,
+			@RequestParam(value = "shareImage", required = false) final String shareImage,
+			@RequestParam(value = "shareUrl", required = false) final String shareUrl,
 			@RequestParam(value = "content", required = false) final String content,
 			@RequestParam(value = "publicDate", required = false) String publicDate,
 			ModelMap map, HttpSession session) throws Exception {
@@ -2787,7 +2805,7 @@ public class WebAdminController extends BaseController {
 		} else {
 			message = new Systemmessage();
 		}
-		
+
 		final Users user;
 
 		if (authId != null) {
@@ -2799,14 +2817,21 @@ public class WebAdminController extends BaseController {
 
 				message.setUsers(user);
 			} else {
-				user=null;
+				user = null;
 			}
-		}else{
+		} else {
 			user = null;
 		}
 
 		message.setTitle(title);
 		message.setContent(content);
+		
+		//消息类型
+		Messagetype type = new Messagetype();
+		type.setMessageTypeId(4);
+		message.setMessagetype(type);
+		
+		
 		Date date = DateUtils.stringToDate(publicDate,
 				DateUtils.DATETIME_FORMAT);
 		if (date != null) {
@@ -2818,27 +2843,27 @@ public class WebAdminController extends BaseController {
 		} else {
 			this.systemManger.getSystemMessageDao().save(message);
 		}
-		
-		
-		//开始推送
-		new Thread()
-		{
+
+		// 开始推送
+		new Thread() {
 			public void run() {
 				PushUtil pushUtil = new PushUtil();
 				pushUtil.setTitle(title);
+				pushUtil.setShareUrl(shareUrl);
 				pushUtil.setContent(content);
-				if(authId!=-1)
-				{
-					if(user!=null && !user.getRegId().equals(null))
-					{
+				pushUtil.setWebViewTitle(shareTitle);
+				pushUtil.setShareImage(shareImage);
+				pushUtil.setShareIntroduce(shareIntroduce);
+				if (authId != -1) {
+					if (user != null && !user.getRegId().equals(null)) {
 						pushUtil.setRegId(user.getRegId());
 						pushUtil.setPlatform(user.getPlatform());
 						pushUtil.send();
-					}else{
+					} else {
 						pushUtil.setIsAllPush(true);
 						pushUtil.send();
 					}
-				}else{
+				} else {
 					pushUtil.setIsAllPush(true);
 					pushUtil.send();
 				}
@@ -2860,10 +2885,9 @@ public class WebAdminController extends BaseController {
 		map.put("data", users);
 		return map;
 	}
-	
-	
+
 	@RequestMapping(value = "/admin/adminSearchUserListByName")
-	public String  adminSearchUserListByName(
+	public String adminSearchUserListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -2877,7 +2901,8 @@ public class WebAdminController extends BaseController {
 		}
 		List<User> list = this.userManager.findUserListByName(name);
 		Integer count = list.size();
-//		List<Users> list = this.userManager.getUserDao().findByPage(page, size);
+		// List<Users> list = this.userManager.getUserDao().findByPage(page,
+		// size);
 		size = count / size;
 		List pageSize = new ArrayList();
 
@@ -2917,8 +2942,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/Users/userList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchAuthenticListByName")
-	public String  adminSearchAuthenticListByName(
+	public String adminSearchAuthenticListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -2926,15 +2952,16 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
-		List<Authentic> list = this.userManager.getAuthenticDao().findByName(name);
+		List<Authentic> list = this.userManager.getAuthenticDao().findByName(
+				name);
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -2952,7 +2979,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -2962,7 +2989,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -2971,8 +2998,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/Users/userAuthenticList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchProjectListByName")
-	public String  adminSearchProjectListByName(
+	public String adminSearchProjectListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -2980,15 +3008,16 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
-		List<Project> list = this.projectManager.getProjectDao().findByName(name);
+		List<Project> list = this.projectManager.getProjectDao().findByName(
+				name);
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -3006,7 +3035,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -3016,7 +3045,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -3025,8 +3054,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/project/projectList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchActionListByName")
-	public String  adminSearchActionListByName(
+	public String adminSearchActionListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -3034,7 +3064,7 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
@@ -3042,7 +3072,7 @@ public class WebAdminController extends BaseController {
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -3060,7 +3090,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -3070,7 +3100,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -3079,8 +3109,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/action/actionList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchFinanceStandingListByName")
-	public String  adminSearchFinanceStandingListByName(
+	public String adminSearchFinanceStandingListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -3088,25 +3119,24 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
-		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
-		
+		List<Project> projects = this.projectManager.getProjectDao()
+				.findByName(name);
+
 		List list = new ArrayList();
-		for(Project p : projects)
-		{
+		for (Project p : projects) {
 			Object[] objs = p.getFinancialstandings().toArray();
-			if(objs!=null && objs.length>0)
-			{
+			if (objs != null && objs.length > 0) {
 				list.add(objs[0]);
 			}
 		}
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -3124,7 +3154,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -3134,7 +3164,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -3143,8 +3173,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/project/financeStandingList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchBuinessPlanListByName")
-	public String  adminSearchBuinessPlanListByName(
+	public String adminSearchBuinessPlanListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -3152,25 +3183,24 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
-		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
-		
+		List<Project> projects = this.projectManager.getProjectDao()
+				.findByName(name);
+
 		List list = new ArrayList();
-		for(Project p : projects)
-		{
+		for (Project p : projects) {
 			Object[] objs = p.getBusinessplans().toArray();
-			if(objs!=null && objs.length>0)
-			{
+			if (objs != null && objs.length > 0) {
 				list.add(objs[0]);
 			}
 		}
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -3188,7 +3218,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -3198,7 +3228,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -3207,8 +3237,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/project/bussinessPlanList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchFinanceCaseListByName")
-	public String  adminSearchFinanceCaseListByName(
+	public String adminSearchFinanceCaseListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -3216,25 +3247,24 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
-		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
-		
+		List<Project> projects = this.projectManager.getProjectDao()
+				.findByName(name);
+
 		List list = new ArrayList();
-		for(Project p : projects)
-		{
+		for (Project p : projects) {
 			Object[] objs = p.getFinancingcases().toArray();
-			if(objs!=null && objs.length>0)
-			{
+			if (objs != null && objs.length > 0) {
 				list.add(objs[0]);
 			}
 		}
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -3252,7 +3282,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -3262,7 +3292,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -3271,8 +3301,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/project/financeCaseList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchFinanceExitListByName")
-	public String  adminSearchFinanceExitListByName(
+	public String adminSearchFinanceExitListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -3280,25 +3311,24 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
-		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
-		
+		List<Project> projects = this.projectManager.getProjectDao()
+				.findByName(name);
+
 		List list = new ArrayList();
-		for(Project p : projects)
-		{
+		for (Project p : projects) {
 			Object[] objs = p.getFinancingexits().toArray();
-			if(objs!=null && objs.length>0)
-			{
+			if (objs != null && objs.length > 0) {
 				list.add(objs[0]);
 			}
 		}
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -3316,7 +3346,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -3326,7 +3356,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -3335,8 +3365,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/project/financeExitList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchMemberListByName")
-	public String  adminSearchMemberListByName(
+	public String adminSearchMemberListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -3344,25 +3375,24 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
-		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
-		
+		List<Project> projects = this.projectManager.getProjectDao()
+				.findByName(name);
+
 		List list = new ArrayList();
-		for(Project p : projects)
-		{
+		for (Project p : projects) {
 			Object[] objs = p.getMembers().toArray();
-			if(objs!=null && objs.length>0)
-			{
+			if (objs != null && objs.length > 0) {
 				list.add(objs[0]);
 			}
 		}
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -3380,7 +3410,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -3390,7 +3420,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -3399,8 +3429,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/project/membersList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchTeamListByName")
-	public String  adminSearchTeamListByName(
+	public String adminSearchTeamListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -3408,25 +3439,24 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
-		List<Project> projects = this.projectManager.getProjectDao().findByName(name);
-		
+		List<Project> projects = this.projectManager.getProjectDao()
+				.findByName(name);
+
 		List list = new ArrayList();
-		for(Project p : projects)
-		{
+		for (Project p : projects) {
 			Object[] objs = p.getTeams().toArray();
-			if(objs!=null && objs.length>0)
-			{
+			if (objs != null && objs.length > 0) {
 				list.add(objs[0]);
 			}
 		}
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -3444,7 +3474,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -3454,7 +3484,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -3463,8 +3493,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/project/teamsList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchRoadShowListByName")
-	public String  adminSearchRoadShowListByName(
+	public String adminSearchRoadShowListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -3472,25 +3503,24 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
-		List<Project> projectList = this.projectManager.getProjectDao().findByName(name);
+		List<Project> projectList = this.projectManager.getProjectDao()
+				.findByName(name);
 		List list = new ArrayList();
-		for(int i = 0;i<projectList.size();i++)
-		{
-			if(projectList.get(i).getRoadshows()!=null)
-			{
+		for (int i = 0; i < projectList.size(); i++) {
+			if (projectList.get(i).getRoadshows() != null) {
 				Object[] obj = projectList.get(i).getRoadshows().toArray();
-				
+
 				list.add(obj[0]);
 			}
 		}
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -3508,7 +3538,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -3518,7 +3548,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -3527,8 +3557,9 @@ public class WebAdminController extends BaseController {
 		map.put("key", name);
 		return "/admin/project/roadShowList";
 	}
+
 	@RequestMapping(value = "/admin/adminSearchSceneListByName")
-	public String  adminSearchSceneListByName(
+	public String adminSearchSceneListByName(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "name", required = false) String name,
@@ -3536,24 +3567,24 @@ public class WebAdminController extends BaseController {
 		if (page == null) {
 			page = 0;
 		}
-		
+
 		if (size == null) {
 			size = 10;
 		}
-		List<Project> projectList = this.projectManager.getProjectDao().findByName(name);
+		List<Project> projectList = this.projectManager.getProjectDao()
+				.findByName(name);
 		List list = new ArrayList();
-		for(int i = 0;i<projectList.size();i++)
-		{
-			List l = this.projectManager.findSceneByProjectId(projectList.get(i).getProjectId(), null);
-			if(l!=null && l.size()>0)
-			{
-				list.add(l.get(0)); 
+		for (int i = 0; i < projectList.size(); i++) {
+			List l = this.projectManager.findSceneByProjectId(projectList
+					.get(i).getProjectId(), null);
+			if (l != null && l.size() > 0) {
+				list.add(l.get(0));
 			}
 		}
 		Integer count = list.size();
 		size = count / size;
 		List pageSize = new ArrayList();
-		
+
 		int index = 1;
 		if (size > 10 && page > 10) {
 			index = page - 5;
@@ -3571,7 +3602,7 @@ public class WebAdminController extends BaseController {
 					if (d == 10) {
 						break;
 					}
-					
+
 					d++;
 					pageSize.add(i);
 				}
@@ -3581,7 +3612,7 @@ public class WebAdminController extends BaseController {
 				}
 			}
 		}
-		
+
 		map.put("items", list.iterator());
 		map.put("page", page);
 		map.put("count", count);
@@ -4554,7 +4585,7 @@ public class WebAdminController extends BaseController {
 		plan.setBeginDate(new Date());
 		plan.setEndDate(new Date());
 		plan.setFinancedMount(account);
-		
+
 		this.projectManager.getRoadShowPlanDao().save(plan);
 		roadShow.setRoadshowplan(plan);
 
@@ -4631,8 +4662,707 @@ public class WebAdminController extends BaseController {
 
 			this.projectManager.getTeamDao().save(team);
 		}
-		 return "redirect:http://www.jinzht.com/app/submitSuccess/";
-//		return "redirect:http://www.jinzht.com/app/submitFail/";
+		return "redirect:http://www.jinzht.com/app/submitSuccess/";
+		// return "redirect:http://www.jinzht.com/app/submitFail/";
 	}
 
+	@RequestMapping(value = "admin/adminNewsContentListAdmin")
+	/***
+	 * 
+	 */
+	public String adminNewsContentListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		Integer count = this.messageManager.getMsgDao().countOfAllRecords();
+		List<Users> list = this.messageManager.getMsgDao().findByPage(page,
+				size);
+		size = count / size;
+		List pageSize = new ArrayList();
+
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+
+		return "admin/NewsContent/contentList";
+	}
+
+	@RequestMapping(value = "admin/adminArticleListAdmin")
+	/***
+	 * 
+	 */
+	public String adminArticleListAdmin(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		Integer count = this.mainManager.getOrigianlDao().countOfAllRecords();
+		List<Users> list = this.mainManager.getOrigianlDao().findByPage(page,
+				size);
+		size = count / size;
+		List pageSize = new ArrayList();
+
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+
+		return "admin/NewsContent/articesList";
+	}
+
+	@RequestMapping(value = "/admin/adminSearchContentsListByKey")
+	public String adminSearchContentsListByKey(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		List list = this.messageManager.getMsgDao().findByName(name);
+		Integer count = list.size();
+		// List<Users> list = this.userManager.getUserDao().findByPage(page,
+		// size);
+		size = count / size;
+		List pageSize = new ArrayList();
+
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+
+		return "admin/NewsContent/contentList";
+	}
+
+	@RequestMapping(value = "/admin/adminSearchArticesListByKey")
+	public String adminSearchArticesListByKey(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "name", required = false) String name,
+			ModelMap map) {
+		if (page == null) {
+			page = 0;
+		}
+
+		if (size == null) {
+			size = 10;
+		}
+		List list = this.mainManager.getOrigianlDao().findByName(name);
+		Integer count = list.size();
+		// List<Users> list = this.userManager.getUserDao().findByPage(page,
+		// size);
+		size = count / size;
+		List pageSize = new ArrayList();
+
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+		map.put("key", name);
+
+		return "admin/NewsContent/articesList";
+	}
+
+	/***
+	 * 编辑资讯内容
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminEditNewsInfo")
+	public String adminEditNewsContent(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap map) {
+		if (contentId != null) {
+			Msg msg = this.messageManager.getMsgDao().findById(contentId);
+			map.put("msg", msg);
+		}
+
+		List list = new ArrayList();
+		Map dataMap = new HashMap();
+		dataMap.put("key", 1);
+		dataMap.put("value", "无图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 2);
+		dataMap.put("value", "小图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 3);
+		dataMap.put("value", "大图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 4);
+		dataMap.put("value", "多图模式");
+		list.add(dataMap);
+
+		map.put("options", list);
+		return "test/editNewsContent";
+	}
+
+	/***
+	 * 编辑资讯内容
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminAddNewsInfo")
+	public String adminAddNewsInfo(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "original", required = false) String original,
+			@RequestParam(value = "image", required = false) String image,
+			@RequestParam(value = "type", required = false) Integer type,
+			@RequestParam(value = "editorValue", required = false) String content,
+			@RequestParam(value = "publicDate", required = false) String publicDate,
+			HttpSession session, ModelMap map) {
+		Msg msg;
+		if (contentId != null) {
+			msg = this.messageManager.getMsgDao().findById(contentId);
+		} else {
+			msg = new Msg();
+		}
+
+		Webcontenttype contentType = new Webcontenttype();
+		contentType.setTypeId(type);
+		msg.setTitle(title);
+		msg.setOringl(original);
+		msg.setPublicDate(new Date());
+		msg.setWebcontenttype(contentType);
+
+		MsgDetail detail;
+		if (msg.getMsgDetails() != null && msg.getMsgDetails().size() > 0) {
+			Object[] obj = msg.getMsgDetails().toArray();
+			detail = (MsgDetail) obj[0];
+			detail.setContent(content);
+		} else {
+			detail = new MsgDetail();
+			detail.setMsg(msg);
+			detail.setContent(content);
+
+			// 保存
+			this.messageManager.getMsgDetailDAO().save(detail);
+
+			// 保存关系
+			Set set = new HashSet();
+			set.add(detail);
+
+			msg.setMsgDetails(set);
+		}
+
+		List l = (List) session.getAttribute("News");
+
+		Set set = new HashSet();
+		if (image != null && !image.equals("") && l == null || l.size() == 0) {
+
+			if (type != 4 && type != 1) {
+				Object[] objs = msg.getMsgImageses().toArray();
+				MsgImages images = (MsgImages) objs[0];
+				this.messageManager.getMsgImagesDao().delete(images);
+			} else {
+				if (msg.getMsgImageses().size() >= 3) {
+					Object[] objs = msg.getMsgImageses().toArray();
+					MsgImages images = (MsgImages) objs[0];
+					this.messageManager.getMsgImagesDao().delete(images);
+				}
+			}
+
+			MsgImages images = new MsgImages();
+			images.setMsg(msg);
+			images.setUrl(image);
+			this.messageManager.getMsgImagesDao().save(images);
+			set.add(images);
+		} else {
+			if (type != 4 && type != 1) {
+				for (int i = 0; i < msg.getMsgImageses().size(); i++) {
+					Object[] objs = msg.getMsgImageses().toArray();
+					MsgImages images = (MsgImages) objs[i];
+					this.messageManager.getMsgImagesDao().delete(images);
+				}
+			} else {
+				if (msg.getMsgImageses().size() == 3) {
+					for (int i = 0; i < l.size(); i++) {
+						Object[] objs = msg.getMsgImageses().toArray();
+						MsgImages images = (MsgImages) objs[i];
+						this.messageManager.getMsgImagesDao().delete(images);
+					}
+				}
+			}
+
+			int i = l.size() >= 3 ? 3 : l.size();
+			for (int j = 0; j < i; j++) {
+				MsgImages images = new MsgImages();
+				images.setUrl(l.get(j).toString());
+				images.setMsg(msg);
+				this.messageManager.getMsgImagesDao().save(images);
+				set.add(images);
+			}
+		}
+
+		msg.setMsgImageses(set);
+
+		if (contentId != null) {
+			this.messageManager.getMsgDao().saveOrUpdate(msg);
+		} else {
+			this.messageManager.getMsgDao().save(msg);
+		}
+
+		session.setAttribute("News", null);
+
+		List list = new ArrayList();
+		Map dataMap = new HashMap();
+		dataMap.put("key", 1);
+		dataMap.put("value", "无图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 2);
+		dataMap.put("value", "小图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 3);
+		dataMap.put("value", "大图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 4);
+		dataMap.put("value", "多图模式");
+		list.add(dataMap);
+
+		map.put("msg", msg);
+		map.put("options", list);
+		return "test/editNewsContent";
+	}
+
+	/***
+	 * 编辑资讯内容
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminAddOriginal")
+	public String adminAddOriginal(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "original", required = false) String original,
+			@RequestParam(value = "image", required = false) String image,
+			@RequestParam(value = "type", required = false) Integer type,
+			@RequestParam(value = "editorValue", required = false) String content,
+			@RequestParam(value = "publicDate", required = false) String publicDate,
+			HttpSession session, ModelMap map) {
+		Original msg;
+		if (contentId != null) {
+			msg = this.mainManager.getOrigianlDao().findById(contentId);
+		} else {
+			msg = new Original();
+		}
+
+		Webcontenttype contentType = new Webcontenttype();
+		contentType.setTypeId(type);
+		msg.setTitle(title);
+		msg.setOringl(original);
+		msg.setPublicDate(publicDate);
+		msg.setWebcontenttype(contentType);
+
+		OriginalDetail detail;
+		if (msg.getOriginalDetails() != null
+				&& msg.getOriginalDetails().size() > 0) {
+			Object[] obj = msg.getOriginalDetails().toArray();
+			detail = (OriginalDetail) obj[0];
+			detail.setOriginal(msg);
+			detail.setContent(content);
+		} else {
+			detail = new OriginalDetail();
+			detail.setOriginal(msg);
+			detail.setContent(content);
+
+			// 保存
+			this.mainManager.getOriginalDetailDao().save(detail);
+
+			// 保存关系
+			Set set = new HashSet();
+			set.add(detail);
+
+			msg.setOriginalDetails(set);
+		}
+
+		List l = (List) session.getAttribute("Original");
+
+		Set set = new HashSet();
+		if (image != null && !image.equals("") && l == null || l.size() == 0) {
+
+			if (type != 4 && type != 1) {
+				Object[] objs = msg.getOriginalImgs().toArray();
+				OriginalImg images = (OriginalImg) objs[0];
+				this.mainManager.getOriginalImgDao().delete(images);
+			} else {
+				if (msg.getOriginalDetails().size() >= 3) {
+					Object[] objs = msg.getOriginalDetails().toArray();
+					OriginalImg images = (OriginalImg) objs[0];
+					this.mainManager.getOriginalImgDao().delete(images);
+				}
+			}
+
+			OriginalImg images = new OriginalImg();
+			images.setOriginal(msg);
+			images.setUrl(image);
+			this.mainManager.getOriginalImgDao().save(images);
+			set.add(images);
+		} else {
+			if (type != 4 && type != 1) {
+				for (int i = 0; i < msg.getOriginalImgs().size(); i++) {
+					Object[] objs = msg.getOriginalImgs().toArray();
+					OriginalImg images = (OriginalImg) objs[i];
+					this.mainManager.getOriginalImgDao().delete(images);
+				}
+			} else {
+				if (msg.getOriginalImgs().size() == 3) {
+					for (int i = 0; i < l.size(); i++) {
+						Object[] objs = msg.getOriginalImgs().toArray();
+						OriginalImg images = (OriginalImg) objs[i];
+						this.mainManager.getOriginalImgDao().delete(images);
+					}
+				}
+			}
+
+			int i = l.size() >= 3 ? 3 : l.size();
+			for (int j = 0; j < i; j++) {
+				OriginalImg images = new OriginalImg();
+				images.setUrl(l.get(j).toString());
+				images.setOriginal(msg);
+				this.mainManager.getOriginalImgDao().save(images);
+				set.add(images);
+			}
+		}
+
+		msg.setOriginalImgs(set);
+
+		if (contentId != null) {
+			this.mainManager.getOrigianlDao().saveOrUpdate(msg);
+		} else {
+			this.mainManager.getOrigianlDao().save(msg);
+		}
+
+		session.setAttribute("Original", null);
+
+		List list = new ArrayList();
+		Map dataMap = new HashMap();
+		dataMap.put("key", 1);
+		dataMap.put("value", "无图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 2);
+		dataMap.put("value", "小图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 3);
+		dataMap.put("value", "大图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 4);
+		dataMap.put("value", "多图模式");
+		list.add(dataMap);
+
+		map.put("msg", msg);
+		map.put("options", list);
+		return "test/editArtices";
+	}
+
+	/***
+	 * 编辑资讯内容
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminDeleteNewsInfo")
+	public String adminDeleteNewsInfo(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap map) {
+		if (contentId != null) {
+			Msg msg = this.messageManager.getMsgDao().findById(contentId);
+			this.messageManager.getMsgDao().delete(msg);
+		}
+
+		int page = 0;
+		int size = 10;
+		Integer count = this.messageManager.getMsgDao().countOfAllRecords();
+		List<Users> list = this.messageManager.getMsgDao().findByPage(page,
+				size);
+		size = count / size;
+		List pageSize = new ArrayList();
+
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+
+		return "admin/NewsContent/contentList";
+	}
+
+	/***
+	 * 编辑资讯内容
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminEditArtic")
+	public String adminEditArtic(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap map) {
+		if (contentId != null) {
+			Original msg = this.mainManager.getOrigianlDao()
+					.findById(contentId);
+			map.put("msg", msg);
+		}
+
+		List list = new ArrayList();
+		Map dataMap = new HashMap();
+		dataMap.put("key", 1);
+		dataMap.put("value", "无图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 2);
+		dataMap.put("value", "小图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 3);
+		dataMap.put("value", "大图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 4);
+		dataMap.put("value", "多图模式");
+		list.add(dataMap);
+
+		map.put("options", list);
+		return "test/editArtices";
+	}
+
+	/***
+	 * 删除资讯内容
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin/adminDeleteArtic")
+	public String adminDeleteArtic(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			ModelMap map) {
+		if (contentId != null) {
+			Msg msg = this.messageManager.getMsgDao()
+					.findById(contentId);
+			this.messageManager.getMsgDao().delete(msg);
+		}
+
+		int page = 0;
+		int size = 10;
+		Integer count = this.mainManager.getOrigianlDao().countOfAllRecords();
+		List<Users> list = this.mainManager.getOrigianlDao().findByPage(page,
+				size);
+		size = count / size;
+		List pageSize = new ArrayList();
+
+		int index = 1;
+		if (size > 10 && page > 10) {
+			index = page - 5;
+			int d = 1;
+			for (int i = index; i <= page + 4; i++) {
+				if (i > size) {
+					break;
+				}
+				pageSize.add(i);
+			}
+		} else {
+			if (size > 10 && page <= 10) {
+				int d = 0;
+				for (int i = index; i <= size; i++) {
+					if (d == 10) {
+						break;
+					}
+
+					d++;
+					pageSize.add(i);
+				}
+			} else {
+				for (int i = index; i <= size; i++) {
+					pageSize.add(i);
+				}
+			}
+		}
+
+		map.put("items", list.iterator());
+		map.put("page", page);
+		map.put("count", count);
+		map.put("size", size);
+		map.put("pageItem", pageSize);
+
+		return "admin/NewsContent/articesList";
+	}
 }

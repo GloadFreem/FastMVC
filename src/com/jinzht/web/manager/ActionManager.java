@@ -88,6 +88,7 @@ public class ActionManager {
 				action.setActionprises(null);
 				action.setActionimages(null);
 				action.setDescription(null);
+				action.setActionintroduces(null);
 
 			}
 		}

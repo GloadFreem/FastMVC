@@ -84,7 +84,9 @@ public class ActionController extends BaseController {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
-			List list = this.actionManager.findActionByCursor(page, user,version);
+			List list = this.actionManager.findActionByCursor(page, user,
+					version);
+
 			if (list != null && list.size() > 0) {
 				this.status = 200;
 				this.result.put("data", list);
@@ -120,7 +122,7 @@ public class ActionController extends BaseController {
 		} else {
 			// 查看当前操作状态，1:点赞,2:取消点赞
 			Action action = this.actionManager.findActionById(contentId);
-			//获取用户是否已经报名参加
+			// 获取用户是否已经报名参加
 			Attention attention = this.actionManager
 					.findAttentionByActionIdAndUser(action, user);
 			if (attention == null) {
@@ -195,20 +197,21 @@ public class ActionController extends BaseController {
 
 				flag = 1;
 			}
-			
-			if(user.getName()==null || user.getName().equals(""))
-			{
-				if(user.getTelephone()!=null&&!user.getTelephone().equals(""))
-				{
+
+			if (user.getName() == null || user.getName().equals("")) {
+				if (user.getTelephone() != null
+						&& !user.getTelephone().equals("")) {
 					String telephone = user.getTelephone();
 					Integer length = telephone.length();
-					String name = "用户"+telephone.substring(length-4, length);
+					String name = "用户"
+							+ telephone.substring(length - 4, length);
 					user.setName(name);
-				}else{
+				} else {
 					String userId = user.getUserId().toString();
 					Integer length = userId.length();
-					String name =length>4?userId.substring(length-4, length):userId;
-					name = "用户"+name;
+					String name = length > 4 ? userId.substring(length - 4,
+							length) : userId;
+					name = "用户" + name;
 					user.setName(name);
 				}
 			}
@@ -263,7 +266,7 @@ public class ActionController extends BaseController {
 			comment.setContent(content);
 			comment.setAction(action);
 			comment.setUsersByUserId(user);
-			if (flag != 1 && userId!= null && userId!=0) {
+			if (flag != 1 && userId != null && userId != 0) {
 				Users atUser = this.userManager.findUserById(userId);
 				comment.setUsersByAtUserId(atUser);
 				comment.setAtUserName(atUser.getName());
@@ -285,65 +288,65 @@ public class ActionController extends BaseController {
 			} else {
 				user1.setName("");
 			}
-			
-			if(user1.getName()==null || user1.getName().equals(""))
-			{
-				
-				if(user.getTelephone()!=null &&!user.getTelephone().equals(""))
-				{
+
+			if (user1.getName() == null || user1.getName().equals("")) {
+
+				if (user.getTelephone() != null
+						&& !user.getTelephone().equals("")) {
 					String telephone = user.getTelephone();
 					Integer length = telephone.length();
-					String name = "用户" + telephone.substring(length - 4, length);
+					String name = "用户"
+							+ telephone.substring(length - 4, length);
 					comment.setUserName(name);
-				}else{
+				} else {
 					String userIdStr = user.getUserId().toString();
 					Integer length = userIdStr.length();
-					String name =length>4?userIdStr.substring(length-4, length):userIdStr;
-					name = "用户"+name;
+					String name = length > 4 ? userIdStr.substring(length - 4,
+							length) : userIdStr;
+					name = "用户" + name;
 					comment.setUserName(name);
 				}
 			}
-			
+
 			user1.setAuthentics(null);
 			user1.setUserstatus(null);
 			user1.setTelephone(null);
 			user1.setPassword(null);
 			user1.setPlatform(null);
 			user1.setLastLoginDate(null);
-			
+
 			comment.setUsersByUserId(user1);
 
 			user1 = comment.getUsersByAtUserId();
 			if (user1 != null) {
-//				if (user.getAuthentics() != null) {
-//					Object[] l = user.getAuthentics().toArray();
-//					if (l.length > 0) {
-//						Authentic authentic = (Authentic) l[0];
-//						user1.setName(authentic.getName());
-//					} else {
-//						user1.setName("");
-//					}
-//
-//				} else {
-//					user1.setName("");
-//				}
-				if(user1.getName()==null || user1.getName().equals(""))
-				{
+				// if (user.getAuthentics() != null) {
+				// Object[] l = user.getAuthentics().toArray();
+				// if (l.length > 0) {
+				// Authentic authentic = (Authentic) l[0];
+				// user1.setName(authentic.getName());
+				// } else {
+				// user1.setName("");
+				// }
+				//
+				// } else {
+				// user1.setName("");
+				// }
+				if (user1.getName() == null || user1.getName().equals("")) {
 					String telephone = user1.getTelephone();
 					Integer length = telephone.length();
-					String name = "用户"+telephone.substring(length-4, length);
+					String name = "用户"
+							+ telephone.substring(length - 4, length);
 					user1.setName(name);
 					comment.setAtUserName(name);
 				}
-				
+
 				user1.setAuthentics(null);
 				user1.setUserstatus(null);
 				user1.setTelephone(null);
 				user1.setPassword(null);
 				user1.setPlatform(null);
 				user1.setLastLoginDate(null);
-				
-				
+
 				comment.setUsersByAtUserId(user1);
 			}
 
@@ -391,20 +394,20 @@ public class ActionController extends BaseController {
 			shareType.setShareTypeId(type);
 			share.setSharetype(shareType);
 			share.setShareDate(new Date());
-			share.setTitle(action.getName()+"--【金指投投融资】");
+			share.setTitle(action.getName() + "--【金指投投融资】");
 			share.setContent(action.getDescription());
-			share.setUrl(Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_ACTION)+"?actionId="+action.getActionId());
+			share.setUrl(Tools
+					.generateWebUrl(Config.STRING_SYSTEM_SHARE_ACTION)
+					+ "?actionId=" + action.getActionId());
 
 			Object[] images = action.getActionimages().toArray();
-			if(images!=null && images.length>0)
-			{
+			if (images != null && images.length > 0) {
 				Actionimages image = (Actionimages) images[0];
 				share.setImage(image.getUrl());
-			}else
-			{
+			} else {
 				share.setImage("https://is1-ssl.mzstatic.com/image/thumb/Purple60/v4/3a/9c/09/3a9c09aa-5e86-4185-4b6c-b3e282e45d86/pr_source.png/500x500bb.jpg");
 			}
-				
+
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
 
@@ -430,7 +433,7 @@ public class ActionController extends BaseController {
 	 */
 	public Map requestDetailAction(
 			@RequestParam(value = "contentId") Integer contentId,
-			@RequestParam(value = "version",required=false) Integer version,
+			@RequestParam(value = "version", required = false) Integer version,
 			HttpSession session) {
 
 		this.result = new HashMap();
@@ -454,27 +457,23 @@ public class ActionController extends BaseController {
 			action.setActionimages(set);
 			action.setActionprises(null);
 			action.setAttentions(null);
-			
-			//兼容3.1.0版本活动升级
-			if(version!=null && version==1)
-			{
+
+			// 兼容3.1.0版本活动升级
+			if (version != null && version == 1) {
 				action.setDescription(null);
 			}
-			
-			
-			Attention attention = this.actionManager.findAttentionByActionIdAndUser(action, user);
-			if(attention!=null)
-			{
+
+			Attention attention = this.actionManager
+					.findAttentionByActionIdAndUser(action, user);
+			if (attention != null) {
 				action.setAttended(true);
 			}
-			
-			Actionprise prise =this.actionManager.findPriseByActionIdAndUser(action, user);
-			if(prise!=null)
-			{
+
+			Actionprise prise = this.actionManager.findPriseByActionIdAndUser(
+					action, user);
+			if (prise != null) {
 				action.setFlag(true);
 			}
-			
-			
 
 			// 封装返回结果
 			this.status = 200;
@@ -483,6 +482,270 @@ public class ActionController extends BaseController {
 		}
 
 		return getResult();
+	}
+
+	@RequestMapping(value = "/requestActionDetail")
+	/***
+	 * 活动详情
+	 * @param contentId
+	 * @param session
+	 * @return
+	 */
+	public String requestActionDetail(
+			@RequestParam(value = "contentId") Integer contentId,
+			@RequestParam(value = "version", required = false) Integer version,
+			ModelMap map, HttpSession session) {
+
+		this.result = new HashMap();
+		this.result.put("data", "");
+
+		// 查看当前操作状态，1:评论,2:回复
+		Action action = this.actionManager.findActionById(contentId);
+		// 获取活动图片
+		List list = this.actionManager.findImagesListByAction(action);
+		Set set = new HashSet();
+		for (int i = 0; i < list.size(); i++) {
+			set.add(list.get(i));
+		}
+		
+		action.setActionimages(set);
+		action.setActionprises(null);
+		action.setAttentions(null);
+
+		// 兼容3.1.0版本活动升级
+		if (version != null && version == 1) {
+			action.setDescription(null);
+		}
+
+		Attention attention;
+		Actionprise prise;
+		
+		// Attention attention = this.actionManager
+		// .findAttentionByActionIdAndUser(action, user);
+		// if (attention != null) {
+		// action.setAttended(true);
+		// }
+		//
+		// Actionprise prise = this.actionManager.findPriseByActionIdAndUser(
+		// action, user);
+		// if (prise != null) {
+		// action.setFlag(true);
+		// }
+
+		// 报名人数
+		List listAttends = this.actionManager.findAttentionListByAction(action,
+				0);
+		List l = new ArrayList();
+		for (int i = 0; i < listAttends.size(); i++) {
+			attention = (Attention) listAttends.get(i);
+			Integer userId = this.actionManager.findUserByAttention(attention);
+			if (userId != null) {
+				Users u = this.userManager.findUserById(userId);
+				String telephone = u.getTelephone();
+				Object[] objs = u.getAuthentics().toArray();
+				if (objs != null && objs.length > 0) {
+					Authentic authentic = (Authentic) objs[0];
+					authentic.setIdentiytype(null);
+					authentic.setIdentiyCarA(null);
+					authentic.setIdentiyCarB(null);
+					authentic.setIdentiyCarNo(null);
+					authentic.setAuthenticstatus(null);
+					authentic.setBuinessLicence(null);
+					authentic.setBuinessLicenceNo(null);
+					authentic.setCompanyIntroduce(null);
+					authentic.setCompanyAddress(null);
+					authentic.setOptional(null);
+					authentic.setIndustoryArea(null);
+					authentic.setIntroduce(null);
+					authentic.setAutrhrecords(null);
+					authentic.setCity(null);
+					authentic.setAuthId(null);
+
+					if (authentic.getName() == null
+							|| authentic.getName().equals("")) {
+						if (telephone != null && telephone.equals("")) {
+							Integer length = telephone.length();
+							String name = "用户"
+									+ telephone.substring(length - 4, length);
+							authentic.setName(name);
+						} else {
+							String userIdStr = u.getUserId().toString();
+							Integer length = userIdStr.length();
+							String name = length > 4 ? userIdStr.substring(
+									length - 4, length) : userIdStr;
+							name = "用户" + name;
+							authentic.setName(name);
+						}
+					}
+
+					u.setLastLoginDate(null);
+					u.setName(authentic.getName());
+					u.setTelephone(null);
+					u.setPlatform(null);
+					u.setPassword(null);
+					u.setExtUserId(null);
+					u.getAuthentics().clear();
+					u.getAuthentics().add(authentic);
+
+					attention.setUsers(u);
+				} else {
+					u.setName("匿名用户");
+				}
+
+				attention.setUserName(u.getName());
+
+				// if(attention.getUserName()==null ||
+				// attention.getUserName().equals(""))
+				// {
+				// Integer length = telephone.length();
+				// String name = "用户"+telephone.substring(length-4, length);
+				// attention.setUserName(name);
+				// }
+
+				l.add(attention);
+			}
+
+		}
+
+		// 评论
+		List comments = this.actionManager
+				.findCommentListByAction(action, 0, 0);
+		List commentsList = new ArrayList();
+
+		for (int i = 0; i < comments.size(); i++) {
+			Actioncomment comment = (Actioncomment) comments.get(i);
+			Integer userId = this.actionManager.findUserIdByCommentId(comment);
+			if (userId != null) {
+				Users u = this.userManager.findUserById(userId);
+
+				if (u.getAuthentics() != null) {
+					Object[] objs = u.getAuthentics().toArray();
+					objs = u.getAuthentics().toArray();
+					if (objs != null && objs.length > 0) {
+						Authentic authentic = (Authentic) objs[0];
+						u.setName(authentic.getName());
+					} else {
+						u.setName("匿名用户");
+					}
+				} else {
+					u.setName("匿名用户");
+				}
+				Users temp = new Users();
+				temp.setName(null);
+				temp.setAuthentics(null);
+				temp.setUserId(u.getUserId());
+				comment.setUsersByUserId(temp);
+				comment.setUserName(u.getName());
+
+				if (comment.getUserName() == null
+						|| comment.getUserName().equals("")) {
+					if (u.getTelephone() != null
+							&& !u.getTelephone().equals("")) {
+						String telephone = u.getTelephone();
+						Integer length = telephone.length();
+						String name = "用户"
+								+ telephone.substring(length - 4, length);
+						comment.setUserName(name);
+					} else {
+						String userIdStr = u.getUserId().toString();
+						Integer length = userIdStr.length();
+						String name = length > 4 ? userIdStr.substring(
+								length - 4, length) : userIdStr;
+						name = "用户" + name;
+						comment.setUserName(name);
+					}
+				}
+
+				Integer atUserId = this.actionManager
+						.findAtUserIdByCommentId(comment);
+				if (atUserId != null) {
+					u = this.userManager.findUserById(atUserId);
+					if (u != null && u.getAuthentics() != null) {
+						Object[] objs = u.getAuthentics().toArray();
+						objs = u.getAuthentics().toArray();
+						if (objs != null && objs.length > 0) {
+							Authentic authentic = (Authentic) objs[0];
+							u.setName(authentic.getName());
+						} else {
+							u.setName("匿名用户");
+						}
+						comment.setAtUserName(u.getName());
+
+						if (comment.getUserName() == null
+								|| comment.getUserName().equals("")) {
+
+							if (u.getTelephone() != null
+									&& !u.getTelephone().equals("")) {
+								String telephone = u.getTelephone();
+								Integer length = telephone.length();
+								String name = "用户"
+										+ telephone.substring(length - 4,
+												length);
+								comment.setUserName(name);
+							} else {
+								String userIdStr = u.getUserId().toString();
+								Integer length = userIdStr.length();
+								String name = length > 4 ? userIdStr.substring(
+										length - 4, length) : userIdStr;
+								name = "用户" + name;
+								comment.setUserName(name);
+							}
+						}
+					}
+
+					comment.setUsersByAtUserId(null);
+				}
+
+				commentsList.add(comment);
+			}
+
+		}
+		map.put("comments", commentsList);
+
+		// 点赞
+		List priseList = this.actionManager.findPriseListByAction(action);
+		set = new HashSet();
+		for (int i = priseList.size() - 1; i >= 0; i--) {
+			prise = (Actionprise) priseList.get(i);
+
+			Integer userId = this.actionManager.findActionPriseUserId(prise);
+
+			Users u = this.userManager.findUserById(userId);
+
+			Object[] objs = u.getAuthentics().toArray();
+			if (objs != null && objs.length > 0) {
+				Authentic authentic = (Authentic) objs[0];
+				u.setName(authentic.getName());
+			} else {
+				u.setName("匿名用户");
+			}
+
+			if (u.getName() == null || u.getName().equals("")) {
+
+				if (u.getTelephone() != null && !u.getTelephone().equals("")) {
+					String telephone = u.getTelephone();
+					Integer length = telephone.length();
+					String name = "用户"
+							+ telephone.substring(length - 4, length);
+					u.setName(name);
+				} else {
+					String userIdStr = u.getUserId().toString();
+					Integer length = userIdStr.length();
+					String name = length > 4 ? userIdStr.substring(length - 4,
+							length) : userIdStr;
+					name = "用户" + name;
+					u.setName(name);
+				}
+			}
+
+			set.add(u.getName());
+		}
+		map.put("prises", set);
+		map.put("attends", l);
+		map.put("action", action);
+
+		return "action/SportDetail";
+
 	}
 
 	@RequestMapping(value = "/requestPriseListAction")
@@ -496,7 +759,7 @@ public class ActionController extends BaseController {
 	public Map requestPriseListAction(
 			@RequestParam(value = "contentId") Integer contentId,
 			@RequestParam(value = "page") Integer page,
-			@RequestParam(value = "platform",required=false) Integer platform,
+			@RequestParam(value = "platform", required = false) Integer platform,
 			HttpSession session) {
 
 		this.result = new HashMap();
@@ -511,22 +774,21 @@ public class ActionController extends BaseController {
 		} else {
 			// 查看当前操作状态，1:评论,2:回复
 			Action action = this.actionManager.findActionById(contentId);
-			if(platform==null)
-			{
-				platform=0;
+			if (platform == null) {
+				platform = 0;
 			}
-			
+
 			// 评论
-			List list = this.actionManager
-					.findCommentListByAction(action, page,platform);
+			List list = this.actionManager.findCommentListByAction(action,
+					page, platform);
 			List l = new ArrayList();
 			Map map = new HashMap();
 
 			for (int i = 0; i < list.size(); i++) {
 				Actioncomment comment = (Actioncomment) list.get(i);
-				Integer userId = this.actionManager.findUserIdByCommentId(comment);
-				if(userId!=null)
-				{
+				Integer userId = this.actionManager
+						.findUserIdByCommentId(comment);
+				if (userId != null) {
 					Users u = this.userManager.findUserById(userId);
 
 					if (u.getAuthentics() != null) {
@@ -547,27 +809,29 @@ public class ActionController extends BaseController {
 					temp.setUserId(u.getUserId());
 					comment.setUsersByUserId(temp);
 					comment.setUserName(u.getName());
-					
-					if(comment.getUserName()==null || comment.getUserName().equals(""))
-					{
-						if(u.getTelephone()!=null &&!u.getTelephone().equals(""))
-						{
+
+					if (comment.getUserName() == null
+							|| comment.getUserName().equals("")) {
+						if (u.getTelephone() != null
+								&& !u.getTelephone().equals("")) {
 							String telephone = u.getTelephone();
 							Integer length = telephone.length();
-							String name = "用户"+telephone.substring(length-4, length);
+							String name = "用户"
+									+ telephone.substring(length - 4, length);
 							comment.setUserName(name);
-						}else{
+						} else {
 							String userIdStr = u.getUserId().toString();
 							Integer length = userIdStr.length();
-							String name =length>4?userIdStr.substring(length-4, length):userIdStr;
-							name = "用户"+name;
+							String name = length > 4 ? userIdStr.substring(
+									length - 4, length) : userIdStr;
+							name = "用户" + name;
 							comment.setUserName(name);
 						}
 					}
 
-					Integer atUserId = this.actionManager.findAtUserIdByCommentId(comment);
-					if(atUserId!=null)
-					{
+					Integer atUserId = this.actionManager
+							.findAtUserIdByCommentId(comment);
+					if (atUserId != null) {
 						u = this.userManager.findUserById(atUserId);
 						if (u != null && u.getAuthentics() != null) {
 							Object[] objs = u.getAuthentics().toArray();
@@ -579,21 +843,25 @@ public class ActionController extends BaseController {
 								u.setName("匿名用户");
 							}
 							comment.setAtUserName(u.getName());
-							
-							if(comment.getUserName()==null || comment.getUserName().equals(""))
-							{
-								
-								if(u.getTelephone()!=null &&!u.getTelephone().equals(""))
-								{
+
+							if (comment.getUserName() == null
+									|| comment.getUserName().equals("")) {
+
+								if (u.getTelephone() != null
+										&& !u.getTelephone().equals("")) {
 									String telephone = u.getTelephone();
 									Integer length = telephone.length();
-									String name = "用户"+telephone.substring(length-4, length);
+									String name = "用户"
+											+ telephone.substring(length - 4,
+													length);
 									comment.setUserName(name);
-								}else{
+								} else {
 									String userIdStr = u.getUserId().toString();
 									Integer length = userIdStr.length();
-									String name =length>4?userIdStr.substring(length-4, length):userIdStr;
-									name = "用户"+name;
+									String name = length > 4 ? userIdStr
+											.substring(length - 4, length)
+											: userIdStr;
+									name = "用户" + name;
 									comment.setUserName(name);
 								}
 							}
@@ -601,10 +869,10 @@ public class ActionController extends BaseController {
 
 						comment.setUsersByAtUserId(null);
 					}
-					
+
 					l.add(comment);
 				}
-				
+
 			}
 			map.put("comments", l);
 
@@ -612,11 +880,12 @@ public class ActionController extends BaseController {
 				// 点赞
 				list = this.actionManager.findPriseListByAction(action);
 				Set set = new HashSet();
-				for (int i = list.size()-1; i >=0; i--) {
+				for (int i = list.size() - 1; i >= 0; i--) {
 					Actionprise prise = (Actionprise) list.get(i);
-					
-					Integer userId = this.actionManager.findActionPriseUserId(prise);
-					
+
+					Integer userId = this.actionManager
+							.findActionPriseUserId(prise);
+
 					Users u = this.userManager.findUserById(userId);
 
 					Object[] objs = u.getAuthentics().toArray();
@@ -626,21 +895,22 @@ public class ActionController extends BaseController {
 					} else {
 						u.setName("匿名用户");
 					}
-					
-					if(u.getName()==null || u.getName().equals(""))
-					{
-						
-						if(u.getTelephone()!=null &&!u.getTelephone().equals(""))
-						{
+
+					if (u.getName() == null || u.getName().equals("")) {
+
+						if (u.getTelephone() != null
+								&& !u.getTelephone().equals("")) {
 							String telephone = u.getTelephone();
 							Integer length = telephone.length();
-							String name = "用户"+telephone.substring(length-4, length);
+							String name = "用户"
+									+ telephone.substring(length - 4, length);
 							u.setName(name);
-						}else{
+						} else {
 							String userIdStr = u.getUserId().toString();
 							Integer length = userIdStr.length();
-							String name =length>4?userIdStr.substring(length-4, length):userIdStr;
-							name = "用户"+name;
+							String name = length > 4 ? userIdStr.substring(
+									length - 4, length) : userIdStr;
+							name = "用户" + name;
 							u.setName(name);
 						}
 					}
@@ -651,10 +921,9 @@ public class ActionController extends BaseController {
 			}
 
 			// 封装返回结果
-			if(l==null)
-			{
+			if (l == null) {
 				this.status = 200;
-			}else{
+			} else {
 				this.status = 200;
 			}
 			this.result.put("data", map);
@@ -694,9 +963,9 @@ public class ActionController extends BaseController {
 			List l = new ArrayList();
 			for (int i = 0; i < list.size(); i++) {
 				Attention attention = (Attention) list.get(i);
-				Integer userId = this.actionManager.findUserByAttention(attention);
-				if(userId!=null)
-				{
+				Integer userId = this.actionManager
+						.findUserByAttention(attention);
+				if (userId != null) {
 					Users u = this.userManager.findUserById(userId);
 					String telephone = u.getTelephone();
 					Object[] objs = u.getAuthentics().toArray();
@@ -717,23 +986,25 @@ public class ActionController extends BaseController {
 						authentic.setAutrhrecords(null);
 						authentic.setCity(null);
 						authentic.setAuthId(null);
-						
-						if(authentic.getName()==null || authentic.getName().equals(""))
-						{
-							if(telephone!=null && telephone.equals(""))
-							{
+
+						if (authentic.getName() == null
+								|| authentic.getName().equals("")) {
+							if (telephone != null && telephone.equals("")) {
 								Integer length = telephone.length();
-								String name = "用户"+telephone.substring(length-4, length);
+								String name = "用户"
+										+ telephone.substring(length - 4,
+												length);
 								authentic.setName(name);
-							}else{
+							} else {
 								String userIdStr = user.getUserId().toString();
 								Integer length = userIdStr.length();
-								String name =length>4?userIdStr.substring(length-4, length):userIdStr;
-								name = "用户"+name;
+								String name = length > 4 ? userIdStr.substring(
+										length - 4, length) : userIdStr;
+								name = "用户" + name;
 								authentic.setName(name);
 							}
 						}
-						
+
 						u.setLastLoginDate(null);
 						u.setName(null);
 						u.setTelephone(null);
@@ -742,25 +1013,25 @@ public class ActionController extends BaseController {
 						u.setExtUserId(null);
 						u.getAuthentics().clear();
 						u.getAuthentics().add(authentic);
-						
-						
-						attention.setUsers(u);					} else {
+
+						attention.setUsers(u);
+					} else {
 						u.setName("匿名用户");
 					}
 
 					attention.setUserName(u.getName());
 
-//					if(attention.getUserName()==null || attention.getUserName().equals(""))
-//					{
-//						Integer length = telephone.length();
-//						String name = "用户"+telephone.substring(length-4, length);
-//						attention.setUserName(name);
-//					}
-					
+					// if(attention.getUserName()==null ||
+					// attention.getUserName().equals(""))
+					// {
+					// Integer length = telephone.length();
+					// String name = "用户"+telephone.substring(length-4, length);
+					// attention.setUserName(name);
+					// }
+
 					l.add(attention);
 				}
 
-				
 			}
 
 			if (l != null && l.size() > 0) {
@@ -776,6 +1047,7 @@ public class ActionController extends BaseController {
 
 		return getResult();
 	}
+
 	@RequestMapping(value = "/requestSearchAction")
 	@ResponseBody
 	/***
@@ -788,26 +1060,27 @@ public class ActionController extends BaseController {
 	public Map requestAttendListAction(
 			@RequestParam(value = "keyword") String keyword,
 			@RequestParam(value = "page") Integer page, HttpSession session) {
-		
+
 		this.result = new HashMap();
 		this.result.put("data", "");
-		
+
 		// 获取当前发布内容用户
 		Users user = this.findUserInSession(session);
-		
+
 		if (user == null) {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
 		} else {
 			List list = this.actionManager.findActionByKeyWord(keyword, page);
-			
+
 			// 封装返回结果
 			this.result.put("data", list);
 			this.message = "";
 		}
-		
+
 		return getResult();
 	}
+
 	@RequestMapping(value = "/requestActionCommentDelete")
 	@ResponseBody
 	/***
@@ -817,14 +1090,15 @@ public class ActionController extends BaseController {
 	 * @return
 	 */
 	public Map requestActionCommentDelete(
-			@RequestParam(value = "commentId") Integer commentId, HttpSession session) {
-		
+			@RequestParam(value = "commentId") Integer commentId,
+			HttpSession session) {
+
 		this.result = new HashMap();
 		this.result.put("data", "");
-		
+
 		// 获取当前发布内容用户
 		Users user = this.findUserInSession(session);
-		
+
 		if (user == null) {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_FAIL_NO_USER;
@@ -834,22 +1108,19 @@ public class ActionController extends BaseController {
 			this.actionManager.deleteActionCommentByCommentId(commentId);
 			this.message = Config.STRING_PROJECT_DELETE_SUCCESS;
 		}
-		
+
 		return getResult();
 	}
-	
-	@RequestMapping(value="actionWebLooker")
+
+	@RequestMapping(value = "actionWebLooker")
 	public String actionWebLooker(
-			@RequestParam(value="actionId",required=false)Integer actionId,
-			ModelMap map)
-	{
+			@RequestParam(value = "actionId", required = false) Integer actionId,
+			ModelMap map) {
 		Action action = this.actionManager.findActionById(actionId);
-		
+
 		map.put("action", action);
 		return "actionWebLooker";
 	}
-	
-	
 
 	/***
 	 * 从当前session获取用户对象

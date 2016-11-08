@@ -32,6 +32,7 @@ import com.jinzht.web.entity.Share;
 import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Versioncontroll;
+import com.jinzht.web.entity.WebcontentimagesDAO;
 
 public class SystemManager {
 
@@ -47,6 +48,7 @@ public class SystemManager {
 	private WeburlrecordDAO webUrlRecordDao;
 	private ContenttypeDAO contentTypeDao;
 	private ContentshareDAO contentShareDao;
+	private WebcontentimagesDAO contentImagesDAO;
 
 	/***
 	 * 根据设备类型获取系统公告信息
@@ -186,7 +188,7 @@ public class SystemManager {
 		}
 		return result;
 	}
-	
+
 	/***
 	 * 获取Banner信息分页
 	 * 
@@ -194,24 +196,24 @@ public class SystemManager {
 	 *            设备类型 0:Android,1:iOS
 	 * @return 最新启动页面信息
 	 */
-	public List<Banner> findBannerInfoByPageList(Integer start,Integer pageSize) {
+	public List<Banner> findBannerInfoByPageList(Integer start, Integer pageSize) {
 		// 返回Banner结果
 		List result = new ArrayList();
 		Map map = null;
-		
+
 		List<Banner> list = getBannerDao().findByPage(start, pageSize);
-		
+
 		if (list != null && list.size() > 0) {
 			Banner banner = null;
 			for (int i = 0; i < list.size(); i++) {
 				banner = list.get(i);
 				banner.setBannerType(null);
-				
+
 				map = new HashMap();
 				// 添加到返回数据中
 				map.put("body", banner);
 				map.put("type", BannerType.Web);
-				
+
 				// 判断是否为项目
 				if (banner.getProject() != null
 						&& !banner.getProject().equals("")) {
@@ -239,7 +241,7 @@ public class SystemManager {
 						project.setDescription(null);
 						project.setTeams(null);
 						project.setProjectimageses(null);
-						
+
 						Object[] obj = project.getRoadshows().toArray();
 						if (obj != null && obj.length > 0) {
 							for (int j = 0; j < obj.length; j++) {
@@ -250,17 +252,17 @@ public class SystemManager {
 								roadShow.getRoadshowplan().setEndDate(null);
 								roadShow.getRoadshowplan().setFinancingId(null);
 							}
-							
+
 						}
 						// 添加到返回数据
 						map.put("extr", project);
 					}
-					
+
 					banner.setProject(null);
 				}
-				
+
 				result.add(map);
-				
+
 			}
 		}
 		return result;
@@ -435,18 +437,19 @@ public class SystemManager {
 		this.customserviceDao = customserviceDao;
 	}
 
-	
 	public WeburlrecordDAO getWebUrlRecordDao() {
 		return webUrlRecordDao;
 	}
+
 	@Autowired
 	public void setWebUrlRecordDao(WeburlrecordDAO webUrlRecordDao) {
 		this.webUrlRecordDao = webUrlRecordDao;
 	}
-	
+
 	public ContenttypeDAO getContentTypeDao() {
 		return contentTypeDao;
 	}
+
 	@Autowired
 	public void setContentTypeDao(ContenttypeDAO contentTypeDao) {
 		this.contentTypeDao = contentTypeDao;
@@ -455,9 +458,19 @@ public class SystemManager {
 	public ContentshareDAO getContentShareDao() {
 		return contentShareDao;
 	}
+
 	@Autowired
 	public void setContentShareDao(ContentshareDAO contentShareDao) {
 		this.contentShareDao = contentShareDao;
+	}
+
+	public WebcontentimagesDAO getContentImagesDAO() {
+		return contentImagesDAO;
+	}
+
+	@Autowired
+	public void setContentImagesDAO(WebcontentimagesDAO contentImagesDAO) {
+		this.contentImagesDAO = contentImagesDAO;
 	}
 
 }

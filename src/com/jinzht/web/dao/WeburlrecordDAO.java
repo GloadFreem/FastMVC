@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jinzht.web.entity.Contenttype;
+import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Weburlrecord;
 
 /**
@@ -189,6 +190,31 @@ public class WeburlrecordDAO {
 			String queryString = "from Weburlrecord where contenttype=? order by createDate desc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, type);
+			queryObject.setFirstResult(page*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	/***
+	 * 搜索
+	 * @param page
+	 * @param size
+	 * @param keyWord
+	 * @return
+	 */
+	public List searchByKeyWord(Integer page,Integer size,String keyWord) {
+		log.debug("finding all Weburlrecord instances");
+		try {
+			String sqlString = "select * from weburlrecord where type_id=? and ( content like ? or title like ? ) order by create_date desc";
+			
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Weburlrecord.class);
+			queryObject.setParameter(0, 1);
+			queryObject.setParameter(1, "%"+keyWord+"%");
+			queryObject.setParameter(2, "%"+keyWord+"%");
 			queryObject.setFirstResult(page*size);
 			queryObject.setMaxResults(size);
 			return queryObject.list();
