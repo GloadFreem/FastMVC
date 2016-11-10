@@ -1,0 +1,419 @@
+*{padding:0; margin:0;}
+
+body,html{
+    background-color: #f5f5f5;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+#panel{
+    width: 1200px;
+    min-height: 1200px;
+    margin:0 auto;
+    /*margin-top: 40px;*/
+    margin-bottom:100px;
+}
+
+#type{
+    width:220px;
+    height: 228px;
+    background-color:#ffffff;
+    border-radius: 5px;
+    float: left;
+}
+
+.content-card{
+    width:960px;
+    min-height: 1200px;
+    background-color:#ffffff;
+    border-radius: 5px;
+    float: left;
+    margin-left: 20px;
+}
+
+#type div{
+    width: 176px;
+    text-indent: 30px;
+    font-size: 16px;
+    text-align: left;
+    line-height: 38px;
+    color: #aaaaaa;
+    float: left;
+    border-bottom: 1px solid #dddddd;
+    margin-left: 22px;
+    margin-right: 22px;
+}
+
+#mine-info {
+    margin-top: 40px;
+    background: url(../img/mine-info.png) no-repeat left;
+}
+
+#mine-info:hover{
+    background: url(../img/mine-info-highlight.png) no-repeat left;
+    color: #9aa4b5;
+}
+
+#project-center, #account-setting{
+    margin-top: 13px;
+}
+
+#project-center{
+    background: url(../img/project-center.png) no-repeat left;
+}
+
+#project-center:hover{
+    background: url(../img/project-center-highlight.png) no-repeat left;
+    color: #9aa4b5;
+}
+
+#account-setting{
+    background: url(../img/account-setting.png) no-repeat left;
+}
+
+#account-setting:hover{
+    background: url(../img/account-setting-highlight.png) no-repeat left;
+    color: #9aa4b5;
+}
+
+/*content*/
+.content-card .tab{font-size:18px;color:#aaaaaa;padding-bottom:6px;border:0;background-color:white;}
+.content-card .tab:focus{outline:none;}
+#tab{width: 5px;height:18px; color: red; margin:50px 20px 10px;display:inline-block;}
+
+#touxiang{
+    margin-left:80px;
+    width:100px;
+    height:100px;
+    background-color:gray;
+    border-radius:50px;
+}
+
+#upload-touxiang{
+    height:30px;
+    width:153px;
+    margin-top:14px;
+    color:#50789f;
+    font-size:16px;
+    text-align:center;
+    outline:none;
+    display:block;
+    margin-left:47px;
+    margin-bottom:54px;
+    text-decoration: none;
+    line-height:30px;
+}
+
+#upload-touxiang input {
+    height: 30px;
+    margin-top: -30px;
+    background: #355078;
+    line-height: 30px;
+    float: left;
+    -webkit-opacity: 0.0;
+    -moz-opacity: 0.0;
+    -khtml-opacity: 0.0;
+    opacity: 0;
+    filter: alpha(opacity=100);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+}
+
+.content-card p{
+    color:#5b7396;
+    font-size:16px;
+    margin-bottom:6px;
+}
+
+.content-card .txt-input{
+    margin-bottom:20px;
+    height:40px;
+    border:1px solid #355078;
+    color:#aaaaaa;
+    font-size:16px;
+    padding-left:10px;
+}
+
+#basic-information input{
+    margin-left:60px;
+    width:300px;
+}
+
+#basic-information p{
+    margin-left:60px;
+}
+
+.content-card input:focus{
+    outline:none;
+}
+
+#domain{
+    margin-left:60px;
+    margin-top:6px;
+    height:36px;
+    width:800px;
+    background-color:yellow;
+}
+
+#domain button{
+    width:100px;
+    height:36px;
+    color:#5b7396;
+    font-size:16px;
+    background-color:white;
+    /*border-style:solid;*/
+    /*border-width:1px;*/
+    /*border-color:#5b7396;*/
+    border:1px solid #5b7396;
+    margin-right:20px;
+}
+
+#domain button:focus{outline:none;}
+
+#fun-btn{
+    margin:0 auto;
+    width:440px;
+    height:50px;
+    margin-top:130px;
+    margin-bottom:88px;
+}
+
+#fun-btn button{
+    width:200px;
+    height:50px;
+    color:white;
+    font-size:20px;
+    background:#d2d2d2;
+    float:left;
+    border:0;
+}
+
+#fun-btn button:focus{outline:none;}
+
+/**/
+#authentication-information input{
+    width:360px;
+    margin-left: 50px;
+}
+
+#authentication-information p{
+    margin-left:50px;
+}
+
+#id-photon{
+    margin-top: 50px;
+    background-color:green;
+}
+
+#id-photo{
+    width: 360px;
+    background-color:#f3f3f3;
+    height: 220px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+#id-photo img{
+    width:54px;
+    height:54px;
+    margin-top:70px;
+    margin-left:150px;
+    border-radius:27px;
+}
+
+#upload-pic{
+    height:30px;
+    width:153px;
+    margin-top:14px;
+    color:#50789f;
+    font-size:16px;
+    text-align:center;
+    outline:none;
+    display:block;
+    margin-left:97px;
+    margin-bottom:54px;
+    text-decoration: none;
+    line-height:30px;
+}
+
+#upload-pic input{
+    height: 30px;
+    margin-top: -30px;
+    background: #355078;
+    line-height: 30px;
+    float:left;
+    -webkit-opacity: 0.0;
+    -moz-opacity: 0.0;
+    -khtml-opacity: 0.0;
+    opacity: 0;
+    filter: alpha(opacity=100);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+}
+
+#upload-id-photo input{
+    background-color:red; width:52px; height:52px;margin-top:72px;border-radius:26px;
+    margin:0 auto;
+}
+
+#upload-id-photo p{
+    margin-left:0;
+    font-size:14px;
+    color:#50789f;
+    margin-top:14px;
+    width:100%;
+    text-align:center;
+}
+
+#terms{
+    margin:30px 50px 30px;
+}
+
+#terms div{
+    width:860px;
+    height:24px;
+    margin-left:0;
+}
+
+#terms input{
+    margin-left:0;
+    width:24px;
+    height:24px;
+    float:left;
+
+}
+
+#terms span{
+    font-size:11px;
+    height:24px;
+    line-height:24px;
+    margin-left:2px;
+    float:left;
+}
+
+#submit{
+    width:200px;
+    height:50px;
+    background:#5b7396;
+    color:#ffffff;
+    border:none;
+    margin-left:224px;
+}
+
+#submit:focus{outline:none;}
+
+.content-card .user-phone-number{
+    height: 46px;
+}
+
+.content-card .user-phone-number img{
+    position: absolute;
+    margin:11px 300px;
+}
+
+.content-card .user-phone-number input{
+    width: 400px;
+    height: 100%;
+    box-sizing: border-box;
+    /*设置内边距*/
+    padding-left: 58px;
+    border-radius: 23px;
+    border:1px solid #dddddd;
+    font-size:16px;
+    color:#bcc3cc;
+    margin-left:280px;
+}
+
+.content-card .user-phone-number input:focus{
+    outline: none;
+}
+
+.content-card .submit{
+    margin-top: 60px;
+    margin-left:280px;
+    width: 400px;
+    height: 46px;
+    font-size: 18px;
+    color: #ffffff;
+    border-radius: 23px;
+    border: 0;
+    background-color: #3b5d8f;
+}
+
+.content-card .pop_oc{
+    height: 10px;
+    width:300px;
+    margin-left:310px;
+    background: #dbdbdb;
+    border-radius: 10px;
+    margin-top: 16px;
+    position: relative;
+}
+
+.pop_oc .pop_oc_por {
+    height: 10px;
+    width: 50%;
+    border-radius: 10px;
+    position: relative;
+    background: -ms-linear-gradient(left, #ff6c6c, #fdda01);/* IE 10 */
+    background:-moz-linear-gradient(left, #ff6c6c, #fdda01);/*火狐*/
+    background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#ff6c6c), to(#fdda01));/*谷歌*/
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ff6c6c), to(#fdda01));      /* Safari 4-5, Chrome 1-9*/
+    background: -webkit-linear-gradient(left, #ff6c6c, #fdda01);   /*Safari5.1 Chrome 10+*/
+    background: -o-linear-gradient(left, #ff6c6c, #fdda01);  /*Opera 11.10+*/
+}
+
+/*验证码*/
+#account-setting-content .captcha, .pwd{
+    height: 46px;
+    margin-top:34px;
+}
+
+#account-setting-content .captcha img{
+    position: absolute;
+    margin:11px 20px 11px 291px;
+}
+
+#account-setting-content .captcha input{
+    width: 270px;
+    height: 100%;
+    box-sizing: border-box;
+    /*设置内边距*/
+    padding-left: 58px;
+    border-radius: 23px 0 0 23px;
+    border:1px solid #dddddd;
+    font-size:16px;
+    color:#bcc3cc;
+    margin-left:280px;
+    float:left;
+}
+
+#account-setting-content .captcha input,button:focus{
+    outline: none;
+}
+
+.captcha .obtain-captcha{
+    float: left;
+    width: 135px;
+    height: 46px;
+    background-color:#3b5d8f;
+    border-radius: 0 23px 23px 0;
+    border: none;
+    color: white;
+    font-size: 16px;
+}
+
+.next-step {
+    margin-top: 80px;
+    margin-left:280px;
+    width: 400px;
+    height: 46px;
+    font-size: 18px;
+    color: #cccccc;
+    border-radius: 23px;
+    border: 0;
+    background-color: #3b5d8f;
+}
+
+

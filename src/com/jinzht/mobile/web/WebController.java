@@ -118,4 +118,80 @@ public class WebController extends BaseController {
 
 		return "templete";
 	}
+	
+	/***
+	 * 网站首页
+	 * @return
+	 */
+	@RequestMapping(value = "/web/index")
+	public String MainIndex() {
+		return "/web/html/content/main";
+	}
+	
+	/***
+	 * 资讯详情
+	 * @return
+	 */
+	@RequestMapping(value = "/web/MainDetail")
+	public String MainDetail() {
+		return "/web/html/content/main-detail";
+	}
+	
+	/***
+	 * 分析报告
+	 * @return
+	 */
+	@RequestMapping(value = "/web/report.action")
+	public String reportList() {
+		return "/web/html/content/report";
+	}
+	/***
+	 *报告详情
+	 * @return
+	 */
+	@RequestMapping(value = "/web/reportDetail.action")
+	public String reportDetail() {
+		return "/web/html/content/report-detail";
+	}
+	/***
+	 *项目展示
+	 * @return
+	 */
+	@RequestMapping(value = "/web/project.action")
+	public String projectList() {
+		return "/web/html/content/project";
+	}
+	/***
+	 *项目详情
+	 * @return
+	 */
+	@RequestMapping(value = "/web/projectDetail.action")
+	public String projectDetail() {
+		return "/web/html/content/project-detail";
+	}
+	/***
+	 *登录
+	 * @return
+	 */
+	@RequestMapping(value = "/web/login.action")
+	public String userLogin() {
+		return "/web/html/user/Login";
+	}
+	/***
+	 *注册
+	 * @return
+	 */
+	@RequestMapping(value = "/web/regist.action")
+	public String userRegist() {
+		return "/web/html/user/Register";
+	}
+	/***
+	 *个人中心
+	 * @return
+	 */
+	@RequestMapping(value = "/web/personalCenter.action")
+	public String personalCenter() {
+		return "/web/html/user/PersonCenter";
+	}
+	
 }

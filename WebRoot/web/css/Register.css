@@ -1,0 +1,324 @@
+*{
+    padding:0;
+    margin:0;
+}
+
+div{
+    display: block;
+}
+
+body{
+    background-color: #f5f5f5;
+    text-align: center;
+}
+
+.top-info{
+    margin-top:30px;
+    width:1220px;
+    text-align:left;
+    display: inline-block;
+    position:relative
+}
+
+.top-info img,.top-txt,.top-txt p,.top-txt a{
+    float:left;
+}
+
+.top-info img{
+    padding-bottom: 16px;
+}
+
+.top-info .top-txt{
+    position:absolute;
+    bottom:7px;
+    right:0px;
+    text-font:14px;
+}
+
+.top-txt p{
+    color:#aaaaaa;
+}
+
+.top-txt a{
+    color: #0090ff;
+    text-decoration: none;
+}
+
+/*中间的面板*/
+.panel{
+    margin-bottom: 10px;
+    width: 1220px;
+    min-height: 780px;
+    background-color:white;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    /*改变标签的类型*/
+    display: inline-block;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.panel .panel-title{
+    margin-top:40px;
+    font-size: 24px;
+    color: #3b5d8f;
+    font-weight:600;
+    text-align: center;
+}
+
+.panel hr{
+    margin: 61px 110px 0px 110px;
+    color: gray;
+}
+
+.panel .rate-of-progress{
+    margin: -31px 110px 80px 110px;
+    background-color: green;
+    text-align:center;
+}
+
+.phone-num-reg, .set-pwd, .choose-idtentity{
+    float: left;
+}
+
+.rate-of-progress p{
+    font-size: 14px;
+    color: #aaaaaa;
+}
+
+.rate-of-progress img{
+    margin-top: 2px;
+}
+
+.phone-num-reg, .set-pwd{
+    margin-right: 170px;
+}
+
+.phone-num-reg{
+    margin-left: 225px;
+}
+
+/*手机号码输入框*/
+.panel .btn{
+    width: 405px;
+    margin: 0 auto;
+}
+
+#step2, #step3, .submit{
+    display: none;
+}
+
+.panel .user-phone-number{
+    height: 46px;
+}
+
+.panel .user-phone-number img{
+    position: absolute;
+    margin:11px 20px;
+}
+
+.panel .user-phone-number input{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    /*设置内边距*/
+    padding-left: 58px;
+    border-radius: 23px;
+    border:1px solid #dddddd;
+    font-size:16px;
+    color:#bcc3cc;
+}
+
+.panel .user-phone-number input:focus{
+    outline: none;
+}
+
+.panel .protocol{
+    margin: 42px 0 20px;
+}
+
+.protocol img, .agree, span{
+    float: left;
+}
+
+.protocol img{
+    margin-right: 11px;
+}
+
+.protocol p{
+    color: #bcc3cc;
+}
+
+.protocol span{
+    color: #3b5d8f;
+}
+
+.next-step{
+    margin-top: 20px;
+    width: 100%;
+    height: 46px;
+    font-size: 18px;
+    color: #ffffff;
+    border-radius: 23px;
+    border:0;
+    background-color: #3b5d8f;
+}
+
+.next-step:focus{
+    outline: none;
+}
+
+/*验证码*/
+.btn .captcha, .pwd{
+    height: 46px;
+}
+
+.btn .captcha img{
+    position: absolute;
+    margin:11px 20px;
+}
+
+.btn .captcha input{
+    width: 270px;
+    height: 100%;
+    box-sizing: border-box;
+    /*设置内边距*/
+    padding-left: 58px;
+    border-radius: 23px 0 0 23px;
+    border:1px solid #dddddd;
+    font-size:16px;
+    color:#bcc3cc;
+}
+
+.btn .captcha input,button:focus{
+    outline: none;
+}
+
+.captcha .obtain-captcha{
+    float: right;
+    width: 135px;
+    height: 46px;
+    background-color:#3b5d8f;
+    border-radius: 0 23px 23px 0;
+    border: none;
+    color: white;
+    font-size: 16px;
+}
+
+.btn .pwd img{
+    position: absolute;
+    margin:41px 20px 16px 20px;
+}
+
+.btn .pwd input{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    /*设置内边距*/
+    padding-left: 58px;
+    border-radius: 23px;
+    border:1px solid #dddddd;
+    font-size:16px;
+    color:#bcc3cc;
+    margin-top: 30px;
+}
+
+.btn .pwd input:focus{
+    outline: none;
+}
+
+/*进度条*/
+.back-progress-bar{
+    width: 300px;
+    height: 6px;
+    margin-left: 25px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    position: relative;
+}
+
+.progress-bar{
+    width: 80%;
+    height: 6px;
+    border-radius: 10px;
+    position: relative;
+    margin-top: 50px;
+    background: -ms-linear-gradient(left, #ff6c6c, #fdda01);/* IE 10 */
+    background:-moz-linear-gradient(left, #ff6c6c, #fdda01);/*火狐*/
+    background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#ff6c6c), to(#fdda01));/*谷歌*/
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ff6c6c), to(#fdda01));      /* Safari 4-5, Chrome 1-9*/
+    background: -webkit-linear-gradient(left, #ff6c6c, #fdda01);   /*Safari5.1 Chrome 10+*/
+    background: -o-linear-gradient(left, #ff6c6c, #fdda01);  /*Opera 11.10+*/
+}
+
+.progress .grade{
+    margin-left: 31px;
+    float: left;
+}
+
+.next{
+    margin-top: 110px;
+    width: 100%;
+    height: 46px;
+    font-size: 18px;
+    color: #ffffff;
+    border-radius: 23px;
+    border:0;
+    background-color: #3b5d8f;
+}
+
+.next:focus{
+    outline: none;
+}
+
+/*选择身份*/
+.card{
+    margin: 0 auto;
+    margin: 80px 110px;
+    /*width: px;*/
+    height: 337px;
+    color:  #3b5d8f;
+}
+
+.choose-id{
+    width: 240px;
+    height: 300px;
+    border: 1px solid #3b5d8f;
+    border-radius: 5px;
+    float: left;
+    //box-shadow: 0 0 0 0 #f0f0f0, /*左边阴影*/ 3px 0 3px #e4e4e4, /*右边阴影*/ 0 0 0 0 #e4e4e4,
+    0 1px 13px #e4e4e4; /*底边阴影*/
+    transform: scale(1);
+    transition: all 0.3s ease 0s;
+}
+
+.choose-id:hover{
+    transform: scale(1.1);
+    z-index: 1;
+    background-color: #3b5d8f;
+}
+
+.submit{
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 210px;
+    width: 405px;
+    height: 46px;
+    font-size: 18px;
+    color: #ffffff;
+    border-radius: 23px;
+    border:0;
+    background-color: #3b5d8f;
+}
+
+.submit:focus{
+    outline: none;
+}
+
+
+
+
+
+
+

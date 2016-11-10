@@ -2823,6 +2823,7 @@ public class WebAdminController extends BaseController {
 			user = null;
 		}
 
+		message.setValid(false);
 		message.setTitle(title);
 		message.setContent(content);
 		
@@ -2843,6 +2844,7 @@ public class WebAdminController extends BaseController {
 		} else {
 			this.systemManger.getSystemMessageDao().save(message);
 		}
+		
 
 		// 开始推送
 		new Thread() {

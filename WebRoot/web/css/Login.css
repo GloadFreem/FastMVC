@@ -1,0 +1,135 @@
+body{
+    background:url(../img/login_bg.png);
+    /*设置背景的尺寸*/
+    background-size: cover;
+    text-align: center;
+}
+
+/*中间内容*/
+#middle{
+    width:100%;
+    height:950px;
+
+}
+
+.panel{
+    margin-top:136px;
+    width: 440px;
+    height:500px;
+    background-color:#727a87;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    opacity:0.7;
+    /*box-shadow: -10px 20px 100px black;*/
+    /*改变标签的类型*/
+    display: inline-block;
+}
+
+.panel img{
+    margin-top: -65px;
+}
+
+.panel-content{
+    margin:50px 40px 120px;
+}
+
+.panel-content .user-pwd{
+    margin-bottom: 15px;
+    height: 46px;
+    position: relative;
+}
+
+.panel-content .user-pwd img{
+    position: absolute;
+    margin:11px 20px;
+}
+
+.panel-content .user-pwd input{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    /*设置内边距*/
+    padding-left: 58px;
+    border-radius: 23px;
+    border:1px solid #dddddd;
+    background:rgba(0,0,0,0.01) none repeat scroll !important; /*实现FF背景透明，文字不透明*/
+    background:#000;
+    filter:Alpha(opacity=20);/*实现IE背景透明*/
+    position:relative;
+    font-size:16px;
+    color:#bcc3cc;
+}
+
+.panel-content .user-pwd input:focus{
+    outline: none;
+    border: 1px solid orange;
+    box-shadow: 0 0 10px orange;
+}
+
+.setting a{
+    color: #ffffff;
+    font-size: 16px;
+    margin-top:4px;
+    text-decoration:none;
+}
+
+.setting a.pull-right{
+    float: right;
+}
+
+/*按钮*/
+.login-btn{
+    margin: 20px 0;
+    width: 100%;
+    height: 46px;
+    font-size: 18px;
+    color: #ffffff;
+    border-radius: 23px;
+    border:0;
+    background-color: #bababa;
+}
+
+.free-reg{
+
+    margin-right:20px;
+    width:165px;
+    height:46px;
+    border-radius:23px;
+    color:#ffffff;
+    border:1px solid #ffffff;
+    font-size:18px;
+    background:rgba(0,0,0,0.05) none repeat scroll !important; /*实现FF背景透明，文字不透明*/
+    background:#000; filter:Alpha(opacity=20);/*实现IE背景透明*/
+}
+
+.weixin-login{
+
+    width:165px;
+    height:46px;
+    border-radius:23px;
+    color:#ffffff;
+    border:1px solid #ffffff;
+    font-size:18px;
+    background:rgba(0,0,0,0.05) none repeat scroll !important; /*实现FF背景透明，文字不透明*/
+    background:#000;
+    filter:Alpha(opacity=20);/*实现IE背景透明*/
+}
+
+.login-btn, .free-reg, .weixin-login:focus{
+    outline: none;
+}
+
+.login-btn:hover{
+    background-color:#ff6801;
+}
+
+.free-reg:hover{
+    background-color:#3d5d8f !important;
+    border:0;
+}
+
+.weixin-login:hover{
+    background-color:#6ab07a !important;
+    border:0;
+}

@@ -52,6 +52,12 @@ public class LogInterceptor implements HandlerInterceptor {
 		System.out.println("过滤结束...");
 		// 获取客户请求页面路径
 		String requestPath = hrequest.getServletPath();
+		
+		//官网
+		if(requestPath.contains("/web/"))
+		{
+			return true;
+		}
 
 		boolean flag = false;
 		for (Object str : Config.STRING_INTEFACE_FLITER) {

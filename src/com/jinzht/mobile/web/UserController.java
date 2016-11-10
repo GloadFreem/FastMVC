@@ -52,6 +52,7 @@ import com.jinzht.web.manager.InvestorManager;
 import com.jinzht.web.manager.RewardManager;
 import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.test.User;
+import com.sun.jmx.snmp.Timestamp;
 
 @Controller
 public class UserController extends BaseController {
@@ -785,7 +786,7 @@ public class UserController extends BaseController {
 		} else {
 			// 保存图片
 			String fileName = String.format(
-					Config.STRING_USER_HEADER_PICTURE_FORMAT, user.getUserId());
+					Config.STRING_USER_HEADER_PICTURE_FORMAT, new Date().getTime());
 			String result = FileUtil.savePicture(file, fileName,
 					"upload/headerImages/");
 			if (!result.equals("")) {

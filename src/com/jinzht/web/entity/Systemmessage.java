@@ -41,6 +41,7 @@ public class Systemmessage implements java.io.Serializable {
 	private String url;
 	private Date messageDate;
 	private boolean isRead;
+	private boolean isValid;
 
 	// Constructors
 
@@ -136,6 +137,14 @@ public class Systemmessage implements java.io.Serializable {
 
 	public void setIsRead(boolean isRead) {
 		this.isRead = isRead;
+	}
+
+	public boolean isValid() {
+		return isValid;
+	}
+
+	public void setValid(boolean isValid) {
+		this.isValid = isValid;
 	}
 
 }
