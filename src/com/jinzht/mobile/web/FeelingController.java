@@ -488,6 +488,7 @@ public class FeelingController extends BaseController {
 			Publiccontent content = this.feelingManager.findPublicContentById(contentId);
 			share.setContent(content.getContent());
 			
+			
 			Object[] objs = content.getContentimageses().toArray();
 			
 			
@@ -514,6 +515,13 @@ public class FeelingController extends BaseController {
 			
 			String url = share.getUrl() + "?contentId="+content.getPublicContentId();
 			share.setUrl(url);
+			
+			String contentStr = share.getContent();
+			if(contentStr.length()>20)
+			{
+				contentStr = contentStr.substring(0, 20);
+				share.setContent(contentStr);
+			}
 			
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);
@@ -559,6 +567,13 @@ public class FeelingController extends BaseController {
 			{
 				share.setContent(content);
 				this.feelingManager.updateShare(share);
+			}
+			
+			String contentStr = share.getContent();
+			if(contentStr.length()>20)
+			{
+				contentStr = contentStr.substring(0, 20);
+				share.setContent(contentStr);
 			}
 			
 			// 封装返回结果
@@ -657,6 +672,8 @@ public class FeelingController extends BaseController {
 			
 			t.setTypeId(type);
 			share.setContenttype(t);
+
+			
 			this.systemManager.getContentShareDao().save(share);
 			
 			Publiccontent c = new Publiccontent(); 

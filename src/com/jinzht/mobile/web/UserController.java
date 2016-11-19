@@ -469,6 +469,7 @@ public class UserController extends BaseController {
 					this.message = Config.STRING_LOGING_SUCCESS;
 
 					session.setAttribute("userId", user.getUserId());
+//					session.setAttribute("userId", null);
 
 					// 金条奖励
 					checkUserLoginRecord(user, session);
@@ -692,11 +693,18 @@ public class UserController extends BaseController {
 	 * @param mm
 	 * @return
 	 */
-	public Map noLogoInfo(ModelMap mm) {
+	public Map noLogoInfo(
+			@RequestParam(value="flag")boolean flag,
+			ModelMap mm) {
 		this.result = new HashMap();
 		this.status = 401;
 		this.message = Config.STRING_LOGING_TIP;
-		this.result.put("data", "");
+		if(flag)
+		{
+			this.result.put("data", new ArrayList());
+		}else{
+			this.result.put("data", "");
+		}
 		return getResult();
 	}
 
@@ -756,7 +764,6 @@ public class UserController extends BaseController {
 
 			this.result.put("data", map);
 		}
-
 		return getResult();
 	}
 

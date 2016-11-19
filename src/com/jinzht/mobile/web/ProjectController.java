@@ -87,10 +87,15 @@ public class ProjectController extends BaseController {
 	 */
 	public Map requestProjectList(
 			@RequestParam(value = "page", required = true) Integer page,
+			@RequestParam(value = "size", required = true) Integer size,
 			@RequestParam(value = "type", required = true) int type,
 			HttpSession session) {
 		this.result = new HashMap();
-		List list = this.ProjectManager.findProjectsByCursor(type,page);
+		if(size==null)
+		{
+			size=10;
+		}
+		List list = this.ProjectManager.findProjectsByCursor(type,page,size);
 		if (list != null && list.size() > 0) {
 			this.status = 200;
 			this.message = "";
@@ -368,7 +373,7 @@ public class ProjectController extends BaseController {
 			// 发送短信
 			final String message = String.format(
 					Config.STRING_SMS_INVEST_VALID_TRUE,
-					DateUtils.formatDate(new Date()), project.getAbbrevName(), amount);
+					DateUtils.formatDate(new Date()), project.getAbbrevName(), amount/10000);
 			
 			new Thread(){
 				public void run()
@@ -405,6 +410,7 @@ public class ProjectController extends BaseController {
 			// 封装返回结果
 			this.status = 200;
 			this.result.put("data", "");
+			this.message = Config.STRING_SUBMMIT_SUCCESS;
 		}else{
 			this.status = 400;
 			this.message = Config.STRING_PROJECT_NO_DETAIL;
@@ -1034,6 +1040,14 @@ public class ProjectController extends BaseController {
 			
 			String url = share.getUrl()+"?projectId="+project.getProjectId();
 			share.setUrl(url);
+			
+			String content = share.getContent();
+			if(content.length()>20)
+			{
+				content = content.substring(0, 20);
+			}
+			
+			share.setContent(content);
 			
 			// 保存分享记录
 			this.systemManager.saveShareRecord(share);

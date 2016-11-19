@@ -1,5 +1,5 @@
 <%@ page language="java"
-	import="java.util.*,com.akchengtou.web.entity.Project,com.akchengtou.web.entity.Roadshow,com.akchengtou.web.entity.Roadshowplan"
+	import="java.util.*,com.jinzht.web.entity.Project,com.jinzht.web.entity.Roadshow,com.jinzht.web.entity.Roadshowplan"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%

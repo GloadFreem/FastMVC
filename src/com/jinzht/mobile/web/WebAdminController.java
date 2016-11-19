@@ -451,12 +451,12 @@ public class WebAdminController extends BaseController {
 			HttpSession session) {
 
 		List list;
+		list = new ArrayList();
 		if (session.getAttribute(type) != null) {
-			list = (ArrayList) session.getAttribute(type);
-
-		} else {
-			list = new ArrayList();
+			session.setAttribute(type, null);
+//			list = (ArrayList) session.getAttribute(type);
 		}
+		
 		// session.setAttribute(type, null);
 
 		this.result = new HashMap();
@@ -2826,13 +2826,12 @@ public class WebAdminController extends BaseController {
 		message.setValid(false);
 		message.setTitle(title);
 		message.setContent(content);
-		
-		//消息类型
+
+		// 消息类型
 		Messagetype type = new Messagetype();
 		type.setMessageTypeId(4);
 		message.setMessagetype(type);
-		
-		
+
 		Date date = DateUtils.stringToDate(publicDate,
 				DateUtils.DATETIME_FORMAT);
 		if (date != null) {
@@ -2844,7 +2843,6 @@ public class WebAdminController extends BaseController {
 		} else {
 			this.systemManger.getSystemMessageDao().save(message);
 		}
-		
 
 		// 开始推送
 		new Thread() {
@@ -4959,6 +4957,7 @@ public class WebAdminController extends BaseController {
 			msg = this.messageManager.getMsgDao().findById(contentId);
 		} else {
 			msg = new Msg();
+			this.messageManager.getMsgDao().save(msg);
 		}
 
 		Webcontenttype contentType = new Webcontenttype();
@@ -4991,26 +4990,7 @@ public class WebAdminController extends BaseController {
 		List l = (List) session.getAttribute("News");
 
 		Set set = new HashSet();
-		if (image != null && !image.equals("") && l == null || l.size() == 0) {
-
-			if (type != 4 && type != 1) {
-				Object[] objs = msg.getMsgImageses().toArray();
-				MsgImages images = (MsgImages) objs[0];
-				this.messageManager.getMsgImagesDao().delete(images);
-			} else {
-				if (msg.getMsgImageses().size() >= 3) {
-					Object[] objs = msg.getMsgImageses().toArray();
-					MsgImages images = (MsgImages) objs[0];
-					this.messageManager.getMsgImagesDao().delete(images);
-				}
-			}
-
-			MsgImages images = new MsgImages();
-			images.setMsg(msg);
-			images.setUrl(image);
-			this.messageManager.getMsgImagesDao().save(images);
-			set.add(images);
-		} else {
+		if (l != null && l.size() > 0) {
 			if (type != 4 && type != 1) {
 				for (int i = 0; i < msg.getMsgImageses().size(); i++) {
 					Object[] objs = msg.getMsgImageses().toArray();
@@ -5035,15 +5015,31 @@ public class WebAdminController extends BaseController {
 				this.messageManager.getMsgImagesDao().save(images);
 				set.add(images);
 			}
+		} else {
+			if (image != null && !image.equals("")) {
+
+				if (type != 4 && type != 1) {
+					Object[] objs = msg.getMsgImageses().toArray();
+					MsgImages images = (MsgImages) objs[0];
+					this.messageManager.getMsgImagesDao().delete(images);
+				} else {
+					if (msg.getMsgImageses().size() >= 3) {
+						Object[] objs = msg.getMsgImageses().toArray();
+						MsgImages images = (MsgImages) objs[0];
+						this.messageManager.getMsgImagesDao().delete(images);
+					}
+				}
+
+				MsgImages images = new MsgImages();
+				images.setMsg(msg);
+				images.setUrl(image);
+				this.messageManager.getMsgImagesDao().save(images);
+				set.add(images);
+			}
 		}
 
 		msg.setMsgImageses(set);
-
-		if (contentId != null) {
-			this.messageManager.getMsgDao().saveOrUpdate(msg);
-		} else {
-			this.messageManager.getMsgDao().save(msg);
-		}
+		this.messageManager.getMsgDao().saveOrUpdate(msg);
 
 		session.setAttribute("News", null);
 
@@ -5093,6 +5089,7 @@ public class WebAdminController extends BaseController {
 			msg = this.mainManager.getOrigianlDao().findById(contentId);
 		} else {
 			msg = new Original();
+			this.mainManager.getOrigianlDao().save(msg);
 		}
 
 		Webcontenttype contentType = new Webcontenttype();
@@ -5127,26 +5124,7 @@ public class WebAdminController extends BaseController {
 		List l = (List) session.getAttribute("Original");
 
 		Set set = new HashSet();
-		if (image != null && !image.equals("") && l == null || l.size() == 0) {
-
-			if (type != 4 && type != 1) {
-				Object[] objs = msg.getOriginalImgs().toArray();
-				OriginalImg images = (OriginalImg) objs[0];
-				this.mainManager.getOriginalImgDao().delete(images);
-			} else {
-				if (msg.getOriginalDetails().size() >= 3) {
-					Object[] objs = msg.getOriginalDetails().toArray();
-					OriginalImg images = (OriginalImg) objs[0];
-					this.mainManager.getOriginalImgDao().delete(images);
-				}
-			}
-
-			OriginalImg images = new OriginalImg();
-			images.setOriginal(msg);
-			images.setUrl(image);
-			this.mainManager.getOriginalImgDao().save(images);
-			set.add(images);
-		} else {
+		if (l != null && l.size() > 0) {
 			if (type != 4 && type != 1) {
 				for (int i = 0; i < msg.getOriginalImgs().size(); i++) {
 					Object[] objs = msg.getOriginalImgs().toArray();
@@ -5171,15 +5149,33 @@ public class WebAdminController extends BaseController {
 				this.mainManager.getOriginalImgDao().save(images);
 				set.add(images);
 			}
+		} else {
+			if (image != null && !image.equals("")
+					&& (l == null || (l != null && l.size() == 0))) {
+
+				if (type != 4 && type != 1) {
+					Object[] objs = msg.getOriginalImgs().toArray();
+					OriginalImg images = (OriginalImg) objs[0];
+					this.mainManager.getOriginalImgDao().delete(images);
+				} else {
+					if (msg.getOriginalDetails().size() >= 3) {
+						Object[] objs = msg.getOriginalDetails().toArray();
+						OriginalImg images = (OriginalImg) objs[0];
+						this.mainManager.getOriginalImgDao().delete(images);
+					}
+				}
+
+				OriginalImg images = new OriginalImg();
+				images.setOriginal(msg);
+				images.setUrl(image);
+				this.mainManager.getOriginalImgDao().save(images);
+				set.add(images);
+			}
 		}
 
 		msg.setOriginalImgs(set);
 
-		if (contentId != null) {
-			this.mainManager.getOrigianlDao().saveOrUpdate(msg);
-		} else {
-			this.mainManager.getOrigianlDao().save(msg);
-		}
+		this.mainManager.getOrigianlDao().saveOrUpdate(msg);
 
 		session.setAttribute("Original", null);
 
@@ -5318,9 +5314,8 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			ModelMap map) {
 		if (contentId != null) {
-			Msg msg = this.messageManager.getMsgDao()
-					.findById(contentId);
-			this.messageManager.getMsgDao().delete(msg);
+			Original msg = this.mainManager.getOrigianlDao().findById(contentId);
+			this.mainManager.getOrigianlDao().delete(msg);
 		}
 
 		int page = 0;

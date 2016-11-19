@@ -289,7 +289,7 @@ public class SystemManager {
 	 * @return
 	 */
 	public List findSystemMessageListByUser(Users user, Integer page) {
-		List list = null;
+		List list = new ArrayList();
 		list = getSystemMessageDao()
 				.findByPropertyWithPage("users", user, page);
 		return list;
@@ -336,6 +336,7 @@ public class SystemManager {
 		Map map = new HashMap();
 		map.put("users", user);
 		map.put("isRead", read);
+		map.put("valid", true);
 		Integer count = getSystemMessageDao().counterByProperties(map);
 		if (count > 0) {
 			flag = true;

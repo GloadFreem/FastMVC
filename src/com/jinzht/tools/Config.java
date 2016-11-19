@@ -70,6 +70,9 @@ public class Config {
 	public static List STRING_INTEFACE_FLITER = new ArrayList() {
 		{
 			add("registUser.action");
+			add("requestIMTokean.action");
+			add("requestIsNeedRequestIMTokean.action");
+			add("requestImUsers.action");
 			add("noLogoInfo.action");
 			add("verifyCode.action");
 			add("loginUser.action");
@@ -94,7 +97,6 @@ public class Config {
 			add("requestUserProtocol.action");
 			add("requestActionDetail.action");
 			
-			
 			add("requestThinkTankList.action");
 			add("sportDetail.action");
 			add("requestViewPointDetail.action");
@@ -102,6 +104,45 @@ public class Config {
 			add("requestViewPointList.action");
 			add("requestThinkTankDetail.action");
 			add("requestSearchThinkTank.action");
+			add("bannerSystem.action");
+			add("requestHasMessageInfo.action");
+			add("requestThinkTankList.action");
+			add("requestViewPointList.action");
+			add("requestConsultList.action");
+			add("requestActionList.action");
+			add("versionInfoSystem.action");
+			add("requestProjectList.action");
+			add("requestSearchConsultList.action");
+			add("getProtocolAuthentic.action");
+			
+			
+			add("requestWebThinkTankList.action");
+			add("requestWebViewPointList.action");
+		}
+	};
+	
+	public static List STRING_INTEFACE_ARRAY_FLITER = new ArrayList() {
+		{
+			add("requestInnerMessageList.action");
+			add("getProtocolAuthentic.action");
+			add("getProvinceListAuthentic.action");
+			add("getCityListAuthentic.action");
+			add("getCityListByProvinceIdAuthentic.action");
+			add("getIndustoryAreaListAuthentic.action");
+			add("requestProjectList.action");
+			add("requestScene.action");
+			add("requestRecorData.action");
+			add("requestProjectMember.action");
+			add("requestProjectCommentList.action");
+			add("requestProjectSceneCommentList.action");
+			add("requestFeelingList.action");
+			add("requestUsersFeelingList.action");
+			add("requestInvestorList.action");
+			add("requestActionList.action");
+			add("requestAttendListAction.action");
+			add("requestTradeList.action");
+			add("requestProjectCenter.action");
+			add("requestGoldTradeList.action");
 		}
 	};
 	public static List STRING_INTEFACE_WEB_FLITER = new ArrayList() {
@@ -189,8 +230,8 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE = "【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT = "金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS = "http://www.jinzht.com/phone5/";
-	 public static String STRING_SYSTEM_ADDRESS ="http://192.168.10.145:8080/jinzht/";
-//	public static String STRING_SYSTEM_ADDRESS = "http://www.jinzht.com:8080/jinzht/";
+//	 public static String STRING_SYSTEM_ADDRESS ="http://192.168.10.145:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS = "http://www.jinzht.com:8080/jinzht/";
 	// public static String STRING_SYSTEM_INTRODUCE
 	// ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE = "http://www.jinzht.com:8080/jinzht/images/icon.jpg";
@@ -288,6 +329,7 @@ public class Config {
 
 	// 项目
 	public static String STRING_PROJECT_NO_DETAIL = "该项目无具体信息";
+	public static String STRING_SUBMMIT_SUCCESS = "投资信息确认成功";
 	public static String STRING_PROJECT_COLLECT_ADD = "关注成功";
 	public static String STRING_PROJECT_COLLECT_CANCEL = "取消关注";
 	public static String STRING_PROJECT_COMMENT_SUCCESS = "评论成功!";
@@ -383,4 +425,10 @@ public class Config {
 	public static int SOURCES_XINLANG = 2;
 
 	public static String webUrlList[] = { "http://3g.163.com/touch/reconstruct/article/list/BA8EE5GMwangning/0-10.html;1" };
+
+
+    //IM系统
+	public static String IM_SERVER_URL = "https://a1.easemob.com/1148161116178897/jinzht/";
+	public static String IM_CLIENT_ID = "YXA65dKQYKuuEea9DccOf0A-_w";
+	public static String IM_CLIENT_SECRET = "YXA6rBOcFcvdO7Cz_NqMtDfeTIfFLGY";
 }

@@ -2,10 +2,7 @@
     box-sizing: border-box;
 }
 
-::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-}
+
 
 body, html {
     font-size: 100%;
@@ -135,6 +132,7 @@ body {
 }
 
 .h-right{
+	display:none;
     width: 300px;
     margin-top: 16px;
     padding-top: 20px;
@@ -218,6 +216,15 @@ a{
     height: 100px;
     margin-top: 24px;
     background: url(../img/img_scanner.png) no-repeat;
+    background-size: 100%;
+    float: left;
+}
+
+.footer .top .scan-footer .img2{
+    width: 100px;
+    height: 100px;
+    margin-top: 24px;
+    background: url(../img/wechat.png) no-repeat;
     background-size: 100%;
     float: left;
 }

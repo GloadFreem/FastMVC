@@ -125,6 +125,9 @@
 				<value>com.message.Enity.OriginalImg</value>
 				<value>com.message.Enity.OriginalDetail</value>
 				<value>com.message.Enity.Original</value>
+				<value>com.message.Enity.Newsbanner</value>
+				<value>com.message.Enity.Originalbanner</value>
+				<value>com.message.Enity.Imsetting</value>
 			</list>
 		</property>
 	</bean>
@@ -543,4 +546,19 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-</beans>
+	<bean id="OriginalbannerDAO"
+		class="com.message.Enity.OriginalbannerDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="NewsbannerDAO" class="com.message.Enity.NewsbannerDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ImsettingDAO" class="com.message.Enity.ImsettingDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean></beans>

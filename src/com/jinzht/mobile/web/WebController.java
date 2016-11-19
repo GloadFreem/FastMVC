@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jinzht.tools.Config;
+import com.jinzht.tools.DateUtils;
 import com.jinzht.tools.FileUtil;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
@@ -40,21 +41,41 @@ import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Contenttype;
 import com.jinzht.web.entity.Identiytype;
 import com.jinzht.web.entity.Loginfailrecord;
+import com.jinzht.web.entity.Member;
 import com.jinzht.web.entity.MessageBean;
+import com.jinzht.web.entity.Project;
 import com.jinzht.web.entity.Rewardsystem;
+import com.jinzht.web.entity.Roadshow;
+import com.jinzht.web.entity.Roadshowplan;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Weburlrecord;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.AuthenticManager;
 import com.jinzht.web.manager.InvestorManager;
+import com.jinzht.web.manager.ProjectManager;
 import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.manager.WebManager;
 import com.jinzht.web.test.User;
+import com.message.Enity.Msg;
+import com.message.Enity.MsgBean;
+import com.message.Enity.MsgDetail;
+import com.message.Enity.Newsbanner;
+import com.message.Enity.Original;
+import com.message.Enity.OriginalDetail;
+import com.message.Enity.Originalbanner;
+import com.message.manager.MainManager;
+import com.message.manager.MessageMananger;
 
 @Controller
 public class WebController extends BaseController {
 	@Autowired
 	private WebManager webManager;
+	@Autowired
+	private MessageMananger messageManager;
+	@Autowired
+	private MainManager mainManager;
+	@Autowired
+	private ProjectManager projectManager;
 
 	@RequestMapping(value = "/admin/generateWebPage")
 	public String generateWebPage(
@@ -124,7 +145,14 @@ public class WebController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/web/index")
-	public String MainIndex() {
+	public String MainIndex(ModelMap map) {
+		//鑾峰彇banner
+		List<Newsbanner> bList = messageManager.getNewsBanner();
+		map.put("BannerList", bList);
+		
+		//鑾峰彇鐑棬璧勮
+		List<MsgBean> hotList = messageManager.getHotList();
+		map.put("HotList", hotList);
 		return "/web/html/content/main";
 	}
 	
@@ -133,7 +161,22 @@ public class WebController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/web/MainDetail")
-	public String MainDetail() {
+	public String MainDetail(@RequestParam("id") Integer id,ModelMap model) {
+		 Msg msg = messageManager.getMsgDao().findById(id);
+		 //璁板綍hot
+		 Integer hot = msg.getHot()==null?0:msg.getHot();
+		 msg.setHot(hot+1);
+		 messageManager.getMsgDao().saveOrUpdate(msg);
+		    Set<MsgDetail> msgDetail=msg.getMsgDetails();
+		    String detail = "";
+		    for(MsgDetail det:msgDetail){
+		    	detail+=det.getContent();
+		    }
+		    //璇︽儏
+			model.put("Detail", detail);
+			//鏍囬
+			model.put("Title", msg.getTitle());
+			//鐩稿叧璧勮锛�			
 		return "/web/html/content/main-detail";
 	}
 	
@@ -142,7 +185,20 @@ public class WebController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/web/report.action")
-	public String reportList() {
+	public String reportList(ModelMap map) {
+		//鑾峰彇banner
+				List<Originalbanner> oList = messageManager.getOriginalBannerList();
+				map.put("BannerList", oList);
+				
+				
+				//鑾峰彇鐑棬鎶ュ憡
+				List<Original> hotReportList = mainManager.getHotList();
+				map.put("HotReportList", hotReportList);
+				
+				//鑾峰彇鐑棬璧勮
+				List<MsgBean> hotList = messageManager.getHotList();
+				System.out.print(hotList.size());
+				map.put("HotList", hotList);
 		return "/web/html/content/report";
 	}
 	/***
@@ -150,7 +206,23 @@ public class WebController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/web/reportDetail.action")
-	public String reportDetail() {
+	public String reportDetail(@RequestParam("id") Integer id,ModelMap model) {
+
+		Original original = (Original) this.mainManager
+				.obtainOriginalByInfoId(id);
+		 //璁板綍hot
+		 Integer hot = original.getHot()==null?0:original.getHot();
+		original.setHot(hot+1);
+		mainManager.getOrigianlDao().saveOrUpdate(original);
+		//detail
+		Set<OriginalDetail> originalDetails = original.getOriginalDetails();
+		String detail = "";
+		for (OriginalDetail value : originalDetails) {
+			detail +=value.getContent();
+		}
+		model.put("Detail", detail);
+		model.put("Title", original.getTitle());
+
 		return "/web/html/content/report-detail";
 	}
 	/***
@@ -166,7 +238,64 @@ public class WebController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/web/projectDetail.action")
-	public String projectDetail() {
+	public String projectDetail(@RequestParam("id") Integer id,ModelMap model) {
+		
+
+		// 鑾峰彇椤圭洰
+		Project project = this.projectManager.findProjectById(id);
+		if(project!=null)
+		{
+//						// 鑾峰彇鐢ㄦ埛鏄惁宸插叧娉ㄨ椤圭洰
+//						Collection collection = this.ProjectManager
+//								.findProjectCollectionByUser(project, user);
+//
+//						if (collection != null) {
+//							project.setCollected(true);
+//						} else {
+				project.setCollected(false);
+
+			String desc = project.getDescription();
+			
+			desc = desc.replace("\n", "<br>");
+			project.setDescription(desc);
+			System.out.println("");
+			System.out.println(desc);
+			// 灏佽杩斿洖缁撴灉
+			model.put("Project", project);
+			Set<Roadshow> roadshows = project.getRoadshows();
+			List<Roadshow> rList = new ArrayList<Roadshow>();
+			for(Roadshow a:roadshows){
+				rList.add(a);
+			}
+			
+			int peset = rList.get(0).getRoadshowplan().getFinancedMount()*100/rList.get(0).getRoadshowplan().getFinanceTotal();
+			model.put("NumPeset", peset);
+			int time=0;
+			try {
+				time = DateUtils.getDaysBetween(rList.get(0).getRoadshowplan().getBeginDate(), rList.get(0).getRoadshowplan().getEndDate());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Roadshowplan road = rList.get(0).getRoadshowplan();
+			//鍙戣捣浜�		
+			Set<Member> menSet = project.getMembers();
+			List<Member> menList = new ArrayList<Member>();
+			for(Member a:menSet){
+				menList.add(a);
+			}
+			if(menList.size()==0){
+				menList.add(new Member());
+			}
+			model.put("Menber",menList.get(0));
+			model.put("Roadshowplan",road);
+			model.put("OverTime",time);
+		}else{
+			// 灏佽杩斿洖缁撴灉
+			model.put("Detail", "");
+		}
+		
+//		model.put("Title", original.getTitle());
 		return "/web/html/content/project-detail";
 	}
 	/***

@@ -66,20 +66,20 @@ public class ActionManager {
 	 *            当前页
 	 * @return
 	 */
-	public List findActionByCursor(int currentPage,Users user,Integer version) {
+	public List findActionByCursor(int currentPage,Integer version) {
 		List list = getActionDao().findByCursor(currentPage);
 		if (list != null && list.size() > 0) {
 			Action action = null;
 			for (int i = 0; i < list.size(); i++) {
 				action = (Action) list.get(i);
-				Attention attention = this.findAttentionByActionIdAndUser(action, user);
+				Attention attention = this.findAttentionByActionIdAndUser(action);
 				if(attention!=null)
 				{
 					attention.setUsers(null);
 					action.setAttended(true);
 				}
 				
-				Actionprise prise = this.findActionPrise(action, user);
+				Actionprise prise = this.findActionPrise(action);
 				if(prise!=null){
 					action.setFlag(true);
 				}
@@ -148,13 +148,12 @@ public class ActionManager {
 		List<Action> projects = getActionDao().findByName(name);
 		return projects;
 	}
-	public Actionprise findActionPrise(Action action,Users user)
+	public Actionprise findActionPrise(Action action)
 	{
 		Actionprise prise = null;
 		
 		//参数封装
 		Map map  = new HashMap();
-		map.put("users", user);
 		map.put("action", action);
 		
 		List list = getActionPriseDao().findByProperties(map, 0);
@@ -170,9 +169,9 @@ public class ActionManager {
 	 * @param user
 	 * @return
 	 */
-	public Attention findAttentionByActionIdAndUser(Action action,Users user)
+	public Attention findAttentionByActionIdAndUser(Action action)
 	{
-		List list =  getAttentionDao().findAttentionByUserIdAndActionId(user.getUserId(), action.getActionId());
+		List list =  getAttentionDao().findAttentionByUserIdAndActionId(action.getActionId());
 		Attention attention;
 		if(list!=null && list.size()>0){
 			return (Attention) list.get(0);

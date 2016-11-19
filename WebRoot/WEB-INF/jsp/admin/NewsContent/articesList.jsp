@@ -63,7 +63,7 @@
         page = $(this).text();
         if (page != "...") {
         size = $("select[name='example_length']").val();
-        url = "adminNewsContentListAdmin.action?";
+        url = "adminArticleListAdmin.action?";
         url += "page=" + page;
         url += "&size=" + size;
         window.location = url;
@@ -73,7 +73,7 @@
         size = $("select[name='example_length']").val();
         page = $("div.footer-page-item-selected").text();
         page++;
-        url = "adminNewsContentListAdmin.action?";
+        url = "adminArticleListAdmin.action?";
         url += "page=" + page;
         url += "&size=" + size;
         window.location = url;
@@ -134,7 +134,7 @@
 	<div class="grid_10">
 		<div class="box round first grid">
 			<div>
-				<a href="adminEditNewsInfo.action?contentId=" target="content"><h2>
+				<a href="adminEditArtic.action?contentId=" target="content"><h2>
 						<div>
 							<img alt="添加原创" src="images/圆角矩形-3-拷贝-5.png">
 						</div>

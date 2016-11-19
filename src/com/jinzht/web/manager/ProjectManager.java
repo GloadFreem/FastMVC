@@ -124,11 +124,11 @@ public class ProjectManager {
 	 * @param currentPage
 	 * @return
 	 */
-	public List findProjectsByCursor(int type,int currentPage) {
+	public List findProjectsByCursor(int type,int currentPage,int size) {
 		Map map = new HashMap();
 		if(type==0)
 		{
-			List l = getProjectDao().findProjectHomeList(currentPage,3);
+			List l = getProjectDao().findProjectHomeList(currentPage,3,size);
 //			List l1 = getProjectDao().findProjectHomeList(currentPage,1);
 //			List l2 = getProjectDao().findProjectHomeList(currentPage,2);
 //			List l3 = getProjectDao().findProjectHomeList(currentPage,4);
@@ -775,7 +775,7 @@ public class ProjectManager {
 		Map map = new HashMap();
 		map.put("users", user);
 		
-		List result = getInvestmentRecordDao().findByProperties(map, 0);
+		List result = getInvestmentRecordDao().findByProperties(map, page);
 		
 		if(result!=null && result.size()>0){
 			for(int i=0;i<result.size();i++)

@@ -155,7 +155,7 @@
 					<c:choose>
 						<c:when test="${message!=null}">
 							<input style="color:black" id="title" name="title"
-								value="" type="text">
+								value="${message.title}" type="text">
 						</c:when>
 						<c:otherwise>
 							<input style="color:black" id="title" name="title"

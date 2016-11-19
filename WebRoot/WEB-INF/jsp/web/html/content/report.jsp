@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -34,7 +35,7 @@
 					<div class="search">搜索</div>
 					<div class="down">下载APP</div>
 					<div class="text">
-						<a href="../user/Login.html">登录</a> | <a href="../user/Login.html">注册</a>
+							<a href="./login.action">登录</a> | <a href="./login.action">注册</a>
 					</div>
 
 				</div>
@@ -46,37 +47,46 @@
 		<!--<div class="poster-main B_Demo" >-->
 		<!--首推资讯-->
 		<div class="middle">
-			<div class="content c-top-s">
-				<!--demo msg 1-->
-				<div class="t-left">
-					<a id="msg_img_0" class="msg-big  " href="javascript:void(0);"
-						style="background: url(.//img/message/20160904101118589.jpg) no-repeat center;">
-						<div id="msg_title_0" class="shadow">【金日投条】据传Uber上半年至少亏了12.7亿美元</div>
-					</a>
-				</div>
-				<div class="t-right">
-					<a id="msg_img_1" class="msg-small  " href="javascript:void(0);"
-						style="background: url(.//img/message/20160904100937733.jpg)
-                    no-repeat center;">
-						<div id="msg_title_1" class="shadow">干货丨企业分拆的正确姿势：抓业务和时机，伺候好股东、客户和员工</div>
-					</a> <a id="msg_img_2" class="msg-small-2 " href="javascript:void(0);"
-						style="background: url(.//img/message/20160904100815646.jpg)
-                    no-repeat center;">
-						<div id="msg_title_2" class="shadow">苹果面临欧盟数十亿欧元罚款；北京禁止平衡车上路，违者罚款10元</div>
-					</a> <a id="msg_img_3" class="msg-small " href="javascript:void(0);"
-						style="background: url(.//img/message/160904101343155.jpg) no-repeat
-                    center;">
-						<div id="msg_title_3" class="shadow">关于“约教练”项目投资建议</div>
-					</a> <a id="msg_img_4" class="msg-small-2 " href="javascript:void(0);"
-						style="background: url(.//img/message/0160904101441166.jpg) no-repeat
-                    center;">
-						<div id="msg_title_4" class="shadow">选择第三方财富管理机构的三大技巧</div>
-					</a>
+			<div class="content c-top-s" style="height:410px;position:relative;">
+			
+						<c:forEach var="banner"  items="${BannerList}" >
+						<c:choose>
+								<c:when test="${banner.bannerId==1 }">
+									<div class="t-left">
+										<a id="msg_img_0" class="msg-big  "  href="${banner.url}">
+										
+											<img src="${banner.image}" style="width: 100%;height: 100%">
+											<div id="msg_title_0" class="shadow">${banner.desc}</div>
+										</a>
+									</div>
+								</c:when>
+								
+								<c:when test="${banner.bannerId==2 }">
+										<div class="t-right">
+											  <a id="msg_img_1" class="msg-small"   href="${banner.url}">
+					                <img src="${banner.image}" style="width: 100%;height: 100%">
+					                    <div id="msg_title_1" class="shadow">${banner.desc}</div>
+					                </a>
+								</c:when>
+								<c:when test="${banner.bannerId==5 }">
+											  <a id="msg_img_1" class="msg-small"  href=" ${banner.url}">
+					             <img src="${banner.image}" style="width: 100%;height: 100%">
+					                    <div id="msg_title_1" class="shadow">${banner.desc}</div>
+					                </a>
+						 				</div>
+								</c:when>
+								<c:otherwise >
+								  <a id="msg_img_1" class="msg-small  "  href="${banner.url}">
+					               <img src="${banner.image}" style="width: 100%;height: 100%">
+					                    <div id="msg_title_1" class="shadow">${banner.desc}</div>
+					                </a>
+								</c:otherwise>
+								</c:choose>
+						</c:forEach>
+				
+				
 
-				</div>
-			</div>
 		</div>
-		<!--</div>-->
 
 
 		<!--内容区域;最小1200px;-->
@@ -92,75 +102,8 @@
 						<div class="font-en">Latest Release</div>
 					</div>
 					<!--list-->
-					<div class="content-list">
-						<!--item-->
-						<div class="content-item">
-							<img
-								src="http://cms-bucket.nosdn.127.net/e960161df4d14790862f68bef2947a5020161022104200.png"
-								class="item-img">
-							<div class="item-r">
-								<a href="reportDetail.action" class="item-title">史上最黄嘉宾空降网易态度星际趴</a>
-								<div class="item-type-1">网易财经</div>
-								<div class="item-time">2016-10-22 10:44:25</div>
-								<div class="item-desc">装垫儿台，这里是装垫儿台！
-									这几天的海口，刚送走一个台风，又迎来一个台风，然鹅这都不是大事！万众瞩目的海口国际广告节今天迎风开幕了！离“网易态度星际趴”大派对就只剩2天啦！！
-								</div>
-							</div>
-						</div>
-
-						<!--item-->
-						<div class="content-item">
-							<img src=".//img/main/bg_test.png" class="item-img">
-							<div class="item-r">
-								<a href="reportDetail.action" class="item-title">购越野车作公务车</a>
-								<div class="item-type-2">第一财经日报</div>
-								<div class="item-time">2016-10-22 09:40:00</div>
-								<div class="item-desc">
-									中国银监会10月21日召开三季度经济金融形势分析会，会议明确指出要加强理财资金投资管理.中国银监会10月21日召开三季度经济金融形势分析会，会议明确指出要加强理财资金投资管理.
-								</div>
-							</div>
-						</div>
-
-						<!--item-->
-						<div class="content-item">
-							<img src=".//img/main/bg_test.png" class="item-img">
-							<div class="item-r">
-								<a href="#" class="item-title">购车款报销，购车款报销</a>
-								<div class="item-type-0">金日投条</div>
-								<div class="item-time">2016-10-22 09:40:00</div>
-								<div class="item-desc">
-									中国0月21日召开三季度经济金融形势分析会，会议明确指出要加强理财资金投资管理.中国银监会10月21日召开三季度经济金融形势分析会，会议明确指出要加强理财资金投资管理.
-								</div>
-							</div>
-						</div>
-						<!--item-->
-						<div class="content-item">
-							<img src=".//img/main/bg_test.png" class="item-img">
-							<div class="item-r">
-								<a href="#" class="item-title">购车款报销，购车款报销</a>
-								<div class="item-type-0">金日投条</div>
-								<div class="item-time">2016-10-22 09:40:00</div>
-								<div class="item-desc">
-									中国0月21日召开三季度经济金融形势分析会，会议明确指出要加强理财资金投资管理.中国银监会10月21日召开三季度经济金融形势分析会，会议明确指出要加强理财资金投资管理.
-								</div>
-							</div>
-						</div>
-						<!--item-->
-						<div class="content-item">
-							<img src=".//img/main/bg_test.png" class="item-img">
-							<div class="item-r">
-								<a href="#" class="item-title">购车款报销，购车款报销</a>
-								<div class="item-type-0">金日投条</div>
-								<div class="item-time">2016-10-22 09:40:00</div>
-								<div class="item-desc">
-									中国0月21日召开三季度经济金融形势分析会，会议明确指出要加强理财资金投资管理.中国银监会10月21日召开三季度经济金融形势分析会，会议明确指出要加强理财资金投资管理.
-								</div>
-							</div>
-						</div>
-
-						<div class="content-item">
-							<div class="content-more">查看更多</div>
-						</div>
+					<div class="content-list" id="new_report_list">
+						
 
 					</div>
 				</div>
@@ -175,15 +118,10 @@
 					</div>
 					<div class="opinion-list">
 						<div class="content-item" style="margin-top: 0px;">
-							<div class="opinion-text">中国银监会10月21日召开三季度经济金融形势分析会</div>
-							<div class="opinion-text">购车款报销，购车款报销</div>
-							<div class="opinion-text">中国银监会10月21日召开三季度经济金融形势分析会</div>
-							<div class="opinion-text">中国银监会10月21日召开三季度经济金融形势分析会</div>
-							<div class="opinion-text">中国银监会10月21日召开三季度经济金</div>
-							<div class="opinion-text">中国银监会10月21日召开三季度经济金</div>
-							<div class="content-item">
-								<div class="content-opinion-more">更多资讯</div>
-							</div>
+							<c:forEach var="report"  items="${HotReportList}" >
+								  		<!--item-->
+										<a href="<%=basePath%>web/reportDetail.action?id=${report.infoId}" ><div class="opinion-text">${report.title}</div></a>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -196,48 +134,16 @@
 						<div class="font-g">/</div>
 						<div class="font-en">Hot News</div>
 					</div>
-
-					<div class="content-list">
-						<!--item-->
-						<div class="content-item-hot">
-							<img src=".//img/main/bg_test.png" class="item-img-hot">
-							<div class="item-r-hot">
-								<a href="#" class="item-title">购车款报销，购车款报销，购车款报销购车款报销，购车款报销</a>
-								<div class="item-time">2016-10-22 09:40:00</div>
+						<c:forEach var="msg"  items="${HotList}" >
+							  			<!--item-->
+							<div class="content-item-hot">
+								<img src="${msg.images[0]}" class="item-img-hot">
+								<div class="item-r-hot">
+									<a href="<%=basePath%>web/MainDetail.action?id=${msg.id}" class="item-title">${msg.title}</a>
+									<div class="item-time">${msg.publicDate}</div>
+								</div>
 							</div>
-						</div>
-						<!--item-->
-						<div class="content-item-hot">
-							<img src=".//img/main/bg_test.png" class="item-img-hot">
-							<div class="item-r-hot">
-								<a href="#" class="item-title">购车款报销，购车款报销，购车款报销购车款报销，购车款报销</a>
-								<div class="item-time">2016-10-22 09:40:00</div>
-							</div>
-						</div>
-						<!--item-->
-						<div class="content-item-hot">
-							<img src=".//img/main/bg_test.png" class="item-img-hot">
-							<div class="item-r-hot">
-								<a href="#" class="item-title">购车款报销，购车款报销，购车款报销购车款报销，购车款报销</a>
-								<div class="item-time">2016-10-22 09:40:00</div>
-							</div>
-						</div>
-						<!--item-->
-						<div class="content-item-hot">
-							<img src=".//img/main/bg_test.png" class="item-img-hot">
-							<div class="item-r-hot">
-								<a href="#" class="item-title">购车款报销，购车款报销，购车款报销购车款报销，购车款报销</a>
-								<div class="item-time">2016-10-22 09:40:00</div>
-							</div>
-						</div>
-						<!--item-->
-						<div class="content-item-hot">
-							<img src=".//img/main/bg_test.png" class="item-img-hot">
-							<div class="item-r-hot">
-								<a href="#" class="item-title">购车款报销，购车款报销，购车款报销购车款报销，购车款报销</a>
-								<div class="item-time">2016-10-22 09:40:00</div>
-							</div>
-						</div>
+						</c:forEach>
 
 					</div>
 				</div>
@@ -260,12 +166,12 @@
 						<div class="text">APP下载</div>
 					</div>
 					<div class="scan-footer m-left">
-						<div class="img"></div>
+						<div class="img2"></div>
 						<div class="text">微信公众号</div>
 					</div>
 				</div>
 			</div>
-			<div class="bot">京ICP备15062798号 © 2015-2016 金指投 版权所有</div>
+			<div class="bot">京ICP备15043593号 © 2015-2016 金指投 版权所有</div>
 		</div>
 
 
@@ -273,6 +179,7 @@
 
 	<script type="text/javascript" src=".//js/jquery1.8.min.js"
 		charset="utf-8"></script>
+					<script type="text/javascript" src=".//js/config.js" charset="utf-8"></script>
 	<script type="text/javascript" src=".//js/report.js" charset="utf-8"></script>
 
 </body>

@@ -218,8 +218,9 @@ public class PushUtil {
 													.build()).build())
 					.setMessage(Message.content(Config.STRING_PUSH_CONTENT))
 					.setOptions(Options.newBuilder()
-					// .setApnsProduction(true)
-							.setApnsProduction(false).build()).build();
+					 .setApnsProduction(true)
+//							.setApnsProduction(false)
+							.build()).build();
 		} else {
 			return PushPayload
 					.newBuilder()
@@ -235,8 +236,8 @@ public class PushUtil {
 													.setAlert(title)
 													.setBadge(1)
 													.setSound("happy.caf")
-													.addExtra("type", "project")
-													.addExtra("content", "48")
+													.addExtra("type", "web")
+													.addExtra("content", content)
 													.addExtra("ext", "1")
 													.addExtra("title",
 															this.webViewTitle)
@@ -249,8 +250,9 @@ public class PushUtil {
 													.build()).build())
 					.setMessage(Message.content(Config.STRING_PUSH_CONTENT))
 					.setOptions(Options.newBuilder()
-					// .setApnsProduction(true)
-							.setApnsProduction(false).build()).build();
+					 .setApnsProduction(true)
+//				     .setApnsProduction(false)
+				     .build()).build();
 		}
 
 	}

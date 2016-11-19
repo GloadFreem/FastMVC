@@ -1,23 +1,18 @@
 package com.message.Enity;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
-
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
 import static org.hibernate.criterion.Example.create;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.jinzht.web.entity.Users;
 
 /**
  * A data access object (DAO) providing persistence and search support for Msg
@@ -38,6 +33,7 @@ public class MsgDAO {
 	public static final String IMAGE = "image";
 	public static final String ORINGL = "oringl";
 	public static final String TAB = "tab";
+	public static final String HOT = "hot";
 
 	private SessionFactory sessionFactory;
 
@@ -57,16 +53,6 @@ public class MsgDAO {
 		log.debug("saving Msg instance");
 		try {
 			getCurrentSession().save(transientInstance);
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
-	public void saveOrUpdate(Msg transientInstance) {
-		log.debug("saving Msg instance");
-		try {
-			getCurrentSession().saveOrUpdate(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -111,32 +97,6 @@ public class MsgDAO {
 			throw re;
 		}
 	}
-	
-	public Integer countOfAllRecords() {
-		log.debug("finding all Msg instances");
-		try {
-			String queryString = "select count(*) from msg";
-			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
-			return Integer.parseInt((queryObject.list().get(0).toString()));
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
-	
-	public List findByPage(Integer start,Integer size) {
-		log.debug("finding all Msg instances");
-		try {
-			String queryString = "from Msg order by publicDate desc";
-			Query queryObject = getCurrentSession().createQuery(queryString);
-			queryObject.setFirstResult(start*size);
-			queryObject.setMaxResults(size);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
 
 	public List findByProperty(String propertyName, Object value) {
 		log.debug("finding Msg instance with property: " + propertyName
@@ -169,6 +129,10 @@ public class MsgDAO {
 		return findByProperty(TAB, tab);
 	}
 
+	public List<Msg> findByHot(Object hot) {
+		return findByProperty(HOT, hot);
+	}
+
 	public List findAll() {
 		log.debug("finding all Msg instances");
 		try {
@@ -179,15 +143,6 @@ public class MsgDAO {
 			log.error("find all failed", re);
 			throw re;
 		}
-	}
-	
-	public List<Msg> findByName(Object name) {
-		String sqlString = "select * from msg where title like ?";
-		
-		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Msg.class);
-		queryObject.setParameter(0, "%"+name+"%");
-		
-		return queryObject.list();
 	}
 
 	public Msg merge(Msg detachedInstance) {
@@ -224,12 +179,61 @@ public class MsgDAO {
 			throw re;
 		}
 	}
+	
+	
+	public Integer countOfAllRecords() {
+		log.debug("finding all Msg instances");
+		try {
+			String queryString = "select count(*) from msg";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findByPage(Integer start,Integer size) {
+		log.debug("finding all Msg instances");
+		try {
+			String queryString = "from Msg order by publicDate desc";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(start*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public void saveOrUpdate(Msg transientInstance) {
+		log.debug("saving Msg instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+	
+
+	public List<Msg> findByName(Object name) {
+		String sqlString = "select * from msg where title like ?";
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Msg.class);
+		queryObject.setParameter(0, "%"+name+"%");
+		
+		return queryObject.list();
+	}
 
 	public static MsgDAO getFromApplicationContext(ApplicationContext ctx) {
 		return (MsgDAO) ctx.getBean("MsgDAO");
 	}
 	
 	
+
 	public List<Msg> findListBySearch(int pageId, int pageNum, String likeWords) {
 		String queryString;
 		Query q ;
@@ -252,7 +256,23 @@ public class MsgDAO {
 		}
 	
 	}
-	
-	
-	
+    
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Msg> findHotMsg() {
+		String queryString;
+		Query q ;
+		try {
+			 queryString = "from Msg msg order by msg.hot desc";
+			 q = getCurrentSession().createQuery(queryString);
+			q.setFirstResult(0);
+			q.setMaxResults(5);
+			return q.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
 }

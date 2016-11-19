@@ -150,18 +150,10 @@ public class SystemController extends BaseController {
 		this.result = new HashMap();
 		List list = this.systemManger.findBannerInfoList();
 		this.status = 200;
-		// 获取用户
-		Users user = this.findUserInSession(session);
-
-		if (user == null) {
-			this.status = 400;
-			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
+		if (list != null && list.size() > 0) {
+			this.result.put("data", list);
 		} else {
-			if (list != null && list.size() > 0) {
-				this.result.put("data", list);
-			} else {
-				this.result.put("data", new ArrayList());
-			}
+			this.result.put("data", new ArrayList());
 		}
 
 		this.message = "";
@@ -604,7 +596,7 @@ public class SystemController extends BaseController {
 		Users user = this.findUserInSession(session);
 
 		if (user == null) {
-			this.status = 400;
+			this.status = 401;
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
 		} else {
 
@@ -789,6 +781,7 @@ public class SystemController extends BaseController {
 			this.status = 201;
 
 		}
+		this.message="";
 		this.result.put("data", list);
 		return getResult();
 	}

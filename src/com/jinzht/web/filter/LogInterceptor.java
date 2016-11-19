@@ -70,9 +70,17 @@ public class LogInterceptor implements HandlerInterceptor {
 
 		if (session.getAttribute("userId") == null && !flag) {
 			if (!requestPath.contains("admin")) {
+				boolean  signal = false;
+				for (Object str : Config.STRING_INTEFACE_ARRAY_FLITER) {
+					String path = str.toString();
+					if (requestPath.endsWith(path)) {
+						signal = true;
+						break;
+					}
+				}
 				// 重定位到登录页面
 				hrequest.setAttribute("tip", "您没有登录！");
-				hresponse.sendRedirect("noLogoInfo.action");
+				hresponse.sendRedirect("noLogoInfo.action?flag="+signal);
 				return false;
 			} else {
 				// 重定位到登录页面
@@ -86,8 +94,6 @@ public class LogInterceptor implements HandlerInterceptor {
 				}
 				if (session.getAttribute("userId") == null && !flag) {
 					session.setAttribute("tip", "您没有登录！");
-					session.setAttribute("tip", "");
-					hrequest.setAttribute("tip", "您没有登录！");
 					hresponse.sendRedirect("adminLogin.action");
 					return false;
 				}

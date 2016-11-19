@@ -2,6 +2,7 @@ package com.message.manager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -11,10 +12,17 @@ import com.jinzht.tools.Condition;
 import com.jinzht.tools.Config;
 import com.jinzht.web.entity.WebcontenttypeDAO;
 import com.message.Enity.Msg;
+import com.message.Enity.MsgBean;
 import com.message.Enity.MsgDAO;
 import com.message.Enity.MsgDetail;
 import com.message.Enity.MsgDetailDAO;
+import com.message.Enity.MsgImages;
 import com.message.Enity.MsgImagesDAO;
+import com.message.Enity.Newsbanner;
+import com.message.Enity.NewsbannerDAO;
+import com.message.Enity.Originalbanner;
+import com.message.Enity.OriginalbannerDAO;
+import com.message.Enity.Webcontent;
 import com.message.Enity.Webrule;
 import com.message.Enity.WebruleDAO;
 public class MessageMananger {
@@ -27,6 +35,25 @@ public class MessageMananger {
 	public MsgDAO msgDao;
 	public MsgDetailDAO msgDetailDAO;
 	private MsgImagesDAO msgImagesDao;
+	private NewsbannerDAO newsbannerDAO;
+	private OriginalbannerDAO originalbannerDAO;
+
+	public OriginalbannerDAO getOriginalbannerDAO() {
+		return originalbannerDAO;
+	}
+	@Autowired
+	public void setOriginalbannerDAO(OriginalbannerDAO originalbannerDAO) {
+		this.originalbannerDAO = originalbannerDAO;
+	}
+
+	public NewsbannerDAO getNewsbannerDAO() {
+		return newsbannerDAO;
+	}
+	
+	@Autowired
+	public void setNewsbannerDAO(NewsbannerDAO newsbannerDAO) {
+		this.newsbannerDAO = newsbannerDAO;
+	}
 	
 
 	public MsgDetailDAO getMsgDetailDAO() {
@@ -214,6 +241,61 @@ public class MessageMananger {
 	@Autowired
 	public void setMsgImagesDao(MsgImagesDAO msgImagesDao) {
 		this.msgImagesDao = msgImagesDao;
+	}
+
+	/**
+	 * 鑾峰彇鐑棬璧勮
+	 * @return
+	 */
+	public List<MsgBean> getHotList() {
+		// TODO Auto-generated method stub
+		
+		List<Msg> msglist = new ArrayList<Msg>();
+		msglist = msgDao.findHotMsg();
+		
+		List<MsgBean> resultList = new ArrayList<MsgBean>();
+		
+		
+		for(Msg msg:msglist){
+			MsgBean msgBean = new MsgBean();
+			Webcontent webcontenttype = new Webcontent();
+			msgBean.setId(msg.getInfoId()+"");
+			msgBean.setTitle(msg.getTitle());
+			msgBean.setPublicDate(msg.getPublicDate().toString().substring(0,msg.getPublicDate().toString().length()-2));
+			msgBean.setOringl(msg.getOringl());
+			webcontenttype.setTypeId(msg.getWebcontenttype().getTypeId()+"");
+			webcontenttype.setName(msg.getWebcontenttype().getName());
+			msgBean.setWebcontentType(webcontenttype);
+//			System.out.print(msg.getWebcontenttype().getName());
+			Set<MsgImages> imgSet = msg.getMsgImageses();
+			String[] images =  new String[imgSet.size()];
+			List<MsgImages> imglist = new ArrayList<MsgImages>();
+			for(MsgImages mimg: imgSet){
+				imglist.add(mimg);
+			}
+			for(int i=0;i<imglist.size();i++){
+				images[i] = imglist.get(i).getUrl();
+			}
+			msgBean.setImages(images);
+			
+			resultList.add(msgBean);
+		}
+		return resultList;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Newsbanner> getNewsBanner() {
+		List<Newsbanner> bNewsbanners = new ArrayList<Newsbanner>();
+		bNewsbanners = newsbannerDAO.findAll();
+		return bNewsbanners;
+	}
+
+	public List<Originalbanner> getOriginalBannerList() {
+		List<Originalbanner> bNewsbanners = new ArrayList<Originalbanner>();
+		bNewsbanners = originalbannerDAO.findAll();
+		return bNewsbanners;
 	}
 
 

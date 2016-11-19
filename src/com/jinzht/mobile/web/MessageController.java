@@ -8,6 +8,9 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,7 +26,9 @@ import com.message.Enity.MsgBean;
 import com.message.Enity.MsgDetail;
 import com.message.Enity.MsgImages;
 import com.message.Enity.Original;
+import com.message.Enity.OriginalBean;
 import com.message.Enity.OriginalDetail;
+import com.message.Enity.OriginalImg;
 import com.message.Enity.Webcontent;
 import com.message.manager.MainManager;
 import com.message.manager.MessageMananger;
@@ -233,6 +238,174 @@ public class MessageController {
 		}
 		return dataMap;
 	}
+	
+
+	/**
+	 * 鑾峰彇璧勮鍒楄〃 JSON 鏁版嵁杩斿洖   web缃戠珯涓撶敤
+	 * http://localhost:8080/MyProject/messageSystem/requestWebThinkTankList.action
+	 * http://localhost:8080/MyProject/messageSystem/requestWebThinkTankList.action?key=jinzht_server_security&partner=sdfwefwf&page=1
+	 * http://192.168.5.182:8080/MyProject/messageSystem/requestWebThinkTankList.action?key=jinzht_server_security&partner=sdfwefwf&page=1
+	 * @param key
+	 * @param partner
+	 * @param page
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/requestWebThinkTankList")
+	@ResponseBody
+	public Object getMessageWebList(@RequestParam("key") String key,
+			@RequestParam("partner") String partner,
+			@RequestParam("page") Integer page) {
+		// JSON绫诲瀷杩斿洖
+		String requestKey = key;
+		String requestPartner = partner;
+		Integer requestPageId = page;
+		Map dataMap = new HashMap();
+		//pageNum
+		int pageNum = Config.Page_Data_Size;
+		//鍙傛暟妫�煡
+		if (requestKey.equals("jinzht_server_security")) {
+			List<Msg> list = messageManager.findMsgList(requestPageId,pageNum,null);
+			List<MsgBean> resultList = new ArrayList<MsgBean>();
+			if(list.size()==0){
+				dataMap.put("data", resultList);
+				dataMap.put("message", "this has no more data");
+				dataMap.put("status", Config.HTTP_RESULT_LAST);
+			}else{
+				for(Msg msg:list){
+					MsgBean msgBean = new MsgBean();
+					Webcontent webcontenttype = new Webcontent();
+					msgBean.setId(msg.getInfoId()+"");
+					msgBean.setTitle(msg.getTitle());
+					msgBean.setPublicDate(msg.getPublicDate().toString().substring(0,msg.getPublicDate().toString().length()-2));
+					msgBean.setOringl(msg.getOringl());
+					webcontenttype.setTypeId(msg.getWebcontenttype().getTypeId()+"");
+					webcontenttype.setName(msg.getWebcontenttype().getName());
+					msgBean.setWebcontentType(webcontenttype);
+//					System.out.print(msg.getWebcontenttype().getName());
+					Set<MsgImages> imgSet = msg.getMsgImageses();
+					String[] images =  new String[imgSet.size()];
+					List<MsgImages> imglist = new ArrayList<MsgImages>();
+					for(MsgImages mimg: imgSet){
+						imglist.add(mimg);
+					}
+					for(int i=0;i<imglist.size();i++){
+						images[i] = imglist.get(i).getUrl();
+					}
+					msgBean.setImages(images);
+					//desc
+					Set<MsgDetail> detalSet = msg.getMsgDetails();
+					List<MsgDetail> detalList = new ArrayList<MsgDetail>();
+					for(MsgDetail mimg: detalSet){
+						detalList.add(mimg);
+					}
+					String msgDesc = detalList.get(0).getContent();
+					Elements links = new Elements();
+					Document doc = Jsoup.parse(msgDesc);
+					links = doc.getAllElements();
+					String descStr = links.text();
+					if(descStr.indexOf(msg.getOringl())!=-1&&!msg.getOringl().equals("")){
+						descStr = 	descStr.substring(descStr.indexOf(msg.getOringl())+msg.getOringl().length(), descStr.length()-1);
+					}
+					if(descStr.length()>200){
+						descStr = 	descStr.substring(0, 199);
+					}
+					msgBean.setDesc(descStr);
+					resultList.add(msgBean);
+				}
+				dataMap.put("data", resultList);
+				dataMap.put("message", "success");
+				dataMap.put("status", Config.HTTP_RESULT_OK);	
+			}	
+		}else{
+			dataMap.put("data", "[]");
+			dataMap.put("message", "error:request param error!");
+			dataMap.put("status", Config.HTTP_RESULT_ERROR);
+		}
+		return dataMap;
+	}
+	
+
+	/**
+	 * requestWebViewPointList  web锛氳祫璁姤鍛�	 * http://localhost:8080/MyProject/messageSystem/requestWebViewPointList.action?key=jinzht_server_security&partner=requestViewPointList&page=0
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/requestWebViewPointList.action")
+	@ResponseBody
+	public Map searchViewPointWeb(HttpServletRequest request) {
+		// 閹恒儲鏁归崣鍌涙殶
+		String key = request.getParameter("key");
+		String partner = request.getParameter("partner");
+		String page = request.getParameter("page");
+		int pageIndex = Integer.parseInt(page.trim());
+		
+		List<OriginalBean> oBeans = new ArrayList<OriginalBean>();
+		
+//		List allData = this.mainManager.obtainAllOriginal();
+//		if(allData.size() < 2*pageIndex){
+//			return MapUtil.mapData("鏁版嵁鍔犺浇瀹屾瘯", "201", null);
+//		}
+		if (key.equals("jinzht_server_security")
+				) {
+			List<Original> list = mainManager.obtainOriginal(pageIndex, 10);
+			for(Original original:list){
+				OriginalBean bean = new OriginalBean();
+				bean.setTitle(original.getTitle());
+				bean.setInfoId(original.getInfoId());
+				bean.setOringl(original.getOringl());
+				bean.setPublicDate(original.getPublicDate());
+				bean.setWebcontenttype(original.getWebcontenttype());
+				//imgurl
+				Set<OriginalImg>  imgUrls = original.getOriginalImgs();
+				List<String> urllist = new ArrayList<String>();
+				for(OriginalImg img:imgUrls){
+					urllist.add(img.getUrl());
+				}
+				if(urllist.size()>0){
+					bean.setImgurl(urllist.get(0));
+				}else{
+					bean.setImgurl("");
+				}
+				//desc
+				Set<OriginalDetail>  detaillist = original.getOriginalDetails();
+				List<String> detailStrlsit = new ArrayList<String>();
+				for(OriginalDetail detal:detaillist){
+					detailStrlsit.add(detal.getContent());
+				}
+				String desc = "";
+				String descStr = "";
+				if(detailStrlsit.size()>0){
+					 desc = detailStrlsit.get(0);
+					 Elements links = new Elements();
+						Document doc = Jsoup.parse(desc);
+						links = doc.getAllElements();
+						descStr = links.text();
+						if(descStr.indexOf(original.getTitle())!=-1&&!original.getTitle().equals("")){
+							descStr = 	descStr.substring(descStr.indexOf(original.getTitle())+original.getTitle().length(), descStr.length()-1);
+						}
+						if(descStr.length()>200){
+							descStr = 	descStr.substring(0, 199);
+						}
+				}
+
+				bean.setDesc(descStr);
+				oBeans.add(bean);
+			}
+			if(oBeans.size()==0){
+				if(page.equals("0")){
+					return MapUtil.mapData("success", "200", oBeans);
+				}else{
+					return MapUtil.mapData("no more data", "201", oBeans);
+				}	
+			}else{
+				return MapUtil.mapData("success", "200", oBeans);
+			}
+		} else {
+			return MapUtil.mapData("鏁版嵁鍔犺浇澶辫触", "400", null);
+		}
+	}
+
 	
 	
 	/**

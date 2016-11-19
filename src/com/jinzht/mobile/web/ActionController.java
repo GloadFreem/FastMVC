@@ -78,23 +78,16 @@ public class ActionController extends BaseController {
 		this.result = new HashMap();
 
 		// 获取当前发布内容用户
-		Users user = this.findUserInSession(session);
+		List list = this.actionManager.findActionByCursor(page,
+				version);
 
-		if (user == null) {
-			this.status = 400;
-			this.message = Config.STRING_LOGING_FAIL_NO_USER;
+		if (list != null && list.size() > 0) {
+			this.status = 200;
+			this.result.put("data", list);
 		} else {
-			List list = this.actionManager.findActionByCursor(page, user,
-					version);
-
-			if (list != null && list.size() > 0) {
-				this.status = 200;
-				this.result.put("data", list);
-			} else {
-				this.status = 201;
-				this.result.put("data", new ArrayList());
-				this.message = Config.STRING_FEELING_NO_DATA;
-			}
+			this.status = 201;
+			this.result.put("data", new ArrayList());
+			this.message = Config.STRING_FEELING_NO_DATA;
 		}
 
 		return getResult();
@@ -124,7 +117,7 @@ public class ActionController extends BaseController {
 			Action action = this.actionManager.findActionById(contentId);
 			// 获取用户是否已经报名参加
 			Attention attention = this.actionManager
-					.findAttentionByActionIdAndUser(action, user);
+					.findAttentionByActionIdAndUser(action);
 			if (attention == null) {
 				attention = new Attention();
 				attention.setUsers(user);
@@ -464,7 +457,7 @@ public class ActionController extends BaseController {
 			}
 
 			Attention attention = this.actionManager
-					.findAttentionByActionIdAndUser(action, user);
+					.findAttentionByActionIdAndUser(action);
 			if (attention != null) {
 				action.setAttended(true);
 			}

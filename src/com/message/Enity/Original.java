@@ -8,13 +8,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jinzht.web.entity.Webcontenttype;
 
 /**
@@ -22,7 +24,6 @@ import com.jinzht.web.entity.Webcontenttype;
  */
 @Entity
 @Table(name = "original", catalog = "jinzht2016")
-@JsonIgnoreProperties({"originalDetails"})
 public class Original implements java.io.Serializable {
 
 	// Fields
@@ -33,6 +34,7 @@ public class Original implements java.io.Serializable {
 	private String oringl;
 	private String publicDate;
 	private Integer tag;
+	private Integer hot;
 	private Set<OriginalDetail> originalDetails = new HashSet<OriginalDetail>(0);
 	private Set<OriginalImg> originalImgs = new HashSet<OriginalImg>(0);
 
@@ -44,20 +46,21 @@ public class Original implements java.io.Serializable {
 
 	/** full constructor */
 	public Original(Webcontenttype webcontenttype, String title, String oringl,
-			String publicDate, Integer tag,
+			String publicDate, Integer tag, Integer hot,
 			Set<OriginalDetail> originalDetails, Set<OriginalImg> originalImgs) {
 		this.webcontenttype = webcontenttype;
 		this.title = title;
 		this.oringl = oringl;
 		this.publicDate = publicDate;
 		this.tag = tag;
+		this.hot = hot;
 		this.originalDetails = originalDetails;
 		this.originalImgs = originalImgs;
 	}
 
 	// Property accessors
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "info_id", unique = true, nullable = false)
 	public Integer getInfoId() {
 		return this.infoId;
@@ -113,6 +116,15 @@ public class Original implements java.io.Serializable {
 		this.tag = tag;
 	}
 
+	@Column(name = "hot")
+	public Integer getHot() {
+		return this.hot;
+	}
+
+	public void setHot(Integer hot) {
+		this.hot = hot;
+	}
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "original")
 	public Set<OriginalDetail> getOriginalDetails() {
 		return this.originalDetails;
@@ -130,5 +142,7 @@ public class Original implements java.io.Serializable {
 	public void setOriginalImgs(Set<OriginalImg> originalImgs) {
 		this.originalImgs = originalImgs;
 	}
+	
+	
 
 }

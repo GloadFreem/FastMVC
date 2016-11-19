@@ -33,8 +33,9 @@
 }
 
  .msg-small {
+ position:relative;
     /*padding: 10px;*/
-    margin-left: 20px;
+    margin-left: 10px;
     margin-bottom: 10px;
     width: 285px;
     height: 198px;
@@ -42,6 +43,7 @@
     transform: scale(1);
     transition: all 0.3s ease 0s;
     background: url(../img/msg_noral.png) no-repeat center;
+        background-size:100%;
 }
 
 .msg-small-2 {
@@ -54,15 +56,18 @@
     transform: scale(1);
     transition: all 0.3s ease 0s;
     background: url(../img/msg_noral.png) no-repeat center;
+        background-size:100%;
 }
  .msg-big {
     /*padding: 10px;*/
+     position:relative;
      width: 600px;
      height: 406px;
     float: left;
     transform: scale(1);
     transition: all 0.3s ease 0s;
     background: url(../img/msg_noral.png) no-repeat center;
+    background-size:100%;
 }
 
 

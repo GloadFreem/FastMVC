@@ -37,7 +37,6 @@
 					<div class="text">
 						<a href="../user/Login.html">登录</a> | <a href="../user/Login.html">注册</a>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -46,9 +45,9 @@
 
 
 		<!--内容区域;最小1200px;-->
-		<div class="middle gray-bg">
-			<!--//-->
-			<div class="content  c-top" style="padding: 20px;">
+	<div class="middle gray-bg">
+			
+		<!--		<div class="content  c-top" style="padding: 20px;">
 				<div class="c-t-list">
 					<div class="t-fo">项目状态</div>
 					<div class="l-t-list" id="check_money">
@@ -99,7 +98,7 @@
 				</div>
 			</div>
 
-
+-->
 
 			<!--正文-->
 			<div class="content c-top-s ">
@@ -107,7 +106,7 @@
 
 				<div class="card-project" id="id_cards">
 					<!--demo card 1-->
-					<a class="card" href="projectDetail.action"> <img
+					<!--<a class="card" href="projectDetail.action"> <img
 						src=".//img/test1.png" class="card_img">
 						<div class="c-item" style="margin-top: 15px">
 							<div class="t_title">浪游网</div>
@@ -143,263 +142,24 @@
 								<div class="item_three_b t_right">融资额度</div>
 							</div>
 						</div>
-					</a> <a class="card" href=""> <img src=".//img/test2.png"
-						class="card_img">
-						<div class="c-item" style="margin-top: 15px">
-							<div class="t_title">浪游网</div>
-							<div class="t_c">融资中</div>
-						</div>
-						<div class="c-item" style="margin-top: 16px">
-							<div class="t_text">根据您的心情推荐你的行程，专注于周边目的地户外休闲游市场</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="icon"></div>
-							<div class="icon_text">租赁</div>
-							<div class="icon_text">运输</div>
-							<div class="icon_text">能源</div>
-							<div class="icon_text">服务业</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="process_title">75%</div>
-							<div class="process_bar">
-								<div class="process_bar_ing" id="bar_process"></div>
-							</div>
-						</div>
-						<div class="c-item" style="margin-top: 15px">
-							<div class="item_three">
-								<div class="item_three_t t_left">2016</div>
-								<div class="item_three_b t_left">人气指数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_center">15</div>
-								<div class="item_three_b t_center">剩余天数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_right">1200万</div>
-								<div class="item_three_b t_right">融资额度</div>
-							</div>
-						</div>
-					</a> <a class="card" href=""> <img src=".//img/test5.png"
-						class="card_img">
-						<div class="c-item" style="margin-top: 15px">
-							<div class="t_title">浪游网</div>
-							<div class="t_c">融资中</div>
-						</div>
-						<div class="c-item" style="margin-top: 16px">
-							<div class="t_text">根据您的心情推荐你的行程，专注于周边目的地户外休闲游市场</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="icon"></div>
-							<div class="icon_text">租赁</div>
-							<div class="icon_text">运输</div>
-							<div class="icon_text">能源</div>
-							<div class="icon_text">服务业</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="process_title">75%</div>
-							<div class="process_bar">
-								<div class="process_bar_ing" id="bar_process"></div>
-							</div>
-						</div>
-						<div class="c-item" style="margin-top: 15px">
-							<div class="item_three">
-								<div class="item_three_t t_left">2016</div>
-								<div class="item_three_b t_left">人气指数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_center">15</div>
-								<div class="item_three_b t_center">剩余天数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_right">1200万</div>
-								<div class="item_three_b t_right">融资额度</div>
-							</div>
-						</div>
-					</a> <a class="card" href=""> <img src=".//img/test4.png"
-						class="card_img">
-						<div class="c-item" style="margin-top: 15px">
-							<div class="t_title">浪游网</div>
-							<div class="t_c">融资中</div>
-						</div>
-						<div class="c-item" style="margin-top: 16px">
-							<div class="t_text">根据您的心情推荐你的行程，专注于周边目的地户外休闲游市场</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="icon"></div>
-							<div class="icon_text">租赁</div>
-							<div class="icon_text">运输</div>
-							<div class="icon_text">能源</div>
-							<div class="icon_text">服务业</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="process_title">75%</div>
-							<div class="process_bar">
-								<div class="process_bar_ing" id="bar_process"></div>
-							</div>
-						</div>
-						<div class="c-item" style="margin-top: 15px">
-							<div class="item_three">
-								<div class="item_three_t t_left">2016</div>
-								<div class="item_three_b t_left">人气指数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_center">15</div>
-								<div class="item_three_b t_center">剩余天数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_right">1200万</div>
-								<div class="item_three_b t_right">融资额度</div>
-							</div>
-						</div>
-					</a> <a class="card" href=""> <img src=".//img/test2.png"
-						class="card_img">
-						<div class="c-item" style="margin-top: 15px">
-							<div class="t_title">浪游网</div>
-							<div class="t_c">融资中</div>
-						</div>
-						<div class="c-item" style="margin-top: 16px">
-							<div class="t_text">根据您的心情推荐你的行程，专注于周边目的地户外休闲游市场</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="icon"></div>
-							<div class="icon_text">租赁</div>
-							<div class="icon_text">运输</div>
-							<div class="icon_text">能源</div>
-							<div class="icon_text">服务业</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="process_title">75%</div>
-							<div class="process_bar">
-								<div class="process_bar_ing" id="bar_process"></div>
-							</div>
-						</div>
-						<div class="c-item" style="margin-top: 15px">
-							<div class="item_three">
-								<div class="item_three_t t_left">2016</div>
-								<div class="item_three_b t_left">人气指数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_center">15</div>
-								<div class="item_three_b t_center">剩余天数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_right">1200万</div>
-								<div class="item_three_b t_right">融资额度</div>
-							</div>
-						</div>
-					</a> <a class="card" href=""> <img src=".//img/test3.png"
-						class="card_img">
-						<div class="c-item" style="margin-top: 15px">
-							<div class="t_title">浪游网</div>
-							<div class="t_c">融资中</div>
-						</div>
-						<div class="c-item" style="margin-top: 16px">
-							<div class="t_text">根据您的心情推荐你的行程，专注于周边目的地户外休闲游市场</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="icon"></div>
-							<div class="icon_text">租赁</div>
-							<div class="icon_text">运输</div>
-							<div class="icon_text">能源</div>
-							<div class="icon_text">服务业</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="process_title">75%</div>
-							<div class="process_bar">
-								<div class="process_bar_ing" id="bar_process"></div>
-							</div>
-						</div>
-						<div class="c-item" style="margin-top: 15px">
-							<div class="item_three">
-								<div class="item_three_t t_left">2016</div>
-								<div class="item_three_b t_left">人气指数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_center">15</div>
-								<div class="item_three_b t_center">剩余天数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_right">1200万</div>
-								<div class="item_three_b t_right">融资额度</div>
-							</div>
-						</div>
-					</a> <a class="card" href=""> <img src=".//img/test1.png"
-						class="card_img">
-						<div class="c-item" style="margin-top: 15px">
-							<div class="t_title">浪游网</div>
-							<div class="t_c">融资中</div>
-						</div>
-						<div class="c-item" style="margin-top: 16px">
-							<div class="t_text">根据您的心情推荐你的行程，专注于周边目的地户外休闲游市场</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="icon"></div>
-							<div class="icon_text">租赁</div>
-							<div class="icon_text">运输</div>
-							<div class="icon_text">能源</div>
-							<div class="icon_text">服务业</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="process_title">75%</div>
-							<div class="process_bar">
-								<div class="process_bar_ing" id="bar_process"></div>
-							</div>
-						</div>
-						<div class="c-item" style="margin-top: 15px">
-							<div class="item_three">
-								<div class="item_three_t t_left">2016</div>
-								<div class="item_three_b t_left">人气指数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_center">15</div>
-								<div class="item_three_b t_center">剩余天数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_right">1200万</div>
-								<div class="item_three_b t_right">融资额度</div>
-							</div>
-						</div>
-					</a> <a class="card" href=""> <img src=".//img/test1.png"
-						class="card_img">
-						<div class="c-item" style="margin-top: 15px">
-							<div class="t_title">浪游网</div>
-							<div class="t_c">融资中</div>
-						</div>
-						<div class="c-item" style="margin-top: 16px">
-							<div class="t_text">根据您的心情推荐你的行程，专注于周边目的地户外休闲游市场</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="icon"></div>
-							<div class="icon_text">租赁</div>
-							<div class="icon_text">运输</div>
-							<div class="icon_text">能源</div>
-							<div class="icon_text">服务业</div>
-						</div>
-						<div class="c-item" style="margin-top: 10px">
-							<div class="process_title">75%</div>
-							<div class="process_bar">
-								<div class="process_bar_ing" id="bar_process"></div>
-							</div>
-						</div>
-						<div class="c-item" style="margin-top: 15px">
-							<div class="item_three">
-								<div class="item_three_t t_left">2016</div>
-								<div class="item_three_b t_left">人气指数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_center">15</div>
-								<div class="item_three_b t_center">剩余天数</div>
-							</div>
-							<div class="item_three">
-								<div class="item_three_t t_right">1200万</div>
-								<div class="item_three_b t_right">融资额度</div>
-							</div>
-						</div>
-					</a>
+					</a> 
+					
+					
+					
+          
 
 
-					<!--<div style="clear: both"></div>-->
+					<div style="clear: both"></div>-->
 				</div>
+				
+				  <div class="more" style="margin-top: 100px">
+                <div class="tcdPageCode">
+                    <!--<div class="span">123</div>-->
+                </div>
+                <!--<div class="span">123</div>-->
+
+
+            </div>
 				<!--<div style="clear: both"></div>-->
 
 			</div>
@@ -422,12 +182,12 @@
 						<div class="text">APP下载</div>
 					</div>
 					<div class="scan-footer m-left">
-						<div class="img"></div>
+						<div class="img2"></div>
 						<div class="text">微信公众号</div>
 					</div>
 				</div>
 			</div>
-			<div class="bot">京ICP备15062798号 © 2015-2016 金指投 版权所有</div>
+			<div class="bot">京ICP备15043593号 © 2015-2016 金指投 版权所有</div>
 		</div>
 
 
@@ -435,7 +195,8 @@
 
 	<script type="text/javascript" src=".//js/jquery1.8.min.js"
 		charset="utf-8"></script>
-	<script type="text/javascript" src=".//js/bar.js" charset="utf-8"></script>
+					<script type="text/javascript" src=".//js/config.js" charset="utf-8"></script>
+	<script type="text/javascript" src=".//js/jquery.page.js" charset="utf-8"></script>
 	<script type="text/javascript" src=".//js/project.js" charset="utf-8"></script>
 
 </body>

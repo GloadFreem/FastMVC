@@ -36,6 +36,7 @@ public class OriginalDAO {
 	public static final String ORINGL = "oringl";
 	public static final String PUBLIC_DATE = "publicDate";
 	public static final String TAG = "tag";
+	public static final String HOT = "hot";
 
 	private SessionFactory sessionFactory;
 
@@ -55,16 +56,6 @@ public class OriginalDAO {
 		log.debug("saving Original instance");
 		try {
 			getCurrentSession().save(transientInstance);
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
-	public void saveOrUpdate(Original transientInstance) {
-		log.debug("saving Original instance");
-		try {
-			getCurrentSession().saveOrUpdate(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -109,15 +100,6 @@ public class OriginalDAO {
 			throw re;
 		}
 	}
-	
-	public List<Msg> findByName(Object name) {
-		String sqlString = "select * from original where title like ?";
-		
-		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Original.class);
-		queryObject.setParameter(0, "%"+name+"%");
-		
-		return queryObject.list();
-	}
 
 	public List findByProperty(String propertyName, Object value) {
 		log.debug("finding Original instance with property: " + propertyName
@@ -150,37 +132,15 @@ public class OriginalDAO {
 		return findByProperty(TAG, tag);
 	}
 
+	public List<Original> findByHot(Object hot) {
+		return findByProperty(HOT, hot);
+	}
+
 	public List findAll() {
 		log.debug("finding all Original instances");
 		try {
 			String queryString = "from Original";
 			Query queryObject = getCurrentSession().createQuery(queryString);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
-	
-	public Integer countOfAllRecords() {
-		log.debug("finding all Original instances");
-		try {
-			String queryString = "select count(*) from original";
-			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
-			return Integer.parseInt((queryObject.list().get(0).toString()));
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
-	
-	public List findByPage(Integer start,Integer size) {
-		log.debug("finding all original instances");
-		try {
-			String queryString = "from Original order by publicDate desc";
-			Query queryObject = getCurrentSession().createQuery(queryString);
-			queryObject.setFirstResult(start*size);
-			queryObject.setMaxResults(size);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
@@ -224,10 +184,15 @@ public class OriginalDAO {
 		}
 	}
 
+	public static OriginalDAO getFromApplicationContext(ApplicationContext ctx) {
+		return (OriginalDAO) ctx.getBean("OriginalDAO");
+	}
+
 	public List findByPage(int pageIndex, int pageSize) {
 		try {
-			Query q = getCurrentSession().createQuery("from Original obj order by obj.publicDate desc");
-			q.setFirstResult(pageIndex*pageSize);
+			Query q = getCurrentSession().createQuery(
+					"from Original obj order by obj.publicDate desc");
+			q.setFirstResult(pageIndex * pageSize);
 			q.setMaxResults(pageSize);
 			return q.list();
 		} catch (RuntimeException re) {
@@ -235,7 +200,7 @@ public class OriginalDAO {
 			throw re;
 		}
 	}
-	
+
 	public List searchByKeyWords(int pageIndex, int pageSize, String keyWords) {
 		try {
 			String queryString = "from Original obj where obj.title like'%"
@@ -248,5 +213,73 @@ public class OriginalDAO {
 			log.error("find all failed", re);
 			throw re;
 		}
-}
+	}
+
+	public List findByPage(Integer start, Integer size) {
+		log.debug("finding all original instances");
+		try {
+			String queryString = "from Original order by publicDate desc";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(start * size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public Integer countOfAllRecords() {
+		log.debug("finding all Original instances");
+		try {
+			String queryString = "select count(*) from original";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(
+					queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public void saveOrUpdate(Original transientInstance) {
+		log.debug("saving Original instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+
+
+	public List findByName(Object name) {
+		String sqlString = "select * from original where title like ?";
+
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString)
+				.addEntity(Original.class);
+		queryObject.setParameter(0, "%" + name + "%");
+
+		return queryObject.list();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List findHotOri() {
+		String queryString;
+		Query q ;
+		try {
+			 queryString = "from Original original order by original.hot desc";
+			 q = getCurrentSession().createQuery(queryString);
+			q.setFirstResult(0);
+			q.setMaxResults(5);
+			return q.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
 }

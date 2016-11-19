@@ -49,4 +49,13 @@ public class MainManager {
 	public void setOriginalImgDao(OriginalImgDAO originalImgDao) {
 		this.originalImgDao = originalImgDao;
 	}
+	
+	/**
+	 * 鐑棬
+	 * @return
+	 */
+	public List<Original> getHotList() {
+		List<Original> originals = origianlDao.findHotOri();
+		return originals;
+	}
 }

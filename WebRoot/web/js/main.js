@@ -1,3 +1,5 @@
+var pageId = -1;
+
 $(document).ready(function () {
 
 
@@ -10,23 +12,33 @@ $(document).ready(function () {
     $("#id_project").click(function () {
         window.location.href = "./project.action";
     });
+    
 
     var screenWidth = window.outerWidth;
     console.log(screenWidth)
 
     var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
+    	pagination: '.swiper-pagination',
+        slidesPerView: 3,
         paginationClickable: true,
         nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev'
+        prevButton: '.swiper-button-prev',
+        loop: true,
+        loopAdditionalSlides :100
     });
     $("#btn_next").click(function () {
-        next();
+    	 back(); 
     });
     $("#btn_back").click(function () {
-        back();
+       next();
     });
+
+
+    initData();
+    initReport();
 });
+
+
 
 
 function changeBar() {
@@ -102,17 +114,59 @@ function getHttpMessage() {
 /**
  * 测试card 数据
  */
-function initTestData() {
+function initData() {
+
+    pageId++;
 
     $.ajax({
-        url: "http://www.jinzht.com:8080/jinzht/requestProjectList.action",
+        url: BasePath+"requestWebThinkTankList.action",
         data: {
             key: "jinzht_server_security",
             partner: "f784463924c4b750acdb7873747fc745",
-            page: "0",
-            type: "0",
-            platform: "0",
-            requestType: "webRequest"
+            page: pageId
+        },
+        contentType: "application/json; charset=utf-8",
+        type: "get",
+        crossDomain: true,
+        //async: false,
+        //dataType: "jsonp",
+        //jsonp: "callback",
+        //jsonpCallback: "showLocation",
+        dataType: 'json',
+        success: function (data) {
+            if(data.status=="200"){
+                setJsonData(JSON.stringify(data.data));
+            }else  if(data.status=="201"){
+                if(pageId==0){
+                    showSorry();
+                }else {
+                    showNoMore();
+                }
+
+            }
+
+        },
+        error: function (xhr, textStatus, errMsg) {
+            //console.log("error:");
+        }
+    });
+
+}
+
+
+
+
+/**
+ * 相关报告
+ */
+function initReport() {
+    //'+BasePath+'requestViewPointList.action?key=jinzht_server_security&partner=sdfwefwf&page=0
+    $.ajax({
+        url: BasePath+"requestViewPointList.action",
+        data: {
+            key: "jinzht_server_security",
+            partner: "f784463924c4b750acdb7873747fc745",
+            page: 0
         },
         contentType: "application/json; charset=utf-8",
         type: "get",
@@ -124,88 +178,84 @@ function initTestData() {
         dataType: 'json',
         success: function (data) {
             //console.log(data);
-            setJsonData(JSON.stringify(data.data));
+            setJsonReportData(JSON.stringify(data.data));
 
         },
         error: function (xhr, textStatus, errMsg) {
             //console.log("error:");
         }
     });
-
 }
 
 function setJsonData(dataStr) {
 
     var contentHtml = "";
+    $("#new_list_more").remove();
     //var dataJsonList = [
+    var dataJsonList = JSON.parse(dataStr);
+    //console.log(dataJsonList.length);
+    for (var i = 0; i < dataJsonList.length; i++) {
+        contentHtml = contentHtml + '';
+        contentHtml = contentHtml + ' <a href="'+BasePath+'web/MainDetail.action?id=' + dataJsonList[i].id + '" > <div class="content-item">';
+        contentHtml = contentHtml + '   <img src="' + dataJsonList[i].images[0] + '" class="item-img">';
+        contentHtml = contentHtml + '  <div class="item-r">';
+        contentHtml = contentHtml + '   <div class="item-title">' + dataJsonList[i].title + '</div>';
+        if (dataJsonList[i].oringl.length < 4) {
+            contentHtml = contentHtml + '  <div class="item-type-0">' + dataJsonList[i].oringl + '</div>';
+        } else if (dataJsonList[i].oringl.length ==4) {
+            contentHtml = contentHtml + '  <div class="item-type-1">' + dataJsonList[i].oringl + '</div>';
+        } else  if (dataJsonList[i].oringl.length ==5) {
+            contentHtml = contentHtml + '  <div class="item-type-2">' + dataJsonList[i].oringl + '</div>';
+        }else  if (dataJsonList[i].oringl.length >5) {
+            contentHtml = contentHtml + '  <div class="item-type-3">' + dataJsonList[i].oringl + '</div>';
+        }
+
+        contentHtml = contentHtml + ' <div class="item-time">' + dataJsonList[i].publicDate + '</div>';
+        contentHtml = contentHtml + '   <div class="item-desc">' + dataJsonList[i].desc + '</div>';
+        contentHtml = contentHtml + '   </div>';
+        contentHtml = contentHtml + '   </div></a>';
+    }
+
+    contentHtml = contentHtml + '<div class="content-item" id="new_list_more"> <div class="content-more" onclick="initData()">查看更多</div> </div>';
+    $("#new_list").append(contentHtml);
+
+}
+
+function  showNoMore(){
+    $("#new_list_more").remove();
+    var contentHtml = '<div class="content-item" id="new_list_more"> <div class="content-more" >没有更多了</div> </div>';
+    $("#new_list").append(contentHtml);
+}
+
+function  showSorry(){
+    $("#new_list_more").remove();
+    var contentHtml = '<div  style="height: 800px;color: #cccccc;"> <div >暂无数据</div> </div>';
+    $("#new_list").append(contentHtml);
+}
+
+
+function setJsonReportData(dataStr) {
+
+    var contentHtml = "";
     var dataJsonList = JSON.parse(dataStr);
     //console.log(dataJsonList.length);
     for (var i = 0; i < 8; i++) {
         contentHtml = contentHtml + '';
-        contentHtml = contentHtml + ' <a class="card" href="http://www.jinzht.com/app/projectDetail/' + dataJsonList[i].projectId + '">';
-        contentHtml = contentHtml + '     <img src="' + dataJsonList[i].startPageImage + '" class="card_img" id=project_' + dataJsonList[i].projectId + '>';
-        contentHtml = contentHtml + '     <div class="item" style="margin-top: 15px">';
-        contentHtml = contentHtml + '     <div class="t_title" style="overflow : hidden;text-overflow: ellipsis;display: -webkit-box; -webkit-box-orient: vertical;-webkit-line-clamp: 1; max-width: 70%;overflow: hidden;font-size: ">' + dataJsonList[i].abbrevName + '</div>';
-        contentHtml = contentHtml + '    <div class="t_c">' + dataJsonList[i].financestatus.name + '</div>';
-        contentHtml = contentHtml + '    </div>';
-        contentHtml = contentHtml + '   <div class="item" style="margin-top: 16px">';
-        contentHtml = contentHtml + '   <div class="t_text" style="overflow : hidden;text-overflow: ellipsis;display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;overflow: hidden;">' + dataJsonList[i].description.trim().substring(0, 40) + '...</div>';
-        contentHtml = contentHtml + '   </div>';
-        contentHtml = contentHtml + '   <div class="item" style="margin-top: 10px">';
-        contentHtml = contentHtml + '     <div class="icon"></div>';
-        var type = dataJsonList[i].industoryType;
-        var strarray = type.split("，");
-        //console.log(strarray);
-        for (var t = 0; t < strarray.length; t++) {
-            contentHtml = contentHtml + '    <div class="icon_text">' + (strarray[t]) + '</div>';
-        }
-        contentHtml = contentHtml + '    </div>';
-        contentHtml = contentHtml + '   <div class="item" style="margin-top: 10px">';
-        var num = parseInt(Math.floor(dataJsonList[i].roadshows[0].roadshowplan.financedMount) * 100 / parseInt(dataJsonList[i].roadshows[0].roadshowplan.financeTotal));
-        var left;
-        var t_left;
-        left = num * 2.6;
-        if (num < 100) {
-            t_left = left - 30;
-        } else {
-            t_left = left - 45;
-        }
-        contentHtml = contentHtml + '   <div class="process_title" style="margin-left: ' + t_left + 'px;">' + num + '%</div>';
-        contentHtml = contentHtml + '    <div class="process_bar">';
-        //contentHtml = contentHtml + '    <div class="process_bar_ing" style="width: '+left+'px;"></div>';
-        if (num == 100) {
-            contentHtml = contentHtml + '    <div class="process_bar_ing" style="width: ' + left + 'px;   background: -webkit-linear-gradient(left, #ffa153, #c25616);"></div>';
-        } else {
-            contentHtml = contentHtml + '    <div class="process_bar_ing" style="width: ' + left + 'px;"></div>';
-        }
-        contentHtml = contentHtml + '    </div>';
-        contentHtml = contentHtml + '    </div>';
-        contentHtml = contentHtml + '   <div class="item" style="margin-top: 15px">';
-        contentHtml = contentHtml + '    <div class="item_three">';
-        contentHtml = contentHtml + '    <div class="item_three_t t_left" style="margin-left: 10px">' + dataJsonList[i].collectionCount + '</div>';
-        contentHtml = contentHtml + '    <div class="item_three_b t_left">人气指数</div>';
-        contentHtml = contentHtml + '    </div>';
-        contentHtml = contentHtml + '  <div class="item_three">';
-        var endDate = dataJsonList[i].roadshows[0].roadshowplan.endDate;
-        contentHtml = contentHtml + '   <div class="item_three_t t_center">' + getEndTime(endDate) + '</div>';
-        contentHtml = contentHtml + '   <div class="item_three_b t_center">剩余天数</div>';
-        contentHtml = contentHtml + '   </div>';
-        contentHtml = contentHtml + '   <div class="item_three">';
-        contentHtml = contentHtml + '  <div class="item_three_t t_right">' + dataJsonList[i].roadshows[0].roadshowplan.financeTotal + '万</div>';
-        contentHtml = contentHtml + '   <div class="item_three_b t_right">融资额度</div>';
-        contentHtml = contentHtml + '     </div>';
-        contentHtml = contentHtml + '    </div>';
-        contentHtml = contentHtml + '    </a>';
+        contentHtml = contentHtml + '<a href="./reportDetail.action?id=' + dataJsonList[i].infoId + '"> <div class="opinion-text">' + dataJsonList[i].title + '</div></a>';
     }
-    $("#id_cards").html(contentHtml);
+
+    contentHtml = contentHtml + '<a href="./report.action"><div class="content-item"><div class="content-opinion-more" >更多资讯</div> </div></a>';
+    $("#report_list").html(contentHtml);
+
+}
+
+function goReport() {
+    window.location.href = "./report.action";
+}
 
 
-    //图片请求
-    for (var k = 0; k < dataJsonList.length; k++) {
-        var projectid = dataJsonList[k].projectId;
-        //console.log("id:" + projectid)
-        getMP3data(projectid);
-    }
+function goDetail(id) {
+
 }
 
 
@@ -273,69 +323,6 @@ function getPPTdata(sceneId, id) {
 }
 
 
-function setMsgJsonData(dataStr) {
-    var contentHtml = "";
-    //var dataJsonList = [
-    var dataMsgJsonList = JSON.parse(dataStr);
-    //console.log(dataMsgJsonList);
-    //if(dataMsgJsonList.length>8){
-    //1
-    for (var i = 0; i < 9; i++) {
-        var id_img = "#msg_img_" + i;
-        var id_title = "#msg_title_" + i;
-        //console.log(dataMsgJsonList[i].image);
-        $(id_img).css("background", "#EBEBEF");
-        $(id_img).css("background-image", "url(" + dataMsgJsonList[i].image + ")");
-        $(id_img).css("backgroundRepeat", "no-repeat");
-        $(id_img).css("background-size", "100%");
-        $(id_title).text(dataMsgJsonList[i].title);
-        if (i > 4) {
-            var id_content = "#msg_content_" + i;
-            var id_frome = "#msg_from_" + i;
-            $(id_content).text(dataMsgJsonList[i].title);
-            $(id_frome).text(dataMsgJsonList[i].createDate + "    " + dataMsgJsonList[i].contenttype.name);
-
-        } else {
-            $(id_img).attr('href', dataMsgJsonList[i].url);
-        }
-    }
-    $("#msg_div_5").attr('href', dataMsgJsonList[5].url);
-    $("#msg_div_6").attr('href', dataMsgJsonList[6].url);
-    $("#msg_div_7").attr('href', dataMsgJsonList[7].url);
-    $("#msg_div_8").attr('href', dataMsgJsonList[8].url);
-}
-
-function getBannerdata() {
-    $.ajax({
-        url: "http://www.jinzht.com:8080/jinzht/bannerSystem.action",
-        data: {
-            key: "jinzht_server_security",
-            partner: "f784463924c4b750acdb7873747fc745",
-            requestType: "webRequest"
-        },
-        contentType: "application/json; charset=utf-8",
-        type: "get",
-        crossDomain: true,
-        dataType: 'json',
-        success: function (data) {
-            console.log(data);
-            if (data.status == 200) {
-                bannerData = data.data;
-                $("#id_bg_top").click(function () {
-                    var id = Math.abs(index % 3);
-                    console.log(id);
-                    if (bannerData != "") {
-                        window.location.href = bannerData[3 - id].body.url;
-                    }
-                });
-                //getPPTdata(data.data[0].sceneId,projectid);
-            }
-        },
-        error: function (xhr, textStatus, errMsg) {
-            console.log("error:");
-        }
-    });
-}
 
 
 function getEndTime(str) {

@@ -1,17 +1,18 @@
 package com.jinzht.tools;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
- * 严格的日期转换setLenient(false);
- * setLenient
- * public void setLenient(boolean lenient)指定日期/时间解析是否不严格。进行不严格解析时，解析程序可以使用启发式的方法来解释与此对象的格式不精确匹配的输入。进行严格解析时，输入必须匹配此对象的格式。 
- * 参数：
- * lenient - 为 true 时，解析过程是不严格的
- * 不会自动将错误日期转换为正确的日期
+ * 严格的日期转换setLenient(false); setLenient public void setLenient(boolean
+ * lenient)指定日期
+ * /时间解析是否不严格。进行不严格解析时，解析程序可以使用启发式的方法来解释与此对象的格式不精确匹配的输入。进行严格解析时，输入必须匹配此对象的格式。
+ * 参数： lenient - 为 true 时，解析过程是不严格的 不会自动将错误日期转换为正确的日期
  * 例如:19450000,使用原DateUtil会转换为19441130
+ * 
  * @author liuzh
  */
 public class DateUtils {
@@ -64,12 +65,12 @@ public class DateUtils {
 		return str;
 	}
 
-//	public static Long sysDateToNum() throws Exception {
-//		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(
-//				"yyyy-MM-dd");
-//		localSimpleDateFormat.setLenient(false);
-//		return strDateToNum(localSimpleDateFormat.format(HBUtil.getSysdate()));
-//	}
+	// public static Long sysDateToNum() throws Exception {
+	// SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(
+	// "yyyy-MM-dd");
+	// localSimpleDateFormat.setLenient(false);
+	// return strDateToNum(localSimpleDateFormat.format(HBUtil.getSysdate()));
+	// }
 
 	public static java.util.Date stringToDate(String paramString1,
 			String paramString2) throws Exception {
@@ -129,6 +130,18 @@ public class DateUtils {
 		return i;
 	}
 
+	public static long compare_date(Date DATE1, Date DATE2) {
+
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		try {
+
+			return (DATE1.getTime()-DATE2.getTime());
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+		return 0;
+	}
+
 	public static java.util.Date addDays(java.util.Date paramDate, int paramInt)
 			throws Exception {
 		Calendar localCalendar = Calendar.getInstance();
@@ -157,7 +170,8 @@ public class DateUtils {
 	public static String formatDate(java.util.Date paramDate) {
 		if (paramDate == null)
 			return null;
-		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd");
 		localSimpleDateFormat.setLenient(false);
 		return localSimpleDateFormat.format(paramDate);
 	}
@@ -165,16 +179,17 @@ public class DateUtils {
 	public static String formatDateTime(java.util.Date paramDate) {
 		if (paramDate == null)
 			return null;
-		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
 		localSimpleDateFormat.setLenient(false);
 		return localSimpleDateFormat.format(paramDate);
 	}
 
-	public static java.util.Date parseDate(String paramString)
-			throws Exception {
+	public static java.util.Date parseDate(String paramString) throws Exception {
 		if ((paramString == null) || (paramString.trim().equals("")))
 			return null;
-		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd");
 		localSimpleDateFormat.setLenient(false);
 		try {
 			return localSimpleDateFormat.parse(paramString);
@@ -187,7 +202,8 @@ public class DateUtils {
 			throws Exception {
 		if ((paramString == null) || (paramString.trim().equals("")))
 			return null;
-		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
 		localSimpleDateFormat.setLenient(false);
 		try {
 			return localSimpleDateFormat.parse(paramString);
@@ -199,7 +215,8 @@ public class DateUtils {
 	public static Integer getYM(String paramString) throws Exception {
 		if (paramString == null)
 			return null;
-		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd");
 		localSimpleDateFormat.setLenient(false);
 		java.util.Date localDate;
 		try {
@@ -245,7 +262,8 @@ public class DateUtils {
 
 	public static int monthsBetween(java.util.Date paramDate1,
 			java.util.Date paramDate2) {
-		return monthsBetween(getYM(paramDate1).intValue(), getYM(paramDate2).intValue());
+		return monthsBetween(getYM(paramDate1).intValue(), getYM(paramDate2)
+				.intValue());
 	}
 
 	public static String getChineseDate(Calendar paramCalendar) {
@@ -284,7 +302,8 @@ public class DateUtils {
 
 	public static void main(String[] paramArrayOfString) {
 		try {
-			System.out.println(formatDate(addMonths(parseDate("2013-01-06"), 12)));
+			System.out
+					.println(formatDate(addMonths(parseDate("2013-01-06"), 12)));
 		} catch (Exception localException) {
 			System.out.println(localException);
 		}

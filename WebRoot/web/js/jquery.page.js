@@ -54,8 +54,8 @@
 					obj.append('<span class="disabled">下一页</span>');
 				}
 
-				obj.append('<input class="disabled" style="margin-left: 20px;" placeholder="01..." />');
-				obj.append('<span class="current" style="width: 60px;">转到</span>');
+//				obj.append('<input class="disabled" style="margin-left: 20px;" placeholder="01..." />');
+//				obj.append('<span class="current" style="width: 60px;">转到</span>');
 			})();
 		},
 		//绑定事件
