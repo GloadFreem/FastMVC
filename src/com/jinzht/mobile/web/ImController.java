@@ -91,6 +91,8 @@ public class ImController extends BaseController {
 	private ProjectManager projectManager;
 	@Autowired
 	private ImManager imManager;
+	@Autowired
+	private UserManager userManager;
 
 	@RequestMapping(value = "/im/requestIMTokean")
 	@ResponseBody
@@ -122,5 +124,322 @@ public class ImController extends BaseController {
 		this.result.put("result", result);
 		return getResult();
 	}
+	
+	
+	/**************************************聊天室****************************************************/
+	/***
+	 * 创建聊天室
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="im/createChatRoom")
+	@ResponseBody
+	public Map createChatRoom(
+			@RequestParam(value="name")String  name,
+			@RequestParam(value="desc")String  desc,
+			@RequestParam(value="maxusers")Integer  maxusers,
+			@RequestParam(value="owner")Integer  userId,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		
+		Users u = this.userManager.findUserById(userId);
+		Map result = this.imManager.createChatRoom(name, desc, maxusers, u);
+		
+		this.result.put("result", result);
+		return getResult();
+	}
+	
+	
+	@RequestMapping(value="im/chatRoomList")
+	@ResponseBody
+	public Map chatRoomList(
+			@RequestParam(value="page")Integer  page,
+			@RequestParam(value="size")Integer  size,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		
+		Map result = this.imManager.chatRoomList(page, size);
+		
+		this.result.put("result", result.get("data"));
+		return getResult();
+	}
+	
+	
+	@RequestMapping(value="im/deleteChatRoom")
+	@ResponseBody
+	/***
+	 * 删除聊天室
+	 * @param chatRoomId
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	public Map deleteChatRoom(
+			@RequestParam(value="chatRoomId")String  chatRoomId,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		
+		Map result = this.imManager.deleteChatRoom(chatRoomId);
+		
+		this.result.put("result", result.get("data"));
+		return getResult();
+	}
+	@RequestMapping(value="im/chatRoomDetail")
+	@ResponseBody
+	/***
+	 * 获取聊天室详情
+	 * @param chatRoomId
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	public Map chatRoomDetail(
+			@RequestParam(value="chatRoomId")String  chatRoomId,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		
+		Map result = this.imManager.ChatRoomDetail(chatRoomId);
+		
+		this.result.put("result", result.get("data"));
+		return getResult();
+	}
+	
+	@RequestMapping(value="im/userJoinedchatRoomList")
+	@ResponseBody
+	/***
+	 * 获取用户加入的聊天室列表
+	 * @param chatRoomId
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	public Map userJoinedchatRoomList(
+			@RequestParam(value="name")String  name,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		
+		Map result = this.imManager.userJoinedChatRoomList(name);
+		
+		this.result.put("result", result.get("data"));
+		return getResult();
+	}
+	
+	@RequestMapping(value="im/addUserToChatRoom")
+	@ResponseBody
+	/***
+	 * 添加用户到聊天室
+	 * @param chatRoomId
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	public Map addUserToChatRoom(
+			@RequestParam(value="chatRoomId")String  chatRoomId,
+			@RequestParam(value="userId")Integer  userId,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		Users user = this.userManager.findUserById(userId);
+		if(user!=null)
+		{
+			Map result = this.imManager.addUserToChatRoom(chatRoomId, Config.IM_USER_NAME+user.getUserId());
+			
+			this.result.put("result", result.get("data"));
+		}
+	
+		return getResult();
+	}
+	
+	@RequestMapping(value="im/addUsersToChatRoom")
+	@ResponseBody
+	/***
+	 * 批量添加用户到聊天室
+	 * @param chatRoomId
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	public Map addUsersToChatRoom(
+			@RequestParam(value="chatRoomId")String  chatRoomId,
+			@RequestParam(value="userId")String  usersId,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		//批量
+		String[] ids = usersId.split(",");
+		List list  = new ArrayList();
+		for(String str : ids)
+		{
+			Integer userId = Integer.parseInt(str);
+			Users user = this.userManager.findUserById(userId);
+			list.add( Config.IM_USER_NAME+user.getUserId());
+		}
+		if(list!=null)
+		{
+			JSONObject objs = new JSONObject();
+			Map result = this.imManager.addUsersToChatRoom(chatRoomId, list);
+			
+			this.result.put("result", result.get("data"));
+		}
+		
+		return getResult();
+	}
+	@RequestMapping(value="im/removeUserFromChatRoom")
+	@ResponseBody
+	/***
+	 * 移除用户
+	 * @param chatRoomId
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	public Map removeUserFromChatRoom(
+			@RequestParam(value="chatRoomId")String  chatRoomId,
+			@RequestParam(value="userId")Integer  userId,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		Users user = this.userManager.findUserById(userId);
+		if(user!=null)
+		{
+			Map result = this.imManager.removeUserToChatRoom(chatRoomId, Config.IM_USER_NAME+user.getUserId());
+			
+			this.result.put("result", result.get("data"));
+		}
+		
+		return getResult();
+	}
+	
+	@RequestMapping(value="im/removeUsersFromChatRoom")
+	@ResponseBody
+	/***
+	 * 批量移除用户
+	 * @param chatRoomId
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	public Map removeUsersFromChatRoom(
+			@RequestParam(value="chatRoomId")String  chatRoomId,
+			@RequestParam(value="userId")String  usersId,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		//批量
+		String[] ids = usersId.split(",");
+		List list  = new ArrayList();
+		for(String str : ids)
+		{
+			Integer userId = Integer.parseInt(str);
+			Users user = this.userManager.findUserById(userId);
+			list.add( Config.IM_USER_NAME+user.getUserId());
+		}
+		if(list!=null)
+		{
+			JSONObject objs = new JSONObject();
+			Map result = this.imManager.removeUsersToChatRoom(chatRoomId, list);
+			
+			this.result.put("result", result.get("data"));
+		}
+		
+		return getResult();
+	}
+	
+	
+	@RequestMapping(value="im/addUserToIM")
+	@ResponseBody
+	/***
+	 * 获取用户加入的聊天室列表
+	 * @param chatRoomId
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	public Map addUserToIM(
+			@RequestParam(value="userId")Integer  userId,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		Users user = this.userManager.findUserById(userId);
+		if(user!=null)
+		{
+			Map result;
+			if(user.getPassword()!=null)
+			{
+				result = this.imManager.addUserToIM(Config.IM_USER_NAME+user.getUserId(), user.getPassword(),user.getName());
+			}else{
+				result = this.imManager.addUserToIM(Config.IM_USER_NAME+user.getUserId(), user.getWechatId(),user.getName());
+			}
+			this.result.put("result", result.get("entities"));
+		}
+		
+		return getResult();
+	}
+	
+	@RequestMapping(value="im/modifyChatRoom")
+	@ResponseBody
+	/***
+	 * 更新聊天室信息
+	 * @param chatRoomId
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	public Map modifyChatRoom(
+			@RequestParam(value="chatRoomId")String  chatRoomId,
+			@RequestParam(value="name")String  name,
+			@RequestParam(value="desc")String  description,
+			@RequestParam(value="maxusers")Integer  maxusers,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		
+		Map result = this.imManager.modifyChatRoom(chatRoomId, name, description, maxusers);
+		
+		this.result.put("result", result.get("data"));
+		return getResult();
+	}
+	
+	
+	@RequestMapping(value="im/sendMessage")
+	@ResponseBody
+	public Map sendMessage(
+			@RequestParam(value="userId")Integer  userId,
+			@RequestParam(value="msg")String  msg,
+			@RequestParam(value="type")short  type,
+			ModelMap map,
+			HttpSession session)
+	{
+		this.result = new HashMap();
+		String userName = Config.IM_USER_NAME+userId;
+		List list = new ArrayList();
+		list.add(userName);
+		
+		
+		Map result = this.imManager.sendMessage(list, msg, type);
+		
+		this.result.put("result", result.get("data"));
+		return getResult();
+	}
+	
+	
+	/**************************************聊天室****************************************************/
 
 }

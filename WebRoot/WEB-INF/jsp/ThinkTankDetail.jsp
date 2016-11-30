@@ -15,10 +15,6 @@ html, body {
 	vertical-align: baseline;
 	font: inherit;
 	font-size: 100%;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 	font-family: sans-serif;
 	/* 1 */
 	-webkit-text-size-adjust: 100%;
@@ -36,10 +32,6 @@ body {
 	text-size-adjust: none;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-tap-highlight-color: transparent;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 	top: 0;
 	right: 0;
 	bottom: 0;

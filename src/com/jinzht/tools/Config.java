@@ -115,9 +115,32 @@ public class Config {
 			add("requestSearchConsultList.action");
 			add("getProtocolAuthentic.action");
 			
-			
 			add("requestWebThinkTankList.action");
 			add("requestWebViewPointList.action");
+			
+			add("index.action");
+			add("news.action");
+			add("notebook.action");
+			add("newsBanner.action");
+			add("delNewsBanner.action");
+			add("newBannerDetail.action");
+			add("editNewBanner.action");
+			add("originalBanner.action");
+			add("delOriginalBanner.action");
+			add("originalBannerDetail.action");
+			add("editOriginalBanner.action");
+			
+			add("createChatRoom.action");
+			add("chatRoomList.action");
+			add("deleteChatRoom.action");
+			add("chatRoomDetail.action");
+			add("modifyChatRoom.action");
+			add("addUserToChatRoom.action");
+			add("addUserToIM.action");
+			add("addUsersToChatRoom.action");
+			add("removeUserFromChatRoom.action");
+			add("removeUsersFromChatRoom.action");
+			add("sendMessage.action");
 		}
 	};
 	
@@ -230,8 +253,8 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE = "【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT = "金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS = "http://www.jinzht.com/phone5/";
-//	 public static String STRING_SYSTEM_ADDRESS ="http://192.168.10.145:8080/jinzht/";
-	public static String STRING_SYSTEM_ADDRESS = "http://www.jinzht.com:8080/jinzht/";
+	 public static String STRING_SYSTEM_ADDRESS ="http://192.168.10.166:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS = "http://www.jinzht.com:8080/jinzht/";
 	// public static String STRING_SYSTEM_INTRODUCE
 	// ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE = "http://www.jinzht.com:8080/jinzht/images/icon.jpg";
@@ -426,9 +449,16 @@ public class Config {
 
 	public static String webUrlList[] = { "http://3g.163.com/touch/reconstruct/article/list/BA8EE5GMwangning/0-10.html;1" };
 
+	
+	public static String ACTION_URL	="%srequestActionDetail.action?contentId=%ld";
 
     //IM系统
 	public static String IM_SERVER_URL = "https://a1.easemob.com/1148161116178897/jinzht/";
 	public static String IM_CLIENT_ID = "YXA65dKQYKuuEea9DccOf0A-_w";
 	public static String IM_CLIENT_SECRET = "YXA6rBOcFcvdO7Cz_NqMtDfeTIfFLGY";
+	public static String IM_USER_NAME="jinzht_im_";
+	
+	
+	//新版后台管理系统
+	public static String NEW_SERVER_CONTROL = "new_admin/index";
 }

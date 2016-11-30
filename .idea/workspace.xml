@@ -1,7 +1,248 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="96f80184-4365-496d-8ba5-31d7213e6d88" name="Default" comment="" />
+    <list default="true" id="96f80184-4365-496d-8ba5-31d7213e6d88" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/content.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/footer.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/header.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/index_back.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebRoot/newSystem/css/fileupload/fileinput.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebRoot/newSystem/css/fileupload/fileinput.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/fileupload/fileinput.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/fileupload/fileinput.min.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/list.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/table-static.html" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/404.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/404.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/blog.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/blog.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/buttons.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/buttons.jsp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/chart.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/chart.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/components.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/components.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/css/app.v2.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/css/app.v2.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/css/landing.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/css/landing.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/docs.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/docs.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/features.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/features.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/fonts/fontawesome-webfont.eot" afterPath="$PROJECT_DIR$/WebRoot/newSystem/fonts/fontawesome-webfont.eot" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/WebRoot/newSystem/fonts/fontawesome-webfont.svg" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/fonts/fontawesome-webfont.ttf" afterPath="$PROJECT_DIR$/WebRoot/newSystem/fonts/fontawesome-webfont.ttf" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/fonts/fontawesome-webfont.woff" afterPath="$PROJECT_DIR$/WebRoot/newSystem/fonts/fontawesome-webfont.woff" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/form-elements.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/form-elements.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/form-validation.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/form-validation.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/form-wizard.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/form-wizard.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/fullcalendar.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/fullcalendar.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/gallery.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/gallery.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/gmap.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/gmap.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/grid.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/grid.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/icons.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/icons.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/app.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/app.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/avatar.jpg" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/avatar.jpg" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/avatar_default.jpg" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/avatar_default.jpg" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/icon.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/icon.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/logo.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/logo.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/main.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/main.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/phone-1.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/phone-1.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/phone-2.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/phone-2.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/render-1.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/render-1.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/thumb_1.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/thumb_1.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/thumb_2.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/thumb_2.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/images/thumb_3.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/images/thumb_3.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/index.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/index.jsp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/intro.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/intro.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/invoice.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/invoice.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/app.v2.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/app.v2.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/appear/jquery.appear.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/appear/jquery.appear.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/apps/notes.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/apps/notes.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/calendar/bootstrap_calendar.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/calendar/bootstrap_calendar.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/calendar/bootstrap_calendar.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/calendar/bootstrap_calendar.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/calendar/demo.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/calendar/demo.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/charts/easypiechart/jquery.easy-pie-chart.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/charts/easypiechart/jquery.easy-pie-chart.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/charts/flot/demo.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/charts/flot/demo.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/charts/flot/jquery.flot.grow.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/charts/flot/jquery.flot.grow.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/charts/flot/jquery.flot.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/charts/flot/jquery.flot.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/charts/flot/jquery.flot.orderBars.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/charts/flot/jquery.flot.orderBars.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/charts/flot/jquery.flot.pie.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/charts/flot/jquery.flot.pie.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/charts/flot/jquery.flot.resize.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/charts/flot/jquery.flot.resize.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/charts/flot/jquery.flot.tooltip.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/charts/flot/jquery.flot.tooltip.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/charts/sparkline/jquery.sparkline.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/charts/sparkline/jquery.sparkline.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/combodate/combodate.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/combodate/combodate.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/datatables/datatables.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/datatables/datatables.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/datatables/jquery.dataTables.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/datatables/jquery.dataTables.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/datepicker/bootstrap-datepicker.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/datepicker/bootstrap-datepicker.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/datepicker/datepicker.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/datepicker/datepicker.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/file-input/bootstrap-filestyle.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/file-input/bootstrap-filestyle.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/fuelux/demo.datagrid.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/fuelux/demo.datagrid.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/fuelux/fuelux.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/fuelux/fuelux.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/fuelux/fuelux.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/fuelux/fuelux.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/fullcalendar/demo.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/fullcalendar/demo.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/fullcalendar/fullcalendar.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/fullcalendar/fullcalendar.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/fullcalendar/fullcalendar.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/fullcalendar/fullcalendar.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/fullcalendar/theme.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/fullcalendar/theme.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/grid/gallery.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/grid/gallery.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/grid/gallery.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/grid/gallery.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/grid/jquery.grid-a-licious.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/grid/jquery.grid-a-licious.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/ie/excanvas.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/ie/excanvas.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/ie/html5shiv.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/ie/html5shiv.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/ie/respond.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/ie/respond.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/intro/demo.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/intro/demo.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/intro/intro.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/intro/intro.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/intro/introjs.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/intro/introjs.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/jquery-ui-1.10.3.custom.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/jquery-ui-1.10.3.custom.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/jquery.ui.touch-punch.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/jquery.ui.touch-punch.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/landing.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/landing.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/libs/backbone-min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/libs/backbone-min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/libs/backbone.localStorage-min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/libs/backbone.localStorage-min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/libs/moment.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/libs/moment.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/libs/underscore-min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/libs/underscore-min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/maps/demo.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/maps/demo.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/maps/gmaps.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/maps/gmaps.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/markdown/demo.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/markdown/demo.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/markdown/epiceditor.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/markdown/epiceditor.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/nestable/demo.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/nestable/demo.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/nestable/jquery.nestable.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/nestable/jquery.nestable.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/nestable/nestable.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/nestable/nestable.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/parsley/parsley.extend.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/parsley/parsley.extend.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/parsley/parsley.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/parsley/parsley.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/prettyphoto/default/default_thumb.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/prettyphoto/default/default_thumb.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/prettyphoto/default/loader.gif" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/prettyphoto/default/loader.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/prettyphoto/default/sprite.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/prettyphoto/default/sprite.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/prettyphoto/default/sprite_next.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/prettyphoto/default/sprite_next.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/prettyphoto/default/sprite_prev.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/prettyphoto/default/sprite_prev.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/prettyphoto/default/sprite_x.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/prettyphoto/default/sprite_x.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/prettyphoto/default/sprite_y.png" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/prettyphoto/default/sprite_y.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/prettyphoto/jquery.prettyPhoto.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/prettyphoto/jquery.prettyPhoto.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/prettyphoto/prettyPhoto.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/prettyphoto/prettyPhoto.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/scroll/smoothscroll.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/scroll/smoothscroll.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/select2/select2.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/select2/select2.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/select2/select2.min.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/select2/select2.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/select2/theme.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/select2/theme.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/slider/bootstrap-slider.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/slider/bootstrap-slider.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/slider/slider.css" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/slider/slider.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/sortable/jquery.sortable.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/sortable/jquery.sortable.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/wysiwyg/bootstrap-wysiwyg.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/wysiwyg/bootstrap-wysiwyg.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/wysiwyg/demo.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/wysiwyg/demo.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/js/wysiwyg/jquery.hotkeys.js" afterPath="$PROJECT_DIR$/WebRoot/newSystem/js/wysiwyg/jquery.hotkeys.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/landing.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/landing.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/layout-c.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/layout-c.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/layout-h.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/layout-h.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/layout-r.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/layout-r.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/mail.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/mail.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/master.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/master.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/modal.lockme.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/modal.lockme.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/notebook.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/notebook.jsp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/portlet.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/portlet.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/price.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/price.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/profile.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/profile.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/signin.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/signin.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/signup.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/signup.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/table-datagrid.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/table-datagrid.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/table-datatable.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/table-datatable.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/timeline.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/timeline.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/widgets.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/widgets.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/mobile/web/AuthenticController.java" afterPath="$PROJECT_DIR$/src/com/jinzht/mobile/web/AuthenticController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/ActionController.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/ActionController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/AuthenticController$1.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/AuthenticController$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/AuthenticController$2.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/AuthenticController$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/AuthenticController.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/AuthenticController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/FeelingController.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/FeelingController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/MessageController.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/MessageController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/ProjectController$1.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/ProjectController$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/ProjectController.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/ProjectController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/SystemController.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/SystemController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/UserController.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/UserController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/WebAdminController$1.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/WebAdminController$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/WebAdminController.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/WebAdminController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/WebController.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/mobile/web/WebController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$2.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$3.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$4.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$5.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$6.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$7.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/tools/Config.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/tools/DateUtils.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/tools/DateUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/tools/HttpUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/tools/HttpUtil.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/tools/PushUtil.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/tools/PushUtil.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/web/dao/AttentionDAO.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/web/dao/AttentionDAO.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/web/dao/ProjectDAO.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/web/dao/ProjectDAO.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/web/filter/LogInterceptor.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/web/filter/LogInterceptor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/web/manager/ActionManager.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/web/manager/ActionManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/web/manager/ProjectManager.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/web/manager/ProjectManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/jinzht/web/manager/SystemManager.class" afterPath="$PROJECT_DIR$/target/classes/com/jinzht/web/manager/SystemManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/message/Enity/Msg.class" afterPath="$PROJECT_DIR$/target/classes/com/message/Enity/Msg.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/message/Enity/MsgBean.class" afterPath="$PROJECT_DIR$/target/classes/com/message/Enity/MsgBean.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/message/Enity/MsgDAO.class" afterPath="$PROJECT_DIR$/target/classes/com/message/Enity/MsgDAO.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/message/Enity/Original.class" afterPath="$PROJECT_DIR$/target/classes/com/message/Enity/Original.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/message/Enity/OriginalDAO.class" afterPath="$PROJECT_DIR$/target/classes/com/message/Enity/OriginalDAO.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/message/manager/MainManager.class" afterPath="$PROJECT_DIR$/target/classes/com/message/manager/MainManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/message/manager/MessageMananger$1.class" afterPath="$PROJECT_DIR$/target/classes/com/message/manager/MessageMananger$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/message/manager/MessageMananger.class" afterPath="$PROJECT_DIR$/target/classes/com/message/manager/MessageMananger.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.myhibernatedata" afterPath="$PROJECT_DIR$/.myhibernatedata" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" afterPath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jinzht-servlet.xml" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jinzht-servlet.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/ShareProjectDetail.jsp" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/ShareProjectDetail.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/NewsContent/articesList.jsp" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/NewsContent/articesList.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/push/editorPush.jsp" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/push/editorPush.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/main-detail.jsp" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/main-detail.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/main.jsp" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/main.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/project-detail.jsp" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/project-detail.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/project.jsp" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/project.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/report-detail.jsp" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/report-detail.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/report.jsp" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/report.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/test.html" afterPath="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/test.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/css/base.css" afterPath="$PROJECT_DIR$/WebRoot/web/css/base.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/css/main.css" afterPath="$PROJECT_DIR$/WebRoot/web/css/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/css/project-detail.css" afterPath="$PROJECT_DIR$/WebRoot/web/css/project-detail.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/css/project.css" afterPath="$PROJECT_DIR$/WebRoot/web/css/project.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/css/report.css" afterPath="$PROJECT_DIR$/WebRoot/web/css/report.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/css/swiper-3.4.0.min.css" afterPath="$PROJECT_DIR$/WebRoot/web/css/swiper-3.4.0.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/css/test.css" afterPath="$PROJECT_DIR$/WebRoot/web/css/test.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/css/test2.css" afterPath="$PROJECT_DIR$/WebRoot/web/css/test2.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/abount.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/abount.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/bar.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/bar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/jquery.LoadImage.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/jquery.LoadImage.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/jquery.page.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/jquery.page.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/jquery1.8.min.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/jquery1.8.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/main-detail.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/main-detail.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/main.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/project-detail.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/project-detail.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/project.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/project.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/recent_new.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/recent_new.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/report-detail.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/report-detail.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/report.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/report.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/submit_project.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/submit_project.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebRoot/web/js/test.js" afterPath="$PROJECT_DIR$/WebRoot/web/js/test.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/applicationContext.xml" afterPath="$PROJECT_DIR$/src/applicationContext.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/mobile/web/ActionController.java" afterPath="$PROJECT_DIR$/src/com/jinzht/mobile/web/ActionController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/mobile/web/FeelingController.java" afterPath="$PROJECT_DIR$/src/com/jinzht/mobile/web/FeelingController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/mobile/web/MessageController.java" afterPath="$PROJECT_DIR$/src/com/jinzht/mobile/web/MessageController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/mobile/web/ProjectController.java" afterPath="$PROJECT_DIR$/src/com/jinzht/mobile/web/ProjectController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/mobile/web/SystemController.java" afterPath="$PROJECT_DIR$/src/com/jinzht/mobile/web/SystemController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/mobile/web/UserController.java" afterPath="$PROJECT_DIR$/src/com/jinzht/mobile/web/UserController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/mobile/web/WebAdminController.java" afterPath="$PROJECT_DIR$/src/com/jinzht/mobile/web/WebAdminController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/mobile/web/WebController.java" afterPath="$PROJECT_DIR$/src/com/jinzht/mobile/web/WebController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/tools/Config.java" afterPath="$PROJECT_DIR$/src/com/jinzht/tools/Config.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/tools/DateUtils.java" afterPath="$PROJECT_DIR$/src/com/jinzht/tools/DateUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/tools/HttpUtil.java" afterPath="$PROJECT_DIR$/src/com/jinzht/tools/HttpUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/tools/PushUtil.java" afterPath="$PROJECT_DIR$/src/com/jinzht/tools/PushUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/web/dao/AttentionDAO.java" afterPath="$PROJECT_DIR$/src/com/jinzht/web/dao/AttentionDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/web/dao/ProjectDAO.java" afterPath="$PROJECT_DIR$/src/com/jinzht/web/dao/ProjectDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/web/filter/LogInterceptor.java" afterPath="$PROJECT_DIR$/src/com/jinzht/web/filter/LogInterceptor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/web/manager/ActionManager.java" afterPath="$PROJECT_DIR$/src/com/jinzht/web/manager/ActionManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/web/manager/ProjectManager.java" afterPath="$PROJECT_DIR$/src/com/jinzht/web/manager/ProjectManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jinzht/web/manager/SystemManager.java" afterPath="$PROJECT_DIR$/src/com/jinzht/web/manager/SystemManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/message/Enity/Msg.java" afterPath="$PROJECT_DIR$/src/com/message/Enity/Msg.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/message/Enity/MsgBean.java" afterPath="$PROJECT_DIR$/src/com/message/Enity/MsgBean.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/message/Enity/MsgDAO.java" afterPath="$PROJECT_DIR$/src/com/message/Enity/MsgDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/message/Enity/Original.java" afterPath="$PROJECT_DIR$/src/com/message/Enity/Original.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/message/Enity/OriginalDAO.java" afterPath="$PROJECT_DIR$/src/com/message/Enity/OriginalDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/message/manager/MainManager.java" afterPath="$PROJECT_DIR$/src/com/message/manager/MainManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/message/manager/MessageMananger.java" afterPath="$PROJECT_DIR$/src/com/message/manager/MessageMananger.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/applicationContext.xml" afterPath="$PROJECT_DIR$/target/classes/applicationContext.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/m2e-jee/web-resources/META-INF/maven/SpringWeb/SpringWeb/pom.properties" afterPath="$PROJECT_DIR$/target/m2e-jee/web-resources/META-INF/maven/SpringWeb/SpringWeb/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/m2e-jee/web-resources/META-INF/maven/SpringWeb/SpringWeb/pom.xml" afterPath="$PROJECT_DIR$/target/m2e-jee/web-resources/META-INF/maven/SpringWeb/SpringWeb/pom.xml" />
+    </list>
     <ignored path="jinzht.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,116 +262,56 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/main.jsp">
+      <file leaf-file-name="newBannerContent.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/newBannerContent.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="36" column="70" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
+            <state relative-caret-position="135">
+              <caret line="18" column="48" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Login.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/user/Login.jsp">
+      <file leaf-file-name="app.v2.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebRoot/newSystem/css/app.v2.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
-              <caret line="99" column="7" selection-start-line="99" selection-start-column="7" selection-end-line="99" selection-end-column="7" />
+            <state relative-caret-position="469">
+              <caret line="1386" column="1" selection-start-line="1386" selection-start-column="1" selection-end-line="1386" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Login.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebRoot/web/js/Login.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PersonCenter.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/user/PersonCenter.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-670">
-              <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PersonCenter.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/WebRoot/web/js/user/PersonCenter.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="40" column="69" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Register.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/user/Register.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="124" column="50" selection-start-line="124" selection-start-column="44" selection-end-line="124" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Register.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebRoot/web/js/user/Register.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1311">
-              <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="report.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/report.jsp">
+      <file leaf-file-name="fileinput.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WebRoot/newSystem/css/fileupload/fileinput.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="2" />
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="project.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/project.jsp">
+      <file leaf-file-name="fileinput.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/WebRoot/newSystem/js/fileupload/fileinput.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3527">
-              <caret line="143" column="30" selection-start-line="143" selection-start-column="30" selection-end-line="143" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="project-detail.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/project-detail.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="11" column="51" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
-              <folding />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1479667991000" expanded="true" signature="17238:17255" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/editorMember.jsp" />
-        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/editorTeam.jsp" />
-        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/left.jsp" />
-        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/action/editorActionContent.jsp" />
-        <option value="$PROJECT_DIR$/WebRoot/admin/css/action.css" />
         <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/top.jsp" />
         <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/action/editorAction.jsp" />
         <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/test/editorKingCapital.jsp" />
@@ -170,6 +351,18 @@
         <option value="$PROJECT_DIR$/WebRoot/web/js/user/Register.js" />
         <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/user/PersonCenter.jsp" />
         <option value="$PROJECT_DIR$/WebRoot/web/js/user/PersonCenter.js" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/footer.jsp" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/header.jsp" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/content.jsp" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/buttons.jsp" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/notebook.jsp" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/table-static.jsp" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/table-news-banners.jsp" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/table-news-banner.jsp" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/master.html" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/index.jsp" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/list.jsp" />
+        <option value="$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/newBannerContent.jsp" />
       </list>
     </option>
   </component>
@@ -210,33 +403,33 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -246,29 +439,11 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WebRoot" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -279,18 +454,14 @@
               <option name="myItemId" value="WEB-INF" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jsp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -305,18 +476,14 @@
               <option name="myItemId" value="jsp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -332,25 +499,17 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="html" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="user" />
+              <option name="myItemId" value="new_admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -366,25 +525,17 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="html" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
+              <option name="myItemId" value="admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -392,7 +543,37 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
+              <option name="myItemId" value="WEB-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jsp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Users" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FastMVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FastMVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebRoot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="newSystem" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -402,11 +583,11 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -414,7 +595,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
+              <option name="myItemId" value="newSystem" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -422,17 +603,17 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="user" />
+              <option name="myItemId" value="fileupload" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jinzht" />
+              <option name="myItemId" value="FastMVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -440,7 +621,55 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
+              <option name="myItemId" value="newSystem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FastMVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FastMVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebRoot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="newSystem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FastMVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FastMVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebRoot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="newSystem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fileupload" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -457,12 +686,16 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\softe\workspace\workspace\jinzht\WebRoot\WEB-INF\jsp\Notebook_admin\images" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Documents\GitHub\FastMVC\WebRoot\newSystem\js\fileupload" />
+      <recent name="C:\Users\Administrator\Documents\GitHub\FastMVC\WebRoot\newSystem\css\fileupload" />
+      <recent name="C:\Users\Administrator\Documents\GitHub\FastMVC\WebRoot\WEB-INF\jsp\new_admin" />
       <recent name="F:\softe\workspace\workspace\jinzht\WebRoot\WEB-INF\jsp\Notebook_admin\images" />
       <recent name="F:\softe\workspace\workspace\jinzht\WebRoot\WEB-INF\jsp\admin\action" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Documents\GitHub\FastMVC\WebRoot\newSystem" />
+      <recent name="F:\softe\workspace\workspace\jinzht\WebRoot\WEB-INF\jsp\Notebook_admin\images" />
     </key>
   </component>
   <component name="RunManager">
@@ -549,11 +782,15 @@
       <workItem from="1478577119700" duration="6828000" />
       <workItem from="1478653908300" duration="9704000" />
       <workItem from="1478742508720" duration="4818000" />
+      <workItem from="1479528363374" duration="1631000" />
+      <workItem from="1479779591784" duration="7119000" />
+      <workItem from="1479799610653" duration="2631000" />
+      <workItem from="1479973156055" duration="3162000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="82006000" />
+    <option name="totallyTimeSpent" value="96549000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1608" y="-8" width="1616" height="876" extended-state="6" />
@@ -562,7 +799,6 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20532319" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24327958" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -573,6 +809,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24327958" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -593,153 +830,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/editorScene.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2457">
-          <caret line="91" column="0" selection-start-line="91" selection-start-column="0" selection-end-line="117" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/admin/css/action.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1134">
-          <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/Users/editorUserAuthentic.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="103" column="48" selection-start-line="103" selection-start-column="48" selection-end-line="108" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/action/editorActionContent.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="169" column="19" selection-start-line="169" selection-start-column="19" selection-end-line="169" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/admin/table/css/jquery.dataTables.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/admin/table/js/jquery.dataTables.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="4633" column="32" selection-start-line="4633" selection-start-column="32" selection-end-line="4633" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/banner/bannerList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="160" column="0" selection-start-line="160" selection-start-column="0" selection-end-line="160" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/test/editorKingCapital.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="238" column="19" selection-start-line="238" selection-start-column="19" selection-end-line="238" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/top.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1917">
-          <caret line="71" column="17" selection-start-line="71" selection-start-column="17" selection-end-line="71" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/admin/table/css/jquery.dataTables.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16173">
-          <caret line="599" column="1" selection-start-line="599" selection-start-column="1" selection-end-line="599" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/test/editor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jinzht/mobile/web/WebController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/test/editor.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="625">
-          <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/projectList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="77" column="11" selection-start-line="77" selection-start-column="11" selection-end-line="77" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/action/editorAction.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="412" column="3" selection-start-line="412" selection-start-column="3" selection-end-line="429" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/roadShowList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
-          <caret line="81" column="31" selection-start-line="81" selection-start-column="31" selection-end-line="81" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/sceneList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/financeStandingList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="68" column="34" selection-start-line="68" selection-start-column="34" selection-end-line="68" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/bussinessPlanList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="162" column="34" selection-start-line="162" selection-start-column="34" selection-end-line="162" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/financeCaseList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="86" column="42" selection-start-line="86" selection-start-column="42" selection-end-line="86" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/financeExitList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="167" column="35" selection-start-line="167" selection-start-column="35" selection-end-line="167" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/project/teamsList.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
@@ -817,53 +907,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/css/landing.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/fonts/fontawesome-webfont.svg">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-138">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/buttons.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="137" column="118" selection-start-line="137" selection-start-column="118" selection-end-line="137" selection-end-column="118" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/css/app.v2.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="9728" column="1" selection-start-line="9728" selection-start-column="1" selection-end-line="9728" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2061">
-          <caret line="179" column="18" selection-start-line="179" selection-start-column="16" selection-end-line="179" selection-end-column="18" />
-          <folding>
-            <element signature="n#li#0;n#ul#0;n#header#0;n#section#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#section#0;n#div#0;n#div#1;n#section#0;n#section#0;n#section#0;n#section#0;n#section#0;n#section#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/css/landing.css" />
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/fonts/fontawesome-webfont.svg" />
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/buttons.html" />
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/css/app.v2.css" />
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/Notebook_admin/index.html" />
     <entry file="file://$PROJECT_DIR$/WebRoot/web/js/bar.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-246">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -871,19 +923,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="351">
           <caret line="13" column="40" selection-start-line="13" selection-start-column="40" selection-end-line="13" selection-end-column="40" />
-          <folding>
-            <marker date="1478745266623" expanded="true" signature="3700:3716" ph="..." />
-            <marker date="1478745266623" expanded="true" signature="3791:3950" ph="..." />
-            <marker date="1478745266623" expanded="true" signature="4219:4235" ph="..." />
-            <marker date="1478745266623" expanded="true" signature="4307:4440" ph="..." />
-            <marker date="1478745266623" expanded="true" signature="4627:4643" ph="..." />
-            <marker date="1478745266623" expanded="true" signature="5115:5131" ph="..." />
-            <marker date="1478745266623" expanded="true" signature="5560:5590" ph="..." />
-            <marker date="1478745266623" expanded="true" signature="5897:5982" ph="..." />
-            <marker date="1478745266623" expanded="true" signature="6091:6113" ph="..." />
-            <marker date="1478745266623" expanded="true" signature="6299:6315" ph="..." />
-            <marker date="1478745266623" expanded="true" signature="6469:6486" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -891,7 +930,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-486">
           <caret line="27" column="35" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -899,47 +937,55 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/project-detail.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="11" column="51" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
-          <folding />
+        <state relative-caret-position="297">
+          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/project.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3527">
+        <state relative-caret-position="3861">
           <caret line="143" column="30" selection-start-line="143" selection-start-column="30" selection-end-line="143" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/main.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="36" column="70" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/report.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="2" />
-          <folding />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/user/Login.jsp">
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/user/Register.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="99" column="7" selection-start-line="99" selection-start-column="7" selection-end-line="99" selection-end-column="7" />
-          <folding />
+        <state relative-caret-position="3348">
+          <caret line="124" column="50" selection-start-line="124" selection-start-column="44" selection-end-line="124" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/web/js/user/Register.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/web/js/user/PersonCenter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/user/PersonCenter.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -947,39 +993,179 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
           <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/user/Login.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="490">
+          <caret line="99" column="7" selection-start-line="99" selection-start-column="7" selection-end-line="99" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/content/main.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="36" column="37" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/lower.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/user/Register.jsp">
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/invite_card.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="124" column="50" selection-start-line="124" selection-start-column="44" selection-end-line="124" selection-end-column="50" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/web/js/user/Register.js">
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/admin/Users/editorProject.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1311">
-          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="7" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/web/html/user/PersonCenter.jsp">
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/index_back.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-670">
-          <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+        <state relative-caret-position="163">
+          <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebRoot/web/js/user/PersonCenter.js">
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/table-static.jsp" />
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/table-datatable.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="40" column="69" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/table-news-banners.jsp" />
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/components.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="503" column="18" selection-start-line="503" selection-start-column="18" selection-end-line="511" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/index.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="34" column="4" selection-start-line="0" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/buttons.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/notebook.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="625">
+          <caret line="47" column="10" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/table-news-banner.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="39" column="22" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/master.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="408" column="18" selection-start-line="408" selection-start-column="18" selection-end-line="408" selection-end-column="18" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#section#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#td#0;n#tr#1;n#tbody#0;n#table#0;n#section#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#td#0;n#tr#2;n#tbody#0;n#table#0;n#section#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#td#0;n#tr#3;n#tbody#0;n#table#0;n#section#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/content.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/header.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="625">
+          <caret line="115" column="30" selection-start-line="115" selection-start-column="30" selection-end-line="115" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/footer.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/list.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/WEB-INF/jsp/new_admin/newBannerContent.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="18" column="48" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/newSystem/css/app.v2.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="1386" column="1" selection-start-line="1386" selection-start-column="1" selection-end-line="1386" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/newSystem/css/fileupload/fileinput.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebRoot/newSystem/js/fileupload/fileinput.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1479667991000" expanded="true" signature="17238:17255" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

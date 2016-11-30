@@ -64,7 +64,7 @@ public class AuthenticController extends BaseController {
 	@RequestMapping(value = "/updateIdentiyTypeUser")
 	@ResponseBody
 	/***
-	 * 忘记密码
+	 * 设置身份类型
 	 * @param userInstance
 	 * @param bindingResult
 	 * @param session
@@ -106,15 +106,23 @@ public class AuthenticController extends BaseController {
 			Identiytype identityType = this.authenticManager
 					.findIdentityTypeById(ideniyType);
 
-			Authenticstatus status = new Authenticstatus();
-			status.setName("未认证");
-			status.setStatusId(6);
-
-			// 生成认证记录
 			Authentic authentic = new Authentic();
+			if(user.getAuthentics()!=null && user.getAuthentics().size()>0)
+			{
+				Object[] authentics = user.getAuthentics().toArray();
+				authentic = (Authentic) authentics[0];
+			}else{
+				authentic = new Authentic();
+				Authenticstatus status = new Authenticstatus();
+				status.setName("未认证");
+				status.setStatusId(6);
+				
+				authentic.setUsers(user);
+				authentic.setAuthenticstatus(status);
+			}
+			
+			// 生成认证记录
 			authentic.setIdentiytype(identityType);
-			authentic.setUsers(user);
-			authentic.setAuthenticstatus(status);
 			
 			if(user.getTelephone()!=null)
 			{
@@ -124,14 +132,13 @@ public class AuthenticController extends BaseController {
 				authentic.setName(name);
 			}
 
-			// 保存
-			this.authenticManager.saveAuthentic(authentic);
-
-			// 更新用户登录信息
-			Set authenticSet = new HashSet();
-			authenticSet.add(authentic);
-
-			user.setAuthentics(authenticSet);
+			if(user.getAuthentics()!=null && user.getAuthentics().size()>0)
+			{
+				this.authenticManager.getAuthenticDao().saveOrUpdate(authentic);
+			}else{
+				// 保存
+				this.authenticManager.saveAuthentic(authentic);
+			}
 
 			// 头像
 			if (!fileName.equals("")) {
@@ -157,13 +164,21 @@ public class AuthenticController extends BaseController {
 			// 封装返回数据
 			Map map = new HashMap();
 			map.put("inviteCode", systemCode.getCode());
+			map.put("userImage", fileName);
 
 			// 返回状态
 			this.status = 200;
 			this.result.put("data", map);
 			this.message = Config.STRING_AUTH_IDENTIY_SUCCESS;
 		} else {
+			
+			Map map = new HashMap();
+			map.put("inviteCode", "");
+			map.put("userImage", fileName);
+			
+			
 			this.status = 400;
+			this.result.put("data", map);
 			this.message = Config.STRING_AUTH_IDENTIY_FAIL;
 		}
 

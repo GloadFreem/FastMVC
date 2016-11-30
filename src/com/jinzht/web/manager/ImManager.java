@@ -104,8 +104,6 @@ public class ImManager {
 
 	public List getUsers(Integer page, Integer size) {
 		List list = new ArrayList();
-		ObjectMapper mapper = new ObjectMapper();
-
 		List records = this.getImSettingDao().findAll();
 		if (records == null || records.size() == 0) {
 			return new ArrayList();
@@ -114,15 +112,459 @@ public class ImManager {
 		Imsetting record = (Imsetting) records.get(0);
 
 		// 开始请求
-		JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.POST,
-				null, "users?limit=" + size, record.getAccessTokean());
-		System.out.print(result);
+		JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.GET, null,
+				"users?limit=" + size, record.getAccessTokean());
+		list = (List) result.get("entities");
 		// 解析保存
-		if (result != null) {
-
+		if (list != null) {
+			return list;
 		}
 
 		return new ArrayList();
+	}
+
+	/***
+	 * 聊天室列表
+	 * 
+	 * @return
+	 */
+	public Map chatRoomList(Integer page, Integer size) {
+		List list = new ArrayList();
+
+		// 创建传参
+		List records = this.getImSettingDao().findAll();
+		if (records == null || records.size() == 0) {
+			return null;
+		}
+
+		Imsetting record = (Imsetting) records.get(0);
+
+		// 开始请求
+		JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.GET, null,
+				"chatrooms?pagenum=" + page + "&pagesize=" + size,
+				record.getAccessTokean());
+		// Map map = (HashMap) result.get("data");
+		// 解析保存
+		return result;
+	}
+
+	/***
+	 * 删除聊天室
+	 * 
+	 * @return
+	 */
+	public Map deleteChatRoom(String chatRoomId) {
+		List list = new ArrayList();
+
+		// 创建传参
+		List records = this.getImSettingDao().findAll();
+		if (records == null || records.size() == 0) {
+			return null;
+		}
+
+		Imsetting record = (Imsetting) records.get(0);
+
+		// 开始请求
+		JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.DELETE, null,
+				"chatrooms/" + chatRoomId, record.getAccessTokean());
+		// Map map = (HashMap) result.get("data");
+		// 解析保存
+		return result;
+	}
+
+	/***
+	 * 删除聊天室
+	 * 
+	 * @return
+	 */
+	public Map ChatRoomDetail(String chatRoomId) {
+		List list = new ArrayList();
+
+		// 创建传参
+		List records = this.getImSettingDao().findAll();
+		if (records == null || records.size() == 0) {
+			return null;
+		}
+
+		Imsetting record = (Imsetting) records.get(0);
+
+		// 开始请求
+		JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.GET, null,
+				"chatrooms/" + chatRoomId, record.getAccessTokean());
+		// Map map = (HashMap) result.get("data");
+		// 解析保存
+		return result;
+	}
+
+	/***
+	 * 创建聊天室
+	 * 
+	 * @param name
+	 *            聊天室名称
+	 * @param description
+	 *            聊天室简介
+	 * @param maxusers
+	 *            最大成员数
+	 * @param owner
+	 *            群主
+	 * @return
+	 */
+	public Map createChatRoom(String name, String description,
+			Integer maxusers, Users owner) {
+		List list = new ArrayList();
+
+		// 创建传参
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("name", name);
+		jsonObject.put("description", description);
+		jsonObject.put("maxusers", maxusers);
+		// jsonObject.put("owner", owner.getName());
+		jsonObject.put("owner", "jinzhttest13186156568");
+
+		// 转换格式
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String json = mapper.writeValueAsString(jsonObject);
+
+			List records = this.getImSettingDao().findAll();
+			if (records == null || records.size() == 0) {
+				return null;
+			}
+
+			Imsetting record = (Imsetting) records.get(0);
+
+			// 开始请求
+			JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.POST,
+					json, "chatrooms", record.getAccessTokean());
+			// Map map = (HashMap) result.get("data");
+			// 解析保存
+			return result;
+
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	/***
+	 * 修改群聊信息
+	 * 
+	 * @param chatRoomId
+	 *            聊天室id
+	 * @param name
+	 *            聊天室名称
+	 * @param description
+	 *            描述
+	 * @param maxusers
+	 *            最大人数限制
+	 * @return
+	 */
+	public Map modifyChatRoom(String chatRoomId, String name,
+			String description, Integer maxusers) {
+		List list = new ArrayList();
+
+		// 创建传参
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("name", name);
+		jsonObject.put("description", description);
+		jsonObject.put("maxusers", maxusers);
+		// jsonObject.put("owner", owner.getName());
+		// jsonObject.put("owner", "jinzhttest13186156568");
+
+		// 转换格式
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String json = mapper.writeValueAsString(jsonObject);
+
+			List records = this.getImSettingDao().findAll();
+			if (records == null || records.size() == 0) {
+				return null;
+			}
+
+			Imsetting record = (Imsetting) records.get(0);
+
+			// 开始请求
+			JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.PUT, json,
+					"chatrooms/" + chatRoomId, record.getAccessTokean());
+			// Map map = (HashMap) result.get("data");
+			// 解析保存
+			return result;
+
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	
+	
+	public Map sendMessage(List userName, String msg,
+			short type) {
+		List list = new ArrayList();
+		
+		// 创建传参
+		JSONObject jsonObject = new JSONObject();
+		Map map = new HashMap();
+		
+		String t = "txt";
+		switch (type) {
+		case 1:
+			t="img";
+			break;
+		case 2:
+			t="audio";
+			break;
+		case 3:
+			t="video";
+			break;
+		case 4:
+			t="cmd";
+			break;
+		default:
+			t="txt";
+			break;
+		}
+		
+		map.put("type", t);
+		map.put("msg", msg);
+		
+		jsonObject.put("target_type", "users");
+		jsonObject.put("target", userName);
+		jsonObject.put("msg", map);
+		
+		// 转换格式
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String json = mapper.writeValueAsString(jsonObject);
+			
+			List records = this.getImSettingDao().findAll();
+			if (records == null || records.size() == 0) {
+				return null;
+			}
+			
+			Imsetting record = (Imsetting) records.get(0);
+			
+			// 开始请求
+			JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.POST, json,
+					"messages/", record.getAccessTokean());
+			// Map map = (HashMap) result.get("data");
+			// 解析保存
+			return result;
+			
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	/***
+	 * 获取用户参加的聊天室
+	 * 
+	 * @param name
+	 *            用户名称
+	 * @return
+	 */
+	public Map userJoinedChatRoomList(String name) {
+		List list = new ArrayList();
+
+		List records = this.getImSettingDao().findAll();
+		if (records == null || records.size() == 0) {
+			return null;
+		}
+
+		Imsetting record = (Imsetting) records.get(0);
+
+		// 开始请求
+		JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.GET, null,
+				"users/" + name + "/joined_chatrooms/",
+				record.getAccessTokean());
+		// Map map = (HashMap) result.get("data");
+		// 解析保存
+		return result;
+	}
+
+	/***
+	 * 添加用户到聊天室
+	 * 
+	 * @param chatRoomId
+	 *            聊天室id
+	 * @param name
+	 *            用户名称
+	 * @return
+	 */
+	public Map addUserToChatRoom(String chatRoomId, String name) {
+		List list = new ArrayList();
+
+		List records = this.getImSettingDao().findAll();
+		if (records == null || records.size() == 0) {
+			return null;
+		}
+
+		Imsetting record = (Imsetting) records.get(0);
+
+		// 开始请求
+		JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.POST, null,
+				"chatrooms/" + chatRoomId + "/users/" + name,
+				record.getAccessTokean());
+		// Map map = (HashMap) result.get("data");
+		// 解析保存
+		return result;
+	}
+
+	/***
+	 * 移除用户
+	 * 
+	 * @param chatRoomId
+	 *            聊天室id
+	 * @param name
+	 *            用户名称
+	 * @return
+	 */
+	public Map removeUserToChatRoom(String chatRoomId, String name) {
+		List list = new ArrayList();
+
+		List records = this.getImSettingDao().findAll();
+		if (records == null || records.size() == 0) {
+			return null;
+		}
+
+		Imsetting record = (Imsetting) records.get(0);
+
+		// 开始请求
+		JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.DELETE, null,
+				"chatrooms/" + chatRoomId + "/users/" + name,
+				record.getAccessTokean());
+		// Map map = (HashMap) result.get("data");
+		// 解析保存
+		return result;
+	}
+
+	/***
+	 * 批量添加用户到聊天室
+	 * 
+	 * @param chatRoomId
+	 *            聊天室id
+	 * @param name
+	 *            用户名称
+	 * @return
+	 */
+	public Map addUsersToChatRoom(String chatRoomId, List names) {
+		List list = new ArrayList();
+
+		// 创建传参
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("usernames", names);
+
+		// 转换格式
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String json = mapper.writeValueAsString(jsonObject);
+
+			List records = this.getImSettingDao().findAll();
+			if (records == null || records.size() == 0) {
+				return null;
+			}
+
+			Imsetting record = (Imsetting) records.get(0);
+
+			// 开始请求
+			JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.POST,
+					json, "chatrooms/" + chatRoomId + "/users",
+					record.getAccessTokean());
+			// Map map = (HashMap) result.get("data");
+			// 解析保存
+			return result;
+
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	/***
+	 * 批量移除用户
+	 * 
+	 * @param chatRoomId
+	 *            聊天室id
+	 * @param name
+	 *            用户名称
+	 * @return
+	 */
+	public Map removeUsersToChatRoom(String chatRoomId, List names) {
+		List list = new ArrayList();
+
+		List records = this.getImSettingDao().findAll();
+		if (records == null || records.size() == 0) {
+			return null;
+		}
+
+		Imsetting record = (Imsetting) records.get(0);
+
+		String url = "chatrooms/" + chatRoomId + "/users/";
+		for (Object name : names) {
+			String nameStr = name.toString();
+			url += nameStr + ",";
+		}
+
+		// 开始请求
+		JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.DELETE, null,
+				url, record.getAccessTokean());
+		// Map map = (HashMap) result.get("data");
+		// 解析保存
+		return result;
+	}
+
+	/***
+	 * 注册用户
+	 * 
+	 * @param name
+	 *            用户名称
+	 * @param password
+	 *            用户密码
+	 * @return
+	 */
+	public Map addUserToIM(String name, String password, String nickname) {
+		List list = new ArrayList();
+
+		// 创建传参
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("username", name);
+		jsonObject.put("password", password);
+		jsonObject.put("nickname", nickname);
+
+		// 转换格式
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String json = mapper.writeValueAsString(jsonObject);
+
+			List records = this.getImSettingDao().findAll();
+			if (records == null || records.size() == 0) {
+				return null;
+			}
+
+			Imsetting record = (Imsetting) records.get(0);
+
+			// 开始请求
+			JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.POST,
+					json, "users/", record.getAccessTokean());
+			// Map map = (HashMap) result.get("data");
+			// 解析保存
+			return result;
+
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	/**

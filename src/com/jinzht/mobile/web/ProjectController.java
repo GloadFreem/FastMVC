@@ -87,7 +87,7 @@ public class ProjectController extends BaseController {
 	 */
 	public Map requestProjectList(
 			@RequestParam(value = "page", required = true) Integer page,
-			@RequestParam(value = "size", required = true) Integer size,
+			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "type", required = true) int type,
 			HttpSession session) {
 		this.result = new HashMap();

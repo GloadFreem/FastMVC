@@ -56,6 +56,18 @@ public class NewsbannerDAO {
 			throw re;
 		}
 	}
+	
+	
+	public void saveOrUpdate(Newsbanner transientInstance) {
+		log.debug("saving Newsbanner instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Newsbanner persistentInstance) {
 		log.debug("deleting Newsbanner instance");

@@ -92,9 +92,11 @@ import com.jinzht.web.test.User;
 import com.message.Enity.Msg;
 import com.message.Enity.MsgDetail;
 import com.message.Enity.MsgImages;
+import com.message.Enity.Newsbanner;
 import com.message.Enity.Original;
 import com.message.Enity.OriginalDetail;
 import com.message.Enity.OriginalImg;
+import com.message.Enity.Originalbanner;
 import com.message.manager.MainManager;
 import com.message.manager.MessageMananger;
 
@@ -1639,7 +1641,7 @@ public class WebAdminController extends BaseController {
 		Map m = new HashMap();
 		if (name != null) {
 			Action action = this.actionManaer.findActionById(actionId);
-
+			
 			Actionimages image = new Actionimages();
 			image.setUrl(name);
 
@@ -2703,7 +2705,16 @@ public class WebAdminController extends BaseController {
 		} else {
 			this.actionManaer.getActionDao().save(action);
 		}
-
+		
+		if(action.getUrl()==null ||action.getUrl()=="")
+		{
+			String actionUrl = String.format(Config.ACTION_URL, Config.STRING_SYSTEM_ADDRESS,action.getActionId());
+			action.setUrl(actionUrl);
+			
+			this.actionManaer.saveOrUpdate(action);
+		}
+		
+		
 		map.put("action", action);
 		return "/admin/action/editorAction";
 	}
@@ -5362,4 +5373,383 @@ public class WebAdminController extends BaseController {
 
 		return "admin/NewsContent/articesList";
 	}
+	
+	/***    ---------------------------------------------后端管理系统升级-------------------------------------------***/
+	/***
+	 * 首页
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/index")
+	public String requestIndexPage(
+			ModelMap map,
+			HttpSession session)
+	{
+		map.put("content","content");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	/***
+	 * 资讯内容
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/news")
+	public String requestNewsPage(
+			ModelMap map,
+			HttpSession session)
+	{
+		map.put("content","buttons");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	/***
+	 * 资讯内容
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/notebook")
+	public String requestNotebook(
+			ModelMap map,
+			HttpSession session)
+	{
+		map.put("content","notebook");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	/***
+	 * 资讯Banner
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/newsBanner")
+	public String requestNewsBanner(
+			@RequestParam(value="page",required=false)Integer page,
+			@RequestParam(value="size",required=false)Integer size,
+			ModelMap map,
+			HttpSession session)
+	{
+		
+		List list = this.messageManager.getNewsbannerDAO().findAll();
+		
+		
+		map.put("content","table-news-banner");
+		map.put("result",list);
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	/***
+	 * 删除资讯Banner
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/delNewsBanner")
+	public String requestDelNewsBanner(
+			@RequestParam(value="contentId",required=false)Integer contentId,
+			ModelMap map,
+			HttpSession session)
+	{
+		
+		if(contentId!=null)
+		{
+			Newsbanner banner = this.messageManager.getNewsbannerDAO().findById(contentId);
+			if(banner!=null)
+			{
+				this.messageManager.getNewsbannerDAO().delete(banner);
+			}
+			
+		}
+		
+		
+		List list = this.messageManager.getNewsbannerDAO().findAll();
+		
+		map.put("content","table-news-banner");
+		map.put("result",list);
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	/***
+	 * 资讯Banner详情
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/newBannerDetail")
+	public String newBannerDetail(
+			@RequestParam(value="contentId",required=false)Integer contentId,
+			ModelMap map,
+			HttpSession session)
+	{
+		
+		if(contentId!=null)
+		{
+			Newsbanner banner = this.messageManager.getNewsbannerDAO().findById(contentId);
+			if(banner!=null)
+			{
+				map.put("data", banner);
+			}
+		}
+		
+		map.put("content","newBannerContent");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 编辑Banner详情
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/editNewBanner")
+	public String editNewBanner(
+			@RequestParam(value="contentId",required=false)Integer contentId,
+			@RequestParam(value="desc",required=false)String desc,
+			@RequestParam(value="image",required=false)String image,
+			@RequestParam(value="url",required=false)String url,
+			@RequestParam(value="file",required=false)MultipartFile[] images,
+			ModelMap map,
+			HttpSession session)
+	{
+		
+		if(contentId!=null)
+		{
+			Newsbanner banner = this.messageManager.getNewsbannerDAO().findById(contentId);
+			if(banner!=null)
+			{
+				//更新
+				if(desc!=null)
+				{
+					banner.setDesc(desc);
+				}
+				
+				if(image!=null)
+				{
+					banner.setImage(image);
+				}
+				
+				if(url!=null)
+				{
+					banner.setUrl(url);
+				}
+				
+				// 保存图片
+				String fileName = "";
+				String result = "";
+				if (images != null && images.length > 0) {
+
+					MultipartFile file = null;
+					Set items = new HashSet();
+					for (int i = 0; i < images.length; i++) {
+						if (images[i] != null) {
+							file = images[i];
+							fileName = String.format(
+									Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+									new Date().getTime(), i);
+							result = FileUtil.savePicture(file, fileName,
+									"upload/uploadImages/");
+							if (!result.equals("")) {
+								fileName = Config.STRING_SYSTEM_ADDRESS
+										+ "upload/uploadImages/" + result;
+							} else {
+								fileName = "";
+							}
+
+						}
+					}
+					
+					if(fileName!=null && fileName!="")
+					{
+						banner.setImage(fileName);
+					}else{
+						if(image!=null && image!="")
+						{
+							banner.setImage(image);
+						}
+					}
+				}
+				
+				//保存
+				this.messageManager.getNewsbannerDAO().saveOrUpdate(banner);
+				map.put("data", banner);
+			}
+		}
+		
+		map.put("content","newBannerContent");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	/***
+	 * 原创Banner
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/originalBanner")
+	public String originalNewsBanner(
+			@RequestParam(value="page",required=false)Integer page,
+			@RequestParam(value="size",required=false)Integer size,
+			ModelMap map,
+			HttpSession session)
+	{
+		
+		List list = this.messageManager.getOriginalbannerDAO().findAll();
+		
+		map.put("content","table-original-banner");
+		map.put("result",list);
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	/***
+	 * 删除原创Banner
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/delOriginalBanner")
+	public String requestDelOriginalBanner(
+			@RequestParam(value="contentId",required=false)Integer contentId,
+			ModelMap map,
+			HttpSession session)
+	{
+		
+		if(contentId!=null)
+		{
+			Originalbanner banner = this.messageManager.getOriginalbannerDAO().findById(contentId);
+			if(banner!=null)
+			{
+				this.messageManager.getOriginalbannerDAO().delete(banner);
+			}
+			
+		}
+		
+		
+		List list = this.messageManager.getOriginalbannerDAO().findAll();
+		
+		map.put("content","table-original-banner");
+		map.put("result",list);
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	/***
+	 * 原创Banner详情
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/originalBannerDetail")
+	public String originalBannerDetail(
+			@RequestParam(value="contentId",required=false)Integer contentId,
+			ModelMap map,
+			HttpSession session)
+	{
+		
+		if(contentId!=null)
+		{
+			Originalbanner banner = this.messageManager.getOriginalbannerDAO().findById(contentId);
+			if(banner!=null)
+			{
+				map.put("data", banner);
+			}
+		}
+		
+		map.put("content","originalBannerContent");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 编辑Banner详情
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="newSystem/editOriginalBanner")
+	public String editOriginalBanner(
+			@RequestParam(value="contentId",required=false)Integer contentId,
+			@RequestParam(value="desc",required=false)String desc,
+			@RequestParam(value="image",required=false)String image,
+			@RequestParam(value="url",required=false)String url,
+			@RequestParam(value="file",required=false)MultipartFile[] images,
+			ModelMap map,
+			HttpSession session)
+	{
+		
+		if(contentId!=null)
+		{
+			Originalbanner banner = this.messageManager.getOriginalbannerDAO().findById(contentId);
+			if(banner!=null)
+			{
+				//更新
+				if(desc!=null)
+				{
+					banner.setDesc(desc);
+				}
+				
+				if(image!=null)
+				{
+					banner.setImage(image);
+				}
+				
+				if(url!=null)
+				{
+					banner.setUrl(url);
+				}
+				
+				// 保存图片
+				String fileName = "";
+				String result = "";
+				if (images != null && images.length > 0) {
+					
+					MultipartFile file = null;
+					Set items = new HashSet();
+					for (int i = 0; i < images.length; i++) {
+						if (images[i] != null) {
+							file = images[i];
+							fileName = String.format(
+									Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+									new Date().getTime(), i);
+							result = FileUtil.savePicture(file, fileName,
+									"upload/uploadImages/");
+							if (!result.equals("")) {
+								fileName = Config.STRING_SYSTEM_ADDRESS
+										+ "upload/uploadImages/" + result;
+							} else {
+								fileName = "";
+							}
+							
+						}
+					}
+					
+					if(fileName!=null && fileName!="")
+					{
+						banner.setImage(fileName);
+					}else{
+						if(image!=null && image!="")
+						{
+							banner.setImage(image);
+						}
+					}
+				}
+				
+				//保存
+				this.messageManager.getOriginalbannerDAO().saveOrUpdate(banner);
+				map.put("data", banner);
+			}
+		}
+		
+		map.put("content","originalBannerContent");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	/***    ---------------------------------------------后端管理系统升级-------------------------------------------***/
+	
 }

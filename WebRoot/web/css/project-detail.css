@@ -44,8 +44,8 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
 }
 
 #top_left{
-    width: 520px;
-    height: 400px;
+    width: 420px;
+    height: 320px;
     float: left;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -54,8 +54,8 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
 }
 #top_right{
     width: 600px;
-    height: 400px;
-    float: left;
+    height: 320px;
+    float: right;
     /*background-color: red;*/
     margin-right: 30px;
     margin-top: 20px;
@@ -63,8 +63,9 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
 }
 
 #mainImg{
-    width: 520px;
-    height: 400px;
+	margin-left:60px;
+    width: 400px;
+    height: 320px;
 }
 
 #title{
@@ -87,7 +88,7 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
 
 #fullName{
     margin-top: 50px;
-    font-size: 14px;
+    font-size: 16px;
     color: #7B8793;
     line-height: 25px;
     text-align: left;
@@ -151,14 +152,15 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
 
 .guanzhu{
     width: 40%;
-    height: 50px;
+    height: 44px;
+       font-family: "Microsoft YaHei","Segoe UI", "Lucida Grande", Helvetica, Arial, sans-serif;
     background-color: #ffffff;
     color: #5b7396;
     font-size: 20px;
     text-align: center;
     margin-right: 30px;
     margin-left: 40px;
-    border-radius: 7px;
+    border-radius: 4px;
     margin-top: 25px;
     outline: 0;
     float: left;
@@ -653,14 +655,15 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
 
 .rentou {
     width: 40%;
-    height: 50px;
-    background-color: #ff6700;
+    height: 44px;
+   font-family: "Microsoft YaHei","Segoe UI", "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: #ff7b22;
     font-size: 20px;
     text-align: center;
     color: white;
     margin-left: 0px;
     margin-right: 40px;
-    border-radius: 7px;
+    border-radius: 4px;
     margin-top: 25px;
     float: left;
     outline: 0;
@@ -669,7 +672,7 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
 
 
 .rentou:hover {
-    background-color: #d65b00;
+    background-color: #ff6700;
 
 }
 .rentou:hover .scanner {

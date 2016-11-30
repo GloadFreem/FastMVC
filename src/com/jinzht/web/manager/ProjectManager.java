@@ -592,6 +592,7 @@ public class ProjectManager {
 				scene.setAudiorecords(null);
 				scene.setBeginTime(null);
 				scene.setEndTime(null);
+				scene.setUserName(user.getName());
 				
 //				if(scene!=null)
 //				{

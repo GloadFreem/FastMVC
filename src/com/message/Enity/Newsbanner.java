@@ -88,7 +88,7 @@ public class Newsbanner implements java.io.Serializable {
 		this.endTime = endTime;
 	}
 
-	@Column(name = "desc")
+	@Column(name = "description")
 	public String getDesc() {
 		return this.desc;
 	}

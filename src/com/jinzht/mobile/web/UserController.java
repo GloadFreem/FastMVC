@@ -805,9 +805,11 @@ public class UserController extends BaseController {
 				this.userManger.saveOrUpdateUser(user);
 				// 返回信息
 				this.status = 200;
+				this.result.put("data", fileName);
 				this.message = Config.STRING_USER_HEADER_PICTURE_UPDATE_SUCCESS;
 			} else {
-				this.status = 200;
+				this.status = 400;
+				this.result.put("data", "");
 				this.message = Config.STRING_USER_HEADER_PICTURE_UPDATE_FAIL;
 			}
 

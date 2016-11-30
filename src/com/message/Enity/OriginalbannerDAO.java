@@ -57,6 +57,16 @@ public class OriginalbannerDAO {
 			throw re;
 		}
 	}
+	public void saveOrUpdate(Originalbanner transientInstance) {
+		log.debug("saving Originalbanner instance");
+		try {
+			getCurrentSession().saveOrUpdate(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
 
 	public void delete(Originalbanner persistentInstance) {
 		log.debug("deleting Originalbanner instance");

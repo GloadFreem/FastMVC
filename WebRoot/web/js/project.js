@@ -217,8 +217,7 @@ function initClick() {
  */
 function init(pageIndex) {
        $.ajax({
-//        url: "http://www.jinzht.com:8080/jinzht/requestProjectList.action",
-        url: "http://192.168.10.166:8080/jinzht/requestProjectList.action",
+        url: "http://www.jinzht.com:8080/jinzht/requestProjectList.action",
         data: {
             key: "jinzht_server_security",
             partner: "f784463924c4b750acdb7873747fc745",

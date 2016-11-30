@@ -91,14 +91,30 @@ public class HttpUtil {
 			}
 
 			ClientResponse response;
-			if (param == null) {
+
+			// 根据请求类型
+
+			switch (method) {
+			case GET:
 				response = builder.get(ClientResponse.class);
-			} else {
+				break;
+			case POST:
 				response = builder.post(ClientResponse.class, param);
+				break;
+			case DELETE:
+				response = builder.delete(ClientResponse.class);
+				break;
+			case PUT:
+				response = builder.put(ClientResponse.class, param);
+				break;
+			default:
+				response = builder.get(ClientResponse.class);
+				break;
 			}
 
 			String result = response.getEntity(String.class);
 
+			System.out.println(result);
 			return JSONObject.fromObject(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

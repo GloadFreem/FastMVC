@@ -40,6 +40,8 @@ public class Scene implements java.io.Serializable {
 	// Fields
 
 	private Integer sceneId;
+	private String chatRoomId;
+	private String userName;
 	private Project project;
 	private String audioPath;
 	private long totlalTime;
@@ -148,6 +150,36 @@ public class Scene implements java.io.Serializable {
 
 		public void setAudiorecords(Set<Audiorecord> audiorecords) {
 			this.audiorecords = audiorecords;
+		}
+
+		/**
+		 * @return the chatRoomId
+		 */
+		@Column(name="chatRoomId")
+		public String getChatRoomId() {
+			return chatRoomId;
+		}
+
+		/**
+		 * @param chatRoomId the chatRoomId to set
+		 */
+		public void setChatRoomId(String chatRoomId) {
+			this.chatRoomId = chatRoomId;
+		}
+
+		/**
+		 * @return the userName
+		 */
+		@Column(name="userName")
+		public String getUserName() {
+			return userName;
+		}
+
+		/**
+		 * @param userName the userName to set
+		 */
+		public void setUserName(String userName) {
+			this.userName = userName;
 		}
 
 }
