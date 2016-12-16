@@ -128,6 +128,13 @@
 				<value>com.message.Enity.Newsbanner</value>
 				<value>com.message.Enity.Originalbanner</value>
 				<value>com.message.Enity.Imsetting</value>
+				<value>com.message.Enity.Chatroom</value>
+				
+				
+				<value>com.jinzht.web.entity.ProjectAddress</value>
+					<value>com.jinzht.web.entity.ProjectType</value>
+				<value>com.jinzht.web.entity.ProjectRange</value>
+					<value>com.jinzht.web.entity.ProjectHotSearch</value>
 			</list>
 		</property>
 	</bean>
@@ -558,6 +565,62 @@
 		</property>
 	</bean>
 	<bean id="ImsettingDAO" class="com.message.Enity.ImsettingDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ChatroomtypeDAO"
+		class="com.message.Enity.ChatroomtypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ChatroomDAO" class="com.message.Enity.ChatroomDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ProjectHotSearchDAO"
+		class="com.jinzht.web.entity.ProjectHotSearchDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ProjectAddressDAO"
+		class="com.jinzht.web.entity.ProjectAddressDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ProjectTypeDAO"
+		class="com.jinzht.web.entity.ProjectTypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ProjectRangeDAO"
+		class="com.jinzht.web.entity.ProjectRangeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ChargesDAO" class="com.jinzht.web.entity.ChargesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ChargeDAO" class="com.jinzht.web.entity.ChargeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="PriceDAO" class="com.jinzht.web.entity.PriceDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="PropertychargesDAO"
+		class="com.jinzht.web.entity.PropertychargesDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

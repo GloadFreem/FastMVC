@@ -36,8 +36,12 @@ function requestScene() {
         dataType: "json",
         success: function (returnedData) {
             console.log(returnedData);
-            var sceneId = returnedData.data[0].sceneId;
-            requestRecorData(sceneId);
+            if(returnedData.data[0]!=null&&returnedData.data[0]!="[]"){
+            
+            	var sceneId = returnedData.data[0].sceneId;
+            	  requestRecorData(sceneId);
+            }
+ 
         },
         error: function (e) {
    

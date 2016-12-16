@@ -72,7 +72,7 @@ public class ActionManager {
 			Action action = null;
 			for (int i = 0; i < list.size(); i++) {
 				action = (Action) list.get(i);
-				Attention attention = this.findAttentionByActionIdAndUser(action);
+				Attention attention = this.findAttentionByActionIdAndUser(action,null);
 				if(attention!=null)
 				{
 					attention.setUsers(null);
@@ -169,9 +169,9 @@ public class ActionManager {
 	 * @param user
 	 * @return
 	 */
-	public Attention findAttentionByActionIdAndUser(Action action)
+	public Attention findAttentionByActionIdAndUser(Action action,Users user)
 	{
-		List list =  getAttentionDao().findAttentionByUserIdAndActionId(action.getActionId());
+		List list =  getAttentionDao().findAttentionByUserIdAndActionId(action.getActionId(),user);
 		Attention attention;
 		if(list!=null && list.size()>0){
 			return (Attention) list.get(0);

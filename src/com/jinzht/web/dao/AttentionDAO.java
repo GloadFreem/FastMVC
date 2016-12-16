@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Attention;
+import com.jinzht.web.entity.Users;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -117,11 +118,18 @@ public class AttentionDAO {
 	}
 	
 	//根据活动及用户获取用户是否报名
-	public List findAttentionByUserIdAndActionId(Integer actionId)
+	public List findAttentionByUserIdAndActionId(Integer actionId,Users user)
 	{
-		String sqlString = "select * from attention where  action_id=?";
+		String sqlString ="select * from attention where  action_id=?";
+		if(user!=null){
+			sqlString= "select * from attention where  action_id=? and user_id=?";
+		}
 		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Attention.class);
 		queryObject.setParameter(0, actionId);
+		if(user!=null)
+		{
+			queryObject.setParameter(1, user.getUserId());
+		}
 		queryObject.setMaxResults(1);
 		
 		return queryObject.list();

@@ -1,5 +1,7 @@
 package com.jinzht.web.entity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -19,25 +21,27 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jinzht.tools.DateUtils;
 
 /**
  * Attention entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "attention", catalog = "jinzht2016")
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-@JsonIgnoreProperties(value={"action"})
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonIgnoreProperties(value = { "action" })
 public class Attention implements java.io.Serializable {
 
 	// Fields
 
 	private Integer attendUid;
-	private String  userName;
+	private String userName;
 	private String headerPicture;
 	private Users users;
 	private Action action;
 	private String content;
 	private Date enrollDate;
+	private String dateStr;
 
 	// Constructors
 
@@ -46,8 +50,7 @@ public class Attention implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Attention(Users users, Action action, String content,
-			Date enrollDate) {
+	public Attention(Users users, Action action, String content, Date enrollDate) {
 		this.users = users;
 		this.action = action;
 		this.content = content;
@@ -96,8 +99,8 @@ public class Attention implements java.io.Serializable {
 	}
 
 	@Column(name = "enroll_date", length = 0)
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss" ) 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	public Date getEnrollDate() {
 		return this.enrollDate;
 	}
@@ -120,6 +123,27 @@ public class Attention implements java.io.Serializable {
 
 	public void setHeaderPicture(String headerPicture) {
 		this.headerPicture = headerPicture;
+	}
+
+	/**
+	 * @return the dateStr
+	 */
+	public String getDateStr() {
+		DateFormat sdf = new SimpleDateFormat("MM-dd");
+		try {
+			dateStr = DateUtils.dateToString(enrollDate, "MM-dd");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dateStr;
+	}
+
+	/**
+	 * @param dateStr
+	 *            the dateStr to set
+	 */
+	public void setDateStr(String dateStr) {
+		this.dateStr = dateStr;
 	}
 
 }

@@ -13,9 +13,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
 	content="initial-scale=1, user-scalable=no, width=device-width">
-<link rel="stylesheet" type="text/css" href=".//css/base.css">
-<link rel="stylesheet" type="text/css" href=".//css/main.css">
-<link rel="stylesheet" type="text/css" href=".//css/report.css">
+<link rel="stylesheet" type="text/css" href="./css/base.css"  media="all and (min-width:1200px)">
+<link rel="stylesheet" type="text/css" href="./css/base_phone.css" media="all and (max-width:1199px)">
+<link rel="stylesheet" type="text/css" href="./css/main.css" media="all and (min-width:1200px)">
+<link rel="stylesheet" type="text/css" href="./css/main_phone.css" media="all and (max-width:1199px)">
+<link rel="stylesheet" type="text/css" href="./css/report.css" media="all and (min-width:1200px)">
+<link rel="stylesheet" type="text/css" href="./css/report_phone.css" media="all and (max-width:1199px)">
 <title>金指投--观点报告</title>
 </head>
 <body>
@@ -25,10 +28,11 @@
 		<div class="header">
 			<div class="content">
 				<div class="h-logo"></div>
+				<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro#opened"  class="kehuduan">客户端</a>
 				<ul class="h-index">
-					<li id="id_main">创投资讯</li>
-					<li id="id_report">观点报告</li>
-					<li id="id_project">项目展示</li>
+					  <li id="id_main" class="nomarl">创投资讯</li>
+                <li id="id_report" class="check">观点报告</li>
+                <li id="id_project" class="nomarl">项目展示</li>
 					<div class="index-bar-1"></div>
 				</ul>
 				<div class="h-right">
@@ -47,13 +51,13 @@
 		<!--<div class="poster-main B_Demo" >-->
 		<!--首推资讯-->
 		<div class="middle">
-			<div class="content c-top-s" style="height:410px;position:relative;">
+			<div class="content c-top-s" style=";position:relative;">
 			
 						<c:forEach var="banner"  items="${BannerList}" >
 						<c:choose>
 								<c:when test="${banner.bannerId==1 }">
 									<div class="t-left">
-										<a id="msg_img_0" class="msg-big  "  href="${banner.url}">
+										<a id="msg_img_0" class="msg-big"  href="${banner.url}">
 										
 											<img src="${banner.image}" style="width: 100%;height: 100%">
 											<div id="msg_title_0" class="shadow">${banner.desc}</div>
@@ -171,7 +175,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="bot">京ICP备15043593号 © 2015-2016 金指投 版权所有</div>
+			<div class="bot">京ICP备15043593号 &copy;  2015-2016 金指投 版权所有</div>
 		</div>
 
 

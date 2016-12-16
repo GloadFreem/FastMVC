@@ -4,12 +4,11 @@
 
 .content-bg-top{
     width: 100%;
-    background: url(../img/project/top_bg.png) no-repeat center;
+    background: url(../img/project/p_banner_web.png) no-repeat center;
     /*background-size: 100%;*/
     height:120px;
     float: left;
 }
-
 
  .c-t-list {
     width: 1100px;
@@ -83,6 +82,7 @@
      height: auto;
      min-height: 400px;
      /*background: #ffffff;*/
+     margin-bottom: 4rem;
      /*border: 1px solid #cccccc;*/
      float: left;
  }
@@ -145,6 +145,7 @@
     padding: 0 10px;
     margin: 0 5px;
     color: #fff;
+    text-align: center;
     background-color: #428bca;
     border: 1px solid #428bca;
     border-radius: 15px;
@@ -155,7 +156,7 @@
     display: inline-block;
     height: 30px;
     font-size: 12px;
-    width: 60px;
+    width: 63px;
     line-height: 26px;
     padding: 0 10px;
     margin: 0 5px;
@@ -251,6 +252,8 @@
 
     float: left;
     width: 250px;
+    max-height:40px;
+    min-height:40px;
     text-align: left;
     line-height: 20px;
     padding-left: 3px;
@@ -263,6 +266,7 @@
     float: left;
     color: #ffffff;
     margin-left: 20px;
+    margin-right: 10px;
     border-radius: 2px;
     line-height: 14px;
     padding: 5px;
@@ -274,13 +278,12 @@
 
 .card-project .card .card_img {
 
-    width: 260px;
+    width: 200px;
     /*background-size: 100%;*/
-    /*margin-left:10px;*/
-    height: 200px;
-    /*margin-top: 20px;*/
-    /*margin-bottom: 20px;*/
-
+    margin-left:30px;
+    height: 160px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     float: left;
 }
 
@@ -304,6 +307,13 @@
 }
 
 .card-project .card .c-item {
+	margin-top:10px;
+    width: 280px;
+    float: left;
+}
+
+.card-project .card .c-item2 {
+		margin-top:15px;
     width: 280px;
     float: left;
 }
@@ -321,7 +331,7 @@ a {
     margin-left: 10px;
     margin-right: 10px;
     float: left;
-    background: #ffffff;
+    /*background: #ffffff;*/
     border-radius: 8px;
     padding: 10px;
     box-shadow: 0 0 0 0 #f0f0f0,
@@ -336,20 +346,23 @@ a {
 }
 
 
- .card-project .card .c-item .item_three {
+ .card-project .card .c-item2 .item_three {
     width: 86px;
     height: auto;
     float: left;
 }
 
- .card-project .card .c-item .item_three .item_three_t {
+ .card-project .card .c-item2 .item_three .item_three_t {
 
     font-size: 16px;
     color: #323232;
     height: auto;
 }
+.padding{
+	padding:20px;
+}
 
- .card-project .card .c-item .item_three .item_three_b {
+ .card-project .card .c-item2 .item_three .item_three_b {
     margin-top: 3px;
     font-size: 12px;
     color: #AAAAAA;

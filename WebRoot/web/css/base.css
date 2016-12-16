@@ -11,7 +11,7 @@ body, html {
 }
 
 body {
-    font-family: "Microsoft YaHei", "宋体", "Segoe UI", "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-family: "Microsoft YaHei","Segoe UI", "Lucida Grande", Helvetica, Arial, sans-serif;
     background: #ffffff;
     color: white;
     padding: 0;
@@ -131,6 +131,10 @@ body {
     z-index: 2;
 }
 
+.kehuduan{
+	display:none;
+}
+
 .h-right{
 	display:none;
     width: 300px;
@@ -220,7 +224,7 @@ a{
     float: left;
 }
 
-.footer .top .scan-footer .img2{
+ .scan-footer .img2{
     width: 100px;
     height: 100px;
     margin-top: 24px;

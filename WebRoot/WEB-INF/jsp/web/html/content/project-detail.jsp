@@ -13,10 +13,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="initial-scale=1, user-scalable=no, width=device-width">
-    <link rel="stylesheet" type="text/css" href=".//css/base.css">
-    <!--<link rel="stylesheet" type="text/css" href="css/main.css">-->
-    <!--<link rel="stylesheet" type="text/css" href="css/project.css">-->
-    <link rel="stylesheet" type="text/css" href=".//css/project-detail.css">
+    <link rel="stylesheet" type="text/css" href="./css/base.css"  media="all and (min-width:1200px)">
+<link rel="stylesheet" type="text/css" href="./css/base_phone.css" media="all and (max-width:1199px)">
+    <link rel="stylesheet" type="text/css" href="./css/project-detail.css"  media="all and (min-width:1200px)">
+<link rel="stylesheet" type="text/css" href="./css/project-detail-phone.css" media="all and (max-width:1199px)">
     <title>金指投--项目详情</title>
 </head>
 <body>
@@ -26,10 +26,12 @@
     <div class="header">
         <div class="content">
             <div class="h-logo"></div>
+            		<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro#opened"  class="kehuduan">客户端</a>
+			
             <ul class="h-index">
-                <li id="id_main">创投资讯</li>
-                <li id="id_report">观点报告</li>
-                <li id="id_project">项目展示</li>
+         		  <li id="id_main" class="nomarl">创投资讯</li>
+                <li id="id_report" class="nomarl">观点报告</li>
+                <li id="id_project" class="check">项目展示</li>
                 <div class="index-bar-2"></div>
             </ul>
             <div class="h-right">
@@ -43,15 +45,22 @@
         </div>
     </div>
 
-    <div class="middle c-top-s">
-        <div class="content ">
+    <div class="middle c-top-s" >
+        <div class="content  " >
             <div id="top_left">
                 <img id="mainImg"
                      src="${Project.startPageImage }">
             </div>
             <div id="top_right">
                 <div id="title">${Project.abbrevName }</div>
-                <div id="div_img"><img src=".//img/images/rongzizhong.png" width="110px" height="36px" align="right"></div>
+                <div id="div_img">
+                   <c:if test="${Status==6 }">
+                	<img src=".//img/images/rongzizhong.png" width="110px" height="36px" align="right">
+                	</c:if>
+                	  <c:if test="${Status!=6 }">
+                	<img src=".//img/images/yuxuan.png" width="110px" height="36px" align="right">
+                	</c:if>
+                </div>
                 <p id="fullName">${Project.fullName }</p>
                 <ul id="service">
                     <li><img src=".//img/images/service_type.png"></li>
@@ -69,13 +78,20 @@
                 </ul>
                 <div style="clear: both"></div>
                 <div style="width: 100%">
-                    <button  class="rentou">认投
-                        <div class="scanner">
-                            <div class="img"></div>
-                            <div class="text">请下载APP完成操作</div>
-                        </div></button>
+              		   <c:if test="${Status==6 }">
+	                    <button  class="rentou">认投
+	                        <div class="scanner">
+	                            <div class="img"></div>
+	                            <div class="text">请下载APP完成操作</div>
+	                              <button  class="guanzhu">关注<div class="scanner">
+	     		      </c:if>
+	     		       <c:if test="${Status!=6 }">
+	                   
+	                              <button  class="guanzhu" style="margin-left:0;">关注<div class="scanner">
+	     		      </c:if>
+	     		      
                     <!--<button id="guanzhu" class="guanzhu">关注(2万)</button>-->
-                    <button  class="guanzhu">关注<div class="scanner">
+                  
                         <div class="img"></div>
                         <div class="text">请下载APP完成操作</div>
                     </div></button>
@@ -105,6 +121,7 @@
                 <div id="middle_left_top">
                     <p id="subtitle">项目介绍</p>
                     <div class="line"></div>
+                      <c:if test="${Status==6 }">
                     <div id="middle_left_bg_img">
                         <ul>
                             <img src=".//img/images/arrow_left.png" width="50px" height="100px" id="arrow_left"
@@ -120,19 +137,27 @@
                         </ul>
                     </div>
                     <div style="clear:both;"></div>
-                                    
+                           
                 </div>
                 <p class="txt" id="txt"> ${Project.description}</p>
                 
-
+			  </c:if>      
+			    <c:if test="${Status!=6 }">
+			    			<p class="txt" id="txt"> ${Project.description}</p>
+			    </c:if> 
             </div>
-
         </div>
 
         <!-- 右边 -->
         <div id="middle_right" >
             <div id="middle_right_top">
                 <p class="right_title">项目信息</p>
+                  <c:if test="${Status==6 }">
+	                   <div class="status"></div>
+	     		   </c:if>
+	     		   <c:if test="${Status!=6 }">
+	                   <div class="status2"></div>
+	     		  </c:if>
                 <div class="line"></div>
                 <div class="project_info">
                     <ul>
@@ -158,8 +183,15 @@
                         <li id="txt_li">所在地区</li>
                         <li id="num_li"><span id="address">${Project.address }</span></li>
                     </ul>
+                 
                 </div>
             </div>
+            
+              <div id="middle_right_bottom2">
+                <p class="right_title">项目详情</p>
+                   <div class="phone-txt" > ${Project.description}</div>
+         	   <div style="clear: both"></div>
+         	   </div>
 
             <div id="middle_right_middle">
                 <p class="right_title">项目发起人</p>
@@ -187,40 +219,50 @@
 			                        </ul>
 			                    </div>
 						</c:forEach>
+						
+						<div style="clear: both"></div>
                     
                 </div>
             </div>
         </div>
     </div>
-    <!--<div style="clear: both"></div>-->
-</div>
+  
+	<div class="ren-phone">
+				  <c:if test="${Status==6 }">
+	                  <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro#opened" class="col-r">关注</a>
+				<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro#opened"  class="col-l">认投</a>
+	     		   </c:if>
+	     		   <c:if test="${Status!=6 }">
+	                <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro#opened" class="col-r2">关注</a>
+	
+	     		  </c:if>
+		
+	</div>
+			
+		<div class="footer">
+			<div class="content">
+				<div class="top">
+					<div class="left m-left-0">关于我们</div>
+					<div class="left m-left">视频介绍</div>
+					<div class="left m-left">联系我们</div>
+					<div class="left m-left">意见反馈</div>
+					<div class="left m-left">服务协议</div>
+					<div class="left m-left">隐私政策</div>
+					<div class="scan-footer m-left-0">
+						<div class="img"></div>
+						<div class="text">APP下载</div>
+					</div>
+					<div class="scan-footer m-left">
+						<div class="img2"></div>
+						<div class="text">微信公众号</div>
+					</div>
+				</div>
+			</div>
+			<div class="bot">京ICP备15043593号 &copy;  2015-2016 金指投 版权所有</div>
+		</div>
 
 
-<!--//底部-->
-<div class="footer">
-    <div class="content">
-        <div class="top">
-            <div class="left m-left-0">关于我们</div>
-            <div class="left m-left">视频介绍</div>
-            <div class="left m-left">联系我们</div>
-            <div class="left m-left">意见反馈</div>
-            <div class="left m-left">服务协议</div>
-            <div class="left m-left">隐私政策</div>
-            <div class="scan-footer m-left-0">
-                <div class="img"></div>
-                <div class="text">APP下载</div>
-            </div>
-            <div class="scan-footer m-left">
-                <div class="img2"></div>
-                <div class="text">微信公众号</div>
-            </div>
-        </div>
-    </div>
-    <div class="bot">京ICP备15043593号 © 2015-2016 金指投 版权所有</div>
-</div>
-
-
-</div>
+	</div>
 
 <script type="text/javascript" src=".//js/jquery1.8.min.js" charset="utf-8"></script>
 			<script type="text/javascript" src=".//js/config.js" charset="utf-8"></script>

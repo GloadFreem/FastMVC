@@ -83,12 +83,14 @@ import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.ActionManager;
 import com.jinzht.web.manager.AuthenticManager;
 import com.jinzht.web.manager.FeelingManager;
+import com.jinzht.web.manager.ImManager;
 import com.jinzht.web.manager.InvestorManager;
 import com.jinzht.web.manager.ProjectManager;
 import com.jinzht.web.manager.SystemManager;
 import com.jinzht.web.manager.UserManager;
 import com.jinzht.web.manager.WebManager;
 import com.jinzht.web.test.User;
+import com.message.Enity.Chatroom;
 import com.message.Enity.Msg;
 import com.message.Enity.MsgDetail;
 import com.message.Enity.MsgImages;
@@ -120,6 +122,8 @@ public class WebAdminController extends BaseController {
 	private MessageMananger messageManager;
 	@Autowired
 	private MainManager mainManager;
+	@Autowired
+	private ImManager imManager;
 
 	@RequestMapping(value = "/admin/adminLogin")
 	public String webEditor() {
@@ -5749,6 +5753,122 @@ public class WebAdminController extends BaseController {
 		return Config.NEW_SERVER_CONTROL;
 	}
 	
+	
+	
+	//聊天室页面
+	@RequestMapping(value="newSystem/createChatRoomPage")
+	public String createChatRoomPage(
+			@RequestParam(value="contentId",required=false)Integer contentId,
+			ModelMap map)
+	{
+		if(contentId!=null)
+		{
+			Chatroom room = this.imManager.getChatRoomDao().findById(contentId);
+			map.put("data", room);
+			Integer userId =Integer.parseInt(room.getOwner()) ;
+			Users u=this.userManager.findUserById(userId);
+			map.put("img", u.getHeadSculpture());
+		}
+		
+		map.put("content", "createChatRoom");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	//聊天室添加
+	@RequestMapping(value="newSystem/createChatRoom")
+	public String createChatRoom(
+			@RequestParam(value="name")String  name,
+			@RequestParam(value="desc")String  desc,
+			@RequestParam(value="maxusers")Integer  maxusers,
+			@RequestParam(value="owner")Integer  userId,
+			@RequestParam(value="projectId")Integer  projectId,
+			@RequestParam(value="contentId")Integer  contentId,
+			ModelMap map)
+	{
+		Users u = this.userManager.findUserById(userId);
+		Chatroom room ;
+		if(contentId!=null)
+		{
+			room=this.imManager.getChatRoomDao().findById(contentId);
+		}else{
+			room=new Chatroom();
+		}
+		
+		if(contentId==null)
+		{
+			Map result = this.imManager.createChatRoom(name, desc, maxusers, u);
+			if(result.get("data")!=null)
+			{
+				Map m  = (Map) result.get("data");
+				String id =m.get("id").toString();
+				room.setCode(id);
+						
+			}
+			map.put("result", result);
+		}
+		
+		
+		room.setName(name);
+		room.setDescription(desc);
+		room.setMaxusers(maxusers);
+		room.setAffiliationsCount(0);
+		room.setCreateDate(new Date());
+		room.setOwnerName(u.getName());
+		room.setOwner(String.valueOf(userId));
+		room.setExt(String.valueOf(projectId));
+		
+		if(contentId!=null)
+		{
+			this.imManager.getChatRoomDao().saveOrUpdate(room);
+		}else{
+			this.imManager.getChatRoomDao().save(room);
+		}
+		
+		
+		map.put("img", u.getHeadSculpture());
+		map.put("data", room);
+		map.put("content", "createChatRoom");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	//聊天室列表
+	@RequestMapping(value="newSystem/chatRoomList")
+	public String chatRoomList(
+			@RequestParam(value="size",required=false)Integer  size,
+			@RequestParam(value="page",required=false)Integer  page,
+			ModelMap map)
+	{
+		
+		List list = this.imManager.getChatRoomDao().findAll();
+		
+		map.put("result", list);
+		map.put("content", "table-chatroom-banner");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	//删除聊天室
+	@RequestMapping(value="newSystem/deleteChatRoom")
+	public String deleteChatRoom(
+			@RequestParam(value="contentId",required=false)Integer  contentId,
+			ModelMap map)
+	{
+		
+		if(contentId!=null)
+		{
+			Chatroom room = this.imManager.getChatRoomDao().findById(contentId);
+			
+			if(room!=null){
+				this.imManager.getChatRoomDao().delete(room);
+			}
+		}
+		
+		List list = this.imManager.getChatRoomDao().findAll();
+		map.put("result", list);
+		map.put("content", "table-chatroom-banner");
+		return Config.NEW_SERVER_CONTROL;
+	}
 	
 	/***    ---------------------------------------------后端管理系统升级-------------------------------------------***/
 	

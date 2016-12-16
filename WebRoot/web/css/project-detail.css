@@ -226,7 +226,7 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
 #middle_left_top{
     /*min-height: 400px;*/
     height: auto;
-    padding-bottom: 100px;
+    padding-bottom: 20px;
     float: bottom;
     background-color: white;
 }
@@ -298,7 +298,7 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
 .smallImg{
     width: 18%;
     margin-right: 1%;
-        border: 3px solid #ffffff;
+        border: 2px solid #cccccc;
 }
 
 #middle_left_top ul li a img{
@@ -335,7 +335,7 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
 .smallImg-b{
     width: 18%;
     margin-right: 1%;
-    border: 3px solid #3b5d8f;
+    border: 2px solid #3b5d8f;
 }
 
 #arrow_left{
@@ -652,7 +652,10 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
     font-size: 16px;
 }
 
-
+#middle_right_bottom2{
+    display:none;
+    margin-top: 0px;
+}
 .rentou {
     width: 40%;
     height: 44px;
@@ -710,6 +713,10 @@ body,div,ul,li,img{border: none;margin:0;padding: 0px;list-style: none;}
     background-size: 100%;
     float: left;
 }	
+
+.ren-phone{
+	display:none;
+}
 
 .scanner .text{
     width: 100%;

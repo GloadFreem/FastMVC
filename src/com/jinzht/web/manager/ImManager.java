@@ -40,11 +40,13 @@ import com.jinzht.web.entity.Systemcode;
 import com.jinzht.web.entity.Usercollect;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.entity.Weburlrecord;
+import com.message.Enity.ChatroomDAO;
 import com.message.Enity.Imsetting;
 import com.message.Enity.ImsettingDAO;
 
 public class ImManager {
 	private ImsettingDAO imSettingDao;
+	private ChatroomDAO chatRoomDao;
 
 	/***
 	 * 获取授权信息
@@ -218,8 +220,7 @@ public class ImManager {
 		jsonObject.put("name", name);
 		jsonObject.put("description", description);
 		jsonObject.put("maxusers", maxusers);
-		// jsonObject.put("owner", owner.getName());
-		jsonObject.put("owner", "jinzhttest13186156568");
+		jsonObject.put("owner", Config.IM_USER_NAME+owner.getUserId());
 
 		// 转换格式
 		ObjectMapper mapper = new ObjectMapper();
@@ -299,67 +300,64 @@ public class ImManager {
 
 		return null;
 	}
-	
-	
-	
-	public Map sendMessage(List userName, String msg,
-			short type) {
+
+	public Map sendMessage(List userName, String msg, short type) {
 		List list = new ArrayList();
-		
+
 		// 创建传参
 		JSONObject jsonObject = new JSONObject();
 		Map map = new HashMap();
-		
+
 		String t = "txt";
 		switch (type) {
 		case 1:
-			t="img";
+			t = "img";
 			break;
 		case 2:
-			t="audio";
+			t = "audio";
 			break;
 		case 3:
-			t="video";
+			t = "video";
 			break;
 		case 4:
-			t="cmd";
+			t = "cmd";
 			break;
 		default:
-			t="txt";
+			t = "txt";
 			break;
 		}
-		
+
 		map.put("type", t);
 		map.put("msg", msg);
-		
+
 		jsonObject.put("target_type", "users");
 		jsonObject.put("target", userName);
 		jsonObject.put("msg", map);
-		
+
 		// 转换格式
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String json = mapper.writeValueAsString(jsonObject);
-			
+
 			List records = this.getImSettingDao().findAll();
 			if (records == null || records.size() == 0) {
 				return null;
 			}
-			
+
 			Imsetting record = (Imsetting) records.get(0);
-			
+
 			// 开始请求
-			JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.POST, json,
-					"messages/", record.getAccessTokean());
+			JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.POST,
+					json, "messages/", record.getAccessTokean());
 			// Map map = (HashMap) result.get("data");
 			// 解析保存
 			return result;
-			
+
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -566,6 +564,77 @@ public class ImManager {
 
 		return null;
 	}
+	
+	
+	/***
+	 * 重置用户
+	 * 
+	 * @param name
+	 *            用户名称
+	 * @param password
+	 *            用户密码
+	 * @return
+	 */
+	public Map resetUser(String name, String password) {
+		List list = new ArrayList();
+		
+		// 创建传参
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("newpassword", password);
+		
+		// 转换格式
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String json = mapper.writeValueAsString(jsonObject);
+			
+			List records = this.getImSettingDao().findAll();
+			if (records == null || records.size() == 0) {
+				return null;
+			}
+			
+			Imsetting record = (Imsetting) records.get(0);
+			
+			// 开始请求
+			JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.PUT,
+					json, "users/"+name+"/password", record.getAccessTokean());
+			// Map map = (HashMap) result.get("data");
+			// 解析保存
+			return result;
+			
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
+	/***
+	 * 注册用户
+	 * 
+	 * @param name
+	 *            用户名称
+	 * @return
+	 */
+	public Map userDetail(String name) {
+		List list = new ArrayList();
+		
+		List records = this.getImSettingDao().findAll();
+		if (records == null || records.size() == 0) {
+			return null;
+		}
+		
+		Imsetting record = (Imsetting) records.get(0);
+		
+		// 开始请求
+		JSONObject result = HttpUtil.sendImRequestHtt(HttpMethod.POST,
+				null, "users/"+name, record.getAccessTokean());
+		// Map map = (HashMap) result.get("data");
+		// 解析保存
+		return result;
+		
+	}
 
 	/**
 	 * @return the imSettingDao
@@ -581,6 +650,22 @@ public class ImManager {
 	@Autowired
 	public void setImSettingDao(ImsettingDAO imSettingDao) {
 		this.imSettingDao = imSettingDao;
+	}
+
+	/**
+	 * @return the chatRoomDao
+	 */
+	public ChatroomDAO getChatRoomDao() {
+		return chatRoomDao;
+	}
+
+	/**
+	 * @param chatRoomDao
+	 *            the chatRoomDao to set
+	 */
+	@Autowired
+	public void setChatRoomDao(ChatroomDAO chatRoomDao) {
+		this.chatRoomDao = chatRoomDao;
 	}
 
 }

@@ -1,5 +1,6 @@
 
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -13,9 +14,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
 	content="initial-scale=1, user-scalable=no, width=device-width">
-<link rel="stylesheet" type="text/css" href=".//css/base.css">
-<link rel="stylesheet" type="text/css" href=".//css/main.css">
-<link rel="stylesheet" type="text/css" href=".//css/project.css">
+<link rel="stylesheet" type="text/css" href="./css/base.css"  media="all and (min-width:1200px)">
+<link rel="stylesheet" type="text/css" href="./css/base_phone.css" media="all and (max-width:1199px)">
+<link rel="stylesheet" type="text/css" href="./css/main.css" media="all and (min-width:1200px)">
+<link rel="stylesheet" type="text/css" href="./css/main_phone.css" media="all and (max-width:1199px)">
+<link rel="stylesheet" type="text/css" href="./css/project.css" media="all and (min-width:1200px)">
+<link rel="stylesheet" type="text/css" href="./css/project_phone.css" media="all and (max-width:1199px)">
 <title>金指投--项目展示</title>
 </head>
 <body>
@@ -25,10 +29,11 @@
 		<div class="header">
 			<div class="content">
 				<div class="h-logo"></div>
+				<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro#opened"  class="kehuduan">客户端</a>
 				<ul class="h-index">
-					<li id="id_main">创投资讯</li>
-					<li id="id_report">观点报告</li>
-					<li id="id_project">项目展示</li>
+							  <li id="id_main" class="nomarl">创投资讯</li>
+                <li id="id_report" class="nomarl">观点报告</li>
+                <li id="id_project" class="check">项目展示</li>
 					<div class="index-bar-2"></div>
 				</ul>
 				<div class="h-right">
@@ -47,8 +52,61 @@
 		<!--内容区域;最小1200px;-->
 	<div class="middle gray-bg">
 			
-		<!--		<div class="content  c-top" style="padding: 20px;">
-				<div class="c-t-list">
+		<div class="content  c-top  padding"   >
+		
+						<c:forEach var="type"  items="${TypeList}"  >
+							     <c:if test="${type.cKey=='rong'}">
+									<div class="c-t-list">
+										<div class="t-fo">${type.cName}</div>
+									
+										<div class="l-t-list" >
+											<a class="checked" href="javascript:void(0);"
+											>不限</a> 
+										</div>
+									</c:if>
+									<c:if test="${type.cKey=='type'}">
+										<div class="c-t-list">
+		
+											<div class="t-fo">${type.cName}</div>
+											<div class="l-t-list" id="check_money">
+												<a class="checked" href="javascript:void(0);"
+												onclick="checkType(0,0)">不限</a> 
+												<c:forEach var="item"  items="${type.cData}"  varStatus="a">
+															<a class="normal" href="javascript:void(0);"
+													onclick="checkType(${a.count},${item.itemKey})">${item.value}</a> 
+												</c:forEach>
+											</div>
+									</c:if>
+									<c:if test="${type.cKey=='range'}">
+											<div class="c-t-list">
+												<div class="t-fo">${type.cName}</div>
+												<div class="l-t-list" id="check_range">
+													<a class="checked" href="javascript:void(0);"
+													onclick="checkRange(0,0)">不限</a> 
+													<c:forEach var="item"  items="${type.cData}"  varStatus="a">
+																<a class="normal" href="javascript:void(0);"
+														onclick="checkRange(${a.count},${item.itemKey})">${item.value}</a> 
+													</c:forEach>
+											</div>
+									</c:if>
+									<c:if test="${type.cKey=='address'}">
+											<div class="c-t-list" style="border:none;">
+												<div class="t-fo">${type.cName}</div>
+												<div class="l-t-list" id="check_address">
+													<a class="checked" href="javascript:void(0);"
+													onclick="checkAddress(0,0)">不限</a> 
+													<c:forEach var="item"  items="${type.cData}"  varStatus="a">
+																<a class="normal" href="javascript:void(0);"
+														onclick="checkAddress(${a.count},${item.itemKey})">${item.value}</a> 
+													</c:forEach>
+											</div>
+									</c:if>
+									
+									
+								
+								</div>
+						</c:forEach>
+			<!-- <div class="c-t-list">
 					<div class="t-fo">项目状态</div>
 					<div class="l-t-list" id="check_money">
 						<a class="checked" href="javascript:void(0);"
@@ -82,23 +140,9 @@
 							class="normal" href="javascript:void(0);"
 							onclick="checkboxTypeTwo(10)">其它</a>
 					</div>
-				</div>
+				</div> -->	
 			</div>
 
-
-			<div class="content c-top-s">
-				<div class="c-t-list" style="border:none;">
-					<div class="t-fo">排序</div>
-					<div class="l-t-list">
-						<div class="normal">融资额度</div>
-						<div class="normal">已融比例</div>
-						<div class="normal">剩余时间</div>
-						<div class="normal">人气指数</div>
-					</div>
-				</div>
-			</div>
-
--->
 
 			<!--正文-->
 			<div class="content c-top-s ">
@@ -152,7 +196,7 @@
 					<div style="clear: both"></div>-->
 				</div>
 				
-				  <div class="more" style="margin-top: 100px">
+				  <div class="more" >
                 <div class="tcdPageCode">
                     <!--<div class="span">123</div>-->
                 </div>
@@ -187,7 +231,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="bot">京ICP备15043593号 © 2015-2016 金指投 版权所有</div>
+			<div class="bot">京ICP备15043593号 &copy;  2015-2016 金指投 版权所有</div>
 		</div>
 
 

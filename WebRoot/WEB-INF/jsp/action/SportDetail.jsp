@@ -1,10 +1,14 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*,com.jinzht.tools.DateUtils"
+	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+			
+			String contentId = request.getParameter("contentId").toString();
+			String userId = request.getParameter("userId").toString();
 %>
 <!DOCTYPE html>
 <html>
@@ -13,6 +17,10 @@
 <meta name="viewport"
 	content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 <title>金指投活动详情</title>
+<link rel="stylesheet" href="newSystem/css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="./images/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="./images/jquery.SuperSlide.2.1.1.js"></script>
+<script src="newSystem/js/app.v2.js"></script>
 <style type="text/css">
 html, body {
 	margin: 0;
@@ -267,7 +275,83 @@ body {
 	height: 1rem;;
 	float: left;
 }
+
+.footer-tip {
+	z-index: 999;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	_position: absolute;
+	overflow: visible;
+	height: 50px;
+}
+
+.tip-left {
+	width: 70%;
+	float: left;
+	background-color: #ddd;
+	height: 100%;
+	background-color: #ddd;
+}
+
+.tip-content {
+	background-color: orange;
+	width: 80%;
+	height: 100%;
+	text-align: center;
+	line-height: 50px;
+	color: white;
+	margin-left: 10%;
+	font-size: 18px;
+	border-radius: 25px;
+}
+.tip-content-disable {
+	background-color: gray;
+	width: 80%;
+	height: 100%;
+	text-align: center;
+	line-height: 50px;
+	color: white;
+	margin-left: 10%;
+	font-size: 18px;
+	border-radius: 25px;
+}
 </style>
+<script type="text/javascript">
+	$(function() {
+		$(".tip-content").click(function() {
+			$.ajax({
+				url : 'requestAttendAction.action', // /api/leds/1
+				async : true,
+				dataType : 'json',
+				type : 'post',
+				data : {
+					contentId : <%=contentId%>,
+					userId : <%=userId%>,
+					content : "",
+				},
+
+				success : function(data) {
+					console.log("success");
+					$('#modal').modal('show');
+				},
+
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.log("error");
+				},
+
+			});
+		})
+
+		$("#confirm").click(function() {
+			$('#modal').modal('hide');
+			$(".tip-content").css("background-color", "gray");
+			$(".tip-content").text("已报名");
+			$(".tip-content").attr("disabled","disabled");
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="content">
@@ -325,7 +409,120 @@ body {
 
 			</div>
 		</div>
-		<div style="width:100%;height:50px;">&nbsp</div>
-</body>
-</html>
+		<div class="card">
+			<div class="c-top">
+				<img class="icon" src="images/action/icon_blue_ling.png">
+				<div class="text">
+					<strong>报名人数</strong> (${attends.size()})
+				</div>
+			</div>
+			<div class="c-content">
+				<!--foreach-->
+				<c:forEach items="${attends}" var="item" varStatus="index">
+					<div class="item line" style="height:4rem">
+						<img class="n-left" src="${item.getUsers().getHeadSculpture() }">
+						<div class="n-center">
+							<div class="name">${item.getUserName()}</div>
+							<div class="desc">
+								<c:forEach items="${item.getUsers().getAuthentics()}"
+									var="authentic">
+						${authentic.getCompanyName()}
+						<c:choose>
+										<c:when
+											test="${authentic.getPosition()!=null && authentic.getPosition()!=''}">
+				|
+										</c:when>
+									</c:choose>
+						${authentic.getPosition()}
+						</c:forEach>
+							</div>
+						</div>
+						<div class="n-right">${item.getDateStr()}</div>
+					</div>
+				</c:forEach>
+				<div style="clear: both"></div>
 
+			</div>
+		</div>
+		<%-- 	<!--//点赞评论-->
+		<div class="card">
+			<div class="c-top">
+				<img class="icon" src="images/action/icon_blue_ling.png">
+				<div class="text">
+					<strong>点赞评论</strong>
+				</div>
+			</div>
+			<div class="c-content">
+				<div class="item">
+					<img class="zan-icon" src="images/action/iconfont-zan.png" />
+					<div class="zan-name">
+						<c:forEach items="${prises}" var="item" varStatus="index">
+						${item}
+						<c:choose>
+								<c:when test="${prises.size()!=index.index+1 }">
+							,
+							</c:when>
+							</c:choose>
+
+						</c:forEach>
+					</div>
+				</div>
+				<div class="item" style="margin-top: .5rem;">
+					<img class="zan-icon" src="images/action/icon_msg.png" />
+					<div class="zan-name">
+						<c:forEach items="${comments}" var="item" varStatus="index">
+							<div class="ping-item">
+								${item.userName }
+								<c:choose>
+									<c:when test="${item.atUserName!=null && item.atUserName!='' }">
+										<span> 回复</span>
+									</c:when>
+								</c:choose>
+								${item.atUserName}<span>:${item.content }</span>
+							</div>
+						</c:forEach>
+					</div>
+					<div style="width:100%;height:250px">&nbsp;</div>
+				</div>
+			</div> --%>
+	</div>
+	<div style="width:100%;height:250px">&nbsp;</div>
+
+	<div class="footer-tip">
+		<c:choose>
+			<c:when test="${action.attended}">
+				<div class="tip-content-disable" disabled="disabled">已报名</div>
+			</c:when>
+			<c:otherwise>
+				<div class="tip-content">立即报名</div>
+			</c:otherwise>
+		</c:choose>
+	</div>
+
+	<div id="modal" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true"></button>
+					<h4 class="modal-title">
+						<i class="icon-pencil"></i> <span id="lblAddTitle"
+							style="font-weight:bold">确认结果</span>
+					</h4>
+				</div>
+				<form class="form-horizontal form-bordered form-row-strippe"
+					id="ffAdd" action="" data-toggle="validator"
+					enctype="multipart/form-data">
+					<div class="modal-body">报名成功!</div>
+					<div class="modal-footer">
+						<input type="hidden" id="ID" name="ID" /> <a id="confirm"
+							class="btn btn-info">确认</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

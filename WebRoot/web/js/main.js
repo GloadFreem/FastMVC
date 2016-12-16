@@ -13,19 +13,32 @@ $(document).ready(function () {
         window.location.href = "./project.action";
     });
     
-
     var screenWidth = window.outerWidth;
-    console.log(screenWidth)
+    console.log(screenWidth);
 
-    var swiper = new Swiper('.swiper-container', {
-    	pagination: '.swiper-pagination',
-        slidesPerView: 3,
-        paginationClickable: true,
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-        loop: true,
-        loopAdditionalSlides :100
-    });
+    var swiper;
+    if (screenWidth >= 1200) {
+        swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            slidesPerView: 3,
+            paginationClickable: true,
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            loop: true,
+            loopAdditionalSlides: 100
+        });
+    } else {
+        swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            slidesPerView: 1,
+            height:300,
+            paginationClickable: true,
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            loop: true,
+            loopAdditionalSlides: 100
+        });
+    }
     $("#btn_next").click(function () {
     	 back(); 
     });
@@ -197,7 +210,7 @@ function setJsonData(dataStr) {
     for (var i = 0; i < dataJsonList.length; i++) {
         contentHtml = contentHtml + '';
         contentHtml = contentHtml + ' <a href="'+BasePath+'web/MainDetail.action?id=' + dataJsonList[i].id + '" > <div class="content-item">';
-        contentHtml = contentHtml + '   <img src="' + dataJsonList[i].images[0] + '" class="item-img">';
+        contentHtml = contentHtml + '  <div class="d-img"> <img src="' + dataJsonList[i].images[0] + '" class="item-img"></div>';
         contentHtml = contentHtml + '  <div class="item-r">';
         contentHtml = contentHtml + '   <div class="item-title">' + dataJsonList[i].title + '</div>';
         if (dataJsonList[i].oringl.length < 4) {

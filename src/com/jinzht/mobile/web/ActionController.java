@@ -78,8 +78,7 @@ public class ActionController extends BaseController {
 		this.result = new HashMap();
 
 		// 获取当前发布内容用户
-		List list = this.actionManager.findActionByCursor(page,
-				version);
+		List list = this.actionManager.findActionByCursor(page, version);
 
 		if (list != null && list.size() > 0) {
 			this.status = 200;
@@ -103,6 +102,7 @@ public class ActionController extends BaseController {
 	 */
 	public Map requestAttendAction(
 			@RequestParam(value = "contentId") Integer contentId,
+			@RequestParam(value = "userId") Integer userId,
 			@RequestParam(value = "content") String content, HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
@@ -110,35 +110,34 @@ public class ActionController extends BaseController {
 		Users user = this.findUserInSession(session);
 
 		if (user == null) {
-			this.status = 400;
-			this.message = Config.STRING_LOGING_FAIL_NO_USER;
-		} else {
-			// 查看当前操作状态，1:点赞,2:取消点赞
-			Action action = this.actionManager.findActionById(contentId);
-			// 获取用户是否已经报名参加
-			Attention attention = this.actionManager
-					.findAttentionByActionIdAndUser(action);
-			if (attention == null) {
-				attention = new Attention();
-				attention.setUsers(user);
-				attention.setAction(action);
-				attention.setContent(content);
-				attention.setEnrollDate(new Date());
-				// 保存圈子内容
-				this.actionManager.addAttention(attention);
-
-				attention.setUsers(null);
-				attention.setAction(null);
-				// 封装返回结果
-				this.status = 200;
-				this.result.put("data", attention);
-				this.message = Config.STRING_ACTION_ADD_SUCCESS;
-			} else {
-				this.status = 400;
-				this.message = Config.STRING_ACTION_ADD_REPEAT;
-			}
-
+			user = this.userManager.findUserById(userId);
 		}
+
+		// 查看当前操作状态，1:点赞,2:取消点赞
+		Action action = this.actionManager.findActionById(contentId);
+		// 获取用户是否已经报名参加
+		Attention attention = this.actionManager
+				.findAttentionByActionIdAndUser(action,user);
+		if (attention == null) {
+			attention = new Attention();
+			attention.setUsers(user);
+			attention.setAction(action);
+			attention.setContent(content);
+			attention.setEnrollDate(new Date());
+			// 保存圈子内容
+			this.actionManager.addAttention(attention);
+
+			attention.setUsers(null);
+			attention.setAction(null);
+			// 封装返回结果
+			this.status = 200;
+			this.result.put("data", attention);
+			this.message = Config.STRING_ACTION_ADD_SUCCESS;
+		} else {
+			this.status = 400;
+			this.message = Config.STRING_ACTION_ADD_REPEAT;
+		}
+
 		return getResult();
 	}
 
@@ -425,6 +424,7 @@ public class ActionController extends BaseController {
 	 * @return
 	 */
 	public Map requestDetailAction(
+			@RequestParam(value = "userId") Integer userId,
 			@RequestParam(value = "contentId") Integer contentId,
 			@RequestParam(value = "version", required = false) Integer version,
 			HttpSession session) {
@@ -457,7 +457,7 @@ public class ActionController extends BaseController {
 			}
 
 			Attention attention = this.actionManager
-					.findAttentionByActionIdAndUser(action);
+					.findAttentionByActionIdAndUser(action,user);
 			if (attention != null) {
 				action.setAttended(true);
 			}
@@ -486,6 +486,7 @@ public class ActionController extends BaseController {
 	 */
 	public String requestActionDetail(
 			@RequestParam(value = "contentId") Integer contentId,
+			@RequestParam(value = "userId" ,required=false) Integer userIdd,  
 			@RequestParam(value = "version", required = false) Integer version,
 			ModelMap map, HttpSession session) {
 
@@ -500,7 +501,7 @@ public class ActionController extends BaseController {
 		for (int i = 0; i < list.size(); i++) {
 			set.add(list.get(i));
 		}
-		
+
 		action.setActionimages(set);
 		action.setActionprises(null);
 		action.setAttentions(null);
@@ -512,7 +513,7 @@ public class ActionController extends BaseController {
 
 		Attention attention;
 		Actionprise prise;
-		
+
 		// Attention attention = this.actionManager
 		// .findAttentionByActionIdAndUser(action, user);
 		// if (attention != null) {
@@ -732,6 +733,12 @@ public class ActionController extends BaseController {
 			}
 
 			set.add(u.getName());
+		}
+		Users user = this.userManager.findUserById(userIdd);
+		Attention att = this.actionManager.findAttentionByActionIdAndUser(action, user);
+		if(att!=null)
+		{
+			action.setAttended(true);
 		}
 		map.put("prises", set);
 		map.put("attends", l);

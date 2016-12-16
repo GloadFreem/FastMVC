@@ -3,6 +3,8 @@ package com.jinzht.web.dao;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -20,6 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jinzht.tools.Config;
 import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Project;
+import com.jinzht.web.entity.ProjectRange;
+import com.jinzht.web.entity.ProjectSearchBean;
+import com.jinzht.web.entity.ProjectSearchBean.MapResult;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -272,6 +277,8 @@ public class ProjectDAO {
 					queryString+="and model."+keys[i].toString()+" =? ";
 				}
 			}
+			
+			queryString +=" order by model.projectId desc";
 //			log.debug(debugInfo);
 			
 			Query queryObject = getCurrentSession().createQuery(queryString);
@@ -338,5 +345,139 @@ public class ProjectDAO {
 
 	public static ProjectDAO getFromApplicationContext(ApplicationContext ctx) {
 		return (ProjectDAO) ctx.getBean("ProjectDAO");
+	}
+	
+	
+	public List findProjectSearchList(Integer page, ProjectSearchBean type,
+			List range, ProjectSearchBean address) {
+		String sqlString = "select distinct pro from Project  pro left join pro.roadshows b  where ";
+		List<MapResult> typeResults = new ArrayList<ProjectSearchBean.MapResult>();
+		List<ProjectRange> ranlList = range;
+		List<MapResult> addressResults = new ArrayList<ProjectSearchBean.MapResult>();
+		if (type != null) {
+			typeResults = type.getcData();
+		}
+		if(ranlList==null){
+			ranlList = new ArrayList<ProjectRange>();
+		}
+	
+		if (address != null) {
+			addressResults = address.getcData();
+		}
+		if(ranlList.size()>0){
+			for(int j = 0;j<ranlList.size();j++){
+				sqlString += " b.roadshowplan.financeTotal between "+ranlList.get(j).getFrom()+" and "+ranlList.get(j).getTo() ;
+				if(j!=ranlList.size()-1&&ranlList.size()>1){
+					sqlString += " or ";
+				}
+			}
+		}
+		if(addressResults.size()+typeResults.size()>0&&ranlList.size()>0){
+			sqlString += " and ";
+		}
+		
+		if (typeResults.size() > 0) {
+			for (int i = 0; i < typeResults.size(); i++) {
+				System.out.println("value::" + typeResults.get(i).getValue());
+				sqlString += "pro.industoryType like :stype"
+						+ typeResults.get(i).getItemKey() + " ";
+				if (i != typeResults.size() - 1 && typeResults.size() > 1) {
+					sqlString += " or ";
+				}
+			}
+		}
+		if(addressResults.size()>0&&typeResults.size()>0){
+			sqlString += " and ";
+		}
+		
+		if (addressResults.size() > 0) {
+			for (int i = 0; i < addressResults.size(); i++) {
+				System.out.println("address::" + addressResults.get(i).getValue());
+				sqlString += "pro.address like :saddress"
+						+ addressResults.get(i).getItemKey() + " ";
+				if (i != addressResults.size() - 1 && addressResults.size() > 1) {
+					sqlString += " or ";
+				}
+			}
+		}
+		
+//		//筛选3
+		if(addressResults.size()+typeResults.size()+ranlList.size()>0){
+			sqlString += " and ";
+		}
+//		
+//		if (ranlList.size() > 0) {
+//			for (int i = 0; i < ranlList.size(); i++) {
+//				System.out.println("range::" + ranlList.get(i).getValue());
+//				sqlString += "pro.address like :saddress"
+//						+ ranlList.get(i).getItemKey() + " ";
+//				if (i != ranlList.size() - 1 && ranlList.size() > 1) {
+//					sqlString += " or ";
+//				}
+//			}
+//		}
+		
+
+		// queryString =
+		// "from Msg msg where msg.title like :stitle order by msg.publicDate desc";
+		// q = getCurrentSession().createQuery(queryString);
+		// q.setParameter("stitle", "%"+ likeWords+"%" );
+		//
+//		if (addressResults.size() > 0) {
+//			sqlString += " and ";
+//		}
+		
+		 sqlString +=
+		 " pro.financestatus.statusId between 3 and 6  order by pro.financestatus.statusId desc";
+//		 " pro.financestatus.statusId=3 or pro.financestatus.statusId=6";
+		System.out.println("sql:" + sqlString);
+		Query queryObject = getCurrentSession().createQuery(sqlString);
+
+		//setParameter type
+		for (int i = 0; i < typeResults.size(); i++) {
+			queryObject.setParameter("stype" + typeResults.get(i).getItemKey(),
+					"%" + typeResults.get(i).getValue() + "%");
+		}
+		
+		//setParameter type
+		for (int i = 0; i < addressResults.size(); i++) {
+			queryObject.setParameter("saddress" + addressResults.get(i).getItemKey(),
+					"%" + addressResults.get(i).getValue() + "%");
+		}
+		queryObject.setFirstResult(page * 12);
+		queryObject.setMaxResults(12);
+
+		return queryObject.list();
+	}
+	
+	public List<Project> findProjectSearchFromStrList(Integer page,
+			String search) {
+		String sqlString = "from Project  pro where  pro.abbrevName like :fullname or pro.fullName like :comname or pro.description like :desc";
+
+//		if (typeResults.size() > 0) {
+//			for (int i = 0; i < typeResults.size(); i++) {
+//				System.out.println("value::" + typeResults.get(i).getValue());
+//				sqlString += "pro.industoryType like :stype"
+//						+ typeResults.get(i).getItemKey() + " ";
+//				if (i != typeResults.size() - 1 && typeResults.size() > 1) {
+//					sqlString += " or ";
+//				}
+//			}
+//		}
+		
+		 sqlString +=
+		 " and  pro.financestatus.statusId between 3 and 6  order by pro.financestatus.statusId desc";
+//		 " pro.financestatus.statusId=3 or pro.financestatus.statusId=6";
+		System.out.println("sql:" + sqlString);
+		Query queryObject = getCurrentSession().createQuery(sqlString);
+		
+		queryObject.setParameter("fullname" ,"%" + search + "%");
+		queryObject.setParameter("comname" ,"%" + search + "%");
+		queryObject.setParameter("desc" ,"%" + search + "%");
+		
+		queryObject.setFirstResult(page * 12);
+		queryObject.setMaxResults(12);
+
+		return queryObject.list();
 	}
 }

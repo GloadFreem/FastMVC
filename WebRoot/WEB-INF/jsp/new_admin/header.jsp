@@ -249,9 +249,21 @@
 										</span> <span>即时通讯</span>
 									</a>
 										<ul class="nav lt">
-											<li><a href="buttons.html"> <i
-													class="fa fa-angle-right"></i> <span>用户管理</span>
-											</a></li>
+											<li>
+												<a href="#table"> <i
+													class="fa fa-angle-down text"></i> <i
+													class="fa fa-angle-up text-active"></i> <span>用户管理</span>
+											</a>
+												<ul class="nav bg">
+													<li><a href="list.html"> <i
+															class="fa fa-angle-right"></i> <span>IM用户注册</span>
+													</a></li>
+													<li><a href="icons.html"> <b
+															class="badge bg-info pull-right">369</b> <i
+															class="fa fa-angle-right"></i> <span>IM用户列表</span>
+													</a></li>
+												</ul>
+											</li>
 											<li><a href="#table"> <i
 													class="fa fa-angle-down text"></i> <i
 													class="fa fa-angle-up text-active"></i> <span>消息管理</span>
@@ -268,12 +280,38 @@
 											<li><a href="list.html"> <i
 													class="fa fa-angle-right"></i> <span>上传下载</span>
 											</a></li>
-											<li><a href="list.html"> <i
-													class="fa fa-angle-right"></i> <span>群组管理</span>
-											</a></li>
-											<li><a href="table-datatable.html"> <i
-													class="fa fa-angle-right"></i> <span>聊天室管理</span>
-											</a></li>
+											<li>
+												<a href="#table"> <i
+													class="fa fa-angle-down text"></i> <i
+													class="fa fa-angle-up text-active"></i> <span>群组管理</span>
+											</a>
+												<ul class="nav bg">
+													<li><a href="list.html"> <i
+															class="fa fa-angle-right"></i> <span>创建群组</span>
+													</a></li>
+													<li><a href="icons.html"> <b
+															class="badge bg-info pull-right">369</b> <i
+															class="fa fa-angle-right"></i> <span>群组列表</span>
+													</a></li>
+													<li><a href="icons.html"> <b
+															class="badge bg-info pull-right">369</b> <i
+															class="fa fa-angle-right"></i> <span>聊天记录</span>
+													</a></li>
+												</ul>
+											</li>
+											<li><a href="#table"> <i
+													class="fa fa-angle-down text"></i> <i
+													class="fa fa-angle-up text-active"></i> <span>聊天室管理</span>
+											</a>
+												<ul class="nav bg">
+													<li><a href="createChatRoomPage.action"> <i
+															class="fa fa-angle-right"></i> <span>聊天室创建</span>
+													</a></li>
+													<li><a href="chatRoomList.action"> <b
+															class="badge bg-info pull-right">369</b> <i
+															class="fa fa-angle-right"></i> <span>聊天室列表</span>
+													</a></li>
+												</ul></li>
 											<!--<li > <a href="#form" > <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> <span>Form</span> </a>-->
 											<!--<ul class="nav bg">-->
 											<!--<li > <a href="form-elements.html" > <i class="fa fa-angle-right"></i> <span>Form elements</span> </a> </li>-->

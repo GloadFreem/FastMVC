@@ -53,6 +53,16 @@ import com.jinzht.web.entity.Industoryarea;
 import com.jinzht.web.entity.Investmentrecord;
 import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Project;
+import com.jinzht.web.entity.ProjectAddress;
+import com.jinzht.web.entity.ProjectAddressDAO;
+import com.jinzht.web.entity.ProjectHotSearch;
+import com.jinzht.web.entity.ProjectHotSearchDAO;
+import com.jinzht.web.entity.ProjectRange;
+import com.jinzht.web.entity.ProjectRangeDAO;
+import com.jinzht.web.entity.ProjectSearchBean;
+import com.jinzht.web.entity.ProjectSearchBean.MapResult;
+import com.jinzht.web.entity.ProjectType;
+import com.jinzht.web.entity.ProjectTypeDAO;
 import com.jinzht.web.entity.Projectcomment;
 import com.jinzht.web.entity.Projectcommitrecord;
 import com.jinzht.web.entity.Publiccontent;
@@ -84,7 +94,37 @@ public class ProjectManager {
 	private FinancingexitDAO financingexitDao;
 	private MemberDAO memberDao;
 	private TeamDAO teamDao;
+	private ProjectAddressDAO addressDAO;
+	private ProjectRangeDAO pRangeDAO;
+	private ProjectTypeDAO typeDAO;
+	private ProjectHotSearchDAO pHotSearchDAO;
 	
+	
+	
+	public ProjectRangeDAO getpRangeDAO() {
+		return pRangeDAO;
+	}
+	@Autowired
+	public void setpRangeDAO(ProjectRangeDAO pRangeDAO) {
+		this.pRangeDAO = pRangeDAO;
+	}
+
+	public ProjectTypeDAO getTypeDAO() {
+		return typeDAO;
+	}
+	@Autowired
+	public void setTypeDAO(ProjectTypeDAO typeDAO) {
+		this.typeDAO = typeDAO;
+	}
+
+	public ProjectHotSearchDAO getpHotSearchDAO() {
+		return pHotSearchDAO;
+	}
+	@Autowired
+	public void setpHotSearchDAO(ProjectHotSearchDAO pHotSearchDAO) {
+		this.pHotSearchDAO = pHotSearchDAO;
+	}
+
 	public Publiccontent findPublicContentById(Integer contentId) {
 		return getPublicContentDao().findById(contentId);
 	}
@@ -250,7 +290,9 @@ public class ProjectManager {
 					
 					// 人气指数
 					Integer count = this.findCountProjectCollection(project);
-					project.setCollectionCount(count);
+					int radomIndex = (int)(200+Math.random()*(400-200+1))+count;
+//					requestMap.put("collectCount", radomIndex);
+					project.setCollectionCount(radomIndex);
 				}
 				return list;
 			}
@@ -1166,6 +1208,312 @@ public class ProjectManager {
 	@Autowired
 	public void setTeamDao(TeamDAO teamDao) {
 		this.teamDao = teamDao;
+	}
+	
+	public ProjectSearchBean getAllType() {
+		ProjectSearchBean searchBean = new ProjectSearchBean();
+		List<ProjectType> iTypes = this.getTypeDAO().findAll();
+		searchBean.setcName("所属行业");
+		searchBean.setcKey("type");
+		List<MapResult> cData = new ArrayList<MapResult>();
+		for (ProjectType p : iTypes) {
+			ProjectSearchBean.MapResult t = new ProjectSearchBean.MapResult();
+			t.setItemKey(p.getKey());
+			t.setValue(p.getValue());
+			cData.add(t);
+		}
+		searchBean.setcData(cData);
+		return searchBean;
+	}
+
+	public ProjectSearchBean getSearchType(String searchStr) {
+		String str = searchStr;
+		ProjectSearchBean searchBean = new ProjectSearchBean();
+		String[] olist = null;
+		if (str != null) {
+			try {
+				olist = str.split(",");
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			if (olist != null && olist.length > 0) {
+				List<ProjectType> iTypes = this.getTypeDAO().findAll();
+				searchBean.setcName("所属行业");
+				searchBean.setcKey("type");
+				List<MapResult> cData = new ArrayList<MapResult>();
+				for (ProjectType p : iTypes) {
+					for(String s:olist){
+						try {
+							int ints = Integer.valueOf(s);
+							if(p.getKey()==ints){
+								ProjectSearchBean.MapResult t = new ProjectSearchBean.MapResult();
+								t.setItemKey(p.getKey());
+								t.setValue(p.getValue());
+								cData.add(t);
+							}
+						}catch(Exception e){
+							
+						}
+						
+					}
+				}
+				System.out.println(cData.size());
+				searchBean.setcData(cData);
+			}
+		}
+		return searchBean;
+	}
+
+	public ProjectSearchBean getAllAddress() {
+		ProjectSearchBean searchBean = new ProjectSearchBean();
+		List<ProjectAddress> iAddresses = this.getAddressDAO().findAll();
+		searchBean.setcName("所在地");
+		searchBean.setcKey("address");
+		List<MapResult> cData = new ArrayList<MapResult>();
+		for (ProjectAddress p : iAddresses) {
+			ProjectSearchBean.MapResult t = new ProjectSearchBean.MapResult();
+			t.setItemKey(p.getKey());
+			t.setValue(p.getValue());
+			cData.add(t);
+		}
+		searchBean.setcData(cData);
+		return searchBean;
+	}
+	
+	public ProjectSearchBean getSearchAddress(String searchStr) {
+		String str = searchStr;
+		ProjectSearchBean searchBean = new ProjectSearchBean();
+		String[] olist = null; 
+		if (str != null) {
+			try {
+				olist = str.split(",");
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			if (olist != null && olist.length > 0) {
+				List<ProjectAddress> iAddresses = this.getAddressDAO().findAll();
+				searchBean.setcName("所在地");
+				searchBean.setcKey("address");
+				List<MapResult> cData = new ArrayList<MapResult>();
+				for (ProjectAddress p : iAddresses) {
+					for(String s:olist){
+						try {
+							int ints = Integer.valueOf(s);
+							if(p.getKey()==ints){
+								ProjectSearchBean.MapResult t = new ProjectSearchBean.MapResult();
+								t.setItemKey(p.getKey());
+								t.setValue(p.getValue());
+								cData.add(t);
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+						
+					}
+				}
+				System.out.println(cData.size());
+				searchBean.setcData(cData);
+			}
+		}
+		return searchBean;
+	}
+
+	public ProjectSearchBean getAllRange() {
+		ProjectSearchBean searchBean = new ProjectSearchBean();
+		List<ProjectRange> iRanges = this.getpRangeDAO().findAll();
+		searchBean.setcName("融资额度");
+		searchBean.setcKey("range");
+		List<MapResult> cData = new ArrayList<MapResult>();
+		for (ProjectRange p : iRanges) {
+			ProjectSearchBean.MapResult t = new ProjectSearchBean.MapResult();
+			t.setItemKey(Integer.valueOf(p.getKey()));
+			t.setValue(p.getDesc());
+			cData.add(t);
+		}
+		searchBean.setcData(cData);
+		return searchBean;
+	}
+	
+	
+
+	public List<ProjectRange> getSearchRange(String searchStr) {
+		String str = searchStr;
+		System.out.println("rang:"+searchStr);
+		List<ProjectRange> allRanges = this.getpRangeDAO().findAll();
+		List<ProjectRange> searchList = new ArrayList<ProjectRange>();
+		String[] olist = null; 
+		if (str != null) {
+			try {
+				olist = str.split(",");
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			if (olist != null && olist.length > 0) {
+	
+				
+				for (ProjectRange p : allRanges) {
+					for(String s:olist){
+						if(p.getKey().equals(s)){
+							searchList.add(p);
+						}
+					}
+				}
+				System.out.println("ranglize:"+searchList.size());
+			}
+		}
+		return searchList;
+	}
+
+
+	public ProjectAddressDAO getAddressDAO() {
+		return addressDAO;
+	}
+
+	@Autowired
+	public void setAddressDAO(ProjectAddressDAO addressDAO) {
+		this.addressDAO = addressDAO;
+	}
+
+	/**
+	 * 
+	 * @param page
+	 * @param type
+	 * @param range
+	 * @param address
+	 * @return
+	 */
+	public List findProjectSearchList(Integer page, ProjectSearchBean type, List range,
+			ProjectSearchBean address) {
+		List<Project> l = this.projectDao.findProjectSearchList(page, type,
+				range, address);
+		
+		List list = changeProjectFromSql(l);
+	
+		return list;
+	}
+	
+	
+	/**
+	 * 处理Porjcet
+	 * @param l
+	 * @return
+	 */
+	public List<Project> changeProjectFromSql(List<Project> l){
+		List list = new ArrayList();
+		if (l != null && l.size() > 0) {
+			for (int i = 0; i < l.size(); i++) {
+				Project project = (Project) l.get(i);
+				if (project.getFinancestatus().getStatusId() == 6) {
+
+					project.setCommunions(null);
+					project.setSortIndex(null);
+					project.setMembers(null);
+					project.setTeams(null);
+					project.setFinancingexits(null);
+					project.setFinancialstandings(null);
+					project.setControlreports(null);
+					project.setFinancingcases(null);
+					project.setBusinessplans(null);
+					project.setProjectcomments(null);
+					project.setProjectcommitrecords(null);
+					project.setProjectimageses(null);
+
+					project.setBorrowerUserNumber(null);
+					if(project.getDescription().trim().length()>50){
+					project.setDescription(project.getDescription().trim().substring(0, 50));
+					}
+
+					// 人气指数
+					Integer count = this.findCountProjectCollection(project);
+					int radomIndex = (int) (200 + Math.random()
+							* (400 - 200 + 1))
+							+ count;
+					// requestMap.put("collectCount", radomIndex);
+					project.setCollectionCount(radomIndex);
+
+					list.add(project);
+				} else if (project.getFinancestatus().getStatusId() == 3) {
+					project.setCommunions(null);
+					project.setMembers(null);
+					project.setSortIndex(null);
+					project.setTeams(null);
+					project.setFinancingexits(null);
+					project.setFinancialstandings(null);
+					project.setControlreports(null);
+					project.setFinancingcases(null);
+					project.setBusinessplans(null);
+					project.setProjectcomments(null);
+					project.setProjectcommitrecords(null);
+					project.setProjectimageses(null);
+					
+					project.setBorrowerUserNumber(null);
+					if(project.getDescription().trim().length()>50){
+						project.setDescription(project.getDescription().trim().substring(0, 50));
+					}
+				
+
+					// 人气指数
+					Integer count = this.findCountProjectCollection(project);
+					project.setCollectionCount(count);
+
+					list.add(project);
+				}
+			}
+		}
+		return  list;
+	}
+
+	/**
+	 * 融资阶段
+	 * @return
+	 */
+	public ProjectSearchBean getAllRong() {
+		ProjectSearchBean searchBean = new ProjectSearchBean();
+//		List<ProjectRange> iRanges = this.getpRangeDAO().findAll();
+		searchBean.setcName("融资阶段");
+		searchBean.setcKey("rong");
+		List<MapResult> cData = new ArrayList<MapResult>();
+//		for (ProjectRange p : iRanges) {
+//			ProjectSearchBean.MapResult t = new ProjectSearchBean.MapResult();
+//			t.setItemKey(Integer.valueOf(p.getKey()));
+//			t.setValue(p.getDesc());
+//			cData.add(t);
+//		}
+		searchBean.setcData(cData);
+		return searchBean;
+	}
+
+	public List findProjectSearchStrList(Integer page, String search) {
+		//查询
+		List<Project> l = this.projectDao.findProjectSearchFromStrList(page, search);
+		List list = changeProjectFromSql(l);
+		//筛选热门词汇
+		if(search!=null&&search.length()>1&&list!=null&&list.size()>0){
+			  List<ProjectHotSearch>   hasHotWordList  = this.pHotSearchDAO.findByHotWord(search);
+			System.out.println("hot:"+search);
+			  if(hasHotWordList.size()>0){
+				  //该词汇已存在
+				  System.out.println("hot:"+"该词汇已存在");
+				  System.out.println("hot:"+hasHotWordList.size());
+				  ProjectHotSearch pSearch = hasHotWordList.get(0);
+				  pSearch.setHotNum(pSearch.getHotNum()+1);
+				  this.pHotSearchDAO.saveOrUpdate(pSearch);
+			  }else{
+				//新词汇  insert
+				  System.out.println("hot:"+"新词汇");
+				  ProjectHotSearch pSearch = new ProjectHotSearch();
+				  pSearch.setHotWord(search);
+				  pSearch.setHotNum(1);
+				  this.pHotSearchDAO.save(pSearch);
+			  }
+		}
+		return list;
+	}
+
+	public List getHotWordList() {
+		List list = this.pHotSearchDAO.getHotList();
+		// TODO Auto-generated method stub
+		return list;
 	}
 	
 

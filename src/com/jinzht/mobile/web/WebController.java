@@ -44,6 +44,8 @@ import com.jinzht.web.entity.Loginfailrecord;
 import com.jinzht.web.entity.Member;
 import com.jinzht.web.entity.MessageBean;
 import com.jinzht.web.entity.Project;
+import com.jinzht.web.entity.ProjectHotSearch;
+import com.jinzht.web.entity.ProjectSearchBean;
 import com.jinzht.web.entity.Rewardsystem;
 import com.jinzht.web.entity.Roadshow;
 import com.jinzht.web.entity.Roadshowplan;
@@ -225,102 +227,303 @@ public class WebController extends BaseController {
 
 		return "/web/html/content/report-detail";
 	}
+	
+	
 	/***
-	 *项目展示
+	 * 项目展示
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/web/project.action")
-	public String projectList() {
+	public String projectList(ModelMap model) {
+
+		List<ProjectSearchBean> iSearchBeans = new ArrayList<ProjectSearchBean>();
+		// 所属行业
+		ProjectSearchBean rBean = projectManager.getAllRong();
+		iSearchBeans.add(rBean);
+		// 所属行业
+		ProjectSearchBean pBean = projectManager.getAllType();
+		iSearchBeans.add(pBean);
+		// 额度
+		iSearchBeans.add(projectManager.getAllRange());
+		// 所在地
+		iSearchBeans.add(projectManager.getAllAddress());
+		model.put("TypeList", iSearchBeans);
+
 		return "/web/html/content/project";
 	}
+
 	/***
-	 *项目详情
+	 * 项目详情
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/web/projectDetail.action")
-	public String projectDetail(@RequestParam("id") Integer id,ModelMap model) {
-		
+	public String projectDetail(@RequestParam("id") Integer id, ModelMap model) {
 
-		// 鑾峰彇椤圭洰
+		// 获取项目
 		Project project = this.projectManager.findProjectById(id);
-		if(project!=null)
-		{
-//						// 鑾峰彇鐢ㄦ埛鏄惁宸插叧娉ㄨ椤圭洰
-//						Collection collection = this.ProjectManager
-//								.findProjectCollectionByUser(project, user);
-//
-//						if (collection != null) {
-//							project.setCollected(true);
-//						} else {
-				project.setCollected(false);
+		if (project != null) {
+			// // 获取用户是否已关注该项目
+			// Collection collection = this.ProjectManager
+			// .findProjectCollectionByUser(project, user);
+			//
+			// if (collection != null) {
+			// project.setCollected(true);
+			// } else {
+			project.setCollected(false);
 
 			String desc = project.getDescription();
-			
+
 			desc = desc.replace("\n", "<br>");
 			project.setDescription(desc);
 			System.out.println("");
 			System.out.println(desc);
-			// 灏佽杩斿洖缁撴灉
+			// 封装返回结果
 			model.put("Project", project);
 			Set<Roadshow> roadshows = project.getRoadshows();
 			List<Roadshow> rList = new ArrayList<Roadshow>();
-			for(Roadshow a:roadshows){
+			for (Roadshow a : roadshows) {
 				rList.add(a);
 			}
-			
-			int peset = rList.get(0).getRoadshowplan().getFinancedMount()*100/rList.get(0).getRoadshowplan().getFinanceTotal();
+
+			int peset = rList.get(0).getRoadshowplan().getFinancedMount() * 100
+					/ rList.get(0).getRoadshowplan().getFinanceTotal();
 			model.put("NumPeset", peset);
-			int time=0;
+			int time = 0;
 			try {
-				time = DateUtils.getDaysBetween(rList.get(0).getRoadshowplan().getBeginDate(), rList.get(0).getRoadshowplan().getEndDate());
+				time = DateUtils.getDaysBetween(rList.get(0).getRoadshowplan()
+						.getBeginDate(), rList.get(0).getRoadshowplan()
+						.getEndDate());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Roadshowplan road = rList.get(0).getRoadshowplan();
-			//鍙戣捣浜�		
+			// 发起人
 			Set<Member> menSet = project.getMembers();
 			List<Member> menList = new ArrayList<Member>();
-			for(Member a:menSet){
+			for (Member a : menSet) {
 				menList.add(a);
 			}
-			if(menList.size()==0){
+			if (menList.size() == 0) {
 				menList.add(new Member());
 			}
-			model.put("Menber",menList.get(0));
-			model.put("Roadshowplan",road);
-			model.put("OverTime",time);
-		}else{
-			// 灏佽杩斿洖缁撴灉
+			int projectStatus = project.getFinancestatus().getStatusId();
+			model.put("Status", projectStatus);
+			model.put("Menber", menList.get(0));
+			model.put("Roadshowplan", road);
+			model.put("OverTime", time);
+		} else {
+			// 封装返回结果
 			model.put("Detail", "");
 		}
-		
-//		model.put("Title", original.getTitle());
+
+		// model.put("Title", original.getTitle());
 		return "/web/html/content/project-detail";
 	}
+
 	/***
-	 *登录
+	 * 登录
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/web/login.action")
 	public String userLogin() {
 		return "/web/html/user/Login";
 	}
+
 	/***
-	 *注册
+	 * 注册
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/web/regist.action")
 	public String userRegist() {
 		return "/web/html/user/Register";
 	}
+
 	/***
-	 *个人中心
+	 * 个人中心
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/web/personalCenter.action")
 	public String personalCenter() {
 		return "/web/html/user/PersonCenter";
 	}
-	
+
+	/**
+	 * 服务接口
+	 */
+
+	/***
+	 * 获取项目查询条件 http://localhost:8080/jinzht/requestSearchCondition.action?key=
+	 * jinzht_server_security&partner=test
+	 * eg:http://www.jinzht.com:8080/jinzht/requestSearchCondition
+	 * .action?key=jinzht_server_security&partner=test
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/requestSearchCondition")
+	@ResponseBody
+	public Map requestSearchCondition(
+			@RequestParam(value = "key", required = false) String key,
+			@RequestParam(value = "partner", required = false) String partner) {
+		this.result = new HashMap();
+		if (key != null && key.equals("jinzht_server_security")
+				&& partner != null) {
+
+			List<ProjectSearchBean> iSearchBeans = new ArrayList<ProjectSearchBean>();
+			// 所属行业
+			ProjectSearchBean rBean = projectManager.getAllRong();
+			iSearchBeans.add(rBean);
+			// 所属行业
+			ProjectSearchBean pBean = projectManager.getAllType();
+			iSearchBeans.add(pBean);
+			// 额度
+			iSearchBeans.add(projectManager.getAllRange());
+			// 所在地
+			iSearchBeans.add(projectManager.getAllAddress());
+			this.status = 200;
+			this.result.put("data", iSearchBeans);
+			this.message = "";
+		} else {
+			this.status = 400;
+			this.result.put("data", new ArrayList());
+			this.message = "参数有误，请输入正确的参数";
+		}
+
+		return getResult();
+	}
+
+	/**
+	 * 获取查询项目列表 是否必须？
+	 * 
+	 * @param type
+	 *            项目类型 String type=1,2,3 N
+	 * @param range
+	 *            项目范围 String range=1,2,3 N
+	 * @param address
+	 *            项目地址 String address=1,2,3 N
+	 * @param page
+	 *            pageIndex int page=0 Y
+	 * @return eg:
+	 *         http://localhost:8080/jinzht/requestSearchProjectList.action?page
+	 *         =0 查询所有
+	 *         http://localhost:8080/jinzht/requestSearchProjectList.action
+	 *         ?page=0&type=0&range=0&address=0 查询所有
+	 *         http://localhost:8080/jinzht
+	 *         /requestSearchProjectList.action?page=
+	 *         0&type=1,2&range=2,4&address=3,4,5 条件查询
+	 */
+	@RequestMapping(value = "/requestSearchProjectList")
+	@ResponseBody
+	public Map requestSearchProjectList(
+			@RequestParam(value = "type", required = false) String type,
+			@RequestParam(value = "range", required = false) String range,
+			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "page", required = true) Integer page) {
+		this.result = new HashMap();
+		List rangeList = null;
+		ProjectSearchBean typeBean = null;
+		ProjectSearchBean addressBean = null;
+		if (type != null && !type.isEmpty()) {
+			typeBean = projectManager.getSearchType(type);
+		}
+		if (address != null && !address.isEmpty()) {
+			addressBean = projectManager.getSearchAddress(address);
+		}
+		if (range != null && !range.isEmpty()) {
+			rangeList = projectManager.getSearchRange(range);
+		}
+		List list = this.projectManager.findProjectSearchList(page, typeBean,
+				rangeList, addressBean);
+		if (list != null) {
+			if (page != 0 && list.size() == 0) {
+				this.status = 201;
+				this.message = "";
+				this.result.put("data", list);
+			} else {
+				this.status = 200;
+				this.message = "";
+				this.result.put("data", list);
+			}
+		} else {
+			this.status = 201;
+			this.result.put("data", new ArrayList());
+			this.message = Config.STRING_FEELING_NO_DATA;
+		}
+
+		return getResult();
+	}
+
+	/**
+	 * 查询项目列表(根据输入内容 : 项目名称/公司/项目详情) 是否必须？
+	 * 
+	 * @param search
+	 *            查询Str String search=投融资 N
+	 * @param page
+	 *            pageIndex int page=0 Y
+	 * @return 
+	 *         http://localhost:8080/jinzht/requestSearchFromStrProjectList.action
+	 *         ?page=0&search=投融资 查询"投融资"
+	 */
+	@RequestMapping(value = "/requestSearchFromStrProjectList")
+	@ResponseBody
+	public Map requestSearchFromStrProjectList(
+			@RequestParam(value = "search", required = false) String search,
+			@RequestParam(value = "page", required = true) Integer page) {
+		this.result = new HashMap();
+		List<Project> list = new ArrayList<Project>();
+		if (search != null && !search.isEmpty()) {
+			list = this.projectManager.findProjectSearchStrList(page, search.trim());
+		}
+
+		if (list != null) {
+			if (page != 0 && list.size() == 0) {
+				this.status = 201;
+				this.message = "";
+				this.result.put("data", list);
+			} else {
+				this.status = 200;
+				this.message = "";
+				this.result.put("data", list);
+			}
+		} else {
+			this.status = 201;
+			this.result.put("data", new ArrayList());
+			this.message = Config.STRING_FEELING_NO_DATA;
+		}
+		return getResult();
+	}
+
+	/**
+	 *   接口： 热门词汇列表（返回最多10条 String）
+	 *   词汇录入条件：通过requestSearchFromStrProjectList搜索列表: size>0 ; search.length>1 ; -->SaveOrUpdate
+	 * @return 
+	 * http://localhost:8080/jinzht/requestHotWordList.action?key=jinzht_server_security&partner=test
+	 */
+	@RequestMapping(value = "/requestHotWordList")
+	@ResponseBody
+	public Map requestHotWordList(
+			@RequestParam(value = "key", required = false) String key,
+			@RequestParam(value = "partner", required = false) String partner) {
+		this.result = new HashMap();
+		if (key != null && key.equals("jinzht_server_security")&& partner != null) {
+			List<ProjectHotSearch>   hotWords = this.projectManager.getHotWordList();
+		    String[]  strlist = new String[hotWords.size()];
+		    for(int i=0;i<hotWords.size();i++){
+		    	strlist[i] = hotWords.get(i).getHotWord();
+		    }
+			this.status = 200;
+			this.result.put("data", strlist);
+			this.message = "";
+		} else {
+			this.status = 400;
+			this.result.put("data", new ArrayList());
+			this.message = "参数有误，请输入正确的参数";
+		}
+		return getResult();
+	}
 }

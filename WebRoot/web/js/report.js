@@ -69,18 +69,18 @@ function setJsonData(dataStr) {
     //console.log(dataJsonList.length);
     for (var i = 0; i < dataJsonList.length; i++) {
         contentHtml = contentHtml + '';
-        contentHtml = contentHtml + ' <a href="'+BasePath+'web/reportDetail.action?id=' + dataJsonList[i].infoId + '" <div class="content-item">';
+        contentHtml = contentHtml + '  <div class="content-item">';
         var imgs = dataJsonList[i].imgurl;
         //console.log(imgs);
         //console.log(imgs.length);
 //        if(imgs.length==0){
 //            contentHtml = contentHtml + '   <img src="" class="item-img">';
 //        }else {
-            contentHtml = contentHtml + '   <img src="' + imgs+ '" class="item-img">';
+            contentHtml = contentHtml + '  <div class="d-img"> <img src="' + imgs+ '" class="item-img"></div>';
 //        }
         //contentHtml = contentHtml + '   <img src="' + imgs[0].url + '" class="item-img">';
         contentHtml = contentHtml + '  <div class="item-r">';
-        contentHtml = contentHtml + '   <div href="'+BasePath+'web/reportDetail.action?id=' + dataJsonList[i].infoId + '" class="item-title">' + dataJsonList[i].title + '</div>';
+        contentHtml = contentHtml + '   <a href="'+BasePath+'web/reportDetail.action?id=' + dataJsonList[i].infoId + '" class="item-title">' + dataJsonList[i].title + '</a>';
         if (dataJsonList[i].oringl.lastIndexOf("观点") > 0) {
             contentHtml = contentHtml + '  <div class="item-type-1">' + dataJsonList[i].oringl + '</div>';
         } else if (dataJsonList[i].oringl.lastIndexOf("分析") > 0) {
@@ -92,7 +92,7 @@ function setJsonData(dataStr) {
         contentHtml = contentHtml + ' <div class="item-time">' + dataJsonList[i].publicDate + '</div>';
         contentHtml = contentHtml + '   <div class="item-desc">' + dataJsonList[i].desc + '</div>';
         contentHtml = contentHtml + '   </div>';
-        contentHtml = contentHtml + '   </div></a>';
+        contentHtml = contentHtml + '   </div>';
     }
 
     contentHtml = contentHtml + '<div class="content-item" id="new_list_more"> <div class="content-more" onclick="initData()">查看更多</div> </div>';

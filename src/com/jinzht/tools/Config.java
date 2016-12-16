@@ -70,11 +70,13 @@ public class Config {
 	public static List STRING_INTEFACE_FLITER = new ArrayList() {
 		{
 			add("registUser.action");
+			add("requestAttendAction.action");
 			add("requestIMTokean.action");
 			add("requestIsNeedRequestIMTokean.action");
 			add("requestImUsers.action");
 			add("noLogoInfo.action");
 			add("verifyCode.action");
+			add("isLoginUser.action");
 			add("loginUser.action");
 			add("resetPassWordUser.action");
 			add("wechatLoginUser.action");
@@ -118,6 +120,11 @@ public class Config {
 			add("requestWebThinkTankList.action");
 			add("requestWebViewPointList.action");
 			
+			add("requestSearchCondition.action");
+			add("requestSearchProjectList.action");
+			add("requestSearchFromStrProjectList.action");
+			add("requestHotWordList.action");
+			
 			add("index.action");
 			add("news.action");
 			add("notebook.action");
@@ -141,6 +148,10 @@ public class Config {
 			add("removeUserFromChatRoom.action");
 			add("removeUsersFromChatRoom.action");
 			add("sendMessage.action");
+			add("createChatRoomPage.action");
+			add("addAllUserToIM.action");
+			add("createProjectChatRoom.action");
+			add("IMUser.action");
 		}
 	};
 	
@@ -253,8 +264,8 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE = "【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT = "金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS = "http://www.jinzht.com/phone5/";
-	 public static String STRING_SYSTEM_ADDRESS ="http://192.168.10.166:8080/jinzht/";
-//	public static String STRING_SYSTEM_ADDRESS = "http://www.jinzht.com:8080/jinzht/";
+//	 public static String STRING_SYSTEM_ADDRESS ="http://192.168.10.166:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS = "http://www.jinzht.com:8080/jinzht/";
 	// public static String STRING_SYSTEM_INTRODUCE
 	// ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE = "http://www.jinzht.com:8080/jinzht/images/icon.jpg";
@@ -450,7 +461,7 @@ public class Config {
 	public static String webUrlList[] = { "http://3g.163.com/touch/reconstruct/article/list/BA8EE5GMwangning/0-10.html;1" };
 
 	
-	public static String ACTION_URL	="%srequestActionDetail.action?contentId=%ld";
+	public static String ACTION_URL	="%srequestActionDetail.action?contentId=%d";
 
     //IM系统
 	public static String IM_SERVER_URL = "https://a1.easemob.com/1148161116178897/jinzht/";

@@ -222,7 +222,7 @@ public class InvestorController extends BaseController {
 			if(project!=null)
 			{
 				Integer id = project.getUserId();
-				if(id.equals(user.getUserId()))
+				if(id!=null &&id.equals(user.getUserId()))
 				{
 					map.put("commited", true);
 				}

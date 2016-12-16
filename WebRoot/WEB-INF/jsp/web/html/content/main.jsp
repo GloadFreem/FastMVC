@@ -15,9 +15,11 @@
 <meta name="viewport"
 	content="initial-scale=1, user-scalable=no, width=device-width">
 <!--<link rel="stylesheet" type="text/css" href="css/swiper-3.4.0.min.css">-->
-<link rel="stylesheet" type="text/css" href="./css/base.css">
+<link rel="stylesheet" type="text/css" href="./css/base.css"  media="all and (min-width:1200px)">
+<link rel="stylesheet" type="text/css" href="./css/base_phone.css" media="all and (max-width:1199px)">
 <link rel="stylesheet" type="text/css" href="./css/swiper-3.4.0.min.css">
-<link rel="stylesheet" type="text/css" href="./css/main.css">
+<link rel="stylesheet" type="text/css" href="./css/main.css" media="all and (min-width:1200px)">
+<link rel="stylesheet" type="text/css" href="./css/main_phone.css" media="all and (max-width:1199px)">
 <title>金指投</title>
 
 </head>
@@ -28,10 +30,11 @@
 		<div class="header">
 			<div class="content">
 				<div class="h-logo"></div>
+				<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jinzht.pro#opened"  class="kehuduan">客户端</a>
 				<ul class="h-index">
-					<li id="id_main">创投资讯</li>
-					<li id="id_report">观点报告</li>
-					<li id="id_project">项目展示</li>
+				  <li id="id_main" class="check">创投资讯</li>
+                <li id="id_report" class="nomarl">观点报告</li>
+                <li id="id_project" class="nomarl">项目展示</li>
 					<div class="index-bar"></div>
 				</ul>
 				<div class="h-right">
@@ -115,7 +118,7 @@
 							<div class="opinion-text">中国银监会10月21日召开三季度经济金</div>
 							<div class="opinion-text">中国银监会10月21日召开三季度经济金</div>
 							<div class="content-item">
-								<div class="content-opinion-more">更多观点</div>
+								<div class="content-opinion-more">更多资讯</div>
 							</div>
 						</div>
 					</div>
@@ -168,7 +171,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="bot">京ICP备15043593号 © 2015-2016 金指投 版权所有</div>
+			<div class="bot">京ICP备15043593号 &copy; 2015-2016 金指投 版权所有</div>
 		</div>
 
 
