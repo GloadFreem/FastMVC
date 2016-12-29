@@ -446,9 +446,13 @@ public class MessageController {
 
 		if (key.equals("jinzht_server_security")
 				) {
-			List list = mainManager.obtainOriginal(pageIndex, 10);
+			List<Original> list = mainManager.obtainOriginal(pageIndex, 10);
 			if(list!=null && list.size()>0)
 			{
+				for(Original o : list)
+				{
+					o.setOriginalDetails(null);
+				}
 				return MapUtil.mapData("success", "200", list);
 			}else{
 				return MapUtil.mapData("暂无数据", "201", list);

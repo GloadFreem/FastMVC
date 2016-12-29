@@ -17,7 +17,7 @@ $(document).ready(function () {
     console.log(screenWidth);
 
     var swiper;
-    if (screenWidth >= 1200) {
+    if (screenWidth >= 950) {
         swiper = new Swiper('.swiper-container', {
             pagination: '.swiper-pagination',
             slidesPerView: 3,
@@ -27,7 +27,17 @@ $(document).ready(function () {
             loop: true,
             loopAdditionalSlides: 100
         });
-    } else {
+    } else if (screenWidth >= 700) {
+        swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            slidesPerView: 2,
+            paginationClickable: true,
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            loop: true,
+            loopAdditionalSlides: 100
+        });
+    }else {
         swiper = new Swiper('.swiper-container', {
             pagination: '.swiper-pagination',
             slidesPerView: 1,

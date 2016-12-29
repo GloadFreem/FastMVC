@@ -5870,6 +5870,7 @@ public class WebAdminController extends BaseController {
 		return Config.NEW_SERVER_CONTROL;
 	}
 	
+	
 	/***    ---------------------------------------------后端管理系统升级-------------------------------------------***/
 	
 }

@@ -1,5 +1,4 @@
 
-<script src="js/app.v2.js"></script>
 <!-- Bootstrap -->
 <!-- App -->
 <script src="js/charts/easypiechart/jquery.easy-pie-chart.js"

@@ -9,7 +9,7 @@ import java.util.Map;
 public class Config {
 	public static String SMS_USERID = "1012888";
 	public static String SMS_ACCOUNT = "dlbjjztx";
-	public static String SMS_PASSWORD = "pBJ0SiR6";
+	public static String SMS_PASSWORD = "Jinzht634134";  //pBJ0SiR6
 	public static String SMS_VERIFY_CODE = "验证码 %d , 十分钟内有效【金指投投融资】";
 	public static String SMS_VERIFY_STRING = "【金指投投融资】";
 	public static String SMS_HAVE_SEND_STRING = "验证码发送成功，请注意查收!";
@@ -152,6 +152,26 @@ public class Config {
 			add("addAllUserToIM.action");
 			add("createProjectChatRoom.action");
 			add("IMUser.action");
+			add("CourseList.action");
+			add("InviteCodeList.action");
+			add("AttendList.action");
+			add("WorkerList.action");
+			add("courseDetail.action");
+			add("sourceList.action");
+			add("editCurseDetail.action");
+			add("sourceDetail.action");
+			add("editSourceDetail.action");
+			add("codeDetail.action");
+			add("editCodeDetail.action");
+			add("SearchCurseByName.action");
+			add("deleteJoinRecord.action");
+			add("speecherList.action");
+			add("speecherDetail.action");
+			add("deleteSpeecher.action");
+			add("editSpeecher.action");
+			add("workerDetail.action");
+			add("editWorker.action");
+			add("deleteWorker.action");
 		}
 	};
 	
@@ -264,7 +284,7 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE = "【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT = "金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS = "http://www.jinzht.com/phone5/";
-//	 public static String STRING_SYSTEM_ADDRESS ="http://192.168.10.166:8080/jinzht/";
+//	 public static String STRING_SYSTEM_ADDRESS ="http://192.168.10.174:8080/jinzht/";
 	public static String STRING_SYSTEM_ADDRESS = "http://www.jinzht.com:8080/jinzht/";
 	// public static String STRING_SYSTEM_INTRODUCE
 	// ="http://www.jinzht.com:8080/jinzht/";

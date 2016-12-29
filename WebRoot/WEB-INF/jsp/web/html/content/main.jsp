@@ -19,7 +19,10 @@
 <link rel="stylesheet" type="text/css" href="./css/base_phone.css" media="all and (max-width:1199px)">
 <link rel="stylesheet" type="text/css" href="./css/swiper-3.4.0.min.css">
 <link rel="stylesheet" type="text/css" href="./css/main.css" media="all and (min-width:1200px)">
-<link rel="stylesheet" type="text/css" href="./css/main_phone.css" media="all and (max-width:1199px)">
+<link rel="stylesheet" type="text/css" href="./css/main_pad.css" media="all and (min-width:601px) and (max-width:700px)">
+<link rel="stylesheet" type="text/css" href="./css/main_pad2.css" media="all and (min-width:701px) and (max-width:850px)">
+<link rel="stylesheet" type="text/css" href="./css/main_pad3.css" media="all and (min-width:851px) and (max-width:1199px)">
+<link rel="stylesheet" type="text/css" href="./css/main_phone.css" media="all and (max-width:600px)">
 <title>金指投</title>
 
 </head>
@@ -155,13 +158,11 @@
 		<div class="footer">
 			<div class="content">
 				<div class="top">
-					<div class="left m-left-0">关于我们</div>
-					<div class="left m-left">视频介绍</div>
-					<div class="left m-left">联系我们</div>
-					<div class="left m-left">意见反馈</div>
-					<div class="left m-left">服务协议</div>
-					<div class="left m-left">隐私政策</div>
-					<div class="scan-footer m-left-0">
+					<a href="about.action"  class="left m-left-0">关于我们</a>
+					<a href="address.action"  class="left m-left">联系我们</a>
+					<a href="service.action"  class="left m-left">服务协议</a>
+					<a href="policy.action"  class="left m-left">免责声明</a>
+					<div class="scan-footer m-left-1">
 						<div class="img"></div>
 						<div class="text">APP下载</div>
 					</div>

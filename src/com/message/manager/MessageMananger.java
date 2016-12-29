@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.jinzht.tools.CompareUtil;
 import com.jinzht.tools.Condition;
 import com.jinzht.tools.Config;
 import com.jinzht.web.entity.WebcontenttypeDAO;
@@ -178,16 +179,32 @@ public class MessageMananger {
 	// return messages;
 	// }
 
+
 	public void saveAll(List<Msg> transientInstances) {
 		for (Msg transientInstance : transientInstances) {
-			List<Msg> list = msgDao.findByTitle(transientInstance
-					.getTitle());
-			// System.out.println(LAG + list.size());
-			if (list != null && list.size() == 0) {
+			List<Msg> list = msgDao.findByPage(0, 20);
+			boolean isHas = false;
+			for(Msg s:list){
+				int compareNum = CompareUtil.getSimilarityRatio(s.getTitle(), transientInstance.getTitle());
+				if(compareNum>20){
+					isHas = true;
+					if(compareNum!=100){
+						System.out.println(LAG + "重复："+s.getTitle() +" /" +transientInstance.getTitle()+"/"+compareNum+"%");	
+					}
+					break;
+				}
+			}
+			if(!isHas){
+			
 				msgDao.save(transientInstance);
 			}
+//			// System.out.println(LAG + list.size());
+//			if (list != null && list.size() == 0) {
+//			
+//			}
 		}
 	}
+	
 
 	public List<Msg> findAll() {
 		return msgDao.findAll();

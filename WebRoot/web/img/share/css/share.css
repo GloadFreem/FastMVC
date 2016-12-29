@@ -1,0 +1,545 @@
+@CHARSET "UTF-8";
+body
+{
+	width: 100%;
+	margin: 0;
+}
+
+.upload
+{
+	padding-top:44px;
+}
+.upload-img
+{
+	margin-left: 25%;
+	width:50%;
+	height:auto;
+}
+
+.upload-desc
+{
+	width:90%;
+}
+
+.upload-desc-line
+{
+	margin-left: 2%;
+	text-align: right;
+	width:55%;
+}
+
+.upload-desc-line1-p
+{
+	font-size: 120%;
+
+
+}
+.upload-desc-line2-p
+{
+	font-size: 120%;
+}
+.upload-desc-line3-p
+{
+	font-size: 120%;
+}
+
+.menu
+{
+	margin-top: -10%;
+}
+
+.menu-img
+{
+	width:100%;
+}
+
+.menu-desc
+{
+
+}
+
+.menu-desc-line
+{
+	margin-left: 40%;
+	margin-right:5%;
+	text-align: left;
+	width:55%;
+}
+
+.menu-desc-line1-p
+{
+	font-size: 120%;
+}
+.menu-desc-line2-p
+{
+	font-size: 120%;
+}
+.menu-desc-line3-p
+{
+	font-size: 120%;
+}
+
+.upload-project
+{
+	margin-top: -20%;
+}
+
+.upload-project-img
+{
+	width:100%;
+}
+.upload-project-email-img
+{
+	width:100%;
+	padding-top:10%;
+}
+
+
+.commit-desc
+{
+	margin-top: -70%;
+}
+
+.commit-desc-line
+{
+	margin-left: 2%;
+	text-align: right;
+	width:45%;
+}
+
+.commit-desc-line1-p
+{
+	font-size: 100%;
+}
+.commit-desc-line2-p
+ {
+	 font-size: 120%;
+ }
+
+
+@media screen  and (max-width: 400px){
+	.commit-desc-line2-p
+	{
+		font-size: 110%;
+	}
+}
+
+@media screen  and (max-width: 330px){
+	.commit-desc-line2-p
+	{
+		font-size: 100%;
+	}
+}
+.commit-desc-line3-p
+{
+	font-size: 100%;
+}
+
+.invest
+{
+	margin-top: 30%;
+}
+
+.invest-img
+{
+	width:50%;
+	padding-left: 25%;
+}
+
+.financing
+{
+	margin-top: -25%;
+}
+
+.financing-img
+{
+   width:90%;
+	margin-left: 10%;
+}
+
+.financing-desc
+{
+	margin-top: -20%;
+}
+
+.submmit
+{
+
+}
+
+.submmit-desc
+{
+	width: 50%;
+	margin-left: 45%;
+}
+.submmit-img
+{
+	width: 90%;
+}
+
+.confirm-desc
+{
+	width: 50%;
+	margin-left:50%;
+
+}
+
+.footer
+{
+	height: 40%;
+}
+
+.foot-box
+{
+	padding-top: 2%;
+	width: 100%;
+	float: left;
+	font-size: 80%;
+	text-align:center;
+	padding-bottom: 20%;
+
+}
+
+.project-image
+{
+	width:100%;
+}
+
+.jinzht-dec
+{
+	margin-left: 2%;
+	margin-right: 2%;
+	margin-top: -35%;
+	color: orange;
+	font-size: 90%;
+}
+
+.header-image
+{
+	width: 5%;
+	margin-left: 3%;
+	float: left;
+}
+
+.line-separte
+{
+	background-color: #e6e6e6;
+	height: 10px;
+	width: 100%;
+	margin-top: 20%;
+}
+
+.line
+{
+	background-color: rgba(184, 184, 184, 0.82);
+	height: 1px;
+	width: 100%;
+}
+.project-name
+{
+	margin-left: 10%;
+	width: 80%;
+	margin-top: 14%;
+}
+.status
+{
+	margin-right: 5%;
+	width: 20%;
+	margin-left: 80%;
+}
+
+.status-image
+{
+	width:70%;
+	margin-top: -5px;
+	height:auto;
+}
+
+.status-name
+{
+	color: white;
+	font-size: 80%;
+	width: 30%;
+	height: 150%;
+	margin-top: -135%;
+	margin-left: 26%;
+}
+
+.project-detail
+{
+	margin-top: -5%;
+}
+.total-finacne
+{
+	width: 100%;
+	height: 20px;
+}
+.total-finacne-img
+{
+	margin-left: 5%;
+	width: 5%;
+	float:left;
+	margin-top: 1%;
+}
+
+.finacne-image
+{
+	margin-top: 2%;
+	margin-left:5%;
+	width: 100%;
+	height:auto;
+}
+.item-name
+{
+	float: left;
+	margin-left: 2%;
+}
+
+.item-value
+{
+	margin-left: 35%;
+	margin-top: 10%;
+}
+.project-desc
+{
+	margin: 5%;
+}
+.project-images
+{
+	margin-top: 5%;
+}
+.project-desc-image
+{
+	width: 30%;
+	margin-left: 2%;
+}
+
+.team-images
+{
+}
+
+.team-desc-image{
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	margin-left: 5%;
+}
+
+.finance-desc
+{
+	margin: 5%;
+	height:70px;
+}
+
+.finance-desc-image
+{
+	width: 75px;
+	height:75px;
+	border-radius: 75px;
+	margin-left: 2%;
+}
+
+.team-item
+{
+	width: 20%;
+	text-align: center;
+	float:left
+}
+
+.team-item-none
+{
+	width: 20%;
+	text-align: center;
+}
+
+.team-desc-image
+{
+	margin-left: 5%;
+}
+
+.team-desc-name
+{
+	text-align: center;
+	font-size: 12px;
+	line-height: 16px;
+}
+.team-desc-value
+{
+	text-align: center;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+.footer-tip
+{
+    background-color:orange;
+	z-index:999;
+	position:fixed;
+	bottom:0;
+	left:0;
+	width:100%;
+	_position:absolute;
+	overflow:visible;
+	height: 60px;
+}
+
+.footer-tip-image
+{
+	width: 9%;
+	height: auto;
+	margin-left: 15%;
+	float:left;
+	margin-top:1%;
+}
+
+.tip-content
+{
+	color: white;
+	font-size: 130%;
+	margin-left : 28%;
+	line-height:60px;
+
+}
+
+.feeling-header
+{
+	width: 20%;
+	height: auto;
+	float:left;
+}
+
+.feeling-header-img
+{
+	width: 80%;
+	height: 80%;
+	margin-left: 10%;
+}
+
+.header
+{
+	margin-top: -10%;
+}
+.header-img
+{
+	width: 100%;
+	height: auto;
+	margin-top: -2%;
+}
+
+.feeling-header-content
+{
+	margin-left: 20%;
+	width: 78%;
+	margin-top: 5%;
+	font-size: 90%;
+	margin-bottom: 5%;
+
+}
+
+.box-info
+{
+	float: left;
+	font-size:100%;
+}
+
+.box{
+	color: darkgray;
+}
+
+.box-time
+{
+	margin-right: 10%;
+	float: right;
+	font-size: 12px;
+}
+
+.feeling-content
+{
+	margin-top: 10%;
+	margin-left: 5%;
+	margin-right: 5%;
+	text-align: left;
+	word-break:break-all;
+}
+
+.content-images
+{
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 5%;
+}
+
+.content-images{
+	height: 100%;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+.content-image-item
+{
+	width: 30%;
+	margin-left: 1.5%;
+	margin-bottom: 1%;
+	height: 80px;
+}
+}
+
+.operate-item
+{
+	width: 30%;
+	float: left;
+}
+
+.operate-item-img
+{
+	width: 20%;
+	height: auto;
+	margin-left: 25%;
+	float:left;
+	margin-top:4%;
+}
+
+.operate-item-img-value
+{
+	width: 100%;
+	height: auto;
+}
+
+.operate-item-value
+{
+	margin-left: 50%;
+	text-align: center;
+	float: left;
+	margin-top:-22%;
+}
+
+.operate-item-line
+{
+	margin-left: 99%;
+	margin-bottom:5%;
+	width: 1px;
+	height:30px;
+	background-color: grey;
+}
+
+.operate
+{
+	width: 100%;
+	height: auto;
+	margin-top: 5%;
+}
+
+.proctol
+{
+	margin-left:5%;
+	margin-right:5%;
+	font-size: 14px;;
+	line-height: 20px;
+}
+
+.content
+{
+	width: 100%;
+	height: auto;
+	/*margin-top: -20px;*/
+}

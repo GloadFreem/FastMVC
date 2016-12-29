@@ -16,9 +16,15 @@
 <link rel="stylesheet" type="text/css" href="./css/base.css"  media="all and (min-width:1200px)">
 <link rel="stylesheet" type="text/css" href="./css/base_phone.css" media="all and (max-width:1199px)">
 <link rel="stylesheet" type="text/css" href="./css/main.css" media="all and (min-width:1200px)">
-<link rel="stylesheet" type="text/css" href="./css/main_phone.css" media="all and (max-width:1199px)">
+<link rel="stylesheet" type="text/css" href="./css/main_pad.css" media="all and (min-width:601px) and (max-width:700px)">
+<link rel="stylesheet" type="text/css" href="./css/main_pad2.css" media="all and (min-width:701px) and (max-width:850px)">
+<link rel="stylesheet" type="text/css" href="./css/main_pad3.css" media="all and (min-width:851px) and (max-width:1199px)">
+<link rel="stylesheet" type="text/css" href="./css/main_phone.css" media="all and (max-width:600px)">
+
+<link rel="stylesheet" type="text/css" href="./css/report_phone.css" media="all and (max-width:600px)">
+<link rel="stylesheet" type="text/css" href="./css/report_pad.css" media="all and (min-width:601px) and (max-width:750px)">
+<link rel="stylesheet" type="text/css" href="./css/report_pad2.css" media="all and (min-width:751px) and (max-width:1199px)">
 <link rel="stylesheet" type="text/css" href="./css/report.css" media="all and (min-width:1200px)">
-<link rel="stylesheet" type="text/css" href="./css/report_phone.css" media="all and (max-width:1199px)">
 <title>金指投--观点报告</title>
 </head>
 <body>
@@ -57,7 +63,7 @@
 						<c:choose>
 								<c:when test="${banner.bannerId==1 }">
 									<div class="t-left">
-										<a id="msg_img_0" class="msg-big"  href="${banner.url}">
+										<a id="msg_img_0" class="msg-big  "  href="${banner.url}">
 										
 											<img src="${banner.image}" style="width: 100%;height: 100%">
 											<div id="msg_title_0" class="shadow">${banner.desc}</div>
@@ -159,12 +165,10 @@
 		<div class="footer">
 			<div class="content">
 				<div class="top">
-					<div class="left m-left-0">关于我们</div>
-					<div class="left m-left">视频介绍</div>
-					<div class="left m-left">联系我们</div>
-					<div class="left m-left">意见反馈</div>
-					<div class="left m-left">服务协议</div>
-					<div class="left m-left">隐私政策</div>
+							<a href="about.action"  class="left m-left-0">关于我们</a>
+					<a href="address.action"  class="left m-left">联系我们</a>
+					<a href="service.action"  class="left m-left">服务协议</a>
+					<a href="policy.action"  class="left m-left">免责声明</a>
 					<div class="scan-footer m-left-0">
 						<div class="img"></div>
 						<div class="text">APP下载</div>

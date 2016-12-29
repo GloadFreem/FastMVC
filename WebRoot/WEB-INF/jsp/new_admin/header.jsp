@@ -9,7 +9,7 @@
 				data-target=".nav-user"> <i class="fa fa-cog"></i>
 			</a>
 		</div>
-		<ul class="nav navbar-nav hidden-xs">
+		<!-- <ul class="nav navbar-nav hidden-xs">
 			<li class="dropdown"><a href="index.action"
 				class="dropdown-toggle dker" data-toggle="dropdown"> <i
 					class="fa fa-building-o"></i> <span class="font-bold">Banner</span>
@@ -89,7 +89,7 @@
 					</a>
 				</div>
 			</li>
-		</ul>
+		</ul> -->
 		<ul class="nav navbar-nav navbar-right hidden-xs nav-user">
 			<li class="hidden-xs"><a href="#" class="dropdown-toggle dk"
 				data-toggle="dropdown"> <i class="fa fa-bell"></i> <span
@@ -172,7 +172,7 @@
 							<!-- nav -->
 							<nav class="nav-primary hidden-xs">
 								<ul class="nav">
-									<li><a href="#layout"> <i class="fa fa-columns icon">
+									<!-- <li><a href="#layout"> <i class="fa fa-columns icon">
 												<b class="bg-warning"></b>
 										</i> <span class="pull-right"> <i
 												class="fa fa-angle-down text"></i> <i
@@ -233,13 +233,13 @@
 															class="fa fa-angle-right"></i> <span>核心团队</span>
 													</a></li>
 												</ul></li>
-											<!--<li > <a href="#form" > <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> <span>Form</span> </a>-->
-											<!--<ul class="nav bg">-->
-											<!--<li > <a href="form-elements.html" > <i class="fa fa-angle-right"></i> <span>Form elements</span> </a> </li>-->
-											<!--<li > <a href="form-validation.html" > <i class="fa fa-angle-right"></i> <span>Form validation</span> </a> </li>-->
-											<!--<li > <a href="form-wizard.html" > <i class="fa fa-angle-right"></i> <span>Form wizard</span> </a> </li>-->
-											<!--</ul>-->
-											<!--</li>-->
+											<li > <a href="#form" > <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> <span>Form</span> </a>
+											<ul class="nav bg">
+											<li > <a href="form-elements.html" > <i class="fa fa-angle-right"></i> <span>Form elements</span> </a> </li>
+											<li > <a href="form-validation.html" > <i class="fa fa-angle-right"></i> <span>Form validation</span> </a> </li>
+											<li > <a href="form-wizard.html" > <i class="fa fa-angle-right"></i> <span>Form wizard</span> </a> </li>
+											</ul>
+											</li>
 										</ul></li>
 									<li><a href="#uikit"> <i class="fa fa-flask icon">
 												<b class="bg-success"></b>
@@ -249,8 +249,7 @@
 										</span> <span>即时通讯</span>
 									</a>
 										<ul class="nav lt">
-											<li>
-												<a href="#table"> <i
+											<li><a href="#table"> <i
 													class="fa fa-angle-down text"></i> <i
 													class="fa fa-angle-up text-active"></i> <span>用户管理</span>
 											</a>
@@ -262,8 +261,7 @@
 															class="badge bg-info pull-right">369</b> <i
 															class="fa fa-angle-right"></i> <span>IM用户列表</span>
 													</a></li>
-												</ul>
-											</li>
+												</ul></li>
 											<li><a href="#table"> <i
 													class="fa fa-angle-down text"></i> <i
 													class="fa fa-angle-up text-active"></i> <span>消息管理</span>
@@ -280,8 +278,7 @@
 											<li><a href="list.html"> <i
 													class="fa fa-angle-right"></i> <span>上传下载</span>
 											</a></li>
-											<li>
-												<a href="#table"> <i
+											<li><a href="#table"> <i
 													class="fa fa-angle-down text"></i> <i
 													class="fa fa-angle-up text-active"></i> <span>群组管理</span>
 											</a>
@@ -297,8 +294,7 @@
 															class="badge bg-info pull-right">369</b> <i
 															class="fa fa-angle-right"></i> <span>聊天记录</span>
 													</a></li>
-												</ul>
-											</li>
+												</ul></li>
 											<li><a href="#table"> <i
 													class="fa fa-angle-down text"></i> <i
 													class="fa fa-angle-up text-active"></i> <span>聊天室管理</span>
@@ -312,15 +308,90 @@
 															class="fa fa-angle-right"></i> <span>聊天室列表</span>
 													</a></li>
 												</ul></li>
-											<!--<li > <a href="#form" > <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> <span>Form</span> </a>-->
-											<!--<ul class="nav bg">-->
-											<!--<li > <a href="form-elements.html" > <i class="fa fa-angle-right"></i> <span>Form elements</span> </a> </li>-->
-											<!--<li > <a href="form-validation.html" > <i class="fa fa-angle-right"></i> <span>Form validation</span> </a> </li>-->
-											<!--<li > <a href="form-wizard.html" > <i class="fa fa-angle-right"></i> <span>Form wizard</span> </a> </li>-->
-											<!--</ul>-->
-											<!--</li>-->
-										</ul></li>
+											<li > <a href="#form" > <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> <span>Form</span> </a>
+											<ul class="nav bg">
+											<li > <a href="form-elements.html" > <i class="fa fa-angle-right"></i> <span>Form elements</span> </a> </li>
+											<li > <a href="form-validation.html" > <i class="fa fa-angle-right"></i> <span>Form validation</span> </a> </li>
+											<li > <a href="form-wizard.html" > <i class="fa fa-angle-right"></i> <span>Form wizard</span> </a> </li>
+											</ul>
+											</li>
+										</ul></li> -->
 									<li><a href="#pages"> <i class="fa fa-file-text icon">
+												<b class="bg-primary"></b>
+										</i> <span class="pull-right"> <i
+												class="fa fa-angle-down text"></i> <i
+												class="fa fa-angle-up text-active"></i>
+										</span> <span>商学管理</span>
+									</a>
+										<ul class="nav lt">
+											<li><a href="#table"> <i
+													class="fa fa-angle-down text"></i> <i
+													class="fa fa-angle-up text-active"></i> <span>课程管理</span>
+											</a>
+												<ul class="nav bg">
+													<li><a href="CourseList.action"> <i
+															class="fa fa-angle-right"></i> <span>课程列表</span>
+													</a></li>
+													<li><a href="courseDetail.action"> <i
+															class="fa fa-angle-right"></i> <span>添加课程</span>
+													</a></li>
+													<li><a href="sourceList.action"> <i
+															class="fa fa-angle-right"></i> <span>资源列表</span>
+													</a></li>
+													<li><a href="sourceDetail.action"> <i
+															class="fa fa-angle-right"></i> <span>添加资源</span>
+													</a></li>
+												</ul></li>
+
+											<li><a href="#table"> <i
+													class="fa fa-angle-down text"></i> <i
+													class="fa fa-angle-up text-active"></i> <span>邀请码管理</span>
+											</a>
+												<ul class="nav bg">
+													<li><a href="InviteCodeList.action"> <i
+															class="fa fa-angle-right"></i> <span>邀请码列表</span>
+													</a></li>
+													<li><a href="codeDetail.action"> <i
+															class="fa fa-angle-right"></i> <span>添加邀请码</span>
+													</a></li>
+												</ul></li>
+											<li><a href="#table"> <i
+													class="fa fa-angle-down text"></i> <i
+													class="fa fa-angle-up text-active"></i> <span>参课管理</span>
+											</a>
+												<ul class="nav bg">
+													<li><a href="AttendList.action"> <i
+															class="fa fa-angle-right"></i> <span>参课列表</span>
+													</a></li>
+											<!-- 		<li><a href="AttendList.action"> <i
+															class="fa fa-angle-right"></i> <span>添加报名</span>
+													</a></li> -->
+												</ul></li>
+											<li><a href="#table"> <i
+													class="fa fa-angle-down text"></i> <i
+													class="fa fa-angle-up text-active"></i> <span>讲师管理</span>
+											</a>
+												<ul class="nav bg">
+													<li><a href="speecherList.action"> <i
+															class="fa fa-angle-right"></i> <span>讲师列表</span>
+													</a></li>
+													<li><a href="speecherDetail.action"> <i
+															class="fa fa-angle-right"></i> <span>添加讲师</span>
+													</a></li>
+												</ul></li>
+											<li><a href="#table"> <i
+													class="fa fa-angle-down text"></i> <i
+													class="fa fa-angle-up text-active"></i> <span>运营管理</span>
+											</a>
+												<ul class="nav bg">
+													<li><a href="WorkerList.action"> <i
+															class="fa fa-angle-right"></i> <span>运营人员列表</span>
+													</a></li>
+													<li><a href="workerDetail.action"> <i
+															class="fa fa-angle-right"></i> <span>添加运营人员</span>
+													</a></li>
+												</ul></li> </ul></li>
+									<!-- <li><a href="#pages"> <i class="fa fa-file-text icon">
 												<b class="bg-primary"></b>
 										</i> <span class="pull-right"> <i
 												class="fa fa-angle-down text"></i> <i
@@ -379,7 +450,7 @@
 											<li><a href="intro.html"> <i
 													class="fa fa-angle-right"></i> <span>垃圾箱</span>
 											</a></li>
-										</ul></li>
+										</ul></li> -->
 									<li><a href="#pages"> <i class="fa fa-envelope-o icon">
 												<b class="bg-primary"></b>
 										</i> <span class="pull-right"> <i

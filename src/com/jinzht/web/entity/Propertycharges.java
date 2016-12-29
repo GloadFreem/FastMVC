@@ -25,7 +25,7 @@ public class Propertycharges implements java.io.Serializable {
 	// Fields
 
 	private Integer chargeId;
-	private User user;
+	private Users user;
 	private String name;
 	private Timestamp endDate;
 	private Double price;
@@ -39,7 +39,7 @@ public class Propertycharges implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Propertycharges(User user, String name, Timestamp endDate,
+	public Propertycharges(Users user, String name, Timestamp endDate,
 			Double price, String status, Set<Charge> charges) {
 		this.user = user;
 		this.name = name;
@@ -63,11 +63,11 @@ public class Propertycharges implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	public User getUser() {
+	public Users getUser() {
 		return this.user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
 

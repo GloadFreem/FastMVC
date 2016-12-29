@@ -594,8 +594,8 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	public Map wechatLoginUser(
-			@RequestParam(value = "wechatID") String wechatID,
-			@RequestParam(value = "platform") short platform,
+			@RequestParam(value = "wechatID", required = false) String wechatID,
+			@RequestParam(value = "platform", required = false) String platform,
 			@RequestParam(value = "regId", required = false) String regId,
 			HttpSession session) {
 		this.result = new HashMap();
@@ -607,12 +607,17 @@ public class UserController extends BaseController {
 			return getResult();
 		}
 
+		short plat =0 ;
+		if(Integer.parseInt(platform)!=0)
+		{
+			plat = 1;
+		}
 		// 获取用户
 		Users user = this.userManger.findUserByWechatId(wechatID);
 
 		if (user != null) {
 			// 更新用户登录信息
-			user.setPlatform(platform);
+			user.setPlatform(plat);
 			user.setWechatId(wechatID);
 			user.setRegId(regId);
 			user.setLastLoginDate(new Date());
@@ -650,7 +655,7 @@ public class UserController extends BaseController {
 			user = new Users();
 			user.setRegId(regId);
 			user.setWechatId(wechatID);
-			user.setPlatform(platform);
+			user.setPlatform(plat);
 			user.setLastLoginDate(new Date());
 			this.userManger.addUser(user);
 
@@ -1203,13 +1208,20 @@ public class UserController extends BaseController {
 			List list = null;
 			list = this.userManger.findUserAttendActions(user, page);
 
-			if (list != null) {
+			if (list != null && list.size()>0) {
 				// 返回信息
 				this.status = 200;
 				this.result.put("data", list);
 			} else {
 				// 返回信息
-				this.status = 201;
+				if(page!=0)
+				{
+					
+					this.status = 201;
+				}else{
+					
+					this.status = 200;
+				}
 				this.result.put("data", new ArrayList());
 			}
 

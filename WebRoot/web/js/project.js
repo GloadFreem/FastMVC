@@ -35,6 +35,60 @@ $(document).ready(function() {
 	$("#id_project").click(function() {
 		window.location.href = "./project.action";
 	});
+	
+	$(".p-btn").click(function() {
+//		init(0);
+		i++;
+//		if(i%2==0){
+//			$("#id_phone_btn").removeClass();
+//			$("#id_phone_btn").show();
+	
+//			$("#id_phone_btn").addClass("phone_btn");
+//		}else{
+			$("#id_phone_btn").removeClass();
+			$("#id_phone_btn").show();
+			$("#id_phone_btn").addClass("phone_btn");
+			$("#phont_btn").show();
+//			setTimeout(function(){
+			
+//			},120);
+			setTimeout(function(){
+				$(".p-content").hide();
+				$("#id_phone_btn").hide();
+			},180);
+			
+			init(0);
+			
+//		}
+	
+	});
+	
+	var  i = 0;
+	$("#phont_btn").click(function() {
+		
+//		alert(123);
+		$("#phont_btn").hide();
+		i++;
+//		if(i%2==0){
+		
+	
+			$("#id_phone_btn").removeClass();
+			$("#id_phone_btn").show();
+			$("#id_phone_btn").addClass("phone_btn3");
+			setTimeout(function(){
+				$(".p-content").show();
+			},50);
+	
+	});
+	
+	
+	   var screenWidth = window.outerWidth;
+	   if(screenWidth<1200){
+			$('.p-content').bind("touchmove",function(e){
+				e.preventDefault();
+				});
+	   }
+
 	// //test 活动数据
 	init(0);
 	// //初始化页码
@@ -187,6 +241,132 @@ function checkAddress(num, key) {
 }
 
 
+
+
+
+function checkType2(num, key) {
+	var size = $("#check_money2").children().length;
+	if (num == 0) {
+		for (var i = 0; i < size; i++) {
+			$("#check_money2").children().eq(i).removeClass();
+		}
+		for (var j = 0; j < size; j++) {
+			if (j == 0) {
+				$("#check_money2").children().eq(0).addClass("checked");
+			} else {
+				$("#check_money2").children().eq(j).addClass("normal");
+			}
+		}
+		typelist = [0];
+	} else {
+		$("#check_money2").children().eq(num).removeClass();
+		$("#check_money2").children().eq(0).removeClass();	
+		// }
+		if (typelist.indexOf(key) == -1) {
+			typelist[typelist.length] = key;
+			$("#check_money2").children().eq(num).addClass("checked");
+		} else {
+			typelist.remove(key);
+			$("#check_money2").children().eq(num).addClass("normal");
+		}
+		$("#check_money2").children().eq(0).addClass("normal");
+		typelist.remove(0);
+		
+		if(typelist.length==0){
+			$("#check_money2").children().eq(0).removeClass();
+			$("#check_money2").children().eq(0).addClass("checked");
+		}
+	}
+	console.log(typelist);
+	typeStr = getRequestStr(typelist);
+	console.log(typeStr);
+//	init(0);
+}
+
+
+
+function checkRange2(num, key) {
+	var size = $("#check_range2").children().length;
+	if (num == 0) {
+		for (var i = 0; i < size; i++) {
+			$("#check_range2").children().eq(i).removeClass();
+		}
+		for (var j = 0; j < size; j++) {
+			if (j == 0) {
+				$("#check_range2").children().eq(0).addClass("checked");
+			} else {
+				$("#check_range2").children().eq(j).addClass("normal");
+			}
+		}
+		rangelist = [0];
+	} else {
+		$("#check_range2").children().eq(num).removeClass();
+		$("#check_range2").children().eq(0).removeClass();	
+		// }
+		if (rangelist.indexOf(key) == -1) {
+			rangelist[rangelist.length] = key;
+			$("#check_range2").children().eq(num).addClass("checked");
+		} else {
+			rangelist.remove(key);
+			$("#check_range2").children().eq(num).addClass("normal");
+		}
+		$("#check_range2").children().eq(0).addClass("normal");
+		rangelist.remove(0);
+		
+		if(rangelist.length==0){
+			$("#check_range2").children().eq(0).removeClass();
+			$("#check_range2").children().eq(0).addClass("checked");
+		}
+	}
+	console.log(rangelist);
+	rangeStr = getRequestStr(rangelist);
+	console.log(rangeStr);
+//	init(0);
+}
+
+
+
+function checkAddress2(num, key) {
+	var size = $("#check_address2").children().length;
+	if (num == 0) {
+		for (var i = 0; i < size; i++) {
+			$("#check_address2").children().eq(i).removeClass();
+		}
+		for (var j = 0; j < size; j++) {
+			if (j == 0) {
+				$("#check_address2").children().eq(0).addClass("checked");
+			} else {
+				$("#check_address2").children().eq(j).addClass("normal");
+			}
+		}
+		addresslist = [0];
+	} else {
+		$("#check_address2").children().eq(num).removeClass();
+		$("#check_address2").children().eq(0).removeClass();	
+		// }
+		if (addresslist.indexOf(key) == -1) {
+			addresslist[addresslist.length] = key;
+			$("#check_address2").children().eq(num).addClass("checked");
+		} else {
+			addresslist.remove(key);
+			$("#check_address2").children().eq(num).addClass("normal");
+		}
+		$("#check_address2").children().eq(0).addClass("normal");
+		addresslist.remove(0);
+		
+		if(addresslist.length==0){
+			$("#check_address2").children().eq(0).removeClass();
+			$("#check_address2").children().eq(0).addClass("checked");
+		}
+	}
+	console.log(addresslist);
+	addressStr = getRequestStr(addresslist);
+	console.log(addressStr);
+//	init(0);
+}
+
+
+
 /**
  * 初始化页码
  */
@@ -260,7 +440,7 @@ function setJsonData(dataStr) {
 		contentHtml = contentHtml
 				+ '     <div class="c-item" >';
 		contentHtml = contentHtml
-				+ '     <div class="t_title" style="overflow : hidden;text-overflow: ellipsis;display: -webkit-box; -webkit-box-orient: vertical;-webkit-line-clamp: 1; max-width: 60%;overflow: hidden;font-size: ">'
+				+ '     <div class="t_title" style="overflow : hidden;text-overflow: ellipsis;display: -webkit-box; -webkit-box-orient: vertical;-webkit-line-clamp: 1; max-width: 60%;overflow: hidden; ">'
 				+ dataJsonList[i].abbrevName + '</div>';
 		contentHtml = contentHtml + '    <div class="t_c">'
 				+ dataJsonList[i].financestatus.name + '</div>';
@@ -348,21 +528,27 @@ function setJsonData(dataStr) {
 		contentHtml = contentHtml + '     </div>';
 		contentHtml = contentHtml + '  </div> ';
 		contentHtml = contentHtml + '    </a>';
-		
-		
+			
 	}
    }else{
-	   contentHtml = "<div  style='color:#323232;font-size:18px;margin-top:40px;'>暂无数据</div>"
+	   contentHtml = "<div  style='color:#323232;font-size:18px;margin-top:40px;'>暂无项目</div>"
    }
    
    var screenWidth = window.outerWidth;
    if(screenWidth>1199){
 	   $("#id_cards").html(contentHtml);
 	 }else{
-		 $("#new_list_more").remove();
-		   contentHtml = contentHtml + '</div><div class="content-item" id="new_list_more"> <div class="content-more" onclick="getmore();">查看更多</div> </div>';
+		 if(pageindex==0){
+			 $("#new_list_more").remove();
+			   contentHtml = contentHtml + '</div><div class="content-item" id="new_list_more"> <div class="content-more" onclick="getmore();">查看更多</div> </div>';
+			  $("#id_cards").html(contentHtml);
+		 }else{
+			 $("#new_list_more").remove();
+			   contentHtml = contentHtml + '</div><div class="content-item" id="new_list_more"> <div class="content-more" onclick="getmore();">查看更多</div> </div>';
+		
+			  $("#id_cards").append(contentHtml);
+		 }
 	
-		  $("#id_cards").append(contentHtml);
 	 }
    
 }

@@ -734,12 +734,19 @@ public class ActionController extends BaseController {
 
 			set.add(u.getName());
 		}
-		Users user = this.userManager.findUserById(userIdd);
-		Attention att = this.actionManager.findAttentionByActionIdAndUser(action, user);
-		if(att!=null)
+		
+		if(userIdd!=null)
 		{
-			action.setAttended(true);
+			Users user = this.userManager.findUserById(userIdd);
+			Attention att = this.actionManager.findAttentionByActionIdAndUser(action, user);
+			if(att!=null)
+			{
+				action.setAttended(true);
+			}
+		}else{
+			action.setAttended(false);
 		}
+	
 		map.put("prises", set);
 		map.put("attends", l);
 		map.put("action", action);

@@ -65,5 +65,6 @@
 	<bean id="messageManager" class="com.message.manager.MessageMananger"></bean>
 	<bean id="mainManager" class="com.message.manager.MainManager"></bean>
 	<bean id="imManager" class="com.jinzht.web.manager.ImManager"></bean>
+	<bean id="courseManager" class="com.jinzht.web.manager.CourseManager"></bean>
 
 </beans>

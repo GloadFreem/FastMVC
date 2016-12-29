@@ -5,7 +5,7 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-			
+
 	Integer contentId = -1;
 %>
 
@@ -19,9 +19,12 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1" />
 <link rel="stylesheet" href="css/app.v2.css" type="text/css" />
-<link rel="stylesheet" href="css/fileupload/fileinput.css" type="text/css" />
+<link rel="stylesheet" href="css/fileupload/fileinput.css"
+	type="text/css" />
 <link rel="stylesheet" href="js\calendar/bootstrap_calendar.css"
 	type="text/css" cache="false" />
+
+<script src="js/app.v2.js"></script>
 <!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
 </head>
 <body>
@@ -33,11 +36,13 @@
 </html>
 
 <script>
-	
-	 $(function () { $('#modal').on('show.bs.modal', function (e) {
-      $(this).find('#confirm').attr('href', $(e.relatedTarget).data('href'));
-      })
-   });
-   
+	$(function() {
+		$('#modal').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('#confirm').attr('href',
+							$(e.relatedTarget).data('href'));
+				})
+	});
 </script>
 

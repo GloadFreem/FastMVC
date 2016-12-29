@@ -1,0 +1,165 @@
+.content-bg-about {
+    width: 100%;
+    background: url(../img/project/about.png) no-repeat;
+    background-size: 100%;
+    height: 260px;
+    float: left;
+}
+
+
+.content-bg-address {
+    width: 100%;
+    background: url(../img/project/address.png) no-repeat;
+    background-size: 100%;
+    height: 260px;
+    float: left;
+}
+
+.content-bg-service {
+    width: 100%;
+    background: url(../img/project/service.png) no-repeat;
+    background-size: 100%;
+        height: 260px;
+    float: left;
+}
+
+.content-bg-policy {
+    width: 100%;
+    background: url(../img/project/ad_policy.png) no-repeat;
+    background-size: 100%;
+    height: 260px;
+    float: left;
+}
+.title2{
+		width:20%;
+	font-size:20px;
+	background:#fff;
+	color:#6d6d6d;
+		font-weight:bold;
+	text-align: left;;
+		line-height: 20px;
+		float:left;
+}
+.title{
+		width:20%;
+		margin-left:40%;
+	font-size:26px;
+	background:#fff;
+	color:#6d6d6d;
+	text-align: center;;
+		line-height: 30px;
+		float:left;
+		margin-top:-20px;
+}
+
+.l2{
+	width:100%;
+	height:10px;
+
+	margin-top:10px;	
+	 background: url(../img/project/ab_line.png) no-repeat;
+	margin-bottom:0px;
+	float:left;
+
+}
+.l{
+	width:100%;
+	height:1px;
+		margin-top:50px;
+	background:#cccccc;
+			float:left;
+
+}
+.l-top{
+		margin-top:28px;	
+}
+
+.line-title{
+		width:100%;
+		text-indent:25px;
+		margin-bottom:10px;
+	font-size:18px;
+	color:#6d6d6d;
+    background: url(../img/project/ad_icon.png) no-repeat left;
+	text-align: left;;
+	line-height: 24px;
+			float:left;
+}
+.line-left{
+		width:100%;
+	font-size:14px;
+	color:#6d6d6d;
+
+	text-align: left;;
+	line-height: 26px;
+			float:left;
+}
+.line{
+	width:100%;
+	font-size:14px;
+	color:#6d6d6d;
+
+	text-align: center;;
+	line-height: 26px;
+			float:left;
+}
+
+.lie-line{
+	 
+	    width:100%;
+	    height:60px;
+	    border-left: 1px solid #5e85bf;
+	    text-align: left;
+	    	float:left;
+}
+
+.lie-line .icon-b{
+	   background: url(../img/project/ad_point_b.png) no-repeat left;
+	   width:4.0%;
+	   height:30px;
+	   float:left;
+	    margin-top:-8px;
+	   margin-left:-15px;
+}
+
+.lie-line .icon-s{
+	   background: url(../img/project/ad_point_s.png) no-repeat left;
+	   width:3%;
+	   height:30px;
+	   float:left;
+	  
+	   margin-left:-6px;
+	   margin-top:-6px;
+}
+
+
+.lie-line .left{
+	   width:7%;
+	   height:30px;
+	    color:#5e85bf;
+	   float:left;
+	   font-size:24px;
+	   line-height:30px;
+	   margin-left:15px;
+	   	   margin-top:-8px;
+}
+
+.lie-line .right{
+	  width:60%;
+	   height:30px;
+	   float:left;
+	   font-size:18px;
+	       color:#323232;
+	   margin-left:15px;
+}
+
+.card{
+	  background: url(../img/project/ad_bg.png) no-repeat ;
+	   width:100%;
+	   height:454px;;
+	   padding:120px;
+	   padding-left:160px;
+	   font-weight:bold;
+	   float:left;
+	   text-align: left;
+}

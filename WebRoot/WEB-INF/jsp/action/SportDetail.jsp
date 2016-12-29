@@ -6,9 +6,12 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-			
-			String contentId = request.getParameter("contentId").toString();
-			String userId = request.getParameter("userId").toString();
+
+	String contentId = request.getParameter("contentId").toString();
+	String userId=null;
+	if (request.getParameter("userId") != null) {
+		userId = request.getParameter("userId").toString();
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -306,6 +309,7 @@ body {
 	font-size: 18px;
 	border-radius: 25px;
 }
+
 .tip-content-disable {
 	background-color: gray;
 	width: 80%;
@@ -327,8 +331,12 @@ body {
 				dataType : 'json',
 				type : 'post',
 				data : {
-					contentId : <%=contentId%>,
-					userId : <%=userId%>,
+					contentId :
+<%=contentId%>
+	,
+					userId :
+<%=userId%>
+	,
 					content : "",
 				},
 
@@ -348,7 +356,7 @@ body {
 			$('#modal').modal('hide');
 			$(".tip-content").css("background-color", "gray");
 			$(".tip-content").text("已报名");
-			$(".tip-content").attr("disabled","disabled");
+			$(".tip-content").attr("disabled", "disabled");
 		});
 	});
 </script>
@@ -488,7 +496,7 @@ body {
 	</div>
 	<div style="width:100%;height:250px">&nbsp;</div>
 
-	<div class="footer-tip">
+	<%-- 	<div class="footer-tip">
 		<c:choose>
 			<c:when test="${action.attended}">
 				<div class="tip-content-disable" disabled="disabled">已报名</div>
@@ -497,7 +505,7 @@ body {
 				<div class="tip-content">立即报名</div>
 			</c:otherwise>
 		</c:choose>
-	</div>
+	</div> --%>
 
 	<div id="modal" class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">

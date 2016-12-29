@@ -117,6 +117,17 @@
 				<value>com.jinzht.web.entity.Actionintroduce</value>
 				<value>com.jinzht.web.entity.Webcontenttype</value>
 				<value>com.jinzht.web.entity.Webcontentimages</value>
+				<value>com.jinzht.web.entity.BusinessSchool</value>
+				<value>com.jinzht.web.entity.BusinessContentType</value>
+				<value>com.jinzht.web.entity.BusinessInvitationCode</value>
+				<value>com.jinzht.web.entity.BusinessJionRecord</value>
+				<value>com.jinzht.web.entity.BusinessType</value>
+				<value>com.jinzht.web.entity.BusinessVideo</value>
+				<value>com.jinzht.web.entity.BusinessWeichat</value>
+				<value>com.jinzht.web.entity.BusniessJoin</value>
+				<value>com.jinzht.web.entity.BusniessTag</value>
+				<value>com.jinzht.web.entity.UserWechat</value>
+				<value>com.jinzht.web.entity.Speechmarker</value>
 
 				<value>com.message.Enity.Webrule</value>
 				<value>com.message.Enity.MsgImages</value>
@@ -621,6 +632,71 @@
 	</bean>
 	<bean id="PropertychargesDAO"
 		class="com.jinzht.web.entity.PropertychargesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusniessTagDAO"
+		class="com.jinzht.web.entity.BusniessTagDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusniessJoinDAO"
+		class="com.jinzht.web.entity.BusniessJoinDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessInvitationCodeDAO"
+		class="com.jinzht.web.entity.BusinessInvitationCodeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessVideoDAO"
+		class="com.jinzht.web.entity.BusinessVideoDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessSchoolDAO"
+		class="com.jinzht.web.entity.BusinessSchoolDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessTypeDAO"
+		class="com.jinzht.web.entity.BusinessTypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessWeichatDAO"
+		class="com.jinzht.web.entity.BusinessWeichatDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="UserWechatDAO"
+		class="com.jinzht.web.entity.UserWechatDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessContentTypeDAO"
+		class="com.jinzht.web.entity.BusinessContentTypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessJionRecordDAO"
+		class="com.jinzht.web.entity.BusinessJionRecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SpeechmarkerDAO" class="com.jinzht.web.entity.SpeechmarkerDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

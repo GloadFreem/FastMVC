@@ -526,4 +526,40 @@ public class WebController extends BaseController {
 		}
 		return getResult();
 	}
+	
+	/***
+	 * 关于我们
+	 * @return
+	 */
+	@RequestMapping(value = "/web/about.action")
+	public String aboutUs() {
+		return "/web/html/content/about";
+	}
+	
+	/***
+	 * 联系我们
+	 * @return
+	 */
+	@RequestMapping(value = "/web/address.action")
+	public String addressUs() {
+		return "/web/html/content/address";
+	}
+	
+	/***
+	 * 服务条款
+	 * @return
+	 */
+	@RequestMapping(value = "/web/service.action")
+	public String service() {
+		return "/web/html/content/service";
+	}
+	
+	/***
+	 * 免责声明
+	 * @return
+	 */
+	@RequestMapping(value = "/web/policy.action")
+	public String policy() {
+		return "/web/html/content/policy";
+	}
 }

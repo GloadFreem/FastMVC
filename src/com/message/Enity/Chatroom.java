@@ -11,11 +11,14 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Chatroom entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "chatroom", catalog = "jinzht2016")
+@JsonIgnoreProperties(value={"businessSchools"})
 public class Chatroom implements java.io.Serializable {
 
 	// Fields
