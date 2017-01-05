@@ -464,6 +464,15 @@ public class AuthenticController extends BaseController {
 				{
 					MailUtil mu = new MailUtil();
 					try {
+						// 发送用户注册成功短信
+						MsgUtil SMS = new MsgUtil();
+						SMS.setTelePhone(user.getTelephone());
+						SMS.setMsgType(MessageType.NormalMessage);
+						// 短信内容：感谢你注册金指投--专注中国成长型企业股权投融资
+						SMS.setContent(Config.STRING_SMS_INVESTOR_SUBMIT);
+						// 发送短信
+						MsgUtil.send();
+						
 						mu.sendUserAuthentic(mu,user.getTelephone());
 					} catch (Exception e) {
 						// TODO Auto-generated catch block

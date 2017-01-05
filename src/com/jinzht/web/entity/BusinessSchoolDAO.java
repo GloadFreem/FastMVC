@@ -206,6 +206,22 @@ public class BusinessSchoolDAO {
 	}
 	
 	
+	public List findByValidPage(Integer page) {
+		log.debug("finding all BusinessSchool instances");
+		try {
+			String queryString = "from BusinessSchool as model  where model.bValid=? ";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setParameter(0, true);
+			queryObject.setFirstResult(page*Config.Page_Data_Size);
+			queryObject.setMaxResults(Config.Page_Data_Size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	
 	public List findByUserAndPage(Users user,Integer page) {
 		log.debug("finding all BusinessSchool instances");
 		try {

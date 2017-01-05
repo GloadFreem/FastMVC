@@ -5,11 +5,11 @@
 		<section class="scrollable padder">
 			<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
 				<li><a href="index.action"><i class="fa fa-home"></i> 首页</a></li>
-				<li><a href="index.action"><i class="fa"></i> 广告管理</a></li>
-				<li><a href="index.action"><i class="fa"></i> 资讯Banner</a></li>
+				<li><a href="index.action"><i class="fa"></i> 运营管理</a></li>
+				<li><a href="index.action"><i class="fa"></i> 人员列表</a></li>
 			</ul>
 			<section class="panel panel-default">
-				<header class="panel-heading"> 聊天室列表 </header>
+				<header class="panel-heading"> 人员列表 </header>
 				<div class="row text-sm wrapper">
 					<div class="col-sm-4 hidden-xs">
 						<select class="input-sm form-control input-s-sm inline">
@@ -66,10 +66,10 @@
 											<td>${item.name}</td>
 											<td>${item.telephone}</td>
 											<td>${item.wcode}</td>
-											<td><a href="workerDetail.action?contentId=${item.wid }" class="active"><i
+											<td><a href="workerDetail.action?contentId=${item.wid }&menu=1&sortmenu=5&submenu=1" class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a
-												href="#modal" data-href="deleteWorker.action?contentId=${item.wid }" data-toggle="modal"
+												href="#modal" data-href="deleteWorker.action?contentId=${item.wid }&menu=1&sortmenu=5&submenu=1" data-toggle="modal"
 												class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>

@@ -40,6 +40,7 @@ import com.jinzht.tools.Config;
 import com.jinzht.tools.DateUtils;
 import com.jinzht.tools.FileUtil;
 import com.jinzht.tools.MD5;
+import com.jinzht.tools.MailUtil;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
 import com.jinzht.tools.PushUtil;
@@ -460,9 +461,9 @@ public class WebAdminController extends BaseController {
 		list = new ArrayList();
 		if (session.getAttribute(type) != null) {
 			session.setAttribute(type, null);
-//			list = (ArrayList) session.getAttribute(type);
+			// list = (ArrayList) session.getAttribute(type);
 		}
-		
+
 		// session.setAttribute(type, null);
 
 		this.result = new HashMap();
@@ -1645,7 +1646,7 @@ public class WebAdminController extends BaseController {
 		Map m = new HashMap();
 		if (name != null) {
 			Action action = this.actionManaer.findActionById(actionId);
-			
+
 			Actionimages image = new Actionimages();
 			image.setUrl(name);
 
@@ -2315,6 +2316,70 @@ public class WebAdminController extends BaseController {
 
 			// 保存
 			this.authenticManager.updateAuthentic(authentic);
+
+			// 信息通知
+			final Users u = this.userManager.getUserDao().findById(
+					authentic.getUsers().getUserId());
+			final Integer s = Integer.parseInt(status);
+			
+			final WebAdminController self=this;
+			// 审核通过
+			// 短信
+			new Thread() {
+				public void run() {
+					String content = "";
+					if (s==8) {
+						content = Config.STRING_SMS_AUTH_TRUE;
+
+					} else if (s==9) {
+						content = Config.STRING_SMS_AUTH_FALSE;
+						// 审核失败
+					}
+					
+					System.out.println(content);
+					try {
+						// 发送用户注册成功短信
+						MsgUtil SMS = new MsgUtil();
+						SMS.setTelePhone(u.getTelephone());
+						SMS.setMsgType(MessageType.NormalMessage);
+						// 短信内容：感谢你注册金指投--专注中国成长型企业股权投融资
+						SMS.setContent(content);
+						// 发送短信
+						MsgUtil.send();
+						// 发送注册成功邮件
+						MailUtil mu = new MailUtil();
+						try {
+							mu.sendAuthentic(mu, u.getName(), u.getTelephone(),
+									s);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						//审核通过系统消息
+						Systemmessage message = new Systemmessage();
+						message.setUsers(u);
+						message.setContent(content);
+						message.setIsRead(false);
+						message.setTitle("用户认证审核结果:");
+						message.setMessageDate(new Date());
+						
+						Messagetype type = new Messagetype();
+						type.setMessageTypeId(2);
+						
+						message.setMessagetype(type);
+						
+						
+						//保存
+						self.systemManger.getSystemMessageDao().save(message);
+						
+						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}.start();
+
 		} else {
 			authentic = new Authentic();
 
@@ -2709,16 +2774,15 @@ public class WebAdminController extends BaseController {
 		} else {
 			this.actionManaer.getActionDao().save(action);
 		}
-		
-		if(action.getUrl()==null ||action.getUrl()=="")
-		{
-			String actionUrl = String.format(Config.ACTION_URL, Config.STRING_SYSTEM_ADDRESS,action.getActionId());
+
+		if (action.getUrl() == null || action.getUrl() == "") {
+			String actionUrl = String.format(Config.ACTION_URL,
+					Config.STRING_SYSTEM_ADDRESS, action.getActionId());
 			action.setUrl(actionUrl);
-			
+
 			this.actionManaer.saveOrUpdate(action);
 		}
-		
-		
+
 		map.put("action", action);
 		return "/admin/action/editorAction";
 	}
@@ -5329,7 +5393,8 @@ public class WebAdminController extends BaseController {
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			ModelMap map) {
 		if (contentId != null) {
-			Original msg = this.mainManager.getOrigianlDao().findById(contentId);
+			Original msg = this.mainManager.getOrigianlDao()
+					.findById(contentId);
 			this.mainManager.getOrigianlDao().delete(msg);
 		}
 
@@ -5377,173 +5442,177 @@ public class WebAdminController extends BaseController {
 
 		return "admin/NewsContent/articesList";
 	}
-	
-	/***    ---------------------------------------------后端管理系统升级-------------------------------------------***/
+
+	/***
+	 * ---------------------------------------------后端管理系统升级--------------------
+	 * -----------------------
+	 ***/
 	/***
 	 * 首页
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/index")
-	public String requestIndexPage(
-			ModelMap map,
-			HttpSession session)
-	{
-		map.put("content","content");
+	@RequestMapping(value = "newSystem/index")
+	public String requestIndexPage(ModelMap map, HttpSession session) {
+		map.put("content", "content");
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	
+
 	/***
 	 * 资讯内容
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/news")
-	public String requestNewsPage(
-			ModelMap map,
-			HttpSession session)
-	{
-		map.put("content","buttons");
+	@RequestMapping(value = "newSystem/news")
+	public String requestNewsPage(ModelMap map, HttpSession session) {
+		map.put("content", "buttons");
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	
+
 	/***
 	 * 资讯内容
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/notebook")
-	public String requestNotebook(
-			ModelMap map,
-			HttpSession session)
-	{
-		map.put("content","notebook");
+	@RequestMapping(value = "newSystem/notebook")
+	public String requestNotebook(ModelMap map, HttpSession session) {
+
+		map.put("content", "notebook");
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	
+
 	/***
 	 * 资讯Banner
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/newsBanner")
+	@RequestMapping(value = "newSystem/newsBanner")
 	public String requestNewsBanner(
-			@RequestParam(value="page",required=false)Integer page,
-			@RequestParam(value="size",required=false)Integer size,
-			ModelMap map,
-			HttpSession session)
-	{
-		
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map, HttpSession session) {
+
 		List list = this.messageManager.getNewsbannerDAO().findAll();
-		
-		
-		map.put("content","table-news-banner");
-		map.put("result",list);
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+		map.put("content", "table-news-banner");
+		map.put("result", list);
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	
+
 	/***
 	 * 删除资讯Banner
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/delNewsBanner")
+	@RequestMapping(value = "newSystem/delNewsBanner")
 	public String requestDelNewsBanner(
-			@RequestParam(value="contentId",required=false)Integer contentId,
-			ModelMap map,
-			HttpSession session)
-	{
-		
-		if(contentId!=null)
-		{
-			Newsbanner banner = this.messageManager.getNewsbannerDAO().findById(contentId);
-			if(banner!=null)
-			{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map, HttpSession session) {
+
+		if (contentId != null) {
+			Newsbanner banner = this.messageManager.getNewsbannerDAO()
+					.findById(contentId);
+			if (banner != null) {
 				this.messageManager.getNewsbannerDAO().delete(banner);
 			}
-			
+
 		}
-		
-		
+
 		List list = this.messageManager.getNewsbannerDAO().findAll();
-		
-		map.put("content","table-news-banner");
-		map.put("result",list);
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+		map.put("content", "table-news-banner");
+		map.put("result", list);
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
+
 	/***
 	 * 资讯Banner详情
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/newBannerDetail")
+	@RequestMapping(value = "newSystem/newBannerDetail")
 	public String newBannerDetail(
-			@RequestParam(value="contentId",required=false)Integer contentId,
-			ModelMap map,
-			HttpSession session)
-	{
-		
-		if(contentId!=null)
-		{
-			Newsbanner banner = this.messageManager.getNewsbannerDAO().findById(contentId);
-			if(banner!=null)
-			{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map, HttpSession session) {
+
+		if (contentId != null) {
+			Newsbanner banner = this.messageManager.getNewsbannerDAO()
+					.findById(contentId);
+			if (banner != null) {
 				map.put("data", banner);
 			}
 		}
-		
-		map.put("content","newBannerContent");
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+		map.put("content", "newBannerContent");
 		return Config.NEW_SERVER_CONTROL;
 	}
+
 	/***
 	 * 编辑Banner详情
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/editNewBanner")
+	@RequestMapping(value = "newSystem/editNewBanner")
 	public String editNewBanner(
-			@RequestParam(value="contentId",required=false)Integer contentId,
-			@RequestParam(value="desc",required=false)String desc,
-			@RequestParam(value="image",required=false)String image,
-			@RequestParam(value="url",required=false)String url,
-			@RequestParam(value="file",required=false)MultipartFile[] images,
-			ModelMap map,
-			HttpSession session)
-	{
-		
-		if(contentId!=null)
-		{
-			Newsbanner banner = this.messageManager.getNewsbannerDAO().findById(contentId);
-			if(banner!=null)
-			{
-				//更新
-				if(desc!=null)
-				{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "desc", required = false) String desc,
+			@RequestParam(value = "image", required = false) String image,
+			@RequestParam(value = "url", required = false) String url,
+			@RequestParam(value = "file", required = false) MultipartFile[] images,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map, HttpSession session) {
+
+		if (contentId != null) {
+			Newsbanner banner = this.messageManager.getNewsbannerDAO()
+					.findById(contentId);
+			if (banner != null) {
+				// 更新
+				if (desc != null) {
 					banner.setDesc(desc);
 				}
-				
-				if(image!=null)
-				{
+
+				if (image != null) {
 					banner.setImage(image);
 				}
-				
-				if(url!=null)
-				{
+
+				if (url != null) {
 					banner.setUrl(url);
 				}
-				
+
 				// 保存图片
 				String fileName = "";
 				String result = "";
@@ -5568,150 +5637,160 @@ public class WebAdminController extends BaseController {
 
 						}
 					}
-					
-					if(fileName!=null && fileName!="")
-					{
+
+					if (fileName != null && fileName != "") {
 						banner.setImage(fileName);
-					}else{
-						if(image!=null && image!="")
-						{
+					} else {
+						if (image != null && image != "") {
 							banner.setImage(image);
 						}
 					}
 				}
-				
-				//保存
+
+				// 保存
 				this.messageManager.getNewsbannerDAO().saveOrUpdate(banner);
 				map.put("data", banner);
 			}
 		}
-		
-		map.put("content","newBannerContent");
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+		map.put("content", "newBannerContent");
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	
+
 	/***
 	 * 原创Banner
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/originalBanner")
+	@RequestMapping(value = "newSystem/originalBanner")
 	public String originalNewsBanner(
-			@RequestParam(value="page",required=false)Integer page,
-			@RequestParam(value="size",required=false)Integer size,
-			ModelMap map,
-			HttpSession session)
-	{
-		
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map, HttpSession session) {
+
 		List list = this.messageManager.getOriginalbannerDAO().findAll();
-		
-		map.put("content","table-original-banner");
-		map.put("result",list);
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+		map.put("content", "table-original-banner");
+		map.put("result", list);
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	
+
 	/***
 	 * 删除原创Banner
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/delOriginalBanner")
+	@RequestMapping(value = "newSystem/delOriginalBanner")
 	public String requestDelOriginalBanner(
-			@RequestParam(value="contentId",required=false)Integer contentId,
-			ModelMap map,
-			HttpSession session)
-	{
-		
-		if(contentId!=null)
-		{
-			Originalbanner banner = this.messageManager.getOriginalbannerDAO().findById(contentId);
-			if(banner!=null)
-			{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map, HttpSession session) {
+
+		if (contentId != null) {
+			Originalbanner banner = this.messageManager.getOriginalbannerDAO()
+					.findById(contentId);
+			if (banner != null) {
 				this.messageManager.getOriginalbannerDAO().delete(banner);
 			}
-			
+
 		}
-		
-		
+
 		List list = this.messageManager.getOriginalbannerDAO().findAll();
-		
-		map.put("content","table-original-banner");
-		map.put("result",list);
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+		map.put("content", "table-original-banner");
+		map.put("result", list);
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
+
 	/***
 	 * 原创Banner详情
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/originalBannerDetail")
+	@RequestMapping(value = "newSystem/originalBannerDetail")
 	public String originalBannerDetail(
-			@RequestParam(value="contentId",required=false)Integer contentId,
-			ModelMap map,
-			HttpSession session)
-	{
-		
-		if(contentId!=null)
-		{
-			Originalbanner banner = this.messageManager.getOriginalbannerDAO().findById(contentId);
-			if(banner!=null)
-			{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map, HttpSession session) {
+
+		if (contentId != null) {
+			Originalbanner banner = this.messageManager.getOriginalbannerDAO()
+					.findById(contentId);
+			if (banner != null) {
 				map.put("data", banner);
 			}
 		}
-		
-		map.put("content","originalBannerContent");
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+		map.put("content", "originalBannerContent");
 		return Config.NEW_SERVER_CONTROL;
 	}
+
 	/***
 	 * 编辑Banner详情
+	 * 
 	 * @param map
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="newSystem/editOriginalBanner")
+	@RequestMapping(value = "newSystem/editOriginalBanner")
 	public String editOriginalBanner(
-			@RequestParam(value="contentId",required=false)Integer contentId,
-			@RequestParam(value="desc",required=false)String desc,
-			@RequestParam(value="image",required=false)String image,
-			@RequestParam(value="url",required=false)String url,
-			@RequestParam(value="file",required=false)MultipartFile[] images,
-			ModelMap map,
-			HttpSession session)
-	{
-		
-		if(contentId!=null)
-		{
-			Originalbanner banner = this.messageManager.getOriginalbannerDAO().findById(contentId);
-			if(banner!=null)
-			{
-				//更新
-				if(desc!=null)
-				{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "desc", required = false) String desc,
+			@RequestParam(value = "image", required = false) String image,
+			@RequestParam(value = "url", required = false) String url,
+			@RequestParam(value = "file", required = false) MultipartFile[] images,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map, HttpSession session) {
+
+		if (contentId != null) {
+			Originalbanner banner = this.messageManager.getOriginalbannerDAO()
+					.findById(contentId);
+			if (banner != null) {
+				// 更新
+				if (desc != null) {
 					banner.setDesc(desc);
 				}
-				
-				if(image!=null)
-				{
+
+				if (image != null) {
 					banner.setImage(image);
 				}
-				
-				if(url!=null)
-				{
+
+				if (url != null) {
 					banner.setUrl(url);
 				}
-				
+
 				// 保存图片
 				String fileName = "";
 				String result = "";
 				if (images != null && images.length > 0) {
-					
+
 					MultipartFile file = null;
 					Set items = new HashSet();
 					for (int i = 0; i < images.length; i++) {
@@ -5728,87 +5807,87 @@ public class WebAdminController extends BaseController {
 							} else {
 								fileName = "";
 							}
-							
+
 						}
 					}
-					
-					if(fileName!=null && fileName!="")
-					{
+
+					if (fileName != null && fileName != "") {
 						banner.setImage(fileName);
-					}else{
-						if(image!=null && image!="")
-						{
+					} else {
+						if (image != null && image != "") {
 							banner.setImage(image);
 						}
 					}
 				}
-				
-				//保存
+
+				// 保存
 				this.messageManager.getOriginalbannerDAO().saveOrUpdate(banner);
 				map.put("data", banner);
 			}
 		}
-		
-		map.put("content","originalBannerContent");
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+		map.put("content", "originalBannerContent");
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	
-	
-	//聊天室页面
-	@RequestMapping(value="newSystem/createChatRoomPage")
+
+	// 聊天室页面
+	@RequestMapping(value = "newSystem/createChatRoomPage")
 	public String createChatRoomPage(
-			@RequestParam(value="contentId",required=false)Integer contentId,
-			ModelMap map)
-	{
-		if(contentId!=null)
-		{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map) {
+		if (contentId != null) {
 			Chatroom room = this.imManager.getChatRoomDao().findById(contentId);
 			map.put("data", room);
-			Integer userId =Integer.parseInt(room.getOwner()) ;
-			Users u=this.userManager.findUserById(userId);
+			Integer userId = Integer.parseInt(room.getOwner());
+			Users u = this.userManager.findUserById(userId);
 			map.put("img", u.getHeadSculpture());
 		}
-		
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
 		map.put("content", "createChatRoom");
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	
-	//聊天室添加
-	@RequestMapping(value="newSystem/createChatRoom")
+
+	// 聊天室添加
+	@RequestMapping(value = "newSystem/createChatRoom")
 	public String createChatRoom(
-			@RequestParam(value="name")String  name,
-			@RequestParam(value="desc")String  desc,
-			@RequestParam(value="maxusers")Integer  maxusers,
-			@RequestParam(value="owner")Integer  userId,
-			@RequestParam(value="projectId")Integer  projectId,
-			@RequestParam(value="contentId")Integer  contentId,
-			ModelMap map)
-	{
+			@RequestParam(value = "name") String name,
+			@RequestParam(value = "desc") String desc,
+			@RequestParam(value = "maxusers") Integer maxusers,
+			@RequestParam(value = "owner") Integer userId,
+			@RequestParam(value = "projectId") Integer projectId,
+			@RequestParam(value = "contentId") Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map) {
 		Users u = this.userManager.findUserById(userId);
-		Chatroom room ;
-		if(contentId!=null)
-		{
-			room=this.imManager.getChatRoomDao().findById(contentId);
-		}else{
-			room=new Chatroom();
+		Chatroom room;
+		if (contentId != null) {
+			room = this.imManager.getChatRoomDao().findById(contentId);
+		} else {
+			room = new Chatroom();
 		}
-		
-		if(contentId==null)
-		{
+
+		if (contentId == null) {
 			Map result = this.imManager.createChatRoom(name, desc, maxusers, u);
-			if(result.get("data")!=null)
-			{
-				Map m  = (Map) result.get("data");
-				String id =m.get("id").toString();
+			if (result.get("data") != null) {
+				Map m = (Map) result.get("data");
+				String id = m.get("id").toString();
 				room.setCode(id);
-						
+
 			}
 			map.put("result", result);
 		}
-		
-		
+
 		room.setName(name);
 		room.setDescription(desc);
 		room.setMaxusers(maxusers);
@@ -5817,60 +5896,73 @@ public class WebAdminController extends BaseController {
 		room.setOwnerName(u.getName());
 		room.setOwner(String.valueOf(userId));
 		room.setExt(String.valueOf(projectId));
-		
-		if(contentId!=null)
-		{
+
+		if (contentId != null) {
 			this.imManager.getChatRoomDao().saveOrUpdate(room);
-		}else{
+		} else {
 			this.imManager.getChatRoomDao().save(room);
 		}
-		
-		
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
 		map.put("img", u.getHeadSculpture());
 		map.put("data", room);
 		map.put("content", "createChatRoom");
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	//聊天室列表
-	@RequestMapping(value="newSystem/chatRoomList")
+
+	// 聊天室列表
+	@RequestMapping(value = "newSystem/chatRoomList")
 	public String chatRoomList(
-			@RequestParam(value="size",required=false)Integer  size,
-			@RequestParam(value="page",required=false)Integer  page,
-			ModelMap map)
-	{
-		
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map) {
+
 		List list = this.imManager.getChatRoomDao().findAll();
-		
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+
 		map.put("result", list);
 		map.put("content", "table-chatroom-banner");
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	
-	//删除聊天室
-	@RequestMapping(value="newSystem/deleteChatRoom")
+
+	// 删除聊天室
+	@RequestMapping(value = "newSystem/deleteChatRoom")
 	public String deleteChatRoom(
-			@RequestParam(value="contentId",required=false)Integer  contentId,
-			ModelMap map)
-	{
-		
-		if(contentId!=null)
-		{
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map) {
+
+		if (contentId != null) {
 			Chatroom room = this.imManager.getChatRoomDao().findById(contentId);
-			
-			if(room!=null){
+
+			if (room != null) {
 				this.imManager.getChatRoomDao().delete(room);
 			}
 		}
-		
+
 		List list = this.imManager.getChatRoomDao().findAll();
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
 		map.put("result", list);
 		map.put("content", "table-chatroom-banner");
 		return Config.NEW_SERVER_CONTROL;
 	}
-	
-	
-	/***    ---------------------------------------------后端管理系统升级-------------------------------------------***/
-	
+
+	/***
+	 * ---------------------------------------------后端管理系统升级--------------------
+	 * -----------------------
+	 ***/
+
 }

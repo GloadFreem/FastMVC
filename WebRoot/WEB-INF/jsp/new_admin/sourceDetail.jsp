@@ -8,7 +8,7 @@
 			<p>课程内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editSourceDetail.action" method="post"
+			<form action="editSourceDetail.action?menu=1&sortmenu=1&submenu=3" method="post"
 				enctype="multipart/form-data">
 				<div class="">
 					<input name="contentId" value="${data.vid}" style="display:none">
@@ -31,6 +31,14 @@
 				</li>
 
 
+				<li class="list-group-item">
+					<div class="clear">标题</div>
+				</li>
+				<li class="list-group-item"><input name="vname"
+					class="form-control alert-success" value="${data.vname }"
+					placeholder="请输入名称">
+				</div>
+				</li>
 				<li class="list-group-item">
 					<div class="clear">简介</div>
 				</li>
@@ -71,8 +79,8 @@
 				</li>
 				<li class="list-group-item">
 					<div class="clear">
-						<img alt="${data.vdesc }" src="${data.vimage }"> <input
-							name="image" class="form-control alert-success"
+						<a href="${data.vimage }" target="blank" ><img class="col-sm-4" alt="${data.vdesc }" src="${data.vimage }"></a> <input
+							name="image" class="form-control alert-success "
 							value="${data.vimage }" placeholder="请输入内容链接">
 					</div> <input name="file" id="input-1" type="file" class="file">
 					</div>

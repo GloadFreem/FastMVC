@@ -22,6 +22,7 @@ encoding//WebRoot/WEB-INF/jsp/new_admin/workerDetail.jsp=UTF-8
 encoding//WebRoot/admin/css/layout.css=UTF-8
 encoding//WebRoot/web/css/main.css=UTF-8
 encoding//src/com/jinzht/tools/HttpUtil.java=UTF-8
+encoding//src/com/jinzht/web/manager/OrderManager.java=UTF-8
 encoding//src/com/jinzht/web/manager/ProjectManager.java=UTF-8
 encoding/<project>=UTF-8
 encoding/src=UTF-8

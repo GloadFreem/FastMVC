@@ -39,14 +39,14 @@
 					</div>
 				</div>
 				<div class="table-responsive">
-					<table class="table table-striped b-t b-light text-sm text-center-xs">
+					<table
+						class="table table-striped b-t b-light text-sm text-center-xs">
 						<thead>
 							<tr>
 								<th width="20"><input type="checkbox"></th>
-								<th width="80" class="th-sortable" data-toggle="class">序号
-									<span class="th-sort"> <i class="fa fa-sort-down text"></i>
-										<i class="fa fa-sort-up text-active"></i> <i
-										class="fa fa-sort"></i>
+								<th width="80" class="th-sortable" data-toggle="class">序号 <span
+									class="th-sort"> <i class="fa fa-sort-down text"></i> <i
+										class="fa fa-sort-up text-active"></i> <i class="fa fa-sort"></i>
 								</span>
 								</th>
 								<th width="100">图片</th>
@@ -58,6 +58,7 @@
 								<th>运营</th>
 								<th>运营微信</th>
 								<th>创建时间</th>
+								<th>是否有效</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -69,7 +70,8 @@
 											<td><input type="checkbox" name="post[]"
 												value="${item.bid}"></td>
 											<td>${item.bid}</td>
-											<td><a href = "${item.bimage}"/><img alt="${item.bname}" src="${item.bimage}" class="col-xs-12"></a></td>
+											<td><a href="${item.bimage}" /><img alt="${item.bname}"
+												src="${item.bimage}" class="col-xs-12"></a></td>
 											<td>${item.bname}</td>
 											<td>${item.bdesc}</td>
 											<td>${item.speechmarker.name}</td>
@@ -78,11 +80,20 @@
 											<td>${item.businessWeichat.name}</td>
 											<td>${item.businessWeichat.wcode}</td>
 											<td>${item.bstarTime}</td>
-											<td><a href="courseDetail.action?contentId=${item.bid }" class="active"><i
-													class="fa fa-edit text-success text-active"></i><i
-													class="fa fa-edit text-danger text"></i></a> | <a
-												href="#modal" data-href="deleteChatRoom.action?contentId=${item.bid }" data-toggle="modal"
+											<td><c:choose>
+													<c:when test="${ item.bValid}">
+											有效
+											</c:when>
+													<c:otherwise>无效</c:otherwise>
+												</c:choose></td>
+
+											<td><a
+												href="courseDetail.action?contentId=${item.bid }&menu=1&sortmenu=1&submenu=1"
 												class="active"><i
+													class="fa fa-edit text-success text-active"></i><i
+													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"
+												data-href="deleteCurse.action?contentId=${item.bid }&menu=1&sortmenu=1&submenu=1"
+												data-toggle="modal" class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>
 										</tr>
@@ -144,7 +155,7 @@
 				<div class="modal-footer">
 					<input type="hidden" id="ID" name="ID" />
 					<button type="submit" class="btn btn-default" data-dismiss="modal">取消</button>
-					<a id="confirm" class="btn btn-info" >确认</a>
+					<a id="confirm" class="btn btn-info">确认</a>
 				</div>
 			</form>
 		</div>

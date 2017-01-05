@@ -54,7 +54,7 @@ public class LogInterceptor implements HandlerInterceptor {
 		String requestPath = hrequest.getServletPath();
 		
 		//官网
-		if(requestPath.contains("/web/"))
+		if(requestPath.contains("/web/") || requestPath.contains("/wechat/") )
 		{
 			return true;
 		}

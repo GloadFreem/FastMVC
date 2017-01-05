@@ -71,12 +71,11 @@
 													已失效
 												</c:otherwise>
 												</c:choose></td>
-											<td><a
-												href="codeDetail.action?contentId=${item.cid }"
+											<td><a href="codeDetail.action?contentId=${item.cid }&menu=1&sortmenu=2&submenu=1"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"
-												data-href="deleteChatRoom.action?contentId=${item.cid }"
+												data-href="deleteCode.action?contentId=${item.cid }&menu=1&sortmenu=2&submenu=1"
 												data-toggle="modal" class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>
@@ -91,12 +90,13 @@
 				<footer class="panel-footer">
 					<div class="row">
 						<div class="col-sm-4 hidden-xs">
-							<select class="input-sm form-control input-s-sm inline">
+							<select name="operate"
+								class="input-sm form-control input-s-sm inline">
 								<option value="0">修改</option>
 								<option value="1">删除</option>
 								<option value="2">导出</option>
 							</select>
-							<button class="btn btn-sm btn-default">应用</button>
+							<button id="apply" class="btn btn-sm btn-default">应用</button>
 						</div>
 						<div class="col-sm-4 text-center">
 							<small class="text-muted inline m-t-sm m-b-sm">显示 20-30 /
@@ -145,3 +145,16 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$("#apply")
+			.click(
+					function() {
+						var selector = $("select[name='operate']");
+						var selectIndex = selector.val();
+						if (selectIndex == 2) {
+							var url = "http://www.jinzht.com:8080/jinzht/newSystem/downloadInviteCode.action";
+							window.open(url);
+						}
+					});
+</script>

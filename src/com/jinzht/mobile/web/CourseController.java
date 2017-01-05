@@ -87,8 +87,7 @@ public class CourseController extends BaseController {
 			HttpSession session, ModelMap map) {
 		this.result = new HashMap();
 
-		List<BusinessSchool> list = this.courseManager.getBuinessSchoolDao()
-				.findByPage(page);
+		List<BusinessSchool> list = this.courseManager.getBuinessSchoolDao().findByValidPage(page);
 
 		Users user = this.findUserInSession(session);
 		// 封装

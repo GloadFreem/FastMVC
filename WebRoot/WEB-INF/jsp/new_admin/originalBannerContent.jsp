@@ -8,7 +8,7 @@
 			<p>资讯Banner内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editOriginalBanner.action" method="post" enctype="multipart/form-data">
+			<form action="editOriginalBanner.action?menu=2&sortmenu=0&submenu=3" method="post" enctype="multipart/form-data">
 				<div class="">
 				 <input name="contentId" value="${data.bannerId}" style="display:none">
 					<ul class="list-group gutter list-group-lg list-group-sp">

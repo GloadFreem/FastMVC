@@ -68,10 +68,10 @@
 													style="width:100px;"></a></td>
 											<td>${item.desc}</td>
 											<td><a href="${item.url}" target="blank">查看内容</a></td>
-											<td><a href="originalBannerDetail.action?contentId=${item.bannerId }" class="active"><i
+											<td><a href="originalBannerDetail.action?contentId=${item.bannerId }&menu=2&sortmenu=0&submenu=3" class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a
-												href="#modal" data-href="delOriginalBanner.action?contentId=${item.bannerId }" data-toggle="modal"
+												href="#modal" data-href="delOriginalBanner.action?contentId=${item.bannerId }&menu=2&sortmenu=0&submenu=3" data-toggle="modal"
 												class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>

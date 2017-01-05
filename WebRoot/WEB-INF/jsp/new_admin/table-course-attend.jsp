@@ -71,7 +71,7 @@
 											<td>${item.jtel}</td>
 											<td>${item.cattendtime}</td>
 											<td><a
-												href="#modal" data-href="deleteJoinRecord.action?contentId=${item.jid }" data-toggle="modal"
+												href="#modal" data-href="deleteJoinRecord.action?contentId=${item.jid }&menu=1&sortmenu=4&submenu=1" data-toggle="modal"
 												class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>

@@ -523,6 +523,32 @@ public class ImController extends BaseController {
 		this.result.put("result", result.get("data"));
 		return getResult();
 	}
+	
+	/***
+	 * 搜索
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/SearchChatRoomByName")
+	@ResponseBody
+	public Map SearchChatRoomByName(
+			@RequestParam(value = "name", required = false) String key,
+			   @RequestParam(value="menu",required=false)Integer menu,
+			   @RequestParam(value="sortmenu",required=false)Integer sortmenu,
+			   @RequestParam(value="submenu",required=false)Integer submenu,
+			ModelMap map, HttpSession session) {
+		this.result = new HashMap();
+		List list = this.imManager.getChatRoomDao().findByKeyName(key);
+		
+		
+		this.result.put("data", list);
+		this.status = 200;
+		this.message = "";
+
+		return getResult();
+	}
 
 	/************************************** 聊天室 ****************************************************/
 

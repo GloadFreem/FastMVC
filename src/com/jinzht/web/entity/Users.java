@@ -55,6 +55,7 @@ public class Users implements java.io.Serializable {
 	private String password;
 	private String headSculpture;
 	private Date lastLoginDate;
+	private Date registDate;
 	private Short platform;
 	private String wechatId;
 	private Integer extUserId;
@@ -474,6 +475,17 @@ public class Users implements java.io.Serializable {
 	
 	public void setActionshares(Set<Actionshare> actionshares) {
 		this.actionshares = actionshares;
+	}
+
+	public Date getRegistDate() {
+		return registDate;
+	}
+
+	@Column(name = "regist_date", length = 19)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
+	public void setRegistDate(Date registDate) {
+		this.registDate = registDate;
 	}
 	
 	

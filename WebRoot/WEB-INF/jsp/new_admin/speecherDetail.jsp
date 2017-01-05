@@ -8,7 +8,7 @@
 			<p>课程内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editSpeecher.action" method="post"
+			<form action="editSpeecher.action?menu=1&sortmenu=4&submenu=1" method="post"
 				enctype="multipart/form-data">
 				<div class="">
 					<input name="contentId" value="${data.markerId}"

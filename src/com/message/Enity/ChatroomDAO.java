@@ -2,15 +2,22 @@ package com.message.Enity;
 
 import java.sql.Timestamp;
 import java.util.List;
+
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import static org.hibernate.criterion.Example.create;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.jinzht.web.entity.BusinessSchool;
+import com.jinzht.web.entity.Project;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -167,6 +174,16 @@ public class ChatroomDAO {
 			log.error("find all failed", re);
 			throw re;
 		}
+	}
+	
+
+	public List<Project> findByKeyName(Object name) {
+		String sqlString = "select * from chatroom where name like ?";
+		
+		SQLQuery queryObject = getCurrentSession().createSQLQuery(sqlString).addEntity(Chatroom.class);
+		queryObject.setParameter(0, "%"+name+"%");
+		
+		return queryObject.list();
 	}
 
 	public Chatroom merge(Chatroom detachedInstance) {

@@ -377,57 +377,57 @@ div#users-contain table td, div#users-contain table th {
 							<div class="authinfo">
 								<div class="authinfo-item">
 									<!--  融资计划 -->
-									<div class <div class="name-key">音频地址</div>
-										<div class="name-value">
-											<input style="color:black" name="audio" id="audio"
-												type="file" value="选择音频">
-											<div>${scene.audioPath }</div></div>
-								</div>
-
-								<!--  已融金额 -->
-								<div class="name">
-									<div class="name-key">音频名称</div>
+									<div class="name-key">音频地址</div>
 									<div class="name-value">
-										<input style="color:black" name="audio_name" id="audio_name"
-											type="text" value="${scene.audioPath }">
+										<input style="color:black" name="audio" id="audio" type="file"
+											value="选择音频">
+										<div>${scene.audioPath }</div>
 									</div>
-								</div>
-								<c:choose>
-									<c:when test="${scene.audioPath!=null && scene.audioPath!=''}">
-										<!--  最低融资金额 -->
-										<div class="name">
-											<div class="name-key">音频</div>
-											<div class="name-value">
-												<div class="player">
-													<div class="play-start">
-														<img id="play" alt="" src="images/播放.png">
-													</div>
 
-													<div class="play-progress">
-														<div class="progress-text">00:10:34</div>
-														<div class="action-bar">
-															<img alt="" src="images/圆角矩形-5.png">
+									<!--  已融金额 -->
+									<div class="name">
+										<div class="name-key">音频名称</div>
+										<div class="name-value">
+											<input style="color:black" name="audio_name" id="audio_name"
+												type="text" value="${scene.audioPath }">
+										</div>
+									</div>
+									<c:choose>
+										<c:when test="${scene.audioPath!=null && scene.audioPath!=''}">
+											<!--  最低融资金额 -->
+											<div class="name">
+												<div class="name-key">音频</div>
+												<div class="name-value">
+													<div class="player">
+														<div class="play-start">
+															<img id="play" alt="" src="images/播放.png">
 														</div>
-														<div class="start-text">00:00:00</div>
-														<div class="progress-bar">
-															<img alt="" src="images/圆角矩形-6.png">
+
+														<div class="play-progress">
+															<div class="progress-text">00:10:34</div>
+															<div class="action-bar">
+																<img alt="" src="images/圆角矩形-5.png">
+															</div>
+															<div class="start-text">00:00:00</div>
+															<div class="progress-bar">
+																<img alt="" src="images/圆角矩形-6.png">
+															</div>
 														</div>
+														<div class="contents" id="contents"></div>
 													</div>
-													<div class="contents" id="contents"></div>
 												</div>
-											</div>
-											<!-- 音频播放 -->
-											<div>
-												<audio id="media" src="${scene.audioPath }"></audio>
-											</div>
-									</c:when>
-								</c:choose>
+												<!-- 音频播放 -->
+												<div>
+													<audio id="media" src="${scene.audioPath }"></audio>
+												</div>
+										</c:when>
+									</c:choose>
+								</div>
 							</div>
+						</c:otherwise>
+					</c:choose>
 				</div>
-				</c:otherwise>
-				</c:choose>
 			</div>
-	</div>
 	</div>
 	<div>
 		<c:choose>

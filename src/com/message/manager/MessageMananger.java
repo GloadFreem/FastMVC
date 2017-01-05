@@ -180,9 +180,9 @@ public class MessageMananger {
 	// }
 
 
-	public void saveAll(List<Msg> transientInstances) {
+	public synchronized void saveAll(List<Msg> transientInstances) {
 		for (Msg transientInstance : transientInstances) {
-			List<Msg> list = msgDao.findByPage(0, 20);
+			List<Msg> list = msgDao.findByPage(0, 30);
 			boolean isHas = false;
 			for(Msg s:list){
 				int compareNum = CompareUtil.getSimilarityRatio(s.getTitle(), transientInstance.getTitle());

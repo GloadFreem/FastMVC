@@ -217,6 +217,8 @@ public class UserController extends BaseController {
 					// 如果未找到用户记录，生成用户数据
 					if (user == null) {
 						user = userInstance;
+						//设置注册时间
+						user.setRegistDate(new Date());
 						// 添加至事务操作
 						user = this.userManger.addUser(user);
 						

@@ -5,11 +5,11 @@
 		<section class="scrollable padder">
 			<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
 				<li><a href="index.action"><i class="fa fa-home"></i> 首页</a></li>
-				<li><a href="index.action"><i class="fa"></i> 广告管理</a></li>
-				<li><a href="index.action"><i class="fa"></i> 资讯Banner</a></li>
+				<li><a href="index.action"><i class="fa"></i> 讲师管理</a></li>
+				<li><a href="index.action"><i class="fa"></i> 讲师列表</a></li>
 			</ul>
 			<section class="panel panel-default">
-				<header class="panel-heading"> 聊天室列表 </header>
+				<header class="panel-heading"> 讲师列表 </header>
 				<div class="row text-sm wrapper">
 					<div class="col-sm-4 hidden-xs">
 						<select class="input-sm form-control input-s-sm inline">
@@ -66,10 +66,10 @@
 											<td><a href = "${item.image}"/><img alt="${item.name}" src="${item.image}" class="col-xs-12"></a></td>
 											<td>${item.name}</td>
 											<td>${item.desc}</td>
-											<td><a href="speecherDetail.action?contentId=${item.markerId }" class="active"><i
+											<td><a href="speecherDetail.action?contentId=${item.markerId }&menu=1&sortmenu=4&submenu=1" class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a
-												href="#modal" data-href="deleteSpeecher.action?contentId=${item.markerId }" data-toggle="modal"
+												href="#modal" data-href="deleteSpeecher.action?contentId=${item.markerId }&menu=1&sortmenu=4&submenu=1" data-toggle="modal"
 												class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>

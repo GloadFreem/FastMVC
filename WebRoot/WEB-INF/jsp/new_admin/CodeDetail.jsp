@@ -8,7 +8,7 @@
 			<p>课程内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editCodeDetail.action" method="post"
+			<form action="editCodeDetail.action?menu=1&sortmenu=2&submenu=1" method="post"
 				enctype="multipart/form-data">
 				<div class="">
 					<input name="contentId" value="${data.cid}" style="display:none">

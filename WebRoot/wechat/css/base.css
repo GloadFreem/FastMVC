@@ -1,0 +1,377 @@
+/** {*/
+/*box-sizing: border-box;*/
+/*}*/
+
+/*!* Empty. Add your own CSS if you like *!*/
+/*body, html {*/
+/*width: 100%;*/
+/*font-size: 90%;*/
+/*padding: 0;*/
+/*margin: 0;*/
+/*font-family: -apple-system;*/
+/*font-family: "-apple-system", "Microsoft YaHei", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;*/
+/*}*/
+a {
+    text-decoration: none;
+}
+
+.head {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    height: 48px;
+    line-height: 48px;
+    background: #252525;
+    color: #ffffff;
+    z-index: 99999;
+}
+
+.head .icon {
+    width: 10%;
+    float: left;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.head .title {
+    width: 80%;
+    font-size: 0.95rem;
+    float: left;
+    text-align: center;
+}
+
+.content {
+    /*position: absolute;*/
+    width: 100%;
+    margin-top: 48px;
+    /*z-index: 10;*/
+    height: auto;
+
+}
+
+.c-listbar {
+    width: 80%;
+    height: 45px;
+    padding-left: 10%;
+    padding-right: 10%;
+    border-bottom: 1px solid #ebebeb;
+    float: left;
+}
+
+.c-listview {
+    width: 96%;
+    padding: 2%;
+    height: auto;
+    float: left;
+}
+
+.c-listbar .bar {
+    width: 20%;
+    margin-left: 15%;
+    margin-right: 15%;
+    height: 45px;
+    text-align: center;
+    line-height: 45px;
+    float: left;
+}
+
+.nornal {
+    color: #333333;
+}
+
+.actived {
+    color: #ff6700;
+    border-bottom: 2px solid #ff6700;
+}
+
+.c-img {
+    width: 100%;
+    height: 14rem;
+    /*background: url("../img/bar.jpg") no-repeat;*/
+    /*background-size: 100%;*/
+    float: left;
+}
+
+.c-page {
+    width: 100%;
+    height: 80rem;
+    float: left;
+}
+
+.eason-btn1 {
+    border-radius: 3px;
+    width: 50%;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: left;
+    text-indent: 3%;
+    color: #ff6700;
+    float: left;
+    margin-left: 3%;
+    border: 1px solid #ff6700;
+}
+
+.eason-btn1:active {
+    border-radius: 3px;
+    width: 50%;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: left;
+    text-indent: 3%;
+    /*background: #cccccc;*/
+    color: #ba4f00;
+    float: left;
+    margin-left: 3%;
+    border: 1px solid #ba4f00;
+}
+
+.logo {
+    width: 1.2rem;
+    height: 1.6rem;
+    float: left;
+    margin-top: 0.4rem;
+    margin-left: 10%;
+
+}
+
+.eason-btn2 {
+    border-radius: 3px;
+    width: 40%;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    color: #ffffff;
+    float: left;
+    margin-left: 3%;
+    margin-right: 2%;
+    border: 1px solid #ff6700;
+    background-color: #ff6700;
+}
+
+.eason-btn2:active {
+    border-radius: 3px;
+    width: 40%;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    color: #ffffff;
+    float: left;
+    margin-left: 3%;
+    margin-right: 2%;
+    border: 1px solid #ba4f00;
+    background-color: #cc5500;
+}
+
+.weui-media-box__desc2 {
+    color: #666;
+    padding-top: 6px;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.c-title {
+    text-indent: 10px;
+    color: #474747;
+    background: url("../img/hear_line.png") no-repeat;
+}
+
+.weui-media-box_appmsg2 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.padding {
+    color: #666;
+    padding: 10px;
+    padding-top: 0px;
+}
+
+.price {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.c-title2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #000000;
+    text-indent: 20px;
+    line-height: 30px;
+    height: 40px;
+    font-size: 20px;
+    text-align: left;
+}
+
+.c-price {
+    /*width: 20%;*/
+    height: 30px;
+    padding-left: 18px;
+    font-size: 20px;
+    color: #e84703;
+    font-weight: bold;
+    line-height: 25px;
+    float: left;
+}
+
+.c-price-normal {
+    margin-top: 3px;
+    padding-left: 10px;
+    font-size: 14px;
+    color: #8e8e8e;
+    text-decoration: line-through;
+    line-height: 20px;
+    float: left;
+}
+
+.c-price-normal-r {
+    margin-top: 3px;
+    padding-left: 20px;
+    font-size: 14px;
+    color: #8e8e8e;
+    line-height: 20px;
+    float: left;
+}
+
+.c-price-desc {
+    margin-top: 3px;
+    padding-left: 10px;
+    font-size: 14px;
+    color: #8e8e8e;
+    line-height: 20px;
+    float: right;
+
+}
+
+.weui-media-box_appmsg .weui-media-box__hd2 {
+    margin-right: .8em;
+    width: 90px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    /*background: url("../img/bar.jpg") no-repeat;*/
+}
+
+.weui-media-box_appmsg .weui-media-box__thumb2 {
+    position: relative;
+    width: 2rem;
+    top: 0;
+    margin-top: -45px;
+    margin-left: 30%;;
+    height: 2rem;
+    float: left;
+    /*vertical-align: ;*/
+}
+
+.weui-media-box__title2 {
+    font-weight: 400;
+    font-size: 17px;
+    width: auto;
+    line-height: 22px;
+    overflow: hidden;
+    height: 45px;
+}
+
+.weui-btn_jinzt {
+    background-color: #ff6700;
+}
+
+.weui-btn_jinzt:active {
+    background-color: #d05700;
+}
+
+.desc {
+    margin-top: 10px;
+    color: #777777;
+    text-indent: 8px;
+    padding: 10px;
+    float: left;
+    line-height: 20px;
+    font-size: 12px;
+}
+
+.desc img {
+    margin-left: 10px;
+    margin-top: 3px;
+    width: 14px;
+    height: 14px;
+    float: left;
+}
+
+.booter-text {
+    margin-top: 5px;
+
+    color: #7a7a7a;
+}
+
+.pay-bg {
+    width: 80%;
+
+    height: auto;
+
+}
+
+.zero-top {
+    margin-top: -180px
+}
+
+.zero-top2 {
+    margin-top: 35px;
+    color: #fff;
+    font-size: 16px;
+    text-align: left;
+    margin-left: 25%
+}
+
+.zero-top3 {
+    color: #fff;
+    font-size: 16px;
+    text-align: left;
+    margin-left:25%
+}
+
+@media screen and (min-width: 400px) {
+    .zero-top {
+        margin-top: -190px
+    }
+
+    .zero-top2 {
+        margin-top:40px;
+        color: #fff;
+        font-size: 16px;
+        text-align: left;
+        margin-left:30%
+    }
+    .zero-top3 {
+        color: #fff;
+        font-size: 16px;
+        text-align: left;
+        margin-left:30%
+    }
+}
+
+@media screen and (max-width: 330px) {
+    .zero-top {
+        margin-top: -170px
+    }
+
+    .zero-top2 {
+        margin-top: 30px;
+        color: #fff;
+        font-size: 16px;
+        text-align: left;
+        margin-left: 20%
+    }
+
+    .zero-top3 {
+        color: #fff;
+        font-size: 16px;
+        text-align: left;
+        margin-left: 20%
+    }
+}
+

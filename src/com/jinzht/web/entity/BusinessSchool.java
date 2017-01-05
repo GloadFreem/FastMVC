@@ -52,6 +52,7 @@ public class BusinessSchool implements java.io.Serializable {
 	private Integer blimit;
 	private String bpriceBase;
 	private String bpriceNow;
+	private boolean bValid;
 	private String bextr; // 参课人数
 	private String bextr2; // 用户是否已参课
 	private Set<BusinessVideo> businessVideos = new HashSet<BusinessVideo>(0);
@@ -242,7 +243,7 @@ public class BusinessSchool implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "businessSchool")
-	@OrderBy(value="vid asc")
+	@OrderBy(value="vposition asc")
 	public Set<BusinessVideo> getBusinessVideos() {
 		return this.businessVideos;
 	}
@@ -287,6 +288,15 @@ public class BusinessSchool implements java.io.Serializable {
 
 	public void setSpeechDesc(String speechDesc) {
 		this.speechDesc = speechDesc;
+	}
+
+	@Column(name = "bValid")
+	public boolean isbValid() {
+		return bValid;
+	}
+
+	public void setbValid(boolean bValid) {
+		this.bValid = bValid;
 	}
 
 }

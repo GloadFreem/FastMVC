@@ -48,7 +48,7 @@ public class Config {
 	public static String STRING_AUTH_SPEED_SUCCESS = "认证加速申请成功!";
 	public static String STRING_AUTH_IDENTIY_FAIL = "投资人身份添加失败!";
 	public static List<String> STRING_AUTH_QUALIFICATION = Arrays
-			.asList("'(一)《私募投资基金监督管理暂行办法》规定的合格投资者'",
+			.asList("(一)《私募投资基金监督管理暂行办法》规定的合格投资者",
 					"(二)投资单个融资项目的最低金额不低于100万元人民币的单位或个人",
 					"(三)社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，以及依法设立并在中国证券投资基金业协会备案的投资计划",
 					"(四)净资产不低于1000万元人民币的单位",
@@ -172,6 +172,15 @@ public class Config {
 			add("workerDetail.action");
 			add("editWorker.action");
 			add("deleteWorker.action");
+			add("downloadproject.action");
+			add("downloadInviteCode.action");
+			add("deleteCode.action");
+			add("requestOrderSign.action");
+			add("requestOrderSign.action");
+			add("CourseDetail.action");
+			add("deleteCurse.action");
+			add("SearchChatRoomByName.action");
+			add("deleteSource.action");
 		}
 	};
 	
@@ -428,6 +437,8 @@ public class Config {
 	public static String STRING_PUSH_CONTENT = "【金指投投融资】";
 
 	// 邮件消息
+	public static String STRING_EMIAL_AUTHENTIC_OPERATE_FAIL = "<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>管理员已将用户%s--%s于%s认证审核拒绝！</div>";
+	public static String STRING_EMIAL_AUTHENTIC_OPERATE = "<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>管理员已将用户%s--%s于%s认证审核通过！</div>";
 	public static String STRING_EMIAL_REGIST = "<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>新用户%s于%s注册账户，请以工匠心用心对待每一位来之不易的用户，让他能够充分体验金指投优质服务！</div>";
 	public static String STRING_EMIAL_AUTHENTIC = "<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>用户%s于%s认证，请尽快审核信息，请以工匠心用心对待每一位来之不易的用户，让他能够充分体验金指投优质服务！</div>";
 	public static String STRING_EMIAL_INVEST = "<div style='font-size:16px'>亲爱的金指投小伙伴:<br/>用户【%s】%s于%s认投【%s】项目%.2f万，请尽快审核信息，请以工匠心用心对待每一位来之不易的用户，让他能够充分体验金指投优质服务！</div>";

@@ -401,7 +401,7 @@
                 </c:when>
                 <c:otherwise>
                     <div>
-                    <img alt="" src=${content.content}
+                    <img alt="" src=${content.content}/>
                     </div>
                 </c:otherwise>
             </c:choose>

@@ -411,6 +411,27 @@ public class MailUtil {
 		mu.sendEmail();
 	}
 	
+	public static void sendAuthentic(MailUtil mu,String name,String telephone,Integer status) throws Exception {
+		String toEmails = Config.STRING_MAIL_SERVER_TO_EMIAL;
+//		String toEmails = Config.STRING_MAIL_SERVER_USER;
+		String subject = "用户认证审核--【金指投投融资】";
+//		StringBuilder builder = new StringBuilder();
+		String dateString = DateUtils.dateToString(new Date(),"YYYY-MM-DD HH:MM:SS");
+		String content = String.format(Config.STRING_EMIAL_AUTHENTIC_OPERATE,name, telephone,dateString);
+		if(status==9)
+		{
+			content = String.format(Config.STRING_EMIAL_AUTHENTIC_OPERATE_FAIL,name, telephone,dateString);
+		}
+//		builder.append(content);
+//		String content = builder.toString();
+		
+		mu.setToEmails(toEmails);
+		mu.setSubject(subject);
+		mu.setContent(content);
+		
+		mu.sendEmail();
+	}
+	
 	public static void sendUserAuthenticQuick(MailUtil mu,String telephone,String name) throws Exception {
 		String toEmails = Config.STRING_MAIL_SERVER_TO_EMIAL;
 //		String toEmails = Config.STRING_MAIL_SERVER_USER;
