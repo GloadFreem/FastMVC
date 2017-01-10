@@ -43,6 +43,7 @@ import com.jinzht.tools.MD5;
 import com.jinzht.tools.MailUtil;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
+import com.jinzht.tools.PushContentType;
 import com.jinzht.tools.PushUtil;
 import com.jinzht.tools.Tools;
 import com.jinzht.web.dao.ContenttypeDAO;
@@ -2362,12 +2363,32 @@ public class WebAdminController extends BaseController {
 						message.setIsRead(false);
 						message.setTitle("用户认证审核结果:");
 						message.setMessageDate(new Date());
+						message.setValid(true);
 						
 						Messagetype type = new Messagetype();
 						type.setMessageTypeId(2);
 						
 						message.setMessagetype(type);
 						
+						
+						//推送消息
+						PushUtil pushUtil = new PushUtil();
+						pushUtil.setTitle(content);
+						pushUtil.setShareUrl("");
+						pushUtil.setContent(content);
+						pushUtil.setWebViewTitle("");
+						pushUtil.setShareImage("");
+						pushUtil.setShareIntroduce("");
+						pushUtil.setContentType(PushContentType.authentic);
+					
+						if (u != null && !u.getRegId().equals(null)) {
+							pushUtil.setRegId(u.getRegId());
+							pushUtil.setPlatform(u.getPlatform());
+							pushUtil.send();
+						} else {
+							pushUtil.setIsAllPush(true);
+							pushUtil.send();
+						}
 						
 						//保存
 						self.systemManger.getSystemMessageDao().save(message);

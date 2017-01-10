@@ -25,6 +25,7 @@ import com.jinzht.web.entity.Attention;
 import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.BusinessContentTypeDAO;
 import com.jinzht.web.entity.BusinessInvitationCodeDAO;
+import com.jinzht.web.entity.BusinessOrderDAO;
 import com.jinzht.web.entity.BusinessSchoolDAO;
 import com.jinzht.web.entity.BusinessVideo;
 import com.jinzht.web.entity.BusinessVideoDAO;
@@ -51,6 +52,7 @@ public class CourseManager {
 	private BusinessContentTypeDAO businessContentTypeDao;
 	private BusniessTagDAO busniessTagDao;
 	private SpeechmarkerDAO speechmarkerDAO;
+	private BusinessOrderDAO businessOrderDao;
 
 	/**
 	 * @return the buinessSchoolDao
@@ -140,6 +142,14 @@ public class CourseManager {
 	@Autowired
 	public void setSpeechmarkerDAO(SpeechmarkerDAO speechmarkerDAO) {
 		this.speechmarkerDAO = speechmarkerDAO;
+	}
+
+	public BusinessOrderDAO getBusinessOrderDao() {
+		return businessOrderDao;
+	}
+	@Autowired
+	public void setBusinessOrderDao(BusinessOrderDAO businessOrderDao) {
+		this.businessOrderDao = businessOrderDao;
 	}
 
 }

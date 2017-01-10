@@ -166,12 +166,22 @@
 				<li class="list-group-item">
 					<div class="clear">人数限制</div>
 				</li>
+
 				<li class="list-group-item"><input name="limit"
 					class="form-control alert-success" value="${data.blimit }"
 					placeholder="请输入人数限制">
 					</div></li>
 				<li class="list-group-item">
 					<div class="clear">是否有效</div>
+				</li>
+				<li class="list-group-item">
+					<div class="clear">排序</div>
+				</li>
+				<li class="list-group-item">
+					<div class="clear">
+						<input name="position" class="form-control alert-success"
+							value="${data.bposition }" placeholder="请输入人数限制">
+					</div>
 				</li>
 				<li class="list-group-item"><select
 					class="selectpicker show-menu-arrow form-control"
@@ -313,6 +323,8 @@
 				</ul>
 				</div>
 				<div>
+					<button type="button" id="export"
+						class="btn btn-default btn-success pull-left m-t m-b m-r">导出邀请码</button>
 					<button type="submit"
 						class="btn btn-default btn-info pull-right m-t m-b m-r">完成</button>
 				</div>
@@ -346,4 +358,11 @@
 		$("#projectId").change(function() {
 			$("input[name='key']").val($(this).find("option:selected").text());
 		});
+
+		$("#export")
+				.click(
+						function() {
+								var url = "http://www.jinzht.com:8080/jinzht/newSystem/downloadInviteCode.action?contentId="+${data.bid};
+								window.open(url);
+						});
 	</script>

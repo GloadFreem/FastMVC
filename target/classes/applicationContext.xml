@@ -18,7 +18,7 @@
 			<value>root</value>
 		</property>
 		<property name="password">
-			<value></value>
+			<value>Changeme_123</value>
 		</property>
 		<!-- <property name="password"> <value>Changeme_123</value> </property> -->
 	</bean>
@@ -142,6 +142,9 @@
 				<value>com.message.Enity.Chatroom</value>
 				
 				
+				<value>com.jinzht.web.entity.BusinessOrder</value>
+				<value>com.jinzht.web.entity.BusinessPayStatus</value>
+				<value>com.jinzht.web.entity.BusinessPayType</value>
 				<value>com.jinzht.web.entity.ProjectAddress</value>
 					<value>com.jinzht.web.entity.ProjectType</value>
 				<value>com.jinzht.web.entity.ProjectRange</value>
@@ -697,6 +700,24 @@
 		</property>
 	</bean>
 	<bean id="SpeechmarkerDAO" class="com.jinzht.web.entity.SpeechmarkerDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessPayTypeDAO"
+		class="com.jinzht.web.entity.BusinessPayTypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessOrderDAO"
+		class="com.jinzht.web.entity.BusinessOrderDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessPayStatusDAO"
+		class="com.jinzht.web.entity.BusinessPayStatusDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

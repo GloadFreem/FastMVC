@@ -1,5 +1,6 @@
 package com.jinzht.web.entity;
 
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +32,7 @@ import com.message.Enity.Chatroom;
  */
 @Entity
 @Table(name = "business_school", catalog = "jinzht2016")
-@JsonIgnoreProperties(value = { "businessInvitationCodes","busniessJoins" })
+@JsonIgnoreProperties(value = { "businessInvitationCodes","busniessJoins","businessOrders" })
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class BusinessSchool implements java.io.Serializable {
 
@@ -50,11 +51,13 @@ public class BusinessSchool implements java.io.Serializable {
 	private Speechmarker speechmarker;
 	private String speechDesc;
 	private Integer blimit;
+	private Integer bposition;
 	private String bpriceBase;
 	private String bpriceNow;
 	private boolean bValid;
 	private String bextr; // 参课人数
 	private String bextr2; // 用户是否已参课
+	private Set<BusinessOrder> businessOrders = new HashSet<BusinessOrder>(0);
 	private Set<BusinessVideo> businessVideos = new HashSet<BusinessVideo>(0);
 	private Set<BusniessJoin> busniessJoins = new HashSet<BusniessJoin>(0);
 	private Set<BusinessInvitationCode> businessInvitationCodes = new HashSet<BusinessInvitationCode>(
@@ -74,7 +77,7 @@ public class BusinessSchool implements java.io.Serializable {
 			Speechmarker speechMarker, Integer blimit, String bpriceBase,
 			String bpriceNow, String bextr, String bextr2,
 			Set<BusinessVideo> businessVideos, Set<BusniessJoin> busniessJoins,
-			Set<BusinessInvitationCode> businessInvitationCodes,
+			Set<BusinessInvitationCode> businessInvitationCodes,Set<BusinessOrder> businessOrders,
 			String speechDesc) {
 		this.businessContentType = businessContentType;
 		this.businessWeichat = businessWeichat;
@@ -95,6 +98,7 @@ public class BusinessSchool implements java.io.Serializable {
 		this.busniessJoins = busniessJoins;
 		this.businessInvitationCodes = businessInvitationCodes;
 		this.speechDesc = speechDesc;
+		this.businessOrders = businessOrders;
 	}
 
 	// Property accessors
@@ -297,6 +301,23 @@ public class BusinessSchool implements java.io.Serializable {
 
 	public void setbValid(boolean bValid) {
 		this.bValid = bValid;
+	}
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "businessSchool")
+	public Set<BusinessOrder> getBusinessOrders() {
+		return this.businessOrders;
+	}
+
+	public void setBusinessOrders(Set<BusinessOrder> businessOrders) {
+		this.businessOrders = businessOrders;
+	}
+
+	@Column(name = "bposition")
+	public Integer getBposition() {
+		return bposition;
+	}
+
+	public void setBposition(Integer bposition) {
+		this.bposition = bposition;
 	}
 
 }

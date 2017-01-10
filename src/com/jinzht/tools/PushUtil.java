@@ -16,6 +16,7 @@ import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 
 public class PushUtil {
+	private PushContentType contentType;
 	private String title;
 	private String regId;
 	private short platform;
@@ -96,7 +97,7 @@ public class PushUtil {
 										IosNotification.newBuilder()
 												.setAlert(title).setBadge(1)
 												.setSound("happy.caf")
-												.addExtra("type", "web")
+												.addExtra("type", this.contentType.toString())
 												.addExtra("content", content)
 												.addExtra("ext", "1").build())
 								.build()).build();
@@ -131,7 +132,7 @@ public class PushUtil {
 											AndroidNotification
 													.newBuilder()
 													.setAlert(title)
-													.addExtra("type", "web")
+													.addExtra("type", this.contentType.toString())
 													.addExtra("content",
 															content)
 													.addExtra("ext", title)
@@ -164,7 +165,7 @@ public class PushUtil {
 											AndroidNotification
 													.newBuilder()
 													.setAlert(title)
-													.addExtra("type", "web")
+													.addExtra("type", this.contentType.toString())
 													.addExtra("content",
 															content)
 													.addExtra("ext", "金日投条")
@@ -201,7 +202,7 @@ public class PushUtil {
 													.setAlert(title)
 													.setBadge(1)
 													.setSound("happy.caf")
-													.addExtra("type", "web")
+													.addExtra("type", this.contentType.toString())
 													.addExtra("content",
 															content)
 													.addExtra("ext", "1")
@@ -236,7 +237,7 @@ public class PushUtil {
 													.setAlert(title)
 													.setBadge(1)
 													.setSound("happy.caf")
-													.addExtra("type", "web")
+													.addExtra("type", this.contentType.toString())
 													.addExtra("content", content)
 													.addExtra("ext", "1")
 													.addExtra("title",
@@ -345,6 +346,17 @@ public class PushUtil {
 
 	public void setShareIntroduce(String shareIntroduce) {
 		this.shareIntroduce = shareIntroduce;
+	}
+
+	public PushContentType getContentType() {
+		if(this.contentType==null){
+			return PushContentType.web;
+		}
+		return contentType;
+	}
+
+	public void setContentType(PushContentType contentType) {
+		this.contentType = contentType;
 	}
 
 }

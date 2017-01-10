@@ -108,7 +108,8 @@
 							<a href="#" class="media list-group-item"> <span
 								class="pull-left thumb-sm"> <img src="images/avatar.jpg"
 									alt="John said" class="img-circle">
-							</span> <span class="media-body block m-b-none"> 上报事件<br> <small class="text-muted">10 分钟前</small>
+							</span> <span class="media-body block m-b-none"> 上报事件<br> <small
+									class="text-muted">10 分钟前</small>
 							</span>
 							</a> <a href="#" class="media list-group-item"> <span
 								class="media-body block m-b-none"> 新增2条订单<br> <small
@@ -173,6 +174,60 @@
 							<!-- nav -->
 							<nav class="nav-primary hidden-xs">
 								<ul class="nav">
+									<c:choose>
+										<c:when test="${menu==3}">
+											<li class="active">
+										</c:when>
+										<c:otherwise>
+											<li>
+										</c:otherwise>
+									</c:choose>
+									<a href="#pages"> <i class="fa fa-envelope-o icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>用户管理</span>
+									</a>
+									<ul class="nav lt">
+										<c:choose>
+											<c:when test="${submenu==1&&menu==2}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="userList.action?menu=3&sortmenu=1&submenu=1"> <i
+											class="fa fa-angle-right"></i> <span>用户列表</span>
+										</a>
+										</li>
+										<c:choose>
+											<c:when test="${submenu==2}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="newsBanner.action?menu=2&sortmenu=1&submenu=2"> <i
+											class="fa fa-angle-right"></i> <span>认证审核</span>
+										</a>
+										</li>
+										<c:choose>
+											<c:when test="${submenu==3}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="originalBanner.action?menu=2&sortmenu=1&submenu=3">
+											<i class="fa fa-angle-right"></i> <span>黑名单</span>
+										</a>
+										</li>
+									</ul>
+									</li>
 									<!-- <li><a href="#layout"> <i class="fa fa-columns icon">
 												<b class="bg-warning"></b>
 										</i> <span class="pull-right"> <i
@@ -354,8 +409,8 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="CourseList.action?menu=1&sortmenu=1&submenu=1"> <i class="fa fa-angle-right"></i>
-												<span>课程列表</span>
+											<a href="CourseList.action?menu=1&sortmenu=1&submenu=1">
+												<i class="fa fa-angle-right"></i> <span>课程列表</span>
 											</a>
 											</li>
 											<c:choose>
@@ -366,8 +421,8 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="courseDetail.action?menu=1&sortmenu=1&submenu=2"> <i
-												class="fa fa-angle-right"></i> <span>添加课程</span>
+											<a href="courseDetail.action?menu=1&sortmenu=1&submenu=2">
+												<i class="fa fa-angle-right"></i> <span>添加课程</span>
 											</a>
 											</li>
 											<c:choose>
@@ -378,8 +433,8 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="sourceList.action?menu=1&sortmenu=1&submenu=3"> <i class="fa fa-angle-right"></i>
-												<span>资源列表</span>
+											<a href="sourceList.action?menu=1&sortmenu=1&submenu=3">
+												<i class="fa fa-angle-right"></i> <span>资源列表</span>
 											</a>
 											</li>
 											<c:choose>
@@ -390,15 +445,15 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="sourceDetail.action?menu=1&sortmenu=1&submenu=4"> <i
-												class="fa fa-angle-right"></i> <span>添加资源</span>
+											<a href="sourceDetail.action?menu=1&sortmenu=1&submenu=4">
+												<i class="fa fa-angle-right"></i> <span>添加资源</span>
 											</a>
 											</li>
 										</ul>
 										</li>
 
 										<c:choose>
-											<c:when test="${sortmenu==2}">
+											<c:when test="${sortmenu==2 && menu==1}">
 												<li class="active">
 											</c:when>
 											<c:otherwise>
@@ -417,8 +472,8 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="InviteCodeList.action?menu=1&sortmenu=2&submenu=1"> <i
-												class="fa fa-angle-right"></i> <span>邀请码列表</span>
+											<a href="InviteCodeList.action?menu=1&sortmenu=2&submenu=1">
+												<i class="fa fa-angle-right"></i> <span>邀请码列表</span>
 											</a>
 											</li>
 											<c:choose>
@@ -429,8 +484,20 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="codeDetail.action?menu=1&sortmenu=2&submenu=2"> <i class="fa fa-angle-right"></i>
-												<span>添加邀请码</span>
+											<a href="codeDetail.action?menu=1&sortmenu=2&submenu=2">
+												<i class="fa fa-angle-right"></i> <span>添加邀请码</span>
+											</a>
+											</li>
+											<c:choose>
+												<c:when test="${submenu==3}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a href="generateCode.action?menu=1&sortmenu=2&submenu=3">
+												<i class="fa fa-angle-right"></i> <span>一键生成邀请码</span>
 											</a>
 											</li>
 										</ul>
@@ -455,8 +522,8 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="AttendList.action?menu=1&sortmenu=3&submenu=1"> <i class="fa fa-angle-right"></i>
-												<span>参课列表</span>
+											<a href="AttendList.action?menu=1&sortmenu=3&submenu=1">
+												<i class="fa fa-angle-right"></i> <span>参课列表</span>
 											</a>
 											</li>
 											<!-- 		<li><a href="AttendList.action"> <i
@@ -484,8 +551,8 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="speecherList.action?menu=1&sortmenu=4&submenu=1"> <i
-												class="fa fa-angle-right"></i> <span>讲师列表</span>
+											<a href="speecherList.action?menu=1&sortmenu=4&submenu=1">
+												<i class="fa fa-angle-right"></i> <span>讲师列表</span>
 											</a>
 											</li>
 											<c:choose>
@@ -496,8 +563,8 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="speecherDetail.action?menu=1&sortmenu=4&submenu=2"> <i
-												class="fa fa-angle-right"></i> <span>添加讲师</span>
+											<a href="speecherDetail.action?menu=1&sortmenu=4&submenu=2">
+												<i class="fa fa-angle-right"></i> <span>添加讲师</span>
 											</a>
 											</li>
 										</ul>
@@ -523,8 +590,8 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="WorkerList.action?menu=1&sortmenu=5&submenu=1"> <i class="fa fa-angle-right"></i>
-												<span>运营人员列表</span>
+											<a href="WorkerList.action?menu=1&sortmenu=5&submenu=1">
+												<i class="fa fa-angle-right"></i> <span>运营人员列表</span>
 											</a>
 											</li>
 											<c:choose>
@@ -535,8 +602,8 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="workerDetail.action?menu=1&sortmenu=5&submenu=2"> <i
-												class="fa fa-angle-right"></i> <span>添加运营人员</span>
+											<a href="workerDetail.action?menu=1&sortmenu=5&submenu=2">
+												<i class="fa fa-angle-right"></i> <span>添加运营人员</span>
 											</a>
 											</li>
 										</ul>
@@ -620,15 +687,15 @@
 									</a>
 									<ul class="nav lt">
 										<c:choose>
-											<c:when test="${submenu==1}">
+											<c:when test="${submenu==1&&menu==2}">
 												<li class="active">
 											</c:when>
 											<c:otherwise>
 												<li>
 											</c:otherwise>
 										</c:choose>
-										<a href="newsBanner.action?menu=2&sortmenu=1&submenu=1"> <i class="fa fa-angle-right"></i>
-											<span>App Banner列表</span>
+										<a href="newsBanner.action?menu=2&sortmenu=1&submenu=1"> <i
+											class="fa fa-angle-right"></i> <span>App Banner列表</span>
 										</a>
 										</li>
 										<c:choose>
@@ -639,8 +706,8 @@
 												<li>
 											</c:otherwise>
 										</c:choose>
-										<a href="newsBanner.action?menu=2&sortmenu=1&submenu=2"> <i class="fa fa-angle-right"></i>
-											<span>资讯Banner </span>
+										<a href="newsBanner.action?menu=2&sortmenu=1&submenu=2"> <i
+											class="fa fa-angle-right"></i> <span>资讯Banner </span>
 										</a>
 										</li>
 										<c:choose>
@@ -651,8 +718,8 @@
 												<li>
 											</c:otherwise>
 										</c:choose>
-										<a href="originalBanner.action?menu=2&sortmenu=1&submenu=3"> <i
-											class="fa fa-angle-right"></i> <span>原创Banner</span>
+										<a href="originalBanner.action?menu=2&sortmenu=1&submenu=3">
+											<i class="fa fa-angle-right"></i> <span>原创Banner</span>
 										</a>
 										</li>
 									</ul>

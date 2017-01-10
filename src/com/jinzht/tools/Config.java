@@ -9,7 +9,7 @@ import java.util.Map;
 public class Config {
 	public static String SMS_USERID = "1012888";
 	public static String SMS_ACCOUNT = "dlbjjztx";
-	public static String SMS_PASSWORD = "Jinzht634134";  //pBJ0SiR6
+	public static String SMS_PASSWORD = "Jinzht634134"; // pBJ0SiR6
 	public static String SMS_VERIFY_CODE = "验证码 %d , 十分钟内有效【金指投投融资】";
 	public static String SMS_VERIFY_STRING = "【金指投投融资】";
 	public static String SMS_HAVE_SEND_STRING = "验证码发送成功，请注意查收!";
@@ -98,7 +98,7 @@ public class Config {
 			add("customServiceSystem.action");
 			add("requestUserProtocol.action");
 			add("requestActionDetail.action");
-			
+
 			add("requestThinkTankList.action");
 			add("sportDetail.action");
 			add("requestViewPointDetail.action");
@@ -116,15 +116,15 @@ public class Config {
 			add("requestProjectList.action");
 			add("requestSearchConsultList.action");
 			add("getProtocolAuthentic.action");
-			
+
 			add("requestWebThinkTankList.action");
 			add("requestWebViewPointList.action");
-			
+
 			add("requestSearchCondition.action");
 			add("requestSearchProjectList.action");
 			add("requestSearchFromStrProjectList.action");
 			add("requestHotWordList.action");
-			
+
 			add("index.action");
 			add("news.action");
 			add("notebook.action");
@@ -136,7 +136,7 @@ public class Config {
 			add("delOriginalBanner.action");
 			add("originalBannerDetail.action");
 			add("editOriginalBanner.action");
-			
+
 			add("createChatRoom.action");
 			add("chatRoomList.action");
 			add("deleteChatRoom.action");
@@ -176,14 +176,18 @@ public class Config {
 			add("downloadInviteCode.action");
 			add("deleteCode.action");
 			add("requestOrderSign.action");
-			add("requestOrderSign.action");
 			add("CourseDetail.action");
 			add("deleteCurse.action");
 			add("SearchChatRoomByName.action");
 			add("deleteSource.action");
+			add("requestConfirmBusinessOrder.action");
+			add("requestCompletePayBusinessOrder.action");
+			add("generateDetail.action");
+			add("generateCode.action");
+			add("userList.action");
 		}
 	};
-	
+
 	public static List STRING_INTEFACE_ARRAY_FLITER = new ArrayList() {
 		{
 			add("requestInnerMessageList.action");
@@ -278,6 +282,7 @@ public class Config {
 
 	// 短信模板
 	public static String STRING_SMS_REGISTE = "感谢你注册金指投--专注中国成长型企业股权投融资";
+	public static String STRING_SMS_ORDER_CONFIRM = "尊贵的金指投用户, 你已参加【%s】,打开金指投App，输入账号:%s,密码:%s,请及时更改密码，金指投任何工作人员不会索要密码！";
 	public static String STRING_SMS_ROADSHOW_SUBMIT = "尊贵的金指投用户, 你的项目申请提交成功。根据您项目的实际情况, 会有专门的顾问和你取得联系, 请保持手机畅通。如有疑问请致电 18691883712";
 	public static String STRING_SMS_ROADSHOW_VALID_TRUE = "尊贵的金指投用户，您的路演申请提交成功，已进入项目审核阶段，我们的工作人员将会在第一时间联系您，请保持手机畅通。您可以打开【金指投】APP->个人中心->进度查看->我的路演 查看详情，感谢您长期以来的支持！";
 	public static String STRING_SMS_ROADSHOW_VALID_FALSE = "尊贵的金指投用户, 您的路演申请未通过审核。请打开【金指投】APP->个人中心->进度查看->我的路演 查看原因。请您及时修改、完善信息并重新提交申请。如有疑问请致电 18691883712";
@@ -293,7 +298,8 @@ public class Config {
 	public static String STRING_APPP_SHARE_TITLE = "【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT = "金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS = "http://www.jinzht.com/phone5/";
-//	 public static String STRING_SYSTEM_ADDRESS ="http://192.168.10.174:8080/jinzht/";
+	// public static String STRING_SYSTEM_ADDRESS
+	// ="http://192.168.10.174:8080/jinzht/";
 	public static String STRING_SYSTEM_ADDRESS = "http://www.jinzht.com:8080/jinzht/";
 	// public static String STRING_SYSTEM_INTRODUCE
 	// ="http://www.jinzht.com:8080/jinzht/";
@@ -491,16 +497,21 @@ public class Config {
 
 	public static String webUrlList[] = { "http://3g.163.com/touch/reconstruct/article/list/BA8EE5GMwangning/0-10.html;1" };
 
-	
-	public static String ACTION_URL	="%srequestActionDetail.action?contentId=%d";
+	public static String ACTION_URL = "%srequestActionDetail.action?contentId=%d";
 
-    //IM系统
+	// IM系统
 	public static String IM_SERVER_URL = "https://a1.easemob.com/1148161116178897/jinzht/";
 	public static String IM_CLIENT_ID = "YXA65dKQYKuuEea9DccOf0A-_w";
 	public static String IM_CLIENT_SECRET = "YXA6rBOcFcvdO7Cz_NqMtDfeTIfFLGY";
-	public static String IM_USER_NAME="jinzht_im_";
-	
-	
-	//新版后台管理系统
+	public static String IM_USER_NAME = "jinzht_im_";
+
+	// 新版后台管理系统
 	public static String NEW_SERVER_CONTROL = "new_admin/index";
+	public static List SIZES = new ArrayList() {
+		{
+			add(10);
+			add(50);
+			add(100);
+		}
+	};
 }

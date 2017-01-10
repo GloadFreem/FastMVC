@@ -49,6 +49,7 @@ import com.jinzht.web.dao.ShareDAO;
 import com.jinzht.web.dao.TeamDAO;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Authentic;
+import com.jinzht.web.entity.BusinessOrder;
 import com.jinzht.web.entity.Businessplan;
 import com.jinzht.web.entity.City;
 import com.jinzht.web.entity.Collection;
@@ -100,9 +101,9 @@ public class OrderManager {
 	 * @throws HttpException
 	 * @throws JDOMException
 	 */
-	public String orderPayDescription(String timeLetf, int payType,
-			String osType, String openId) throws JSONException,
-			HttpException, IOException, JDOMException {
+	public Map orderPayDescription(String timeLetf, int payType,
+			String osType, String openId, BusinessOrder order)
+			throws JSONException, HttpException, IOException, JDOMException {
 
 		// 日志测试Log4
 		// ================支付宝支付业务开始=============================
@@ -119,7 +120,7 @@ public class OrderManager {
 
 			// 支付宝支付参数封装
 			String service_url = Config.STRING_SYSTEM_ADDRESS
-					+ AlipayConfig.notify_url;
+					+ AlipayConfig.notify_wx_url;
 			jsonObject.put(AlipayConfig.seller_id_str, AlipayConfig.partner);// 卖家支付宝账号
 			jsonObject.put(AlipayConfig.out_trade_no_str, code); // 商家订单编号
 			jsonObject.put(AlipayConfig.subject_str, AlipayConfig.subject); // 商品名称
@@ -127,8 +128,7 @@ public class OrderManager {
 			jsonObject.put("product_code", "QUICK_MSECURITY_PAY"); // 商品描述
 			jsonObject.put("goods_type", "1"); // 商品描述
 
-			jsonObject.put(AlipayConfig.total_fee_str,
-					String.valueOf("100")); // 商品价格
+			jsonObject.put(AlipayConfig.total_fee_str, String.valueOf("100")); // 商品价格
 
 			// 转换格式
 			ObjectMapper mapper = new ObjectMapper();
@@ -187,32 +187,27 @@ public class OrderManager {
 		} else if (payType == 2) {
 			System.out.print("微信支付业务开始");
 			// ================微信支付业务开始=============================
+
 			// 设置package订单参数
 			// 生成随即唯一标识
 			String noncestr = WXUtil.getNonceStr();
 
 			// 设置获取prepayid支付参数
 			// ---------------获取订单号 开始------------------------
-			// String out_trade_no = order.getOrderCode();
-			String out_trade_no = "jinzht_pro_" + new Date().getTime();
+			String out_trade_no = order.getOrderCode();
+			// String out_trade_no = "jinzht_pro_" + new Date().getTime();
 			// ---------------获取订单号 结束------------------------
 
 			// ---------------设置订单预支付参数开始------------------------
-			float price;
-			price = 100;
+			Double price = order.getTotalFee();
 
 			String priceStr = String.valueOf(price * 100);
 
 			priceStr = priceStr.replace(".0", "");
 
 			// 请求参数封装
-			if (osType.equalsIgnoreCase("0")) {
-				map.put(AlipayConfig.APP_ID_STR, AlipayConfig.APP_ID_ANDROID);
-				map.put(AlipayConfig.MCH_ID_STR, AlipayConfig.MCH_ID_ANDROID);
-			} else {
-				map.put(AlipayConfig.APP_ID_STR, AlipayConfig.APP_ID);
-				map.put(AlipayConfig.MCH_ID_STR, AlipayConfig.MCH_ID);
-			}
+			map.put(AlipayConfig.APP_ID_STR, AlipayConfig.APP_ID);
+			map.put(AlipayConfig.MCH_ID_STR, AlipayConfig.MCH_ID);
 			String service_url = Config.STRING_SYSTEM_ADDRESS
 					+ AlipayConfig.notify_wx_url;
 			map.put(AlipayConfig.NONCE_STR, noncestr);
@@ -222,7 +217,7 @@ public class OrderManager {
 			map.put("total_fee", priceStr);
 			map.put(AlipayConfig.TRADE_TYPE_STR, "APP");
 
-			map.put(AlipayConfig.BODY_STR, new String("商学院"));
+			map.put(AlipayConfig.BODY_STR, new String("商学院参课"));
 			// ---------------设置订单预支付参数结束------------------------
 
 			// ---------------生成加密字符串（MD5）开始------------------------
@@ -256,13 +251,10 @@ public class OrderManager {
 				// 第二次签名参数列表
 				map = new HashMap();
 				String timestamp = WXUtil.getTimeStamp();
+//				String timestamp = "1483932100";
+				
 				noncestr = MD5Util.MD5(timestamp);
-				if (osType.equalsIgnoreCase("0")) {
-					map.put(AlipayConfig.APP_ID_STR,
-							AlipayConfig.APP_ID_ANDROID);
-				} else {
-					map.put(AlipayConfig.APP_ID_STR, AlipayConfig.APP_ID);
-				}
+				map.put(AlipayConfig.APP_ID_STR, AlipayConfig.APP_ID);
 				map.put("package", package_str);
 				map.put("partnerid", AlipayConfig.MCH_ID);
 				map.put("timestamp", timestamp);
@@ -274,6 +266,11 @@ public class OrderManager {
 				String signSecond = MD5Util.MD5(signStr);
 				// 加入参数
 				map.put("sign", signSecond);
+				
+				
+				map.remove("package");
+				
+				map.put("pack", package_str);
 				orderDesc = AlipayCore.createLinkString(map);
 			} else {
 				map = null;
@@ -311,7 +308,7 @@ public class OrderManager {
 			map.put(AlipayConfig.NONCE_STR, noncestr);
 			map.put(AlipayConfig.NOTIFY_URL_STR, service_url);
 			map.put(AlipayConfig.OUT_TRADE_NO_STR, out_trade_no);
-			map.put(AlipayConfig.SPBILL_CREATE_IP_STR, "192.168.10.144");
+			map.put(AlipayConfig.SPBILL_CREATE_IP_STR, "192.168.10.174");
 			map.put("total_fee", priceStr);
 			map.put(AlipayConfig.TRADE_TYPE_STR, AlipayConfig.TRADE_TYPE_JSAPI);
 			map.put("openid", openId);
@@ -346,7 +343,7 @@ public class OrderManager {
 				String package_str;
 				// 设置支付参数
 				// 设置package
-				package_str = "prepay_id="+prepayid;
+				package_str = "prepay_id=" + prepayid;
 				// 第二次签名参数列表
 				map = new HashMap();
 				String timestamp = WXUtil.getTimeStamp();
@@ -356,8 +353,7 @@ public class OrderManager {
 				map.put("signType", "MD5");
 				map.put("timeStamp", timestamp);
 				map.put("nonceStr", noncestr);
-				
-				
+
 				String signStr = AlipayCore.createWXLinkString(map);
 				signStr += "&key=" + AlipayConfig.PARTNER_ID;
 				// 生成签名
@@ -372,7 +368,7 @@ public class OrderManager {
 			// ================微信支付业务结束=============================
 		}
 
-		return orderDesc;
+		return map;
 	}
 
 }

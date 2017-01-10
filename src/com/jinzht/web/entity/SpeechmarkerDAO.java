@@ -3,11 +3,15 @@ package com.jinzht.web.entity;
 
 import java.util.List;
 import java.util.Set;
+
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import static org.hibernate.criterion.Example.create;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -144,6 +148,39 @@ public class SpeechmarkerDAO {
 			throw re;
 		}
 	}
+	public List findByPage(int size,Integer page) {
+		log.debug("finding all Speechmarker instances");
+		try {
+			String queryString = "from Speechmarker";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setMaxResults(size);
+			queryObject.setFirstResult(size*page);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	
+	public Integer countOfInstance() {
+		log.debug("finding all Speechmarker instances");
+		try {
+			String queryString = "select count(*) from speechmarker";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			if(queryObject.list()!=null)
+			{
+				return Integer.parseInt(queryObject.list().get(0).toString());
+			}
+			return 0;
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	
+	
 
 	public Speechmarker merge(Speechmarker detachedInstance) {
 		log.debug("merging Speechmarker instance");

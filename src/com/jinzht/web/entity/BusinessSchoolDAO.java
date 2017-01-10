@@ -181,7 +181,7 @@ public class BusinessSchoolDAO {
 	public List findAll() {
 		log.debug("finding all BusinessSchool instances");
 		try {
-			String queryString = "from BusinessSchool";
+			String queryString = "from BusinessSchool as model order by model.bposition asc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -191,14 +191,30 @@ public class BusinessSchoolDAO {
 	}
 	
 	
-	public List findByPage(Integer page) {
+	public List findByPage(Integer size,Integer page) {
 		log.debug("finding all BusinessSchool instances");
 		try {
 			String queryString = "from BusinessSchool";
 			Query queryObject = getCurrentSession().createQuery(queryString);
-			queryObject.setFirstResult(page*Config.Page_Data_Size);
-			queryObject.setMaxResults(Config.Page_Data_Size);
+			queryObject.setFirstResult(page*size);
+			queryObject.setMaxResults(size);
 			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public Integer countOfInstance() {
+		log.debug("finding all BusinessSchool instances");
+		try {
+			String queryString = "select count(*) from business_school";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			if(queryObject.list()!=null)
+			{
+				return Integer.parseInt(queryObject.list().get(0).toString());
+			}
+			return 0;
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
@@ -209,7 +225,7 @@ public class BusinessSchoolDAO {
 	public List findByValidPage(Integer page) {
 		log.debug("finding all BusinessSchool instances");
 		try {
-			String queryString = "from BusinessSchool as model  where model.bValid=? ";
+			String queryString = "from BusinessSchool as model  where model.bValid=?  order by model.bposition asc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, true);
 			queryObject.setFirstResult(page*Config.Page_Data_Size);
@@ -225,7 +241,7 @@ public class BusinessSchoolDAO {
 	public List findByUserAndPage(Users user,Integer page) {
 		log.debug("finding all BusinessSchool instances");
 		try {
-			String queryString = "from BusinessSchool where ";
+			String queryString = "from BusinessSchool";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setFirstResult(page*Config.Page_Data_Size);
 			queryObject.setMaxResults(Config.Page_Data_Size);

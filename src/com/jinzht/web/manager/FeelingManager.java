@@ -73,7 +73,7 @@ public class FeelingManager {
 					Object[] authentices = user.getAuthentics().toArray();
 					Authentic authentic = (Authentic) authentices[0];
 
-					authentic.setAuthenticstatus(null);
+//					authentic.setAuthenticstatus(null);
 					// authentic.setIdentiytype(null);
 					authentic.setIdentiyCarA(null);
 					authentic.setIdentiyCarB(null);
@@ -214,7 +214,7 @@ public class FeelingManager {
 					Object[] authentices = user.getAuthentics().toArray();
 					Authentic authentic = (Authentic) authentices[0];
 
-					authentic.setAuthenticstatus(null);
+//					authentic.setAuthenticstatus(null);
 					authentic.setIdentiytype(null);
 					authentic.setIdentiyCarA(null);
 					authentic.setIdentiyCarB(null);
@@ -346,7 +346,7 @@ public class FeelingManager {
 			Object[] authentices = user.getAuthentics().toArray();
 			Authentic authentic = (Authentic) authentices[0];
 
-			authentic.setAuthenticstatus(null);
+//			authentic.setAuthenticstatus(null);
 			authentic.setIdentiytype(null);
 			authentic.setIdentiyCarA(null);
 			authentic.setIdentiyCarB(null);

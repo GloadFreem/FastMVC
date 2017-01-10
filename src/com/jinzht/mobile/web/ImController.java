@@ -383,7 +383,7 @@ public class ImController extends BaseController {
 	public Map addAllUserToIM(@RequestParam(value = "userId") Integer userId,
 			ModelMap map, HttpSession session) {
 		this.result = new HashMap();
-		List<Users> users = this.userManager.findAllUsers();
+		List<Users> users = this.userManager.getUserDao().findByUserIdDesc(0, 300);
 		for (Users user : users) {
 			if (user != null) {
 				Map result;

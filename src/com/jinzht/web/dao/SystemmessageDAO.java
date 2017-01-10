@@ -154,7 +154,7 @@ public class SystemmessageDAO {
 				+ propertyName + ", value: " + value);
 		try {
 			String queryString = "from Systemmessage as model where model."
-					+ propertyName + "= ? and model.valid = true";
+					+ propertyName + "= ? and model.valid = true order by model.messageDate desc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			queryObject.setFirstResult(page*Config.STRING_INVESTOR_LIST_MAX_SIZE);

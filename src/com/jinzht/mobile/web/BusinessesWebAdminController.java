@@ -146,16 +146,27 @@ public class BusinessesWebAdminController extends BaseController {
 	@RequestMapping(value = "newSystem/CourseList")
 	public String CourseList(
 			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
 			@RequestParam(value = "submenu", required = false) Integer submenu,
 			HttpSession session) {
 
-		List list = this.courseManager.getBuinessSchoolDao().findAll();
+		if (size == null) {
+			size = 10;
+		}
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.courseManager.getBuinessSchoolDao().findByPage(size,
+				page);
+		Integer count = this.courseManager.getBuinessSchoolDao()
+				.countOfInstance();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
 		map.put("result", list);
 
 		map.put("content", "table-course");
@@ -220,6 +231,8 @@ public class BusinessesWebAdminController extends BaseController {
 
 	@RequestMapping(value = "newSystem/deleteCurse")
 	public String deleteCurse(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
@@ -231,18 +244,29 @@ public class BusinessesWebAdminController extends BaseController {
 			this.courseManager.getBuinessSchoolDao().delete(school);
 		}
 
-		List list = this.courseManager.getBuinessSchoolDao().findAll();
+		if (size == null) {
+			size = 10;
+		}
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.courseManager.getBuinessSchoolDao().findByPage(size,
+				page);
+		Integer count = this.courseManager.getBuinessSchoolDao()
+				.countOfInstance();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
 
 		map.put("result", list);
 		map.put("content", "table-course");
 		return Config.NEW_SERVER_CONTROL;
 	}
+
 	@RequestMapping(value = "newSystem/deleteSource")
 	public String deleteSource(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
@@ -253,13 +277,21 @@ public class BusinessesWebAdminController extends BaseController {
 					.findById(contentId);
 			this.courseManager.getBusinessVedioDao().delete(video);
 		}
-		
-		List list = this.courseManager.getBusinessVedioDao().findAll();
-		
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
-		
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+		List list = this.courseManager.getBusinessVedioDao().findByPage(size,
+				page);
+		Integer count = this.courseManager.getBusinessVedioDao()
+				.countOfInstance();
+
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
 		map.put("result", list);
 		map.put("content", "table-source");
 		return Config.NEW_SERVER_CONTROL;
@@ -267,6 +299,8 @@ public class BusinessesWebAdminController extends BaseController {
 
 	@RequestMapping(value = "newSystem/deleteCode")
 	public String deleteCode(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
@@ -278,11 +312,19 @@ public class BusinessesWebAdminController extends BaseController {
 			this.courseManager.getBusinessInvitationCodeDao().delete(user);
 		}
 
-		List list = this.courseManager.getBusinessInvitationCodeDao().findAll();
+		if (size == null) {
+			size = 10;
+		}
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.courseManager.getBusinessInvitationCodeDao()
+				.findByPage(size, page);
+		Integer count = this.courseManager.getBusinessInvitationCodeDao()
+				.countOfInstance();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
 
 		map.put("result", list);
 		map.put("content", "table-invite-code");
@@ -291,6 +333,8 @@ public class BusinessesWebAdminController extends BaseController {
 
 	@RequestMapping(value = "newSystem/deleteWorker")
 	public String deleteWorker(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "size", required = false) Integer size,
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
@@ -302,12 +346,20 @@ public class BusinessesWebAdminController extends BaseController {
 			this.courseManager.getBusinessWe3iChatDao().delete(user);
 		}
 
-		List list = this.courseManager.getBusinessWe3iChatDao().findAll();
+		if (size == null) {
+			size = 10;
+		}
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		if (page == null) {
+			page = 0;
+		}
 
+		List list = this.courseManager.getBusinessWe3iChatDao().findByPage(
+				size, page);
+		Integer count = this.courseManager.getBusinessWe3iChatDao()
+				.countOfInstance();
+
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
 		map.put("result", list);
 		map.put("content", "table-course-worker");
 		return Config.NEW_SERVER_CONTROL;
@@ -373,6 +425,7 @@ public class BusinessesWebAdminController extends BaseController {
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
 			@RequestParam(value = "submenu", required = false) Integer submenu,
+			@RequestParam(value = "position", required = false) Integer position,
 			ModelMap map, HttpSession session) {
 		BusinessSchool school;
 		if (contentId != null) {
@@ -391,13 +444,17 @@ public class BusinessesWebAdminController extends BaseController {
 			school.setBpriceBase(bpriceBase);
 			school.setBpriceNow(bpriceNow);
 			school.setBstarTime(new Date());
-			
-			if(valid==0){
+			school.setBposition(position);
+
+			if (valid == 0) {
 				school.setbValid(false);
-			}else{
+			} else {
 				school.setbValid(true);
 			}
 
+			int radomIndex = (int) (200 + Math.random() * (400 - 200 + 1));
+
+			school.setBextr("" + radomIndex);
 			BusniessTag busniessTag = this.courseManager.getBusniessTagDao()
 					.findById(tag);
 			school.setBusniessTag(busniessTag);
@@ -625,6 +682,76 @@ public class BusinessesWebAdminController extends BaseController {
 		return Config.NEW_SERVER_CONTROL;
 	}
 
+	@RequestMapping(value = "newSystem/generateCode")
+	public String generateCode(
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map, HttpSession session) {
+
+		
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+		
+		map.put("content", "generateDetail");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	@RequestMapping(value = "newSystem/generateDetail")
+	public String generateDetail(
+			@RequestParam(value = "projectId", required = false) Integer contentId,
+			@RequestParam(value = "count", required = false) Integer count,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map, HttpSession session) {
+		if (contentId != null && count != null) {
+			BusinessSchool school = this.courseManager.getBuinessSchoolDao()
+					.findById(contentId);
+			if (school != null) {
+				BusinessInvitationCode code;
+				for (int i = 0; i < count; i++) {
+					code = new BusinessInvitationCode();
+					code.setBusinessSchool(school);
+					code.setCvalid("1");
+					code.setCcode(Tools.getRandomString(6));
+
+					this.courseManager.getBusinessInvitationCodeDao()
+							.save(code);
+				}
+
+				List codes = this.courseManager.getBusinessInvitationCodeDao()
+						.findByProperty("businessSchool", school);
+
+				map.put("codes", codes);
+
+				List types = this.courseManager.getBusinessContentTypeDao()
+						.findAll();
+				List tages = this.courseManager.getBusniessTagDao().findAll();
+				List speeches = this.courseManager.getSpeechmarkerDAO()
+						.findAll();
+				List users = this.courseManager.getBusinessWe3iChatDao()
+						.findAll();
+
+				map.put("users", users);
+				map.put("types", types);
+				map.put("tages", tages);
+				map.put("speeches", speeches);
+				map.put("data", school);
+
+			}
+
+
+		}
+
+		map.put("menu", menu);
+		map.put("sortmenu", sortmenu);
+		map.put("submenu", submenu);
+
+		map.put("content", "CourseDetail");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
 	@RequestMapping(value = "newSystem/editCodeDetail")
 	public String editCodeDetail(
 			@RequestParam(value = "contentId", required = false) Integer contentId,
@@ -681,6 +808,7 @@ public class BusinessesWebAdminController extends BaseController {
 	@RequestMapping(value = "newSystem/SearchCurseByName")
 	@ResponseBody
 	public Map SearchCurseByName(
+
 			@RequestParam(value = "name", required = false) String key,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
@@ -706,15 +834,26 @@ public class BusinessesWebAdminController extends BaseController {
 	@RequestMapping(value = "newSystem/InviteCodeList")
 	public String InviteCodeList(
 			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
 			@RequestParam(value = "submenu", required = false) Integer submenu,
 			HttpSession session) {
-		List list = this.courseManager.getBusinessInvitationCodeDao().findAll();
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.courseManager.getBusinessInvitationCodeDao()
+				.findByPage(size, page);
+		Integer count = this.courseManager.getBusinessInvitationCodeDao()
+				.countOfInstance();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
 		map.put("result", list);
 		map.put("content", "table-invite-code");
 		return Config.NEW_SERVER_CONTROL;
@@ -730,15 +869,27 @@ public class BusinessesWebAdminController extends BaseController {
 	@RequestMapping(value = "newSystem/speecherList")
 	public String speecherList(
 			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
 			@RequestParam(value = "submenu", required = false) Integer submenu,
 			HttpSession session) {
-		List list = this.courseManager.getSpeechmarkerDAO().findAll();
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.courseManager.getSpeechmarkerDAO().findByPage(size,
+				page);
+		Integer count = this.courseManager.getSpeechmarkerDAO()
+				.countOfInstance();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
 		map.put("result", list);
 		map.put("content", "table-speecher");
 		return Config.NEW_SERVER_CONTROL;
@@ -836,6 +987,8 @@ public class BusinessesWebAdminController extends BaseController {
 	 */
 	@RequestMapping(value = "newSystem/deleteSpeecher")
 	public String deleteSpeecher(
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
@@ -849,11 +1002,22 @@ public class BusinessesWebAdminController extends BaseController {
 			}
 		}
 
-		List list = this.courseManager.getSpeechmarkerDAO().findAll();
+		if (size == null) {
+			size = 10;
+		}
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.courseManager.getSpeechmarkerDAO().findByPage(size,
+				page);
+		Integer count = this.courseManager.getSpeechmarkerDAO()
+				.countOfInstance();
+
+		// 封装返回数据
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
 		map.put("result", list);
 		map.put("content", "table-speecher");
 		return Config.NEW_SERVER_CONTROL;
@@ -869,15 +1033,27 @@ public class BusinessesWebAdminController extends BaseController {
 	@RequestMapping(value = "newSystem/AttendList")
 	public String AttendList(
 			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
 			@RequestParam(value = "submenu", required = false) Integer submenu,
 			HttpSession session) {
-		List list = this.courseManager.getBusniessJoinDao().findAll();
+		if (size == null) {
+			size = 10;
+		}
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		if (page == null) {
+			page = 0;
+		}
+		List list = this.courseManager.getBusniessJoinDao().findByPage(size,
+				page);
+		Integer count = this.courseManager.getBusniessJoinDao()
+				.countOfInstance();
+
+		// 封装返回数据
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
 		map.put("result", list);
 		map.put("content", "table-course-attend");
 		return Config.NEW_SERVER_CONTROL;
@@ -892,11 +1068,21 @@ public class BusinessesWebAdminController extends BaseController {
 	 */
 	@RequestMapping(value = "newSystem/deleteJoinRecord")
 	public String deleteJoinRecord(
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "contentId", required = false) Integer contentId,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
 			@RequestParam(value = "submenu", required = false) Integer submenu,
 			ModelMap map, HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
 
 		BusniessJoin record = this.courseManager.getBusniessJoinDao().findById(
 				contentId);
@@ -904,11 +1090,14 @@ public class BusinessesWebAdminController extends BaseController {
 			this.courseManager.getBusniessJoinDao().delete(record);
 		}
 
-		List list = this.courseManager.getBusniessJoinDao().findAll();
+		List list = this.courseManager.getBusniessJoinDao().findByPage(size,
+				page);
+		Integer count = this.courseManager.getBusniessJoinDao()
+				.countOfInstance();
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		// 封装返回数据
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
 		map.put("result", list);
 		map.put("content", "table-course-attend");
 		return Config.NEW_SERVER_CONTROL;
@@ -924,15 +1113,28 @@ public class BusinessesWebAdminController extends BaseController {
 	@RequestMapping(value = "newSystem/sourceList")
 	public String sourceList(
 			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
 			@RequestParam(value = "submenu", required = false) Integer submenu,
 			HttpSession session) {
-		List list = this.courseManager.getBusinessVedioDao().findAll();
+		if (size == null) {
+			size = 10;
+		}
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.courseManager.getBusinessVedioDao().findByPage(size,
+				page);
+		Integer count = this.courseManager.getBusinessVedioDao()
+				.countOfInstance();
+
+		// 封装返回数据
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
 		map.put("result", list);
 		map.put("content", "table-source");
 		return Config.NEW_SERVER_CONTROL;
@@ -948,15 +1150,28 @@ public class BusinessesWebAdminController extends BaseController {
 	@RequestMapping(value = "newSystem/WorkerList")
 	public String WorkerList(
 			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "menu", required = false) Integer menu,
 			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
 			@RequestParam(value = "submenu", required = false) Integer submenu,
 			HttpSession session) {
-		List list = this.courseManager.getBusinessWe3iChatDao().findAll();
+		if (size == null) {
+			size = 10;
+		}
 
-		map.put("menu", menu);
-		map.put("sortmenu", sortmenu);
-		map.put("submenu", submenu);
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.courseManager.getBusinessWe3iChatDao().findByPage(
+				size, page);
+		Integer count = this.courseManager.getBusinessWe3iChatDao()
+				.countOfInstance();
+
+		// 封装返回数据
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
 		map.put("result", list);
 		map.put("content", "table-course-worker");
 		return Config.NEW_SERVER_CONTROL;

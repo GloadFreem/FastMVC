@@ -55,14 +55,14 @@
 	<bean id="lightTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="complexJobDetail" />
-	    <property name="cronExpression" value="0 0/5 0-13 * * ?" />  
+	    <property name="cronExpression" value="0 0/10 0-13 * * ?" />  
 	</bean>
 
 	<!-- 10分钟  13:00到23:59 -->
 	<bean id="nightTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="complexJobDetail" />
-		    <property name="cronExpression" value="0 0/1 14-23 * * ?" />  
+		    <property name="cronExpression" value="0 0/30 14-23 * * ?" />  
 	</bean>
 	
 	

@@ -51,7 +51,6 @@ public class AlipayConfig {
 	public static String show_url="m.alipay.com";
 	
 	//订单回调链接
-	public static String notify_url="notifyUrl.action";
 	public static String notify_wx_url="notifywxurl.action";
 	//阿里支付服务器
 	public static String server_url="mobile.securitypay.pay";
@@ -107,14 +106,11 @@ public class AlipayConfig {
 	 * 
 	 */
 	//对应微信开放平台应用AppId
-	public static String APP_ID="wx2896706b74559951";  //APPID
-	public static String APP_ID_ANDROID="wx2896706b74559951";  //APPID 
+	public static String APP_ID="wx33aa0167f6a81dac";  //APPID
 	public static String APP_ID_SERVER="wxdcd3847ae7077ffe";  //APPID 
 	public static String APP_SECRET="4ab074a137e5cc81df67808c1f23b8aa"; //APPSECRET
-	public static String APP_SECRET_ANDROID="4ab074a137e5cc81df67808c1f23b8aa"; //APPSECRET
 	//商户号，填写商户对应参数
-	public static String MCH_ID="1410587002";
-	public static String MCH_ID_ANDROID="1410587002";
+	public static String MCH_ID="1276917501";
 	public static String MCH_ID_SERVER="1426516702";
 	//商户API密钥，填写相应参数
 	public static String PARTNER_ID="wuxzaihsxadminwuxzaihsxadminwuxz";

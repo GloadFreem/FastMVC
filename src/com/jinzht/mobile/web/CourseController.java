@@ -176,26 +176,34 @@ public class CourseController extends BaseController {
 		this.result = new HashMap();
 
 		Users user = this.findUserInSession(session);
+		if(user!=null){
+			BusinessSchool school = this.courseManager.getBuinessSchoolDao()
+					.findById(contentId);
+			
+			// 查找是否已参加课程
+			List l = this.courseManager.getBusniessJoinDao()
+					.findBySchoolAndUser(user, school, 0);
+			if (l != null && l.size() > 0) {
+				school.setBextr2("1");
+			}
+			
+			if (school == null) {
+				this.result.put("data", "");
+			} else {
+				this.result.put("data", school);
+			}
+			if(user.getName().equals(null)){
+				user.setName("用户"+user.getUserId());
+			}
+			this.result.put("extr", user.getName());
+			this.status = 200;
+			this.message = "";
+		}else{
+			this.result.put("extr", user.getName());
+			this.status = 401;
+			this.message = "请先登录!";
+		}
 		 
-		BusinessSchool school = this.courseManager.getBuinessSchoolDao()
-				.findById(contentId);
-		
-		// 查找是否已参加课程
-		List l = this.courseManager.getBusniessJoinDao()
-				.findBySchoolAndUser(user, school, 0);
-		if (l != null && l.size() > 0) {
-			school.setBextr2("1");
-		}
-		
-		if (school == null) {
-			this.result.put("data", "");
-		} else {
-			this.result.put("data", school);
-		}
-		
-		this.result.put("extr", user.getName());
-		this.status = 200;
-		this.message = "";
 		return getResult();
 	}
 
@@ -217,10 +225,10 @@ public class CourseController extends BaseController {
 			BusinessInvitationCode code = codes.get(0);
 
 			// 是否已使用
-			if (code.getCvalid().equalsIgnoreCase("false")) {
+			if (code.getCvalid().equalsIgnoreCase("0")) {
 				this.status = 400;
 				this.result.put("data", "");
-				this.message = "该邀请码已过期";
+				this.message = "邀请码无效";
 
 				return getResult();
 			}
@@ -244,6 +252,11 @@ public class CourseController extends BaseController {
 
 				// 保存
 				this.courseManager.getBusniessJoinDao().save(join);
+				
+				//设置邀请码过期
+				code.setCvalid("0");
+				
+				this.courseManager.getBusinessInvitationCodeDao().saveOrUpdate(code);
 
 				this.status = 200;
 				this.result.put("data", "");
@@ -252,7 +265,7 @@ public class CourseController extends BaseController {
 		} else {
 			this.status = 400;
 			this.result.put("data", "");
-			this.message = "该邀请码无效";
+			this.message = "邀请码无效";
 		}
 		return getResult();
 	}

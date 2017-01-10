@@ -1,6 +1,9 @@
 package com.jinzht.tools;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
@@ -40,7 +43,7 @@ public class Tools {
 				id, flag);
 	}
 
-	public static Share generateShareContent(Integer contentId,Integer type) {
+	public static Share generateShareContent(Integer contentId, Integer type) {
 		// 生成分享链接
 		Share share = new Share();
 		Sharetype shareType = new Sharetype();
@@ -54,16 +57,19 @@ public class Tools {
 		String url = ""; // 生成分享链接
 		switch (type) {
 		case 1:
-			url = Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_PROJECT_DETAIL);
+			url = Tools
+					.generateWebUrl(Config.STRING_SYSTEM_SHARE_PROJECT_DETAIL);
 			break;
 		case 2:
-			url = Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_FEELING_DETAIL);
+			url = Tools
+					.generateWebUrl(Config.STRING_SYSTEM_SHARE_FEELING_DETAIL);
 			break;
 		case 3:
 			url = Config.STRING_SHARE_APP_URL;
 			break;
 		case 5:
-			url = Tools.generateWebUrl(Config.STRING_SYSTEM_SHARE_FEELING_DETAIL);
+			url = Tools
+					.generateWebUrl(Config.STRING_SYSTEM_SHARE_FEELING_DETAIL);
 			break;
 		default:
 			url = String.format("%s%d/%d", Config.STRING_SYSTEM_ADDRESS, type,
@@ -72,64 +78,105 @@ public class Tools {
 		}
 
 		share.setUrl(url);
-		
+
 		return share;
 	}
-	
-	public static String objToStr(String obj)
-	{
-		if(obj!=null && obj!="")
-		{
+
+	public static String objToStr(String obj) {
+		if (obj != null && obj != "") {
 			return obj.trim();
 		}
 		return "";
-		
+
 	}
-	
+
 	/***
 	 * 生成请求连接
+	 * 
 	 * @param actionUrl
 	 * @return
 	 */
-	public static String generateWebUrl(String actionUrl)
-	{
-		return String.format(Config.STRING_SYSTEM_ADDRESS+"%s.action", actionUrl);
+	public static String generateWebUrl(String actionUrl) {
+		return String.format(Config.STRING_SYSTEM_ADDRESS + "%s.action",
+				actionUrl);
 	}
-	
+
 	/***
 	 * 根据内容id生成网页查看链接
+	 * 
 	 * @param contentId
 	 * @return
 	 */
-	public static String  generateWebRecordUrl(Integer contentId)
-	{
+	public static String generateWebRecordUrl(Integer contentId) {
 		String path = String.format("%swebUrlLooker.action?contentId=%d",
 				Config.STRING_SYSTEM_ADDRESS, contentId);
 		return path;
 	}
-	
-	
+
 	/***
 	 * 按照密码生成规则生成密码
+	 * 
 	 * @param password
 	 * @return
 	 */
-	public static String generatePassword(String password,String telephone)
-	{
-		String str = String.format(Config.STRING_PASWWORD_RULE, password,telephone);
-		
+	public static String generatePassword(String password, String telephone) {
+		String str = String.format(Config.STRING_PASWWORD_RULE, password,
+				telephone);
+
 		return MD5.GetMD5Code(str);
 	}
-	
-	public static String getRandomString(int length) { //length表示生成字符串的长度
-	    String base = "abcdefghijklmnopqrstuvwxyz0123456789";   
-	    Random random = new Random();   
-	    StringBuffer sb = new StringBuffer();   
-	    for (int i = 0; i < length; i++) {   
-	        int number = random.nextInt(base.length());   
-	        sb.append(base.charAt(number));   
-	    }   
-	    return sb.toString();   
-	 }   
+
+	public static String getRandomString(int length) { // length表示生成字符串的长度
+		String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+		Random random = new Random();
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < length; i++) {
+			int number = random.nextInt(base.length());
+			sb.append(base.charAt(number));
+		}
+		return sb.toString();
+	}
+
+	public static void setValueOfWebPage(Map map, Integer page, Integer count,
+			Integer size, Integer sortmenu, Integer menu, Integer submenu) { // length表示生成字符串的长度
+		List pages = new ArrayList();
+		Integer num = count / size;
+		if (page < num) {
+			if (page < 5) {
+				if (num - page > 5) {
+					for (int i = 0; i < 5; i++) {
+						pages.add(i);
+					}
+				} else {
+					for (int i = 0; i <= num; i++) {
+						pages.add(i);
+					}
+				}
+			} else {
+				for (int i = page; i < page + 5; i++) {
+					pages.add(i);
+				}
+			}
+		} else {
+			page = num;
+
+			for (int i = 0; i <= page; i++) {
+				pages.add(i);
+			}
+		}
+
+		if (sortmenu == null) {
+			sortmenu = 0;
+		}
+
+		map.put("sizes", Config.SIZES);
+		map.put("size", size);
+		map.put("page", page);
+		map.put("count", count / size);
+		map.put("pages", pages);
+		map.put("sortmenu", sortmenu);
+		map.put("menu", menu);
+		map.put("submenu", submenu);
+	}
 
 }

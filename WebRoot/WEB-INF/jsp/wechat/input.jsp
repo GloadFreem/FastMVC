@@ -18,7 +18,7 @@
 </head>
 <body style="background: #f5f5f5">
 <div class="head">
-    <div class="icon" onclick="back()"><</div>
+	 <div class="icon2" onclick="back()">&nbsp;</div>
     <div class="title">订购课程</div>
 </div>
 
@@ -27,7 +27,7 @@
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">姓&nbsp;名</label></div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" placeholder="请输入您的姓名">
+                <input class="weui-input" type="text" placeholder="请输入您的姓名" id="nameNum">
             </div>
         </div>
         <div class="weui-cell weui-cell_vcode">
@@ -35,7 +35,7 @@
                 <label class="weui-label">手机号</label>
             </div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="number" placeholder="请输入手机号">
+                <input class="weui-input" type="number" placeholder="请输入手机号" id="telNum">
             </div>
             <div class="weui-cell__ft">
                 <button class="weui-vcode-btn" id="checkNum" style="text-align: center;min-width:100px;">获取验证码</button>
@@ -44,7 +44,7 @@
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入短信验证码">
+                <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入短信验证码"  id="codeNum">
             </div>
         </div>
     </div>
@@ -64,7 +64,15 @@
         <div class="weui-mask_transparent"></div>
         <div class="weui-toast">
             <i class="weui-icon-success-no-circle weui-icon_toast"></i>
-            <p class="weui-toast__content">验证码已发送</p>
+            <p class="weui-toast__content" id="msg_code">验证码已发送</p>
+        </div>
+    </div>
+    
+     <div id="toast2" style=" display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content"  style="margin-top: 1rem;;" id="msg_code2"></p>
         </div>
     </div>
 
@@ -79,6 +87,6 @@
 </body>
 
 <script type="text/javascript" src="js/jquery2.14.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="js/init.js" charset="utf-8"></script>
-<script type="text/javascript" src="js/input.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/init.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/input.min.js" charset="utf-8"></script>
 </html>

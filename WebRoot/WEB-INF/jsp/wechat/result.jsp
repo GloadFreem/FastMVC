@@ -18,24 +18,22 @@
 </head>
 <body style="background: #f5f5f5">
 <div class="head">
-    <div class="icon" onclick="back()"><</div>
+ 		<div class="icon" style="color: #000">&nbsp;</div>
     <div class="title">支付成功</div>
 </div>
 
 <div class="content">
 
-
     <div class="weui-msg">
-
         <img src="img/pay_bg.png" class="pay-bg"/>
         <!--<div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>-->
 
         <div class="weui-msg__text-area zero-top" >
-            <h2 class="weui-msg__title">您已成功订购改课程</h2>
-            <h2 class="weui-msg__title">登录金指投APP开始学习吧</h2>
+            <h2 class="weui-msg__title" style="font-size:18px;">您已成功订购改课程</h2>
+            <h2 class="weui-msg__title" style="font-size:18px;">登录金指投APP开始学习吧</h2>
             <p class="weui-msg__desc zero-top2" style="color:#fff;">
                 <span style="color:#44916d;">账号：</span>
-               17791823421
+               <span id="telNum">17791823421</span>
             </p>
             <p class="weui-msg__desc zero-top3" style="color:#fff;">
                 <span style="color:#44916d;">密码：</span>
@@ -49,7 +47,7 @@
                    class="weui-btn weui-btn_jinzt">打开APP</a>
             </p>
         </div>
-        <div class="weui-msg__extra-area" style="margin-bottom: 4rem;">
+        <div class="weui-msg__extra-area" style="margin-bottom: 2rem;">
             <div class="weui-footer">
                 <p class="weui-footer__links">
                     <a href="javascript:void(0);" class="weui-footer__link" style="color: #ff6700;font-size: 15px;">—

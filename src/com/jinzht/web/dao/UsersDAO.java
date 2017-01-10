@@ -195,6 +195,7 @@ public class UsersDAO {
 		}
 	}
 	
+	
 	public List<Users> findByName(Object name) {
 		String sqlString = "select * from users where name like ?";
 		
@@ -207,6 +208,19 @@ public class UsersDAO {
 		log.debug("finding all Users instances");
 		try {
 			String queryString = "from Users";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(start*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	public List findByUserIdDesc(Integer start,Integer size) {
+		log.debug("finding all Users instances");
+		try {
+			String queryString = "from Users as model order by model.userId desc";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setFirstResult(start*size);
 			queryObject.setMaxResults(size);

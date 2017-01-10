@@ -18,27 +18,30 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jinzht.tools.ExcelUtil;
 import com.jinzht.tools.Project;
 import com.jinzht.web.entity.BusinessInvitationCode;
+import com.jinzht.web.entity.BusinessSchool;
 import com.jinzht.web.manager.CourseManager;
 
 @Controller
 public class WebDownloadAdminController {
 	@Autowired
-	private CourseManager curseManager; 
-	
-	
+	private CourseManager curseManager;
+
 	@RequestMapping(value = "newSystem/downloadInviteCode")
-	public String downloadInviteCode(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+	public String downloadInviteCode(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
 		String fileName = "excel文件";
 		// 填充projects数据
-		List<BusinessInvitationCode> codes = createInviteCodeData();
+		List<BusinessInvitationCode> codes = createInviteCodeData(contentId);
 		List<Map<String, Object>> list = createExcelInviteCodeRecord(codes);
-		String columnNames[] = { "ID", "所属课程", "邀请码", "是否已过期"};// 列名
-		String keys[] = { "cid", "bname", "ccode", "cvalid"};// map中的key
+		String columnNames[] = { "ID", "所属课程", "邀请码", "是否已过期" };// 列名
+		String keys[] = { "cid", "bname", "ccode", "cvalid" };// map中的key
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
 			ExcelUtil.createWorkBook(list, keys, columnNames).write(os);
@@ -74,16 +77,24 @@ public class WebDownloadAdminController {
 		}
 		return null;
 	}
-	
-	private List<BusinessInvitationCode> createInviteCodeData() {
-		// TODO Auto-generated method stub
+
+	private List<BusinessInvitationCode> createInviteCodeData(Integer contentId) {
+		List list;
+		if(contentId!=null)
+		{
+			BusinessSchool school = this.curseManager.getBuinessSchoolDao().findById(contentId);
+			list = this.curseManager.getBusinessInvitationCodeDao().findByProperty("businessSchool", school);
+		}else{
+			
+			list  = this.curseManager.getBusinessInvitationCodeDao().findAll();
+		}
 		// 自己实现
-		List list  = this.curseManager.getBusinessInvitationCodeDao().findAll();
 		
 		return list;
 	}
-	
-	private List<Map<String, Object>> createExcelInviteCodeRecord(List<BusinessInvitationCode> codes) {
+
+	private List<Map<String, Object>> createExcelInviteCodeRecord(
+			List<BusinessInvitationCode> codes) {
 		List<Map<String, Object>> listmap = new ArrayList<Map<String, Object>>();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("sheetName", "sheet1");
@@ -95,22 +106,21 @@ public class WebDownloadAdminController {
 			mapValue.put("cid", project.getCid());
 			mapValue.put("bname", project.getBusinessSchool().getBname());
 			mapValue.put("ccode", project.getCcode());
-			
+
 			String valid = "已失效";
-			if(project.getCvalid()!=null)
-			{
-				if(project.getCvalid().equals("1"))
-				{
-					valid= "有效";
+			if (project.getCvalid() != null) {
+				if (project.getCvalid().equals("1")) {
+					valid = "有效";
 				}
-				
+
 			}
 			mapValue.put("cvalid", valid);
-			
+
 			listmap.add(mapValue);
 		}
 		return listmap;
 	}
+
 	@RequestMapping(value = "newSystem/downloadproject")
 	public String download(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {

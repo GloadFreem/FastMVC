@@ -48,6 +48,7 @@ import com.jinzht.web.entity.Systemcode;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.AuthenticManager;
+import com.jinzht.web.manager.ImManager;
 import com.jinzht.web.manager.InvestorManager;
 import com.jinzht.web.manager.RewardManager;
 import com.jinzht.web.manager.UserManager;
@@ -65,6 +66,8 @@ public class UserController extends BaseController {
 	private InvestorManager investorManager;
 	@Autowired
 	private RewardManager rewardManger;
+	@Autowired
+	private ImManager imManager;
 
 	@RequestMapping("/verifyCode")
 	@ResponseBody
@@ -129,7 +132,7 @@ public class UserController extends BaseController {
 					this.result.put("data", map);
 					return getResult();
 				}
-			} else {
+			} else  if (message.getType() == 3) {
 				// message.type 3:表示用户更换绑定手机号码
 				// 判断用户是否输入重复手机号码
 				if (user != null) {
@@ -170,6 +173,8 @@ public class UserController extends BaseController {
 				this.message = Config.SMS_FAIL_SEND_STRING;
 			}
 		}
+		
+		this.result.put("data", "JSESSIONID=" + session.getId());
 		return getResult();
 	}
 
@@ -217,17 +222,17 @@ public class UserController extends BaseController {
 					// 如果未找到用户记录，生成用户数据
 					if (user == null) {
 						user = userInstance;
-						//设置注册时间
+						// 设置注册时间
 						user.setRegistDate(new Date());
 						// 添加至事务操作
 						user = this.userManger.addUser(user);
-						
-						 final Users u = user;
+
+						final Users u = user;
+						final UserController self = this;
 						// 判断用户是否保存成功
 						if (user != null) {
-							new Thread(){
-								public void run()
-								{
+							new Thread() {
+								public void run() {
 									try {
 										// 发送用户注册成功短信
 										MsgUtil SMS = new MsgUtil();
@@ -241,9 +246,26 @@ public class UserController extends BaseController {
 										// 发送注册成功邮件
 										MailUtil mu = new MailUtil();
 										try {
-											mu.sendUserRegist(mu, u.getTelephone());
+											mu.sendUserRegist(mu,
+													u.getTelephone());
 										} catch (Exception e) {
 											e.printStackTrace();
+										}
+
+										if (u.getPassword() != null) {
+											result = self.imManager
+													.addUserToIM(
+															Config.IM_USER_NAME
+																	+ u.getUserId(),
+															u.getPassword(), u
+																	.getName());
+										} else {
+											result = self.imManager
+													.addUserToIM(
+															Config.IM_USER_NAME
+																	+ u.getUserId(),
+															u.getWechatId(), u
+																	.getName());
 										}
 
 									} catch (Exception e) {
@@ -252,7 +274,7 @@ public class UserController extends BaseController {
 									}
 								}
 							}.start();
-							
+
 							userRewardInvite(user, inviteCode, session);
 
 							// 封装返回数据对象
@@ -277,10 +299,10 @@ public class UserController extends BaseController {
 							session.setAttribute("userId", user.getUserId());
 							this.status = 400;
 							this.message = Config.STRING_LOGING_FAIL_HAS_REGISTED;
-						}else{
+						} else {
 							user.setTelephone(userInstance.getTelephone());
 							user.setPassword(userInstance.getPassword());
-							
+
 							this.userManger.saveOrUpdateUser(user);
 							this.status = 200;
 							this.message = "";
@@ -471,7 +493,7 @@ public class UserController extends BaseController {
 					this.message = Config.STRING_LOGING_SUCCESS;
 
 					session.setAttribute("userId", user.getUserId());
-//					session.setAttribute("userId", null);
+					// session.setAttribute("userId", null);
 
 					// 金条奖励
 					checkUserLoginRecord(user, session);
@@ -609,9 +631,8 @@ public class UserController extends BaseController {
 			return getResult();
 		}
 
-		short plat =0 ;
-		if(Integer.parseInt(platform)!=0)
-		{
+		short plat = 0;
+		if (Integer.parseInt(platform) != 0) {
 			plat = 1;
 		}
 		// 获取用户
@@ -647,6 +668,22 @@ public class UserController extends BaseController {
 				type.setName("无身份");
 				map.put("identityType", type);
 			}
+
+			final Users u = user;
+			final UserController self = this;
+			new Thread() {
+				public void run() {
+					if (u.getPassword() != null) {
+						result = self.imManager.addUserToIM(Config.IM_USER_NAME
+								+ u.getUserId(), u.getPassword(), u.getName());
+					} else {
+						result = self.imManager.addUserToIM(Config.IM_USER_NAME
+								+ u.getUserId(), u.getWechatId(), u.getName());
+					}
+
+				};
+
+			}.start();
 
 			this.status = 200;
 			session.setAttribute("userId", user.getUserId());
@@ -700,16 +737,14 @@ public class UserController extends BaseController {
 	 * @param mm
 	 * @return
 	 */
-	public Map noLogoInfo(
-			@RequestParam(value="flag")boolean flag,
+	public Map noLogoInfo(@RequestParam(value = "flag") boolean flag,
 			ModelMap mm) {
 		this.result = new HashMap();
 		this.status = 401;
 		this.message = Config.STRING_LOGING_TIP;
-		if(flag)
-		{
+		if (flag) {
 			this.result.put("data", new ArrayList());
-		}else{
+		} else {
 			this.result.put("data", "");
 		}
 		return getResult();
@@ -800,7 +835,8 @@ public class UserController extends BaseController {
 		} else {
 			// 保存图片
 			String fileName = String.format(
-					Config.STRING_USER_HEADER_PICTURE_FORMAT, new Date().getTime());
+					Config.STRING_USER_HEADER_PICTURE_FORMAT,
+					new Date().getTime());
 			String result = FileUtil.savePicture(file, fileName,
 					"upload/headerImages/");
 			if (!result.equals("")) {
@@ -951,6 +987,7 @@ public class UserController extends BaseController {
 
 		return getResult();
 	}
+
 	@RequestMapping("/requestUpdateUserInfoAction")
 	@ResponseBody
 	/***
@@ -965,37 +1002,34 @@ public class UserController extends BaseController {
 			@RequestParam(value = "areas", required = false) String areas,
 			HttpSession session) {
 		this.result = new HashMap();
-		
+
 		this.status = 200;
 		this.result.put("data", "");
 		this.message = Config.STRING_LOGING_STATUS_ONLINE;
-		
+
 		// 获取用户
 		Users user = this.findUserInSession(session);
-		
+
 		if (user == null) {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
 		} else {
-			
+
 			// 更新信息
 			Object[] authentics = user.getAuthentics().toArray();
-			
+
 			Authentic authentic = null;
 			for (int i = 0; i < authentics.length; i++) {
 				authentic = (Authentic) authentics[i];
-				if(userIntroduce!=null && !userIntroduce.equals(""))
-				{
+				if (userIntroduce != null && !userIntroduce.equals("")) {
 					authentic.setIntroduce(userIntroduce);
 				}
-				
-				if(companyIntroduce!=null && !companyIntroduce.equals(""))
-				{
+
+				if (companyIntroduce != null && !companyIntroduce.equals("")) {
 					authentic.setCompanyIntroduce(companyIntroduce);
 				}
-				
-				if(areas!=null && !areas.equals(""))
-				{
+
+				if (areas != null && !areas.equals("")) {
 					authentic.setIndustoryArea(areas);
 				}
 			}
@@ -1004,7 +1038,7 @@ public class UserController extends BaseController {
 			this.status = 200;
 			this.message = Config.STRING_USER_INFO_UPDATE_SUCCESS;
 		}
-		
+
 		return getResult();
 	}
 
@@ -1210,18 +1244,17 @@ public class UserController extends BaseController {
 			List list = null;
 			list = this.userManger.findUserAttendActions(user, page);
 
-			if (list != null && list.size()>0) {
+			if (list != null && list.size() > 0) {
 				// 返回信息
 				this.status = 200;
 				this.result.put("data", list);
 			} else {
 				// 返回信息
-				if(page!=0)
-				{
-					
+				if (page != 0) {
+
 					this.status = 201;
-				}else{
-					
+				} else {
+
 					this.status = 200;
 				}
 				this.result.put("data", new ArrayList());
@@ -1361,8 +1394,6 @@ public class UserController extends BaseController {
 		rewardNewUser(user);
 		return map;
 	}
-	
-	
 
 	public void rewardNewUser(Users user) {
 		// 获取列表
@@ -1392,8 +1423,6 @@ public class UserController extends BaseController {
 			this.userManger.getRewardSystemDao().save(system);
 		}
 	}
-	
-	
 
 	/***
 	 * 从当前session获取用户对象
