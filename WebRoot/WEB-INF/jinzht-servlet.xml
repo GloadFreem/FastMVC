@@ -67,5 +67,6 @@
 	<bean id="imManager" class="com.jinzht.web.manager.ImManager"></bean>
 	<bean id="courseManager" class="com.jinzht.web.manager.CourseManager"></bean>
 	<bean id="OrderManager" class="com.jinzht.web.manager.OrderManager"></bean>
+	<bean id="SanManager" class="com.jinzht.stock.manager.SanManager"></bean>
 
 </beans>

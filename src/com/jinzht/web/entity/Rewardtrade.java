@@ -80,7 +80,7 @@ public class Rewardtrade implements java.io.Serializable {
 		this.rewardtradetype = rewardtradetype;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reward_id")
 	public Rewardsystem getRewardsystem() {
 		return this.rewardsystem;

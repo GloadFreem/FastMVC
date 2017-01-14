@@ -18,7 +18,7 @@
 			<value>root</value>
 		</property>
 		<property name="password">
-			<value>Changeme_123</value>
+			<value></value>
 		</property>
 		<!-- <property name="password"> <value>Changeme_123</value> </property> -->
 	</bean>
@@ -149,6 +149,17 @@
 					<value>com.jinzht.web.entity.ProjectType</value>
 				<value>com.jinzht.web.entity.ProjectRange</value>
 					<value>com.jinzht.web.entity.ProjectHotSearch</value>
+					
+					
+							<value>com.jinzht.stock.entity.SanAsset</value>
+				<value>com.jinzht.stock.entity.SanCompany</value>
+				<value>com.jinzht.stock.entity.SanIncome</value>
+				<value>com.jinzht.stock.entity.SanLiabilities</value>
+				<value>com.jinzht.stock.entity.SanProfit</value>
+				<value>com.jinzht.stock.entity.SanManagementer</value>
+				<value>com.jinzht.stock.entity.SanShareholder</value>
+					
+					
 			</list>
 		</property>
 	</bean>
@@ -718,6 +729,48 @@
 	</bean>
 	<bean id="BusinessPayStatusDAO"
 		class="com.jinzht.web.entity.BusinessPayStatusDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SanLiabilitiesDAO"
+		class="com.jinzht.stock.entity.SanLiabilitiesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SanAssetDAO"
+		class="com.jinzht.stock.entity.SanAssetDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SanIncomeDAO"
+		class="com.jinzht.stock.entity.SanIncomeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SanShareholderDAO"
+		class="com.jinzht.stock.entity.SanShareholderDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SanProfitDAO"
+		class="com.jinzht.stock.entity.SanProfitDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SanManagementerDAO"
+		class="com.jinzht.stock.entity.SanManagementerDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="SanCompanyDAO"
+		class="com.jinzht.stock.entity.SanCompanyDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

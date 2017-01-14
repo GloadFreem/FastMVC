@@ -192,14 +192,14 @@ public class CourseController extends BaseController {
 			} else {
 				this.result.put("data", school);
 			}
-			if(user.getName().equals(null)){
+			if(user.getName()==null){
 				user.setName("用户"+user.getUserId());
 			}
 			this.result.put("extr", user.getName());
 			this.status = 200;
 			this.message = "";
 		}else{
-			this.result.put("extr", user.getName());
+			this.result.put("extr", "");
 			this.status = 401;
 			this.message = "请先登录!";
 		}

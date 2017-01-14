@@ -10,6 +10,7 @@
 	<bean id="anotherBean" class="com.message.Enity.AnotherBean"></bean>
 	<bean id="nightBean" class="com.message.Enity.NightBean"></bean>
 	<bean id="messageManager" class="com.message.manager.MessageMananger"></bean>
+		<bean id="sanManager" class="com.jinzht.stock.manager.SanManager"></bean>
 
 
 
@@ -70,7 +71,7 @@
 	<bean id="delTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="TimerDeleteDetail" />
-		    <property name="cronExpression" value="0 10 0-23 * * ?" />  
+		    <property name="cronExpression" value="0 10 2 * * ?" />  
 	</bean>
 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

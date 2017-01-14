@@ -62,7 +62,7 @@ public class Rewardsystem implements java.io.Serializable {
 		this.rewardId = rewardId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	public Users getUsers() {
 		return this.users;
@@ -81,7 +81,7 @@ public class Rewardsystem implements java.io.Serializable {
 		this.count = count;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "rewardsystem")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "rewardsystem")
 	public Set<Rewardtrade> getRewardtrades() {
 		return this.rewardtrades;
 	}

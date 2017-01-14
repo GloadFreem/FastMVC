@@ -164,8 +164,9 @@ public class PayController extends BaseController {
 							user.setAuthentics(set);
 
 							this.userManager.getUserDao().save(user);
-							
+
 							session.setAttribute("userId", user.getUserId());
+							session.setAttribute("new", true);
 
 							final Users u = user;
 							final PayController self = this;
@@ -338,19 +339,26 @@ public class PayController extends BaseController {
 
 			this.courseManager.getBusniessJoinDao().save(join);
 
-			// 发送短信通知
-
 			String pass = Tools.getRandomString(6);
-			String password = Tools.generatePassword(pass, user.getTelephone());
-			user.setPassword(password);
-
-			this.userManager.getUserDao().saveOrUpdate(user);
-
+			
 			final PayController self = this;
 			final Users u = user;
 			final BusinessOrder o = order;
 			final String s = sessionId;
 			final String p = pass;
+			final boolean flag;
+			if (session.getAttribute("new") == null) {
+				flag = false;
+			} else {
+				flag = (boolean) session.getAttribute("new");
+				
+				// 发送短信通知
+				String password = Tools.generatePassword(pass, user.getTelephone());
+				user.setPassword(password);
+
+				this.userManager.getUserDao().saveOrUpdate(user);
+			}
+			
 			new Thread() {
 				public void run() {
 					if (s != null) {
@@ -360,11 +368,20 @@ public class PayController extends BaseController {
 						SMS.setTelePhone(u.getTelephone());
 						SMS.setMsgType(MessageType.NormalMessage);
 						// 短信内容：感谢你注册金指投--专注中国成长型企业股权投融资
-						String content = String.format(
-								Config.STRING_SMS_ORDER_CONFIRM, o
-										.getBusinessSchool().getBname(), u
-										.getTelephone(), p);
+						String content;
+						if (flag) {
+							content = String.format(
+									Config.STRING_SMS_ORDER_CONFIRM_NEW, o
+											.getBusinessSchool().getBname(), u
+											.getTelephone(), p);
+						} else {
+							content = String.format(
+									Config.STRING_SMS_ORDER_CONFIRM_OLD, o
+											.getBusinessSchool().getBname());
+
+						}
 						SMS.setContent(content);
+
 						// 发送短信
 						MsgUtil.send();
 					}
@@ -446,7 +463,7 @@ public class PayController extends BaseController {
 		in.close();
 		String msgxml = new String(out.toByteArray(), "utf-8");// xml数据
 		System.out.println(msgxml);
-		
+
 	}
 
 	@RequestMapping(value = "/notifyappurl")

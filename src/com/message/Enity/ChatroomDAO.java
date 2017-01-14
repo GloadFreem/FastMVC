@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jinzht.web.entity.BusinessSchool;
+import com.jinzht.web.entity.Contenttype;
 import com.jinzht.web.entity.Project;
 
 /**
@@ -170,6 +171,32 @@ public class ChatroomDAO {
 			String queryString = "from Chatroom";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public List findByPage(Integer page,Integer size) {
+		log.debug("finding all Chatroom instances");
+		try {
+			String queryString = "from Chatroom order by createDate desc";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(page*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public Integer countOfAllUsers() {
+		log.debug("finding all Chatroom instances");
+		try {
+			String queryString = "select count(*) from chatroom order by  create_date desc";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

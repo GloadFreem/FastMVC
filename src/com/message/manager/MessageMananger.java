@@ -116,8 +116,7 @@ public class MessageMananger {
 				// 开启线程
 				threadPool.execute(new Runnable() {
 					public void run() {
-						System.out.println(LAG + "----------------执行线程（"
-								+ taskID + ")");
+					
 						// while(true){
 						System.out.println(LAG + "----------------爬虫地址："
 								+ webrulelist.get(taskID).getUrl());
@@ -140,7 +139,7 @@ public class MessageMananger {
 		// String itemUrl[] = urlStr.split(";");
 		String url = webrule.getUrl();
 		// int sources = Integer.valueOf( itemUrl[1]);
-		System.out.println("线程" + webrule.getId() + LAG + "----------解析网站入口");
+//		System.out.println("线程" + webrule.getId() + LAG + "----------解析网站入口");
 		// if(sources==Config.SOURCES_WANGYI){
 		// //网易新闻
 		// System.out.println(LAG+"----------开始网易新闻解析");
@@ -198,10 +197,7 @@ public class MessageMananger {
 			
 				msgDao.save(transientInstance);
 			}
-//			// System.out.println(LAG + list.size());
-//			if (list != null && list.size() == 0) {
-//			
-//			}
+
 		}
 	}
 	

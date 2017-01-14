@@ -8,7 +8,6 @@
 				<li class="active">工作区</li>
 			</ul>
 			<div class="m-b-md">
-				<input type="button" value="导出数据" onclick="download()" />
 				<h3 class="m-b-none">工作区</h3>
 				<small>欢迎回来, Jack</small>
 			</div>
@@ -306,10 +305,3 @@
 	<a href="#" class="hide nav-off-screen-block"
 		data-toggle="class:nav-off-screen" data-target="#nav"></a>
 </section>
-
-<script>
-	function download() {
-		var url = "http://localhost:8080/jinzht/newSystem/downloadproject.action";
-		window.open(url);
-	}
-</script>

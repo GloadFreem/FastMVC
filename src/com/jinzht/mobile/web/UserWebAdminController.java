@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jinzht.stock.manager.SanManager;
 import com.jinzht.tools.Config;
 import com.jinzht.tools.DateUtils;
 import com.jinzht.tools.FileUtil;
@@ -130,12 +131,26 @@ public class UserWebAdminController extends BaseController {
 	private CourseManager courseManager;
 	@Autowired
 	private ImManager imManager;
+	@Autowired
+	private ProjectManager projectManager;
+	@Autowired
+	private ActionManager actionManager;
+	@Autowired
+	private FeelingManager feelingManager;
+	@Autowired
+	private MainManager mainManager;
+	@Autowired
+	private MessageMananger messageManager;
+	@Autowired
+	private SystemManager systemManager;
+	@Autowired
+	private SanManager sanManager;
 
 	/***
 	 * ---------------------------------------------商学后端管理系统升级------------------
 	 * -------------------------
 	 ***/
-	
+
 	/***
 	 * 用户列表
 	 * 
@@ -161,8 +176,7 @@ public class UserWebAdminController extends BaseController {
 			page = 0;
 		}
 
-		List list = this.userManager.getUserDao().findByPage(
-				page,size);
+		List list = this.userManager.getUserDao().findByPage(page, size);
 		Integer count = this.userManager.getUserDao().countOfAllUsers();
 		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
 
@@ -171,7 +185,724 @@ public class UserWebAdminController extends BaseController {
 		map.put("content", "table-user");
 		return Config.NEW_SERVER_CONTROL;
 	}
+
+	/***
+	 * 认证审核
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/authenticList")
+	public String authenticList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.authenticManager.getAuthenticDao().findByPage(page,
+				size);
+		Integer count = this.authenticManager.getAuthenticDao()
+				.countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-authentic");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 项目
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/projectList")
+	public String projectList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.projectManager.getProjectDao().findByPage(page, size);
+		Integer count = this.projectManager.getProjectDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-project");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 路演管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/roadshowList")
+	public String roadshowList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.projectManager.getRoadShowDao().findByPage(page, size);
+		Integer count = this.projectManager.getRoadShowDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-roadshow");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 现场管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/sceneList")
+	public String sceneList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.projectManager.getSceneDao().findByPage(page, size);
+		Integer count = this.projectManager.getSceneDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-scene");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 财务状况管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/financeStandingList")
+	public String financeStandingList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.projectManager.getFinanceStandingDao().findByPage(
+				page, size);
+		Integer count = this.projectManager.getFinanceStandingDao()
+				.countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-finance-standing");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 商业计划管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/businessPlanList")
+	public String businessPlanList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.projectManager.getBusinessPlanDao().findByPage(page,
+				size);
+		Integer count = this.projectManager.getBusinessPlanDao()
+				.countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-business-plan");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 融资方案管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/financeCaseList")
+	public String financeCaseList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.projectManager.getFinancingCaseDao().findByPage(page,
+				size);
+		Integer count = this.projectManager.getFinancingCaseDao()
+				.countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-finance-case");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 融资方案管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/financeExitList")
+	public String financeExitList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.projectManager.getFinancingexitDao().findByPage(page,
+				size);
+		Integer count = this.projectManager.getFinancingexitDao()
+				.countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-finance-exit");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 成员管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/memberList")
+	public String memberList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.projectManager.getMemberDao().findByPage(page, size);
+		Integer count = this.projectManager.getMemberDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-member");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 团队管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/teamList")
+	public String teamList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.projectManager.getTeamDao().findByPage(page, size);
+		Integer count = this.projectManager.getTeamDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-team");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 活动管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/actionList")
+	public String actionList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.actionManager.getActionDao().findByPage(page, size);
+		Integer count = this.actionManager.getActionDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-action");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 团队管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/actionContentList")
+	public String actionContentList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.actionManager.getActionIntroduceDao().findByPage(page,
+				size);
+		Integer count = this.actionManager.getActionIntroduceDao()
+				.countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-action-content");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 圈子管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/feelingList")
+	public String feelingList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.feelingManager.getPublicContentDao().findByPage(page,
+				size);
+		Integer count = this.feelingManager.getPublicContentDao()
+				.countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-feeling");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	/***
+	 * 资讯管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/consultList")
+	public String consultList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+
+		if (size == null) {
+			size = 10;
+		}
+
+		if (page == null) {
+			page = 0;
+		}
+
+		List list = this.messageManager.getMsgDao().findByPage(page,
+				size);
+		Integer count = this.messageManager.getMsgDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+
+		map.put("result", list);
+
+		map.put("content", "table-consult");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 原创管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/originalList")
+	public String originalList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if (size == null) {
+			size = 10;
+		}
+		
+		if (page == null) {
+			page = 0;
+		}
+		
+		List list = this.mainManager.getOrigianlDao().findByPage(page,
+				size);
+		Integer count = this.mainManager.getOrigianlDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+		
+		map.put("result", list);
+		
+		map.put("content", "table-original");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 金日投条管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/kingConsultList")
+	public String kingConsultList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if (size == null) {
+			size = 10;
+		}
+		
+		if (page == null) {
+			page = 0;
+		}
+		
+		List list = this.systemManager.getWebUrlRecordDao().findByPage(page,
+				size);
+		Integer count = this.systemManager.getWebUrlRecordDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+		
+		map.put("result", list);
+		
+		map.put("content", "table-king");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 聊天室管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/chatRoomsList")
+	public String chatRoomsList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if (size == null) {
+			size = 10;
+		}
+		
+		if (page == null) {
+			page = 0;
+		}
+		
+		List list = this.imManager.getChatRoomDao().findByPage(page,
+				size);
+		Integer count = this.imManager.getChatRoomDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+		
+		map.put("result", list);
+		
+		map.put("content", "table-chatroom");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 新三板管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/newOTCList")
+	public String newOTCList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if (size == null) {
+			size = 10;
+		}
+		
+		if (page == null) {
+			page = 0;
+		}
+		
+		List list = this.sanManager.getCompanyDAO().findByPage(page,
+				size);
+		Integer count = this.sanManager.getCompanyDAO().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+		
+		map.put("result", list);
+		
+		map.put("content", "table-otc");
+		return Config.NEW_SERVER_CONTROL;
+	}
 	
+	
+	/***
+	 * 金条管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/rewardList")
+	public String rewardList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if (size == null) {
+			size = 10;
+		}
+		
+		if (page == null) {
+			page = 0;
+		}
+		
+		List list = this.userManager.getRewardSystemDao().findByPage(page,
+				size);
+		Integer count = this.userManager.getRewardSystemDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+		
+		map.put("result", list);
+		
+		map.put("content", "table-reward");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 金条交易管理
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/rewardTradeList")
+	public String rewardTradeList(
+			ModelMap map,
+			@RequestParam(value = "size", required = false) Integer size,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if (size == null) {
+			size = 10;
+		}
+		
+		if (page == null) {
+			page = 0;
+		}
+		
+		List list = this.userManager.getRewardTradeDao().findByPage(page,
+				size);
+		Integer count = this.userManager.getRewardTradeDao().countOfAllUsers();
+		Tools.setValueOfWebPage(map, page, count, size, sortmenu, menu, submenu);
+		
+		map.put("result", list);
+		
+		map.put("content", "table-reward-trade");
+		return Config.NEW_SERVER_CONTROL;
+	}
+
 	/***
 	 * ---------------------------------------------后端管理系统升级--------------------
 	 * -----------------------

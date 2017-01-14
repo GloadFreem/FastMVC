@@ -191,15 +191,547 @@
 									</a>
 									<ul class="nav lt">
 										<c:choose>
-											<c:when test="${submenu==1&&menu==2}">
+											<c:when test="${sortmenu==1}">
 												<li class="active">
 											</c:when>
 											<c:otherwise>
 												<li>
 											</c:otherwise>
 										</c:choose>
-										<a href="userList.action?menu=3&sortmenu=1&submenu=1"> <i
-											class="fa fa-angle-right"></i> <span>用户列表</span>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>用户管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="userList.action?menu=3&sortmenu=1&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>用户列表</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加用户</span>
+											</a></li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==2}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>认证管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="authenticList.action?menu=3&sortmenu=2&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>认证审核</span>
+											</a>
+											</li>
+											<li><a href="authenticList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加认证身份</span>
+											</a></li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==3}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>金条管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="rewardList.action?menu=3&sortmenu=3&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>金条列表</span>
+											</a>
+											</li>
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="rewardTradeList.action?menu=3&sortmenu=3&submenu=2&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>金条交易列表</span>
+											</a>
+											</li>
+											<c:choose>
+												<c:when test="${submenu==3}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a href="authenticList.action"> <i
+												class="fa fa-angle-right"></i> <span>添加金条</span>
+											</a>
+											</li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==4}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>黑名单管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="userList.action?menu=3&sortmenu=4&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>黑名单列表</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>加入黑名单</span>
+											</a></li>
+										</ul>
+										</li>
+									</ul>
+									</li>
+									<c:choose>
+										<c:when test="${menu==4}">
+											<li class="active">
+										</c:when>
+										<c:otherwise>
+											<li>
+										</c:otherwise>
+									</c:choose>
+									<a href="#pages"> <i class="fa fa-envelope-o icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>项目管理</span>
+									</a>
+									<ul class="nav lt">
+										<c:choose>
+											<c:when test="${sortmenu==1}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>项目管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="projectList.action?menu=4&sortmenu=1&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>项目列表</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加项目</span>
+											</a></li>
+										</ul>
+										</li>
+
+										<c:choose>
+											<c:when test="${sortmenu==2}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>路演管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="roadshowList.action?menu=4&sortmenu=2&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>路演列表</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加路演</span>
+											</a></li>
+										</ul>
+										</li>
+
+										<c:choose>
+											<c:when test="${sortmenu==3}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>现场管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="sceneList.action?menu=4&sortmenu=4&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>现场列表</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加现场</span>
+											</a></li>
+										</ul>
+										</li>
+
+
+										<c:choose>
+											<c:when test="${sortmenu==4}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>财务管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="financeStandingList.action?menu=4&sortmenu=4&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>财务状况</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加财务状况</span>
+											</a></li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==5}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>商业计划管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="businessPlanList.action?menu=4&sortmenu=5&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>商业计划</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加商业计划</span>
+											</a></li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==6}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>融资方案管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="financeCaseList.action?menu=4&sortmenu=6&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>融资方案</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加融资状况</span>
+											</a></li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==7}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>退出渠道管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="financeExitList.action?menu=4&sortmenu=7&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>退出渠道</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加退出渠道</span>
+											</a></li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==8}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>成员管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="memberList.action?menu=4&sortmenu=8&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>成员列表</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加成员</span>
+											</a></li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==9}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>核心团队管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="teamList.action?menu=4&sortmenu=9&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>成员列表</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加核心成员</span>
+											</a></li>
+										</ul>
+										</li>
+
+									</ul>
+									</li>
+									<c:choose>
+										<c:when test="${menu==5}">
+											<li class="active">
+										</c:when>
+										<c:otherwise>
+											<li>
+										</c:otherwise>
+									</c:choose>
+									<a href="#pages"> <i class="fa fa-envelope-o icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>活动管理</span>
+									</a>
+									<ul class="nav lt">
+										<c:choose>
+											<c:when test="${sortmenu==1}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>活动管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="actionList.action?menu=5&sortmenu=1&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>活动列表</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加活动</span>
+											</a></li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==2}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>活动内容管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="actionContentList.action?menu=5&sortmenu=2&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>内容列表</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加活动内容</span>
+											</a></li>
+										</ul>
+										</li>
+									</ul>
+									</li>
+									<c:choose>
+										<c:when test="${menu==6}">
+											<li class="active">
+										</c:when>
+										<c:otherwise>
+											<li>
+										</c:otherwise>
+									</c:choose>
+									<a href="#pages"> <i class="fa fa-envelope-o icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>圈子管理</span>
+									</a>
+									<ul class="nav lt">
+										<c:choose>
+											<c:when test="${submenu==1}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a
+											href="feelingList.action?menu=6&sortmenu=1&submenu=1&requestType=webRequest">
+											<i class="fa fa-angle-right"></i> <span>圈子列表</span>
 										</a>
 										</li>
 										<c:choose>
@@ -210,8 +742,8 @@
 												<li>
 											</c:otherwise>
 										</c:choose>
-										<a href="newsBanner.action?menu=2&sortmenu=1&submenu=2"> <i
-											class="fa fa-angle-right"></i> <span>认证审核</span>
+										<a href="AttendList.action"> <i class="fa fa-angle-right"></i>
+											<span>添加圈子</span>
 										</a>
 										</li>
 										<c:choose>
@@ -222,156 +754,225 @@
 												<li>
 											</c:otherwise>
 										</c:choose>
-										<a href="originalBanner.action?menu=2&sortmenu=1&submenu=3">
+										<a
+											href="feelingList.action?menu=6&sortmenu=1&submenu=3&requestType=webRequest">
 											<i class="fa fa-angle-right"></i> <span>黑名单</span>
 										</a>
 										</li>
+
 									</ul>
 									</li>
-									<!-- <li><a href="#layout"> <i class="fa fa-columns icon">
-												<b class="bg-warning"></b>
-										</i> <span class="pull-right"> <i
-												class="fa fa-angle-down text"></i> <i
-												class="fa fa-angle-up text-active"></i>
-										</span> <span>用户管理</span>
+									<c:choose>
+										<c:when test="${menu==7}">
+											<li class="active">
+										</c:when>
+										<c:otherwise>
+											<li>
+										</c:otherwise>
+									</c:choose>
+									<a href="#pages"> <i class="fa fa-envelope-o icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>资讯管理</span>
 									</a>
-										<ul class="nav lt">
-											<li><a href="layout-c.html"> <i
-													class="fa fa-angle-right"></i> <span>用户列表</span>
-											</a></li>
-											<li><a href="layout-r.html"> <i
-													class="fa fa-angle-right"></i> <span>认证审核</span>
-											</a></li>
-											<li><a href="layout-h.html"> <i
-													class="fa fa-angle-right"></i> <span>黑名单</span>
-											</a></li>
-										</ul></li>
-									<li><a href="#uikit"> <i class="fa fa-flask icon">
-												<b class="bg-success"></b>
-										</i> <span class="pull-right"> <i
-												class="fa fa-angle-down text"></i> <i
-												class="fa fa-angle-up text-active"></i>
-										</span> <span>项目管理</span>
-									</a>
-										<ul class="nav lt">
-											<li><a href="buttons.html"> <i
-													class="fa fa-angle-right"></i> <span>项目列表</span>
-											</a></li>
-											<li><a href="icons.html"> <b
-													class="badge bg-info pull-right">369</b> <i
-													class="fa fa-angle-right"></i> <span>路演管理</span>
-											</a></li>
-											<li><a href="grid.html"> <i
-													class="fa fa-angle-right"></i> <span>现场管理</span>
-											</a></li>
-											<li><a href="widgets.html"> <b
-													class="badge pull-right">8</b> <i class="fa fa-angle-right"></i>
-													<span>财务状况</span>
-											</a></li>
-											<li><a href="list.html"> <i
-													class="fa fa-angle-right"></i> <span>商业计划</span>
-											</a></li>
-											<li><a href="list.html"> <i
-													class="fa fa-angle-right"></i> <span>融资方案</span>
-											</a></li>
-											<li><a href="list.html"> <i
-													class="fa fa-angle-right"></i> <span>退出机制</span>
-											</a></li>
-											<li><a href="#table"> <i
-													class="fa fa-angle-down text"></i> <i
-													class="fa fa-angle-up text-active"></i> <span>项目信息</span>
+									<ul class="nav lt">
+										<c:choose>
+											<c:when test="${sortmenu==1}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>资讯管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="consultList.action?menu=7&sortmenu=1&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>资讯列表</span>
 											</a>
-												<ul class="nav bg">
-													<li><a href="table-datatable.html"> <i
-															class="fa fa-angle-right"></i> <span>项目成员</span>
-													</a></li>
-													<li><a href="table-datagrid.html"> <i
-															class="fa fa-angle-right"></i> <span>核心团队</span>
-													</a></li>
-												</ul></li>
-											<li > <a href="#form" > <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> <span>Form</span> </a>
-											<ul class="nav bg">
-											<li > <a href="form-elements.html" > <i class="fa fa-angle-right"></i> <span>Form elements</span> </a> </li>
-											<li > <a href="form-validation.html" > <i class="fa fa-angle-right"></i> <span>Form validation</span> </a> </li>
-											<li > <a href="form-wizard.html" > <i class="fa fa-angle-right"></i> <span>Form wizard</span> </a> </li>
-											</ul>
 											</li>
-										</ul></li>
-									<li><a href="#uikit"> <i class="fa fa-flask icon">
-												<b class="bg-success"></b>
-										</i> <span class="pull-right"> <i
-												class="fa fa-angle-down text"></i> <i
-												class="fa fa-angle-up text-active"></i>
-										</span> <span>即时通讯</span>
-									</a>
-										<ul class="nav lt">
-											<li><a href="#table"> <i
-													class="fa fa-angle-down text"></i> <i
-													class="fa fa-angle-up text-active"></i> <span>用户管理</span>
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+
+											<a href="AttendList.action"> <i class="fa fa-angle-right"></i>
+												<span>添加资讯</span>
 											</a>
-												<ul class="nav bg">
-													<li><a href="list.html"> <i
-															class="fa fa-angle-right"></i> <span>IM用户注册</span>
-													</a></li>
-													<li><a href="icons.html"> <b
-															class="badge bg-info pull-right">369</b> <i
-															class="fa fa-angle-right"></i> <span>IM用户列表</span>
-													</a></li>
-												</ul></li>
-											<li><a href="#table"> <i
-													class="fa fa-angle-down text"></i> <i
-													class="fa fa-angle-up text-active"></i> <span>消息管理</span>
-											</a>
-												<ul class="nav bg">
-													<li><a href="list.html"> <i
-															class="fa fa-angle-right"></i> <span>发送消息</span>
-													</a></li>
-													<li><a href="icons.html"> <b
-															class="badge bg-info pull-right">369</b> <i
-															class="fa fa-angle-right"></i> <span>聊天记录</span>
-													</a></li>
-												</ul></li>
-											<li><a href="list.html"> <i
-													class="fa fa-angle-right"></i> <span>上传下载</span>
-											</a></li>
-											<li><a href="#table"> <i
-													class="fa fa-angle-down text"></i> <i
-													class="fa fa-angle-up text-active"></i> <span>群组管理</span>
-											</a>
-												<ul class="nav bg">
-													<li><a href="list.html"> <i
-															class="fa fa-angle-right"></i> <span>创建群组</span>
-													</a></li>
-													<li><a href="icons.html"> <b
-															class="badge bg-info pull-right">369</b> <i
-															class="fa fa-angle-right"></i> <span>群组列表</span>
-													</a></li>
-													<li><a href="icons.html"> <b
-															class="badge bg-info pull-right">369</b> <i
-															class="fa fa-angle-right"></i> <span>聊天记录</span>
-													</a></li>
-												</ul></li>
-											<li><a href="#table"> <i
-													class="fa fa-angle-down text"></i> <i
-													class="fa fa-angle-up text-active"></i> <span>聊天室管理</span>
-											</a>
-												<ul class="nav bg">
-													<li><a href="createChatRoomPage.action"> <i
-															class="fa fa-angle-right"></i> <span>聊天室创建</span>
-													</a></li>
-													<li><a href="chatRoomList.action"> <b
-															class="badge bg-info pull-right">369</b> <i
-															class="fa fa-angle-right"></i> <span>聊天室列表</span>
-													</a></li>
-												</ul></li>
-											<li > <a href="#form" > <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> <span>Form</span> </a>
-											<ul class="nav bg">
-											<li > <a href="form-elements.html" > <i class="fa fa-angle-right"></i> <span>Form elements</span> </a> </li>
-											<li > <a href="form-validation.html" > <i class="fa fa-angle-right"></i> <span>Form validation</span> </a> </li>
-											<li > <a href="form-wizard.html" > <i class="fa fa-angle-right"></i> <span>Form wizard</span> </a> </li>
-											</ul>
 											</li>
-										</ul></li> -->
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==2}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>原创管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="originalList.action?menu=7&sortmenu=2&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>原创列表</span>
+											</a>
+											</li>
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a href="AttendList.action"> <i class="fa fa-angle-right"></i>
+												<span>添加原创内容</span>
+											</a>
+											</li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==3}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>金日投条管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="kingConsultList.action?menu=7&sortmenu=3&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>投条列表</span>
+											</a>
+											</li>
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a href="AttendList.action"> <i class="fa fa-angle-right"></i>
+												<span>添加金日投条 </span>
+											</a>
+											</li>
+										</ul>
+										</li>
+									</ul>
+									</li>
+									<c:choose>
+										<c:when test="${menu==8}">
+											<li class="active">
+										</c:when>
+										<c:otherwise>
+											<li>
+										</c:otherwise>
+									</c:choose>
+									<a href="#pages"> <i class="fa fa-envelope-o icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>IM管理</span>
+									</a>
+									<ul class="nav lt">
+										<c:choose>
+											<c:when test="${sortmenu==1}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>聊天室管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="chatRoomsList.action?menu=8&sortmenu=1&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>聊天室列表</span>
+											</a>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>添加聊天室</span>
+											</a></li>
+										</ul>
+										</li>
+										<c:choose>
+											<c:when test="${sortmenu==3}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>IM用户管理</span>
+										</a>
+										<ul class="nav bg">
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											</li>
+											<li><a href="AttendList.action"> <i
+													class="fa fa-angle-right"></i> <span>注册用户到IM</span>
+											</a></li>
+										</ul>
+										</li>
+									</ul>
+									</li>
+
 									<c:choose>
 										<c:when test="${menu==1}">
 											<li class="active">
@@ -610,66 +1211,64 @@
 										</li>
 									</ul>
 									</li>
-									<!-- <li><a href="#pages"> <i class="fa fa-file-text icon">
-												<b class="bg-primary"></b>
-										</i> <span class="pull-right"> <i
-												class="fa fa-angle-down text"></i> <i
-												class="fa fa-angle-up text-active"></i>
-										</span> <span>活动管理</span>
+									<c:choose>
+										<c:when test="${menu==9}">
+											<li class="active">
+										</c:when>
+										<c:otherwise>
+											<li>
+										</c:otherwise>
+									</c:choose>
+									<a href="#pages"> <i class="fa fa-file-text icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>新三板管理</span>
 									</a>
-										<ul class="nav lt">
-											<li><a href="gallery.html"> <i
-													class="fa fa-angle-right"></i> <span>活动列表</span>
-											</a></li>
-											<li><a href="profile.html"> <i
-													class="fa fa-angle-right"></i> <span>活动内容</span>
-											</a></li>
-											<li><a href="invoice.html"> <i
-													class="fa fa-angle-right"></i> <span>分享收藏</span>
-											</a></li>
-											<li><a href="intro.html"> <i
-													class="fa fa-angle-right"></i> <span>历史活动</span>
-											</a></li>
-										</ul></li>
-									<li><a href="#pages"> <i class="fa fa-envelope-o icon">
-												<b class="bg-primary"></b>
-										</i> <span class="pull-right"> <i
-												class="fa fa-angle-down text"></i> <i
-												class="fa fa-angle-up text-active"></i>
-										</span> <span>圈子管理</span>
-									</a>
-										<ul class="nav lt">
-											<li><a href="gallery.html"> <i
-													class="fa fa-angle-right"></i> <span>圈子列表</span>
-											</a></li>
-											<li><a href="invoice.html"> <i
-													class="fa fa-angle-right"></i> <span>分享收藏</span>
-											</a></li>
-											<li><a href="intro.html"> <i
-													class="fa fa-angle-right"></i> <span>黑名单</span>
-											</a></li>
-										</ul></li>
-									<li><a href="#pages"> <i class="fa fa-envelope-o icon">
-												<b class="bg-primary"></b>
-										</i> <span class="pull-right"> <i
-												class="fa fa-angle-down text"></i> <i
-												class="fa fa-angle-up text-active"></i>
-										</span> <span>内容管理</span>
-									</a>
-										<ul class="nav lt">
-											<li><a href="gallery.html"> <i
-													class="fa fa-angle-right"></i> <span>资讯内容</span>
-											</a></li>
-											<li><a href="invoice.html"> <i
-													class="fa fa-angle-right"></i> <span>金日投条</span>
-											</a></li>
-											<li><a href="invoice.html"> <i
-													class="fa fa-angle-right"></i> <span>原创内容</span>
-											</a></li>
-											<li><a href="intro.html"> <i
-													class="fa fa-angle-right"></i> <span>垃圾箱</span>
-											</a></li>
-										</ul></li> -->
+									<ul class="nav lt">
+										<c:choose>
+											<c:when test="${sortmenu==1}">
+												<li class="active">
+											</c:when>
+											<c:otherwise>
+												<li>
+											</c:otherwise>
+										</c:choose>
+										<a href="#table"> <i class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i> <span>企业库管理</span>
+										</a>
+										<ul class="nav bg">
+
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="newOTCList.action?menu=9&sortmenu=1&submenu=1&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>企业列表</span>
+											</a>
+											</li>
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a href="courseDetail.action?menu=1&sortmenu=1&submenu=2">
+												<i class="fa fa-angle-right"></i> <span>添加企业</span>
+											</a>
+											</li>
+										</ul>
+										</li>
+									</ul>
+									</li>
 									<c:choose>
 										<c:when test="${menu==2}">
 											<li class="active">

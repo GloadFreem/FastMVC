@@ -228,6 +228,18 @@ public class OriginalDAO {
 			throw re;
 		}
 	}
+	
+	public Integer countOfAllUsers() {
+		log.debug("finding all Original instances");
+		try {
+			String queryString = "select count(*) from original";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
 
 	public Integer countOfAllRecords() {
 		log.debug("finding all Original instances");

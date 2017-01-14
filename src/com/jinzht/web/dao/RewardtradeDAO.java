@@ -240,6 +240,32 @@ public class RewardtradeDAO {
 			throw re;
 		}
 	}
+	
+	public List findByPage(Integer page,Integer size) {
+		log.debug("finding all Rewardtrade instances");
+		try {
+			String queryString = "from Rewardtrade";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(page*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public Integer countOfAllUsers() {
+		log.debug("finding all Rewardtrade instances");
+		try {
+			String queryString = "select count(*) from rewardtrade";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
 
 	public Rewardtrade merge(Rewardtrade detachedInstance) {
 		log.debug("merging Rewardtrade instance");

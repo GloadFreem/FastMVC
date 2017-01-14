@@ -191,6 +191,32 @@ public class RewardsystemDAO {
 			throw re;
 		}
 	}
+	
+	public List findByPage(Integer page,Integer size) {
+		log.debug("finding all Rewardsystem instances");
+		try {
+			String queryString = "from Rewardsystem";
+			Query queryObject = getCurrentSession().createQuery(queryString);
+			queryObject.setFirstResult(page*size);
+			queryObject.setMaxResults(size);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public Integer countOfAllUsers() {
+		log.debug("finding all Rewardsystem instances");
+		try {
+			String queryString = "select count(*) from rewardsystem";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
 
 	public Rewardsystem merge(Rewardsystem detachedInstance) {
 		log.debug("merging Rewardsystem instance");

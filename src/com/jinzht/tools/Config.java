@@ -185,6 +185,14 @@ public class Config {
 			add("generateDetail.action");
 			add("generateCode.action");
 			add("userList.action");
+			
+			
+			
+			add("startCompanyService.action");
+			add("requestSanCompanyList.action");
+			add("requestSanCompanyDetail.action");
+			add("requestSanCompanyStatistics.action");
+			add("searchSanCompanyList.action");
 		}
 	};
 
@@ -282,7 +290,8 @@ public class Config {
 
 	// 短信模板
 	public static String STRING_SMS_REGISTE = "感谢你注册金指投--专注中国成长型企业股权投融资";
-	public static String STRING_SMS_ORDER_CONFIRM = "尊贵的金指投用户, 你已参加【%s】,打开金指投App，输入账号:%s,密码:%s,请及时更改密码，金指投任何工作人员不会索要密码！";
+	public static String STRING_SMS_ORDER_CONFIRM_OLD = "尊贵的金指投用户, 你已参加【%s】,请打开金指投App开始学习吧！";
+	public static String STRING_SMS_ORDER_CONFIRM_NEW = "尊贵的金指投用户, 你已参加【%s】,打开金指投App，输入账号:%s,密码:%s,请及时更改密码，金指投任何工作人员不会索要密码！";
 	public static String STRING_SMS_ROADSHOW_SUBMIT = "尊贵的金指投用户, 你的项目申请提交成功。根据您项目的实际情况, 会有专门的顾问和你取得联系, 请保持手机畅通。如有疑问请致电 18691883712";
 	public static String STRING_SMS_ROADSHOW_VALID_TRUE = "尊贵的金指投用户，您的路演申请提交成功，已进入项目审核阶段，我们的工作人员将会在第一时间联系您，请保持手机畅通。您可以打开【金指投】APP->个人中心->进度查看->我的路演 查看详情，感谢您长期以来的支持！";
 	public static String STRING_SMS_ROADSHOW_VALID_FALSE = "尊贵的金指投用户, 您的路演申请未通过审核。请打开【金指投】APP->个人中心->进度查看->我的路演 查看原因。请您及时修改、完善信息并重新提交申请。如有疑问请致电 18691883712";
@@ -488,6 +497,7 @@ public class Config {
 	public static final String HTTP_RESULT_LAST = "201";
 	// 网络状态 400失败
 	public static final String HTTP_RESULT_ERROR = "400";
+	public static final int MAX_THREAD_NUM_SAN = 2;
 	// 网易新闻
 	public static int SOURCES_WANGYI = 1;
 	// 网易新闻 详情url

@@ -3,12 +3,15 @@ package com.message.Enity;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
+
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import static org.hibernate.criterion.Example.create;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -201,6 +204,18 @@ public class MsgDAO {
 			queryObject.setFirstResult(start*size);
 			queryObject.setMaxResults(size);
 			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	public Integer countOfAllUsers() {
+		log.debug("finding all Msg instances");
+		try {
+			String queryString = "select count(*) from msg";
+			SQLQuery queryObject = getCurrentSession().createSQLQuery(queryString);
+			return Integer.parseInt((queryObject.list().get(0).toString()));
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
