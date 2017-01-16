@@ -76,11 +76,11 @@
 											<td>${item.content}</td>
 											<td><a href="${item.url}" target="blank">查看内容</a></td>
 											<td><a
-												href="userDetail.action?contentId=${item.buinessPlanId }&menu=1&sortmenu=1&submenu=1"
+												href="businessPlanDetail.action?contentId=${item.buinessPlanId }&menu=4&sortmenu=5&submenu=1"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"
-												data-href="deleteUser.action?contentId=${item.buinessPlanId }&menu=1&sortmenu=1&submenu=1"
+												data-href="deleteUser.action?contentId=${item.buinessPlanId }&menu=4&sortmenu=5&submenu=1"
 												data-toggle="modal" class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>

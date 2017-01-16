@@ -15,25 +15,25 @@
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <title>编辑网页</title>
+
+
 <link rel="stylesheet"
 	href="./kindeditor-master/themes/default/style.css" />
+<link rel="stylesheet" type="text/css" href="css/user.css" />
+
+
 <!-- include src files -->
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" charset="utf-8"
 	src="ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8"
 	src="ueditor/ueditor.all.min.js">
-		
-	</script>
+	
+</script>
 <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 <script type="text/javascript" charset="utf-8"
 	src="ueditor/lang/zh-cn/zh-cn.js"></script>
-<link rel="stylesheet"
-	href="./kindeditor-master/themes/default/style.css" />
-<link rel="stylesheet" type="text/css" href="css/user.css" />
-
-<script src="upload/js/jquery.js"></script>
 <script src="js/jquery-ui/jquery-ui.js"></script>
 
 <script language="JavaScript">
@@ -113,11 +113,11 @@
 				<c:choose>
 					<c:when test="${standing!=null }">
 						<input id="title" name="title" class="title-enter-input"
-							type="text" value="${standing.content }"/>
+							type="text" value="${standing.content }" />
 					</c:when>
 					<c:otherwise>
 						<input id="title" name="title" class="title-enter-input"
-							type="text" value="财务状况"/>
+							type="text" value="财务状况" />
 					</c:otherwise>
 				</c:choose>
 			</div>

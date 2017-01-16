@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OrderBy;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -82,6 +83,7 @@ public class Rewardsystem implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "rewardsystem")
+	@OrderBy(value="rewardTradeId desc")
 	public Set<Rewardtrade> getRewardtrades() {
 		return this.rewardtrades;
 	}

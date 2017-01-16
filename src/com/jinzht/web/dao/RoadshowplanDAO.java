@@ -87,7 +87,7 @@ public class RoadshowplanDAO {
 		log.debug("getting Roadshowplan instance with id: " + id);
 		try {
 			Roadshowplan instance = (Roadshowplan) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Roadshowplan", id);
+					"com.jinzht.web.entity.Roadshowplan", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

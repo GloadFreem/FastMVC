@@ -15,8 +15,7 @@
 						<select name="size"
 							class="input-sm form-control input-s-sm inline">
 							<c:forEach items="${sizes}" var="item">
-								<option value=${item
-									}
+								<option value=${item}
 									<c:choose>
 									<c:when test="${size==item}">
 										 selected=selected

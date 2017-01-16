@@ -902,6 +902,335 @@ public class UserWebAdminController extends BaseController {
 		map.put("content", "table-reward-trade");
 		return Config.NEW_SERVER_CONTROL;
 	}
+	
+	
+	
+	/***
+	 * 用户详情
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/userDetail")
+	public String userDetail(
+			ModelMap map,
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if(contentId!=null)
+		{
+			
+			Users user = this.userManager.getUserDao().findById(contentId);
+			
+			map.put("data", user);
+		}
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "userDetail");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	/***
+	 * 认证详情
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/authenticDetail")
+	public String authenticDetail(
+			ModelMap map,
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if (contentId != null) {
+			Authentic authentic = this.authenticManager
+					.findAuthenticById(contentId);
+
+			String optional = authentic.getOptional();
+			String area = authentic.getIndustoryArea();
+
+			Map m = new HashMap();
+
+			List list = new ArrayList();
+			if (!optional.equals(null)) {
+				if (optional.equals("")) {
+					list.add(0);
+				} else {
+					String[] tempList = optional.split(",");
+
+					for (String s : tempList) {
+						s = s.replace(" ", "");
+						list.add(s.trim());
+					}
+				}
+			} else {
+				list.add(0);
+			}
+
+			m.put("option", list);
+
+			list = new ArrayList();
+			if (area != null) {
+				if (area.equals("")) {
+					list.add(0);
+				} else {
+					String[] tempList = area.split(",");
+
+					for (String s : tempList) {
+						s = s.replace(" ", "");
+						list.add(s);
+					}
+				}
+			} else {
+				list.add(0);
+			}
+
+			m.put("areas", list);
+			map.put("ext", m);
+			map.put("data", authentic);
+
+		}
+		
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		
+		List areas = this.authenticManager.getIndustoryareaDao().findAll();
+		List citys = this.authenticManager.getCityDao().findAll();
+		List identities = this.authenticManager.getIdentitytypeDao().findAll();
+		List authenticStatus = this.authenticManager.getAuthenticStatus().findAll();
+				
+		map.put("identities", identities);
+		map.put("areas", areas);
+		map.put("cities", citys);
+		map.put("status", authenticStatus);
+		map.put("optional", Config.STRING_AUTH_QUALIFICATION);
+		
+		map.put("content", "authenticDetail");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+
+	/***
+	 * 金条详情
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/rewardDetail")
+	public String rewardDetail(
+			ModelMap map,
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if(contentId!=null)
+		{
+			
+			Rewardsystem system = this.userManager.getRewardSystemDao().findById(contentId);
+			
+			map.put("data", system);
+		}
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "rewardDetail");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 项目详情
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/projectDetail")
+	public String projectDetail(
+			ModelMap map,
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if(contentId!=null)
+		{
+			
+			Project content = this.projectManager.getProjectDao().findById(contentId);
+			
+			map.put("data", content);
+		}
+		
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "projectDetail");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	
+	
+	/***
+	 * 融资计划 详情
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/roadShowDetail")
+	public String roadShowDetail(
+			ModelMap map,
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if(contentId!=null)
+		{
+			
+			Roadshowplan content = this.projectManager.getRoadShowPlanDao().findById(contentId);
+			
+			map.put("data", content);
+		}
+		
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "roadShowDetail");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 现场 详情
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/sceneDetail")
+	public String sceneDetail(
+			ModelMap map,
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if(contentId!=null)
+		{
+			
+			Scene content = this.projectManager.getSceneDao().findById(contentId);
+			
+			map.put("data", content);
+		}
+		
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "sceneDetail");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 财务状况详情
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/financeStandingDetail")
+	public String financeStandingDetail(
+			ModelMap map,
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if(contentId!=null)
+		{
+			
+			Financialstanding content = this.projectManager.getFinanceStandingDao().findById(contentId);
+			String url = content.getUrl();
+			Integer index = url.indexOf("=");
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
+				Integer id = Integer.parseInt(contentIdStr);
+				Weburlrecord record = this.webManager.getWebUrlRecordDao()
+						.findById(id);
+				map.put("record", record);
+				
+				//添加样式表
+				List l_style = new ArrayList();
+				l_style.add("../admin/kindeditor-master/themes/default/style.css");
+				
+				map.put("style", l_style);
+				
+				l_style = new ArrayList();
+				l_style.add("../admin/ueditor/ueditor.config.js");
+				l_style.add("../admin/ueditor/ueditor.all.min.js");
+				l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+				
+				map.put("js", l_style);
+			}
+			map.put("data", content);
+		}
+		
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "financeStandingDetail");
+		return Config.NEW_SERVER_CONTROL;
+	}
+	/***
+	 * 商业计划详情
+	 * 
+	 * @param map
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "newSystem/businessPlanDetail")
+	public String businessPlanDetail(
+			ModelMap map,
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session) {
+		
+		if(contentId!=null)
+		{
+			
+			Businessplan content = this.projectManager.getBusinessPlanDao().findById(contentId);
+			String url = content.getUrl();
+			Integer index = url.indexOf("=");
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
+				Integer id = Integer.parseInt(contentIdStr);
+				Weburlrecord record = this.webManager.getWebUrlRecordDao()
+						.findById(id);
+				map.put("record", record);
+				
+				//添加样式表
+				List l_style = new ArrayList();
+				l_style.add("../admin/kindeditor-master/themes/default/style.css");
+				
+				map.put("style", l_style);
+				
+				l_style = new ArrayList();
+				l_style.add("../admin/ueditor/ueditor.config.js");
+				l_style.add("../admin/ueditor/ueditor.all.min.js");
+				l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+				
+				map.put("js", l_style);
+			}
+			map.put("data", content);
+		}
+		
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "businessPlanDetail");
+		return Config.NEW_SERVER_CONTROL;
+	}
 
 	/***
 	 * ---------------------------------------------后端管理系统升级--------------------

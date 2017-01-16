@@ -139,30 +139,37 @@ public class Tools {
 
 	public static void setValueOfWebPage(Map map, Integer page, Integer count,
 			Integer size, Integer sortmenu, Integer menu, Integer submenu) { // length表示生成字符串的长度
-		List pages = new ArrayList();
-		Integer num = count / size;
-		if (page < num) {
-			if (page < 5) {
-				if (num - page > 5) {
-					for (int i = 0; i < 5; i++) {
-						pages.add(i);
+
+		if (size != 0 && count != 0) {
+			List pages = new ArrayList();
+			Integer num = count / size;
+			if (page < num) {
+				if (page < 5) {
+					if (num - page > 5) {
+						for (int i = 0; i < 5; i++) {
+							pages.add(i);
+						}
+					} else {
+						for (int i = 0; i <= num; i++) {
+							pages.add(i);
+						}
 					}
 				} else {
-					for (int i = 0; i <= num; i++) {
+					for (int i = page; i < page + 5; i++) {
 						pages.add(i);
 					}
 				}
 			} else {
-				for (int i = page; i < page + 5; i++) {
+				page = num;
+
+				for (int i = 0; i <= page; i++) {
 					pages.add(i);
 				}
 			}
-		} else {
-			page = num;
-
-			for (int i = 0; i <= page; i++) {
-				pages.add(i);
-			}
+			map.put("pages", pages);
+			map.put("count", count / size);
+			map.put("page", page);
+			map.put("size", size);
 		}
 
 		if (sortmenu == null) {
@@ -170,10 +177,6 @@ public class Tools {
 		}
 
 		map.put("sizes", Config.SIZES);
-		map.put("size", size);
-		map.put("page", page);
-		map.put("count", count / size);
-		map.put("pages", pages);
 		map.put("sortmenu", sortmenu);
 		map.put("menu", menu);
 		map.put("submenu", submenu);

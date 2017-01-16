@@ -50,7 +50,7 @@
 							class="fa fa-circle fa-stack-2x icon-muted"></i> <i
 							class="fa fa-clock-o fa-stack-1x text-white"></i>
 						</span> <a class="clear" href="#"> <span class="h3 block m-t-xs"><strong>31:50</strong></span>
-							<small class="text-muted text-uc">新增资讯</small>
+							<small class="text-muted text-uc">新增订单</small>
 						</a>
 					</div>
 				</div>
@@ -66,19 +66,19 @@
 							<div class="row text-center no-gutter">
 								<div class="col-xs-3 b-r b-light">
 									<span class="h4 font-bold m-t block">5,860</span> <small
-										class="text-muted m-b block">Orders</small>
+										class="text-muted m-b block">订单</small>
 								</div>
 								<div class="col-xs-3 b-r b-light">
 									<span class="h4 font-bold m-t block">10,450</span> <small
-										class="text-muted m-b block">Sellings</small>
+										class="text-muted m-b block">服务</small>
 								</div>
 								<div class="col-xs-3 b-r b-light">
 									<span class="h4 font-bold m-t block">21,230</span> <small
-										class="text-muted m-b block">Items</small>
+										class="text-muted m-b block">参课</small>
 								</div>
 								<div class="col-xs-3">
 									<span class="h4 font-bold m-t block">7,230</span> <small
-										class="text-muted m-b block">Customers</small>
+										class="text-muted m-b block">重复购买率</small>
 								</div>
 							</div>
 						</footer>
@@ -86,9 +86,9 @@
 				</div>
 				<div class="col-md-4">
 					<section class="panel panel-default">
-						<header class="panel-heading font-bold">Data graph</header>
+						<header class="panel-heading font-bold">订单趋势</header>
 						<div class="bg-light dk wrapper">
-							<span class="pull-right">Friday</span> <span class="h4">$540<br>
+							<span class="pull-right">周二</span> <span class="h4">￥1540<br>
 								<small class="text-muted">+1.05(2.15%)</small>
 							</span>
 							<div class="text-center m-b-n m-t-sm">
@@ -105,25 +105,25 @@
 						</div>
 						<div class="panel-body">
 							<div>
-								<span class="text-muted">Total:</span> <span class="h3 block">$2500.00</span>
+								<span class="text-muted">总计:</span> <span class="h3 block">￥2500.00</span>
 							</div>
 							<div class="line pull-in"></div>
 							<div class="row m-t-sm">
 								<div class="col-xs-4">
-									<small class="text-muted block">Market</small> <span>$1500.00</span>
+									<small class="text-muted block">服务</small> <span>￥1500.00</span>
 								</div>
 								<div class="col-xs-4">
-									<small class="text-muted block">Referal</small> <span>$600.00</span>
+									<small class="text-muted block">参课</small> <span>￥600.00</span>
 								</div>
 								<div class="col-xs-4">
-									<small class="text-muted block">Affiliate</small> <span>$400.00</span>
+									<small class="text-muted block">代交</small> <span>￥400.00</span>
 								</div>
 							</div>
 						</div>
 					</section>
 				</div>
 			</div>
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-md-8">
 					<h4 class="m-t-none">Todos</h4>
 					<ul class="list-group gutter list-group-lg list-group-sp sortable">
@@ -197,8 +197,8 @@
 						</span>
 							<div class="clear" id="todo-6">LessCSS compiling</div></li>
 					</ul>
-				</div>
-				<div class="col-md-4">
+				</div> -->
+			<!-- 	<div class="col-md-4">
 					<section class="panel b-light">
 						<header class="panel-heading bg-primary dker no-border">
 							<strong>Calendar</strong>
@@ -216,8 +216,8 @@
 						</div>
 					</section>
 				</div>
-			</div>
-			<div>
+			</div> -->
+			<!-- <div>
 				<div class="btn-group m-b" data-toggle="buttons">
 					<label class="btn btn-sm btn-default active"> <input
 						type="radio" name="options" id="option1"> Timeline
@@ -241,7 +241,7 @@
 								elit. Morbi id neque quam.</div>
 						</section>
 					</article>
-					<!-- .comment-reply -->
+					.comment-reply
 					<article id="comment-id-2" class="comment-reply">
 						<article class="comment-item">
 							<a class="pull-left thumb-sm"> <img
@@ -268,7 +268,7 @@
 							</section>
 						</article>
 					</article>
-					<!-- / .comment-reply -->
+					/ .comment-reply
 					<article id="comment-id-2" class="comment-item">
 						<span class="fa-stack pull-left m-l-xs"> <i
 							class="fa fa-circle text-danger fa-stack-2x"></i> <i
@@ -299,7 +299,7 @@
 				</section>
 				<a href="#" class="btn btn-default btn-sm m-b"><i
 					class="fa fa-plus icon-muted"></i> more</a>
-			</div>
+			</div> -->
 		</section>
 	</section>
 	<a href="#" class="hide nav-off-screen-block"

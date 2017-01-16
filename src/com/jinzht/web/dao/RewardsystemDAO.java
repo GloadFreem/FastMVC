@@ -89,7 +89,7 @@ public class RewardsystemDAO {
 		log.debug("getting Rewardsystem instance with id: " + id);
 		try {
 			Rewardsystem instance = (Rewardsystem) getCurrentSession().get(
-					"com.jinzht.web.hibernate.Rewardsystem", id);
+					"com.jinzht.web.entity.Rewardsystem", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

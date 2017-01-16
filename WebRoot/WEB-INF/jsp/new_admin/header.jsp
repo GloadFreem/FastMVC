@@ -215,9 +215,19 @@
 												<i class="fa fa-angle-right"></i> <span>用户列表</span>
 											</a>
 											</li>
-											<li><a href="AttendList.action"> <i
-													class="fa fa-angle-right"></i> <span>添加用户</span>
-											</a></li>
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="userDetail.action?menu=3&sortmenu=1&submenu=2&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>添加用户</span>
+											</a>
+											</li>
 										</ul>
 										</li>
 										<c:choose>
@@ -245,9 +255,19 @@
 												<i class="fa fa-angle-right"></i> <span>认证审核</span>
 											</a>
 											</li>
-											<li><a href="authenticList.action"> <i
-													class="fa fa-angle-right"></i> <span>添加认证身份</span>
-											</a></li>
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="authenticDetail.action?menu=3&sortmenu=2&submenu=2&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>添加认证身份</span>
+											</a>
+											</li>
 										</ul>
 										</li>
 										<c:choose>
@@ -296,8 +316,9 @@
 													<li>
 												</c:otherwise>
 											</c:choose>
-											<a href="authenticList.action"> <i
-												class="fa fa-angle-right"></i> <span>添加金条</span>
+											<a
+												href="rewardDetail.action?menu=3&sortmenu=3&submenu=3&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>添加金条</span>
 											</a>
 											</li>
 										</ul>
@@ -327,8 +348,9 @@
 												<i class="fa fa-angle-right"></i> <span>黑名单列表</span>
 											</a>
 											</li>
-											<li><a href="AttendList.action"> <i
-													class="fa fa-angle-right"></i> <span>加入黑名单</span>
+											<li><a
+												href="userList.action?menu=3&sortmenu=4&submenu=2&requestType=webRequest">
+													<i class="fa fa-angle-right"></i> <span>加入黑名单</span>
 											</a></li>
 										</ul>
 										</li>
@@ -375,9 +397,19 @@
 												<i class="fa fa-angle-right"></i> <span>项目列表</span>
 											</a>
 											</li>
-											<li><a href="AttendList.action"> <i
-													class="fa fa-angle-right"></i> <span>添加项目</span>
-											</a></li>
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="projectDetail.action?menu=4&sortmenu=1&submenu=2&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>添加项目</span>
+											</a>
+											</li>
 										</ul>
 										</li>
 
@@ -406,9 +438,19 @@
 												<i class="fa fa-angle-right"></i> <span>路演列表</span>
 											</a>
 											</li>
-											<li><a href="AttendList.action"> <i
-													class="fa fa-angle-right"></i> <span>添加路演</span>
-											</a></li>
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="roadShowDetail.action?menu=4&sortmenu=2&submenu=2&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>添加路演</span>
+											</a>
+											</li>
 										</ul>
 										</li>
 
@@ -433,13 +475,23 @@
 												</c:otherwise>
 											</c:choose>
 											<a
-												href="sceneList.action?menu=4&sortmenu=4&submenu=1&requestType=webRequest">
+												href="sceneList.action?menu=4&sortmenu=3&submenu=1&requestType=webRequest">
 												<i class="fa fa-angle-right"></i> <span>现场列表</span>
 											</a>
 											</li>
-											<li><a href="AttendList.action"> <i
-													class="fa fa-angle-right"></i> <span>添加现场</span>
-											</a></li>
+											<c:choose>
+												<c:when test="${submenu==1}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="sceneDetail.action?menu=4&sortmenu=3&submenu=2&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>添加现场</span>
+											</a>
+											</li>
 										</ul>
 										</li>
 
@@ -469,9 +521,19 @@
 												<i class="fa fa-angle-right"></i> <span>财务状况</span>
 											</a>
 											</li>
-											<li><a href="AttendList.action"> <i
-													class="fa fa-angle-right"></i> <span>添加财务状况</span>
-											</a></li>
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a
+												href="financeStandingDetail.action?menu=4&sortmenu=4&submenu=2&requestType=webRequest">
+												<i class="fa fa-angle-right"></i> <span>添加财务状况</span>
+											</a>
+											</li>
 										</ul>
 										</li>
 										<c:choose>
@@ -499,7 +561,15 @@
 												<i class="fa fa-angle-right"></i> <span>商业计划</span>
 											</a>
 											</li>
-											<li><a href="AttendList.action"> <i
+											<c:choose>
+												<c:when test="${submenu==2}">
+													<li class="active">
+												</c:when>
+												<c:otherwise>
+													<li>
+												</c:otherwise>
+											</c:choose>
+											<a href="businessPlanDetail.action?menu=4&sortmenu=5&submenu=2&requestType=webRequest"> <i
 													class="fa fa-angle-right"></i> <span>添加商业计划</span>
 											</a></li>
 										</ul>

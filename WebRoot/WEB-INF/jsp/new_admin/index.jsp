@@ -23,8 +23,15 @@
 	type="text/css" />
 <link rel="stylesheet" href="js\calendar/bootstrap_calendar.css"
 	type="text/css" cache="false" />
-
 <script src="js/app.v2.js"></script>
+
+//引入样式
+<c:forEach items="${style}" var="item">
+	<link rel="stylesheet" href="${item }" type="text/css" />
+</c:forEach>
+<c:forEach items="${js}" var="item">
+	<script src="${item}"></script>
+</c:forEach>
 
 <!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
 </head>

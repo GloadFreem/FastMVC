@@ -78,7 +78,7 @@
 											<td>${item.beginTime}</td>
 											<td>${item.endTime}</td>
 											<td><a
-												href="userDetail.action?contentId=${item.sceneId }&menu=1&sortmenu=1&submenu=1"
+												href="sceneDetail.action?contentId=${item.sceneId }&menu=4&sortmenu=3&submenu=1"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"
