@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.hibernate.type.IdentifierType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,7 @@ import com.jinzht.web.entity.Rewardtrade;
 import com.jinzht.web.entity.Rewardtradetype;
 import com.jinzht.web.entity.Systemcode;
 import com.jinzht.web.entity.Users;
+import com.jinzht.web.filter.LogInterceptor;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.AuthenticManager;
 import com.jinzht.web.manager.ImManager;
@@ -57,7 +60,8 @@ import com.sun.jmx.snmp.Timestamp;
 
 @Controller
 public class UserController extends BaseController {
-
+	private static Logger logger =  LoggerFactory
+			.getLogger(UserController.class);
 	@Autowired
 	private UserManager userManger;
 	@Autowired
@@ -132,11 +136,16 @@ public class UserController extends BaseController {
 					this.result.put("data", map);
 					return getResult();
 				}
-			} else  if (message.getType() == 3) {
+			} else if (message.getType() == 3) {
 				// message.type 3:表示用户更换绑定手机号码
 				// 判断用户是否输入重复手机号码
 				if (user != null) {
 					Users u = this.findUserInSession(session);
+					if (u == null) {
+						this.status = 401;
+						this.message = Config.STRING_LOGING_TIP;
+						return getResult();
+					}
 					if (message.getTelephone().equals(u.getTelephone())) {
 						this.status = 400;
 						this.message = Config.STRING_LOGING_TEL_NOT_REPEAT;
@@ -173,7 +182,7 @@ public class UserController extends BaseController {
 				this.message = Config.SMS_FAIL_SEND_STRING;
 			}
 		}
-		
+
 		this.result.put("data", "JSESSIONID=" + session.getId());
 		return getResult();
 	}
@@ -414,6 +423,11 @@ public class UserController extends BaseController {
 			BindingResult bindingResult, HttpSession session) {
 		this.result = new HashMap();
 		this.result.put("data", "");
+
+		logger.info("请求登录");
+		logger.debug("debug");
+		logger.warn("warn");
+
 		if (bindingResult.hasErrors()) {
 			this.status = 400;
 			this.message = bindingResult.getFieldError().getDefaultMessage();

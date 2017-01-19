@@ -57,7 +57,7 @@
 								</span>
 								</th>
 								<th width="150">名称</th>
-								<th width="30%">类型</th>
+								<th width="10%">类型</th>
 								<th>内容</th>
 								<th>操作</th>
 							</tr>
@@ -91,11 +91,11 @@
 													</c:otherwise>
 												</c:choose></td>
 											<td><a
-												href="userDetail.action?contentId=${item.introduceId }&menu=1&sortmenu=1&submenu=1"
+												href="actionContentDetail.action?contentId=${item.introduceId }&menu=5&sortmenu=2&submenu=2&requestType=webRequest"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"
-												data-href="deleteUser.action?contentId=${item.introduceId }&menu=1&sortmenu=1&submenu=1"
+												data-href="deleteUser.action?contentId=${item.introduceId }&menu=1&sortmenu=1&submenu=1&requestType=webRequest"
 												data-toggle="modal" class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>

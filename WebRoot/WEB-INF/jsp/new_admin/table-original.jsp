@@ -75,18 +75,18 @@
 											<td>${item.infoId}</td>
 											<td><c:forEach items="${item.originalImgs}" var="img">
 													<a href="${img.url}" />
-													<img alt="${item.title}" src="${img.url}"
-														class="col-xs-12">
+													<img alt="${item.title}" src="${img.url}" class="col-xs-12">
 													</a>
 												</c:forEach></td>
 											<td>${item.title}</td>
 											<td>${item.oringl}</td>
 											<td>${item.webcontenttype.name}</td>
 											<td><a
-												href="../requestViewPointDetail.action?id=${item.infoId}" target="blank">查看内容</a></td>
+												href="../requestViewPointDetail.action?id=${item.infoId}"
+												target="blank">查看内容</a></td>
 											<td>${item.publicDate}</td>
 											<td><a
-												href="userDetail.action?contentId=${item.infoId }&menu=1&sortmenu=1&submenu=1"
+												href="originalDetail.action?contentId=${item.infoId }&menu=7&sortmenu=2&submenu=2&requestType=webRequest"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"

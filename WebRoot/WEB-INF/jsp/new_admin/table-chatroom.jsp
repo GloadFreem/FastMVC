@@ -80,11 +80,11 @@
 											<td>${item.description}</td>
 											<td>${item.createDate}</td>
 											<td><a
-												href="userDetail.action?contentId=${item.chatroomId }&menu=1&sortmenu=1&submenu=1"
+												href="chatRoomDetail.action?contentId=${item.chatroomId }&menu=8&sortmenu=1&submenu=2&requestType=webRequest"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"
-												data-href="deleteUser.action?contentId=${item.chatroomId }&menu=1&sortmenu=1&submenu=1"
+												data-href="deleteUser.action?contentId=${item.chatroomId }&menu=1&sortmenu=1&submenu=1&requestType=webRequest"
 												data-toggle="modal" class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>
@@ -150,8 +150,8 @@
 				var menu = ${menu};
 				var sortmenu = ${sortmenu};
 				var submenu = ${submenu};
-				var url = "userList.action?" + "size=" + size + "&page="
-						+ page + "&menu=" + menu + "&sortmenu=" + sortmenu
+				var url = "userList.action?" + "size=" + size + "&page=" + page
+						+ "&menu=" + menu + "&sortmenu=" + sortmenu
 						+ "&submenu=" + submenu;
 				//alert(url);
 
@@ -168,8 +168,8 @@
 				var menu = ${menu};
 				var sortmenu = ${sortmenu};
 				var submenu = ${submenu};
-				var url = "userList.action?" + "size=" + size + "&page="
-						+ page + "&menu=" + menu + "&sortmenu=" + sortmenu
+				var url = "userList.action?" + "size=" + size + "&page=" + page
+						+ "&menu=" + menu + "&sortmenu=" + sortmenu
 						+ "&submenu=" + submenu;
 				//alert(url);
 
@@ -186,8 +186,8 @@
 				var menu = ${menu};
 				var sortmenu = ${sortmenu};
 				var submenu = ${submenu};
-				var url = "userList.action?" + "size=" + size + "&page="
-						+ page + "&menu=" + menu + "&sortmenu=" + sortmenu
+				var url = "userList.action?" + "size=" + size + "&page=" + page
+						+ "&menu=" + menu + "&sortmenu=" + sortmenu
 						+ "&submenu=" + submenu;
 				//alert(url);
 

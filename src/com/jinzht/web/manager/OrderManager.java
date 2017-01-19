@@ -292,8 +292,7 @@ public class OrderManager {
 			// ---------------获取订单号 结束------------------------
 
 			// ---------------设置订单预支付参数开始------------------------
-			float price;
-			price = 0.01f;
+			double price =order.getTotalFee();
 
 			String priceStr = String.valueOf(price * 100);
 

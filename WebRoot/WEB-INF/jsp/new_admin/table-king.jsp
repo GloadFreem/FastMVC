@@ -81,11 +81,11 @@
 											<td><a href="${item.url}" target="blank">查看内容</a></td>
 											<td>${item.createDate}</td>
 											<td><a
-												href="userDetail.action?contentId=${item.recordId }&menu=1&sortmenu=1&submenu=1"
+												href="kingConsultDetail.action?contentId=${item.recordId }&menu=7&sortmenu=3&submenu=2&requestType=webRequest"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"
-												data-href="deleteUser.action?contentId=${item.recordId }&menu=1&sortmenu=1&submenu=1"
+												data-href="deleteUser.action?contentId=${item.recordId }&menu=7&sortmenu=3&submenu=2&requestType=webRequest"
 												data-toggle="modal" class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>

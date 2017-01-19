@@ -193,6 +193,7 @@ public class Config {
 			add("requestSanCompanyDetail.action");
 			add("requestSanCompanyStatistics.action");
 			add("searchSanCompanyList.action");
+			add("notifywxurl.action");
 		}
 	};
 

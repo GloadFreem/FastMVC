@@ -86,11 +86,11 @@
 												href="../requestThinkTankDetail.action?id=${item.infoId}" target="blank">查看内容</a></td>
 											<td>${item.publicDate}</td>
 											<td><a
-												href="userDetail.action?contentId=${item.infoId }&menu=1&sortmenu=1&submenu=1"
+												href="consultDetail.action?contentId=${item.infoId }&menu=7&sortmenu=1&submenu=2&requestType=webRequest"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"
-												data-href="deleteUser.action?contentId=${item.infoId }&menu=1&sortmenu=1&submenu=1"
+												data-href="deleteUser.action?contentId=${item.infoId }&menu=1&sortmenu=1&submenu=1&requestType=webRequest"
 												data-toggle="modal" class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>

@@ -14,33 +14,33 @@
 					<input name="contentId" value="${data.sceneId}"
 						style="display:none">
 					<ul class="list-group gutter list-group-lg list-group-sp">
-						<div class="input-group">
-							<input name="name" id="name" type="text" class="form-control"
-								placeholder="输入 关键字 进行搜索" value="${data.project.fullName }">
-							<span class="input-group-btn">
-								<button id="searchbtn" type="button"
-									class="btn btn-info btn-icon">
-									<i class="fa fa-search"></i>
-								</button>
-							</span>
-						</div>
-						<div>
-							<select class="selectpicker show-menu-arrow form-control"
-								data-max-options="2" name='projectId' id='projectId'></select>
-						</div>
+						<li class="list-group-item">
+							<div class="input-group">
+								<input name="name" id="name" type="text" class="form-control"
+									placeholder="输入 关键字 进行搜索" value="${data.project.fullName }">
+								<span class="input-group-btn">
+									<button id="searchbtn" type="button"
+										class="btn btn-info btn-icon">
+										<i class="fa fa-search"></i>
+									</button>
+								</span>
+							</div>
+							<div>
+								<select class="selectpicker show-menu-arrow form-control"
+									data-max-options="2" name='projectId' id='projectId'></select>
+							</div>
+						</li>
+
+
+						<li class="list-group-item">
+							<div class="clear">上传视频</div>
+						</li>
+						<li class="list-group-item"><input name="vurl"
+							class="form-control alert-success" value="${data.audioPath }"
+							placeholder="请输入现价"> <input name="video" id="input-1"
+							type="file" class="file">
 				</div>
 				</li>
-
-
-
-				<li class="list-group-item">
-					<div class="clear">上传视频</div>
-				</li>
-				<li class="list-group-item"><input name="vurl"
-					class="form-control alert-success" value="${data.audioPath }"
-					placeholder="请输入现价"> <input name="video" id="input-1"
-					type="file" class="file">
-					</div></li>
 
 				<li class="list-group-item">
 					<div class="clear">时长</div>

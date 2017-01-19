@@ -7,13 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jinzht.tools.Config;
 
-public class LogInterceptor implements HandlerInterceptor {
 
+public class LogInterceptor implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest arg0,
 			HttpServletResponse response, Object arg2, Exception arg3)
@@ -47,6 +48,7 @@ public class LogInterceptor implements HandlerInterceptor {
 		
 		// 输出请求信息
 		System.out.println("Filter 截获到用户倾听求地址:  " + hrequest.getServletPath());
+		
 		long after = System.currentTimeMillis();
 
 		System.out.println("过滤结束...");

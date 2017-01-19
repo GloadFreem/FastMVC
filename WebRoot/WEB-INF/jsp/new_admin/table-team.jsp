@@ -84,7 +84,7 @@
 											<td>${item.address}</td>
 											<td>${item.url}</td>
 											<td><a
-												href="userDetail.action?contentId=${item.personId }&menu=1&sortmenu=1&submenu=1"
+												href="teamDetail.action?contentId=${item.personId }&menu=4&sortmenu=9&submenu=2&requestType=webRequest"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"

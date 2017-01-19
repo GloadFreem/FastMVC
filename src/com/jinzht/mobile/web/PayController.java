@@ -1,5 +1,6 @@
 package com.jinzht.mobile.web;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +26,8 @@ import org.apache.commons.httpclient.HttpException;
 import org.hibernate.type.IdentifierType;
 import org.jdom.JDOMException;
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
@@ -44,6 +49,7 @@ import com.jinzht.tools.FileUtil;
 import com.jinzht.tools.MailUtil;
 import com.jinzht.tools.MessageType;
 import com.jinzht.tools.MsgUtil;
+import com.jinzht.tools.PayCommonUtil;
 import com.jinzht.tools.Tools;
 import com.jinzht.web.dao.UsersDAO;
 import com.jinzht.web.entity.Authentic;
@@ -87,10 +93,13 @@ import com.message.Enity.OriginalDetail;
 import com.message.Enity.Originalbanner;
 import com.message.manager.MainManager;
 import com.message.manager.MessageMananger;
+import com.tenpay.util.XMLUtil;
+import com.weini.alipay.config.AlipayConfig;
 
 @Controller
 public class PayController extends BaseController {
-
+	private static Logger logger =  LoggerFactory
+			.getLogger(UserController.class);
 	@Autowired
 	private OrderManager orderManager;
 	@Autowired
@@ -463,6 +472,80 @@ public class PayController extends BaseController {
 		in.close();
 		String msgxml = new String(out.toByteArray(), "utf-8");// xml数据
 		System.out.println(msgxml);
+		
+		//解析xml成map
+		//解析xml成map  
+        Map<String, String> m = new HashMap<String, String>();  
+        m = XMLUtil.doXMLParse(msgxml.toString());  
+		
+        
+        //过滤空
+      //过滤空 设置 TreeMap  
+        SortedMap<Object,Object> packageParams = new TreeMap<Object,Object>();        
+        Iterator it = m.keySet().iterator();  
+        while (it.hasNext()) {  
+            String parameter = (String) it.next();  
+            String parameterValue = m.get(parameter);  
+              
+            String v = "";  
+            if(null != parameterValue) {  
+                v = parameterValue.trim();  
+            }  
+            packageParams.put(parameter, v);  
+        }
+        
+        
+		//开始验证
+     // 账号信息  
+        String key = AlipayConfig.PARTNER_ID; // key  
+  
+        //判断签名是否正确  
+        if(PayCommonUtil.isTenpaySign("UTF-8", packageParams,key)) {  
+            //------------------------------  
+            //处理业务开始  
+            //------------------------------  
+            String resXml = "";  
+            if("SUCCESS".equals((String)packageParams.get("result_code"))){  
+                // 这里是支付成功  
+                //////////执行自己的业务逻辑////////////////  
+                String mch_id = (String)packageParams.get("mch_id");  
+                String openid = (String)packageParams.get("openid");  
+                String is_subscribe = (String)packageParams.get("is_subscribe");  
+                String out_trade_no = (String)packageParams.get("out_trade_no");  
+                  
+                String total_fee = (String)packageParams.get("total_fee");  
+                  
+                logger.info("mch_id:"+mch_id);  
+                logger.info("openid:"+openid);  
+                logger.info("is_subscribe:"+is_subscribe);  
+                logger.info("out_trade_no:"+out_trade_no);  
+                logger.info("total_fee:"+total_fee);  
+//                  
+//                //////////执行自己的业务逻辑////////////////
+                
+                
+//                  
+                logger.info("支付成功");  
+                //通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.  
+                resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"  
+                        + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";  
+                  
+            } else {  
+                logger.info("支付失败,错误信息：" + packageParams.get("err_code"));  
+                resXml = "<xml>" + "<return_code><![CDATA[FAIL]]></return_code>"  
+                        + "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";  
+            }  
+            //------------------------------  
+            //处理业务完毕  
+            //------------------------------  
+            BufferedOutputStream outStream = new BufferedOutputStream(  
+                    response.getOutputStream());  
+            outStream.write(resXml.getBytes());  
+            outStream.flush();  
+            outStream.close();  
+        } else{  
+            logger.info("通知签名验证失败");  
+        }  
 
 	}
 

@@ -76,7 +76,7 @@
 											<td>${item.content}</td>
 											<td><a href="${item.url}" target="blank">查看内容</a></td>
 											<td><a
-												href="userDetail.action?contentId=${item.financingExitId }&menu=1&sortmenu=1&submenu=1"
+												href="financeExitDetail.action?contentId=${item.financingExitId }&menu=4&sortmenu=7&submenu=1"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"

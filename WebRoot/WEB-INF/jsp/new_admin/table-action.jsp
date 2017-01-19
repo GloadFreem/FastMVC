@@ -91,11 +91,11 @@
 											<td>${item.address}</td>
 											<td><a href="${item.url}" target="blank">查看内容</a></td>
 											<td><a
-												href="userDetail.action?contentId=${item.actionId }&menu=1&sortmenu=1&submenu=1"
+												href="actionDetail.action?contentId=${item.actionId }&menu=5&sortmenu=1&submenu=2&requestType=webRequest"
 												class="active"><i
 													class="fa fa-edit text-success text-active"></i><i
 													class="fa fa-edit text-danger text"></i></a> | <a href="#modal"
-												data-href="deleteUser.action?contentId=${item.actionId }&menu=1&sortmenu=1&submenu=1"
+												data-href="deleteUser.action?contentId=${item.actionId }&menu=1&sortmenu=1&submenu=1&requestType=webRequest"
 												data-toggle="modal" class="active"><i
 													class="fa fa-trash-o text-success text-active"></i><i
 													class="fa fa-trash-o text-danger text"></i></a>
