@@ -8,7 +8,7 @@
 			<p>身份认证详情</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editCurseDetail.action?menu=1&sortmenu=1&submenu=1"
+			<form action="adminAddAuthentic.action?menu=3&sortmenu=2&submenu=1"
 				method="post" enctype="multipart/form-data">
 				<div class="">
 					<input name="contentId" value="${data.authId}" style="display:none">
@@ -17,13 +17,14 @@
 						<li class="list-group-item">
 							<div class="clear">身份类型</div>
 						</li>
-						<li class="list-group-item"><select id="type" name="type"
+						<li class="list-group-item"><select id="identityTypeId"
+							name="identityTypeId"
 							class="selectpicker show-menu-arrow form-control"
 							data-max-options="2">
 								<c:forEach items="${identities}" var="item">
 									<option value="${item.identiyTypeId}"
 										<c:choose>
-							<c:when test="${result.businessContentType.identiyTypeId==item.identiyTypeId}">
+							<c:when test="${data.identiytype.identiyTypeId==item.identiyTypeId}">
 								  selected=selected
 							</c:when>
 						</c:choose>>${item.name }</option>
@@ -34,7 +35,7 @@
 						<li class="list-group-item">
 							<div class="clear">真实姓名</div>
 						</li>
-						<li class="list-group-item"><input name="name"
+						<li class="list-group-item"><input name="realName"
 							class="form-control alert-success" value="${data.name }"
 							placeholder="请输入真实姓名"></li>
 
@@ -42,7 +43,7 @@
 						<li class="list-group-item">
 							<div class="clear">身份证号码</div>
 						</li>
-						<li class="list-group-item"><input name="name"
+						<li class="list-group-item"><input name="identityCardNo"
 							class="form-control alert-success" value="${data.identiyCarNo }"
 							placeholder="请输入身份证号码"></li>
 
@@ -56,7 +57,7 @@
 									alt="${data.name }" src="${data.identiyCarA }" class="col-xs-1"></a>
 								<input name="image" class="form-control alert-success"
 									value="${data.identiyCarA }" placeholder="请输入图片链接"> <input
-									name="file" id="input-1" type="file" class="file">
+									name="identityCardA" id="input-1" type="file" class="file">
 							</div>
 						</li>
 						<!-- 身份证反面 -->
@@ -69,7 +70,7 @@
 									alt="${data.name }" src="${data.identiyCarB }" class="col-xs-1"></a>
 								<input name="image" class="form-control alert-success"
 									value="${data.identiyCarB }" placeholder="请输入图片链接"> <input
-									name="file" id="input-1" type="file" class="file">
+									name="identityCardB" id="input-1" type="file" class="file">
 							</div>
 						</li>
 
@@ -77,49 +78,49 @@
 						<li class="list-group-item">
 							<div class="clear">公司名称</div>
 						</li>
-						<li class="list-group-item"><input name="name"
+						<li class="list-group-item"><input name="companyName"
 							class="form-control alert-success" value="${data.companyName }"
 							placeholder="请输入公司名称"></li>
 						<!-- 公司地址 -->
 						<li class="list-group-item">
 							<div class="clear">公司地址</div>
 						</li>
-						<li class="list-group-item"><input name="name"
+						<li class="list-group-item"><input name="companyAddress"
 							class="form-control alert-success"
 							value="${data.companyAddress }" placeholder="请输入公司地址"></li>
 						<!-- 职位 -->
 						<li class="list-group-item">
 							<div class="clear">职位</div>
 						</li>
-						<li class="list-group-item"><input name="name"
+						<li class="list-group-item"><input name="position"
 							class="form-control alert-success" value="${data.position }"
 							placeholder="请输入职位"></li>
 						<!-- 营业执照 -->
 						<li class="list-group-item">
 							<div class="clear">营业执照</div>
 						</li>
-						<li class="list-group-item"><input name="name"
+						<li class="list-group-item"><input name="bussinessNo"
 							class="form-control alert-success"
-							value="${data.buinessLicence }" placeholder="请输入职位"></li>
+							value="${data.buinessLicenceNo }" placeholder="请输入营业执照"></li>
 						<!-- 个人介绍 -->
 						<li class="list-group-item">
 							<div class="clear">个人介绍</div>
 						</li>
-						<li class="list-group-item"><textarea name="name"
-								class="form-control alert-success" value="${data.introduce }"
-								placeholder="请输入职位"></textarea> <!-- 公司介绍 -->
+						<li class="list-group-item"><textarea name="introduce"
+								class="form-control alert-success" 
+								placeholder="请输入职位">${data.introduce }</textarea> <!-- 公司介绍 -->
 						<li class="list-group-item">
 							<div class="clear">公司介绍</div>
 						</li>
-						<li class="list-group-item"><textarea name="name"
+						<li class="list-group-item"><textarea name="companyIntroduce"
 								class="form-control alert-success"
-								value="${data.companyIntroduce }" placeholder="请输入职位"></textarea></li>
+								 placeholder="请输入公司简介">${data.companyIntroduce }</textarea></li>
 
 						<!-- 所属行业 -->
 						<li class="list-group-item">
 							<div class="clear">所属行业</div>
 						</li>
-						<li class="list-group-item"><select id="type" name="type"
+						<li class="list-group-item"><select id="areas" name="areas"
 							class="selectpicker show-menu-arrow form-control"
 							data-max-options="2">
 								<c:forEach items="${areas}" var="o" varStatus="v">
@@ -137,7 +138,7 @@
 						<li class="list-group-item">
 							<div class="clear">所属城市</div>
 						</li>
-						<li class="list-group-item"><select id="type" name="type"
+						<li class="list-group-item"><select id="city" name="city"
 							class="selectpicker show-menu-arrow form-control"
 							data-max-options="2">
 								<c:forEach items="${cities}" var="item">
@@ -153,8 +154,8 @@
 						<li class="list-group-item">
 							<div class="clear">符合投资人协议标准</div>
 						</li>
-						<li class="list-group-item"><select id="type" name="type"
-							class="selectpicker show-menu-arrow form-control"
+						<li class="list-group-item"><select id="optional"
+							name="optional" class="selectpicker show-menu-arrow form-control"
 							data-max-options="2">
 								<c:forEach items="${optional}" var="o" varStatus="v">
 									<option value=${v.index }
@@ -171,7 +172,7 @@
 						<li class="list-group-item">
 							<div class="clear">认证状态</div>
 						</li>
-						<li class="list-group-item"><select id="type" name="type"
+						<li class="list-group-item"><select id="status" name="status"
 							class="selectpicker show-menu-arrow form-control"
 							data-max-options="2">
 								<c:forEach items="${status}" var="s" varStatus="v">
@@ -186,47 +187,9 @@
 					</ul>
 				</div>
 				<div>
-					<button type="button" id="export"
-						class="btn btn-default btn-success pull-left m-t m-b m-r">导出邀请码</button>
 					<button type="submit"
 						class="btn btn-default btn-info pull-right m-t m-b m-r">完成</button>
 				</div>
 			</form>
 		</section>
 	</section>
-
-	<script type="text/javascript">
-		$("#searchbtn").click(
-				function() {
-					$.ajax({
-						url : "SearchChatRoomByName.action",
-						data : {
-							"name" : $("input[name='key']").val(),
-						},
-						success : function(data) {
-							selector = $("select[name='projectId']");
-							selector.empty();
-
-							data.data.forEach(function(e) {
-								select = "<option value='"+e.chatroomId+"'>"
-										+ e.name + "</option>"
-								selector.append(select);
-							});
-
-						}
-					});
-
-				});
-
-		$("#projectId").change(function() {
-			$("input[name='key']").val($(this).find("option:selected").text());
-		});
-
-		$("#export")
-				.click(
-						function() {
-							var url = "http://www.jinzht.com:8080/jinzht/newSystem/downloadInviteCode.action?contentId="
-									+ ${data.authId};
-							window.open(url);
-						});
-	</script>

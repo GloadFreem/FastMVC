@@ -105,7 +105,7 @@ public class UserManager {
 			user.setCollections(null);
 			user.setUserstatus(null);
 			user.setWechatId(null);
-			user.setRegId(null);
+//			user.setRegId(null);
 			user.setPlatform(null);
 			user.setLastLoginDate(null);
 			user.setInvestmentrecords(null);

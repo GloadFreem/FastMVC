@@ -111,6 +111,21 @@ public class SanCompanyDAO {
 			throw re;
 		}
 	}
+	public void deleteByPage(Integer page,Integer size) {
+		try {
+			String sqlString ="delete from SanCompany";
+			Query queryObject = getCurrentSession().createQuery(sqlString);
+			queryObject.setFirstResult(page*size);
+			queryObject.setMaxResults(size);
+			
+			queryObject.executeUpdate();
+			
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
 
 	public SanCompany findById(java.lang.Integer id) {
 		log.debug("getting SanCompany instance with id: " + id);
@@ -340,4 +355,36 @@ public class SanCompanyDAO {
 					throw re;
 				}
 	}
+	
+
+	public void deleteAll() {
+		log.debug("delete all SanCompany");
+		try {
+			String queryString = "delete from san_asset where 1=1 ";
+			getCurrentSession().createSQLQuery(queryString).executeUpdate();
+
+			String queryString2 = "delete from san_income where 1=1 ";
+			getCurrentSession().createSQLQuery(queryString2).executeUpdate();
+
+			String queryString3 = "delete from san_liabilities where 1=1 ";
+			getCurrentSession().createSQLQuery(queryString3).executeUpdate();
+
+			String queryString4 = "delete from san_managementer where 1=1 ";
+			getCurrentSession().createSQLQuery(queryString4).executeUpdate();
+
+			String queryString5 = "delete from san_profit where 1=1 ";
+			getCurrentSession().createSQLQuery(queryString5).executeUpdate();
+
+			String queryString6 = "delete from san_shareholder where 1=1 ";
+			getCurrentSession().createSQLQuery(queryString6).executeUpdate();
+
+			String queryString7 = "delete from san_company where 1=1 ";
+			getCurrentSession().createSQLQuery(queryString7).executeUpdate();
+			
+		} catch (RuntimeException re) {
+			log.error("delete all failed", re);
+			throw re;
+		}
+	}
+
 }

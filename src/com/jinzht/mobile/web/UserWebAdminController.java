@@ -1071,8 +1071,11 @@ public class UserWebAdminController extends BaseController {
 			map.put("data", content);
 		}
 		
+		List l = this.projectManager.getFinancestatusDao().findAll();
+		
 		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
 		map.put("content", "projectDetail");
+		map.put("status", l);
 		return Config.NEW_SERVER_CONTROL;
 	}
 	
@@ -1097,6 +1100,17 @@ public class UserWebAdminController extends BaseController {
 		{
 			
 			Roadshowplan content = this.projectManager.getRoadShowPlanDao().findById(contentId);
+			
+			if(content!= null)
+			{
+				List<Roadshow> list  = this.projectManager.getRoadShowDao().findByProperty("roadshowplan", content);
+				if(list!=null && list.size()>0)
+				{
+					map.put("roadshow",list.get(0));
+				}
+				
+				
+			}
 			
 			map.put("data", content);
 		}
@@ -1271,21 +1285,22 @@ public class UserWebAdminController extends BaseController {
 						.findById(id);
 				map.put("record", record);
 				
-				//添加样式表
-				List l_style = new ArrayList();
-				l_style.add("../admin/kindeditor-master/themes/default/style.css");
-				
-				map.put("style", l_style);
-				
-				l_style = new ArrayList();
-				l_style.add("../admin/ueditor/ueditor.config.js");
-				l_style.add("../admin/ueditor/ueditor.all.min.js");
-				l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
-				
-				map.put("js", l_style);
 			}
 			map.put("data", content);
 		}
+		
+		//添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+		
+		map.put("style", l_style);
+		
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+		
+		map.put("js", l_style);
 		
 		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
 		map.put("content", "financeStandingDetail");
@@ -1319,22 +1334,22 @@ public class UserWebAdminController extends BaseController {
 				Weburlrecord record = this.webManager.getWebUrlRecordDao()
 						.findById(id);
 				map.put("record", record);
-				
-				//添加样式表
-				List l_style = new ArrayList();
-				l_style.add("../admin/kindeditor-master/themes/default/style.css");
-				
-				map.put("style", l_style);
-				
-				l_style = new ArrayList();
-				l_style.add("../admin/ueditor/ueditor.config.js");
-				l_style.add("../admin/ueditor/ueditor.all.min.js");
-				l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
-				
-				map.put("js", l_style);
 			}
 			map.put("data", content);
 		}
+		
+		//添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+		
+		map.put("style", l_style);
+		
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+		
+		map.put("js", l_style);
 		
 		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
 		map.put("content", "businessPlanDetail");
@@ -1369,21 +1384,22 @@ public class UserWebAdminController extends BaseController {
 						.findById(id);
 				map.put("record", record);
 				
-				//添加样式表
-				List l_style = new ArrayList();
-				l_style.add("../admin/kindeditor-master/themes/default/style.css");
-				
-				map.put("style", l_style);
-				
-				l_style = new ArrayList();
-				l_style.add("../admin/ueditor/ueditor.config.js");
-				l_style.add("../admin/ueditor/ueditor.all.min.js");
-				l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
-				
-				map.put("js", l_style);
 			}
 			map.put("data", content);
 		}
+		
+		//添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+		
+		map.put("style", l_style);
+		
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+		
+		map.put("js", l_style);
 		
 		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
 		map.put("content", "financeCaseDetail");
@@ -1417,22 +1433,23 @@ public class UserWebAdminController extends BaseController {
 				Weburlrecord record = this.webManager.getWebUrlRecordDao()
 						.findById(id);
 				map.put("record", record);
-				
-				//添加样式表
-				List l_style = new ArrayList();
-				l_style.add("../admin/kindeditor-master/themes/default/style.css");
-				
-				map.put("style", l_style);
-				
-				l_style = new ArrayList();
-				l_style.add("../admin/ueditor/ueditor.config.js");
-				l_style.add("../admin/ueditor/ueditor.all.min.js");
-				l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
-				
-				map.put("js", l_style);
 			}
 			map.put("data", content);
 		}
+		
+		
+		//添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+		
+		map.put("style", l_style);
+		
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+		
+		map.put("js", l_style);
 		
 		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
 		map.put("content", "financeExitDetail");

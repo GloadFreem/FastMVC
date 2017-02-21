@@ -72,7 +72,7 @@
 	<bean id="delTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="TimerDeleteDetail" />
-		    <property name="cronExpression" value="0 10 2 * * ?" />  
+		    <property name="cronExpression" value="0 37 11 * * ?" />  
 	</bean>
 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

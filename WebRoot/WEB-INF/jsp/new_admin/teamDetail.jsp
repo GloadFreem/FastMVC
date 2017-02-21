@@ -7,14 +7,14 @@
 			<p>团队内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editSourceDetail.action?menu=1&sortmenu=1&submenu=3"
+			<form action="adminAddTeam.action?menu=4&sortmenu=9&submenu=2"
 				method="post" enctype="multipart/form-data">
 				<div class="">
 					<input name="contentId" value="${data.personId}"
 						style="display:none">
 					<ul class="list-group gutter list-group-lg list-group-sp">
 						<div class="input-group">
-							<input name="name" id="name" type="text" class="form-control"
+							<input name="projectName" id="name" type="text" class="form-control"
 								placeholder="输入 关键字 进行搜索" value="${data.project.fullName }">
 							<span class="input-group-btn">
 								<button id="searchbtn" type="button"
@@ -33,7 +33,7 @@
 				<li class="list-group-item">
 					<div class="clear">姓名</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="name"
 					class="form-control alert-success" value="${data.name }"
 					placeholder="请输入姓名">
 					</div></li>
@@ -41,7 +41,7 @@
 				<li class="list-group-item">
 					<div class="clear">公司</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="company"
 					class="form-control alert-success" value="${data.company }"
 					placeholder="请输入公司">
 					</div></li>
@@ -49,7 +49,7 @@
 				<li class="list-group-item">
 					<div class="clear">职位</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="position"
 					class="form-control alert-success" value="${data.position }"
 					placeholder="请输入职位">
 					</div></li>
@@ -57,7 +57,7 @@
 				<li class="list-group-item">
 					<div class="clear">地址</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="address"
 					class="form-control alert-success" value="${data.address }"
 					placeholder="请输入地址">
 					</div></li>
@@ -65,7 +65,7 @@
 				<li class="list-group-item">
 					<div class="clear">链接</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="url"
 					class="form-control alert-success" value="${data.url }"
 					placeholder="请输入介绍内容">
 					</div></li>
@@ -73,7 +73,7 @@
 				<li class="list-group-item">
 					<div class="clear">介绍</div>
 				</li>
-				<li class="list-group-item"><textarea name="vtimelong"
+				<li class="list-group-item"><textarea name="introduce"
 					class="form-control alert-success"
 					placeholder="请输入链接">${data.introduce }</textarea>
 					</div></li>

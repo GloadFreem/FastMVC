@@ -8,7 +8,7 @@
 			<p>用户详情</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editCurseDetail.action?menu=1&sortmenu=1&submenu=1"
+			<form action="adminAddUser.action?menu=3&sortmenu=1&submenu=1"
 				method="post" enctype="multipart/form-data">
 				<div class="">
 					<input name="contentId" value="${data.userId}" style="display:none">
@@ -25,7 +25,7 @@
 						<li class="list-group-item">
 							<div class="clear">手机号码</div>
 						</li>
-						<li class="list-group-item"><input name="name"
+						<li class="list-group-item"><input name="telephone"
 							class="form-control alert-success" value="${data.telephone }"
 							placeholder="请输入手机号码"></li>
 
@@ -33,7 +33,7 @@
 						<li class="list-group-item">
 							<div class="clear">密码</div>
 						</li>
-						<li class="list-group-item"><input name="name"
+						<li class="list-group-item"><input name="password" disabled="disabled"
 							class="form-control alert-success" value="${data.password }"
 							placeholder="请输入密码"></li>
 
@@ -43,9 +43,10 @@
 						</li>
 						<li class="list-group-item">
 							<div class="clear">
-								<a href="${data.headSculpture }" target="blank"><img alt="${data.name }"
-									src="${data.headSculpture }" class="col-xs-1"></a> <input
-									name="image" class="form-control alert-success"
+								<a href="${data.headSculpture }" target="blank"><img
+									alt="${data.name }" src="${data.headSculpture }"
+									class="col-xs-1"></a> <input name="image"
+									class="form-control alert-success"
 									value="${data.headSculpture }" placeholder="请输入图片链接"> <input
 									name="file" id="input-1" type="file" class="file">
 							</div>
@@ -56,7 +57,7 @@
 						<li class="list-group-item">
 							<div class="clear">设备类型</div>
 						</li>
-						<li class="list-group-item"><select id="type" name="type"
+						<li class="list-group-item"><select id="platform" name="platform"
 							class="selectpicker show-menu-arrow form-control"
 							data-max-options="2">
 								<c:choose>
@@ -76,7 +77,7 @@
 						<li class="list-group-item">
 							<div class="clear">微信openId</div>
 						</li>
-						<li class="list-group-item"><input name="name"
+						<li class="list-group-item"><input name="openId"
 							class="form-control alert-success" value="${data.wechatId }"
 							placeholder="请输入微信openId"></li>
 
@@ -160,8 +161,6 @@
 					</ul>
 				</div>
 				<div>
-					<button type="button" id="export"
-						class="btn btn-default btn-success pull-left m-t m-b m-r">导出邀请码</button>
 					<button type="submit"
 						class="btn btn-default btn-info pull-right m-t m-b m-r">完成</button>
 				</div>
@@ -169,38 +168,3 @@
 		</section>
 	</section>
 
-	<script type="text/javascript">
-		$("#searchbtn").click(
-				function() {
-					$.ajax({
-						url : "SearchChatRoomByName.action",
-						data : {
-							"name" : $("input[name='key']").val(),
-						},
-						success : function(data) {
-							selector = $("select[name='projectId']");
-							selector.empty();
-
-							data.data.forEach(function(e) {
-								select = "<option value='"+e.chatroomId+"'>"
-										+ e.name + "</option>"
-								selector.append(select);
-							});
-
-						}
-					});
-
-				});
-
-		$("#projectId").change(function() {
-			$("input[name='key']").val($(this).find("option:selected").text());
-		});
-
-		$("#export")
-				.click(
-						function() {
-							var url = "http://www.jinzht.com:8080/jinzht/newSystem/downloadInviteCode.action?contentId="
-									+ ${data.userId};
-							window.open(url);
-						});
-	</script>

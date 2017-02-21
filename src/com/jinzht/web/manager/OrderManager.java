@@ -307,7 +307,7 @@ public class OrderManager {
 			map.put(AlipayConfig.NONCE_STR, noncestr);
 			map.put(AlipayConfig.NOTIFY_URL_STR, service_url);
 			map.put(AlipayConfig.OUT_TRADE_NO_STR, out_trade_no);
-			map.put(AlipayConfig.SPBILL_CREATE_IP_STR, "192.168.10.174");
+			map.put(AlipayConfig.SPBILL_CREATE_IP_STR, "115.28.110.243");
 			map.put("total_fee", priceStr);
 			map.put(AlipayConfig.TRADE_TYPE_STR, AlipayConfig.TRADE_TYPE_JSAPI);
 			map.put("openid", openId);

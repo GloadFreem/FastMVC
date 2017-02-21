@@ -38,7 +38,7 @@ public class PushUtil {
 
 		// For push, all you need do is to build PushPayload object.
 		
-		this.contentType=PushContentType.web;
+//		this.contentType=PushContentType.web;
 		PushPayload payload;
 		if (isAllPush) {
 			PushPayload payload_ios = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();

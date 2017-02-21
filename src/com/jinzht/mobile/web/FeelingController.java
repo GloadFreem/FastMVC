@@ -34,6 +34,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jinzht.tools.Config;
 import com.jinzht.tools.FileUtil;
+import com.jinzht.tools.PushContentType;
+import com.jinzht.tools.PushUtil;
 import com.jinzht.tools.Tools;
 import com.jinzht.web.entity.Authentic;
 import com.jinzht.web.entity.Comment;
@@ -43,9 +45,11 @@ import com.jinzht.web.entity.Contentshare;
 import com.jinzht.web.entity.Contenttype;
 import com.jinzht.web.entity.Feelingtype;
 import com.jinzht.web.entity.Loginfailrecord;
+import com.jinzht.web.entity.Messagetype;
 import com.jinzht.web.entity.Publiccontent;
 import com.jinzht.web.entity.Share;
 import com.jinzht.web.entity.Sharetype;
+import com.jinzht.web.entity.Systemmessage;
 import com.jinzht.web.entity.Users;
 import com.jinzht.web.hibernate.HibernateSessionFactory;
 import com.jinzht.web.manager.FeelingManager;
@@ -196,8 +200,7 @@ public class FeelingController extends BaseController {
 	@RequestMapping(value = "/requestPublicFeeling")
 	@ResponseBody
 	/***
-	 * 获取圈子列表
-	 * @param page 当前页
+	 * 发布圈子
 	 * @param session
 	 * @return
 	 */
@@ -362,7 +365,7 @@ public class FeelingController extends BaseController {
 	@RequestMapping(value = "/requestCommentFeeling")
 	@ResponseBody
 	/***
-	 * 点赞/取消点赞
+	 * 评论圈子
 	 * @param contentId
 	 * @param bindingResult
 	 * @param session
@@ -442,10 +445,80 @@ public class FeelingController extends BaseController {
 				user1.setUserstatus(null);
 				user1.setTelephone(null);
 				user1.setPassword(null);
-				user1.setPlatform(null);
+//				user1.setPlatform(null);
 				user1.setLastLoginDate(null);
 				comment.setUsersByAtUserId(user1);
 			}
+			
+			
+			//推送消息
+			final FeelingController self = this;
+			final Users u2=comment.getUsersByAtUserId();
+			final Comment c = comment;
+			final Publiccontent cc = publicContent;
+			
+			
+			new Thread()
+			{
+				public void run() {
+					
+					Systemmessage message = new Systemmessage();
+					if(u2==null)
+					{
+						message.setUsers(cc.getUsers());
+						message.setTitle("【有人回复了您的圈子】");
+						
+					}else{
+						message.setUsers(u2);
+						message.setTitle("【有人@了您】");
+					}
+					
+					message.setContent(c.getContent());
+					message.setIsRead(false);
+					message.setMessageDate(new Date());
+					message.setValid(true);
+					
+					Messagetype type = new Messagetype();
+					type.setMessageTypeId(5);
+					
+					message.setMessagetype(type);
+					
+					
+					//推送消息
+					PushUtil pushUtil = new PushUtil();
+					pushUtil.setTitle(message.getTitle()+":"+c.getContent());
+					pushUtil.setShareUrl("");
+					pushUtil.setContent(message.getContent());
+					pushUtil.setWebViewTitle("");
+					pushUtil.setShareImage("");
+					pushUtil.setShareIntroduce("");  
+					pushUtil.setContentType(PushContentType.system);
+				
+					if (cc.getUsers() != null && !cc.getUsers().getRegId().equals(null)) {
+						pushUtil.setRegId(cc.getUsers().getRegId());
+						pushUtil.setPlatform(cc.getUsers().getPlatform());
+						pushUtil.send();
+						
+						if(u2!=null)
+						{
+							if(!u2.getRegId().equals(null))
+							{
+								pushUtil.setRegId(u2.getRegId());
+								pushUtil.setPlatform(u2.getPlatform());
+								pushUtil.send();
+								u2.setPlatform(null);
+							}
+						}
+					} else {
+						pushUtil.setIsAllPush(true);
+						pushUtil.send();
+					}
+					
+					//保存
+					self.systemManager.getSystemMessageDao().save(message);
+				};
+			}.start();
+			
 
 			// 封装返回结果
 			this.status = 200;

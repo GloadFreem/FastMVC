@@ -8,41 +8,49 @@
 			<p>课程内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editSourceDetail.action?menu=1&sortmenu=1&submenu=3"
+			<form action="adminAddProject.action?menu=4&sortmenu=1&submenu=3"
 				method="post" enctype="multipart/form-data">
 				<div class="">
 					<input name="contentId" value="${data.projectId}"
 						style="display:none">
 					<ul class="list-group gutter list-group-lg list-group-sp">
-						<div class="input-group">
-							<input name="name" id="name" type="text" class="form-control"
-								placeholder="输入 关键字 进行搜索" value="${data.fullName }"> <span
-								class="input-group-btn">
-								<button id="searchbtn" type="button"
-									class="btn btn-info btn-icon">
-									<i class="fa fa-search"></i>
-								</button>
-							</span>
-						</div>
-						<div>
-							<select class="selectpicker show-menu-arrow form-control"
-								data-max-options="2" name='projectId' id='projectId'></select>
-						</div>
+						<li>
+							<div class="input-group">
+								<input name="name" id="name" type="text" class="form-control"
+									placeholder="输入 关键字 进行搜索" value="${data.fullName }"> <span
+									class="input-group-btn">
+									<button id="searchbtn" type="button"
+										class="btn btn-info btn-icon">
+										<i class="fa fa-search"></i>
+									</button>
+								</span>
+							</div>
+							<div>
+								<select class="selectpicker show-menu-arrow form-control"
+									data-max-options="2" name='projectId' id='projectId'></select>
+							</div>
+						</li>
+
+
+						<li class="list-group-item">
+							<div class="clear">公司简称</div>
+						</li>
+						<li class="list-group-item"><input name="abbrevName"
+							class="form-control alert-success" value="${data.abbrevName }"
+							placeholder="请输入名称">
 				</div>
 				</li>
-
-
 				<li class="list-group-item">
-					<div class="clear">公司</div>
+					<div class="clear">公司全称</div>
 				</li>
-				<li class="list-group-item"><input name="vname"
-					class="form-control alert-success" value="${data.abbrevName }"
+				<li class="list-group-item"><input name="fullName"
+					class="form-control alert-success" value="${data.fullName }"
 					placeholder="请输入名称">
 					</div></li>
 				<li class="list-group-item">
 					<div class="clear">地址</div>
 				</li>
-				<li class="list-group-item"><input name="vdesc"
+				<li class="list-group-item"><input name="address"
 					class="form-control alert-success" value="${data.address }"
 					placeholder="请输入地址">
 					</div></li>
@@ -52,15 +60,15 @@
 				</li>
 				<li class="list-group-item">
 					<div class="clear">
-						<textarea name="vposition" class="form-control alert-success"
-							placeholder="请输入内容描述">${data.industoryType }</textarea>
+						<textarea name="industory" class="form-control alert-success"
+							placeholder="请输入行业类型">${data.industoryType }</textarea>
 					</div>
 				</li>
 
 				<li class="list-group-item">
 					<div class="clear">项目介绍</div>
 				</li>
-				<li class="list-group-item"><textarea name="vtimelong"
+				<li class="list-group-item"><textarea name="introduce"
 						class="form-control alert-success" style="height:300px">${data.description }</textarea>
 					</div></li>
 
@@ -77,6 +85,25 @@
 					</div> <input name="file" id="input-1" type="file" class="file">
 					</div>
 				</li>
+
+				<!-- 融资状态 -->
+				<li class="list-group-item">
+					<div class="clear">融资状态</div>
+				</li>
+				<li class="list-group-item">
+					<div>
+						<select class="selectpicker show-menu-arrow form-control"
+							data-max-options="2" name='financestatus' id='financestatus'>
+							<c:forEach items="${status}" var="item">
+								<option value="${item.statusId }"
+									<c:choose>
+									<c:when test="${data.financestatus.statusId==item.statusId }">selected ="selected"</c:when>
+								</c:choose>>${item.name }</option>
+							</c:forEach>
+						</select>
+					</div>
+				</li>
+				<!-- 商业计划 -->
 				<li class="list-group-item">
 					<div class="clear">商业计划</div>
 				</li>
@@ -151,7 +178,7 @@
 		$("#searchbtn").click(
 				function() {
 					$.ajax({
-						url : "SearchCurseByName.action",
+						url : "../admin/adminSearchProjectByName.action",
 						data : {
 							"name" : $("input[name='name']").val(),
 						},
@@ -160,8 +187,8 @@
 							selector.empty();
 
 							data.data.forEach(function(e) {
-								select = "<option value='"+e.bid+"'>" + e.bname
-										+ "</option>"
+								select = "<option value='"+e.projectId+"'>"
+										+ e.fullName + "</option>"
 								selector.append(select);
 							});
 

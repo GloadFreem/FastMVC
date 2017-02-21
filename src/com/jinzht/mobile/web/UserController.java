@@ -469,7 +469,6 @@ public class UserController extends BaseController {
 				// 开始校验密码
 				if (user.getPassword().equals(userInstance.getPassword())) {
 					// 更新用户登录信息
-					user.setRegId(userInstance.getRegId());
 					user.setPlatform(userInstance.getPlatform());
 					user.setLastLoginDate(new Date());
 

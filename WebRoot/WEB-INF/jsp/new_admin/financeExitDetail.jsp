@@ -8,7 +8,7 @@
 			<p>课程内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editSourceDetail.action?menu=1&sortmenu=1&submenu=3"
+			<form action="adminAddProjectFinanceExit.action?menu=4&sortmenu=7&submenu=1"
 				method="post" enctype="multipart/form-data">
 				<ul>
 					<li class="list-group-item">
@@ -36,7 +36,7 @@
 					<li class="list-group-item">
 						<div class="clear">标签</div>
 					</li>
-					<li class="list-group-item"><input name="vtimelong"
+					<li class="list-group-item"><input name="title"
 						class="form-control alert-success" value="${data.content }"
 						placeholder="请输入标签">
 						</div></li>
@@ -48,7 +48,7 @@
 						<div class="clear">
 							<a href="${data.icon }" target="blank"><img class="col-sm-1"
 								alt="${data.content }" src="${data.icon }"></a> <input
-								name="image" class="form-control alert-success "
+								name="icon" class="form-control alert-success "
 								value="${data.icon }" placeholder="请输入内容链接">
 						</div> <input name="file" id="input-1" type="file" class="file">
 						</div>
@@ -87,7 +87,7 @@
 		$("#searchbtn").click(
 				function() {
 					$.ajax({
-						url : "SearchCurseByName.action",
+						url : "../admin/adminSearchProjectByName.action",
 						data : {
 							"name" : $("input[name='name']").val(),
 						},
@@ -96,7 +96,7 @@
 							selector.empty();
 
 							data.data.forEach(function(e) {
-								select = "<option value='"+e.bid+"'>" + e.bname
+								select = "<option value='"+e.projectId+"'>" + e.fullName
 										+ "</option>"
 								selector.append(select);
 							});

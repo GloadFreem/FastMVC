@@ -90,6 +90,12 @@ public class SanManager {
 	public void startPushService(boolean isNew) {
 		isNewPush = isNew;
 		
+		
+		 pageIndex = -1;
+		 pageIndex2 = -1;
+		 allsize = 0;
+
+		
 		int nowBaseNum = getNewJsonDataNum(0);
 		//创新层；
 		int nowNewNum = getNewJsonDataNum(1);	
@@ -98,13 +104,12 @@ public class SanManager {
 		
 		int  page = nowBaseNum/20+2;
 		int page2 = nowNewNum/20+2;
-		
 		System.out.println(LAG + "----------------pagei："+page+"  page2:  "+page2);
-		
+		System.gc();
 		
 		// 线程池
 		ExecutorService threadPool = Executors
-				.newFixedThreadPool(Config.MAX_THREAD_NUM_SAN);
+				.newFixedThreadPool(2);
 		// 开启线程
 			for (int i=0;i<page2;i++) {
 				System.out.println(LAG + "----------------抓取i："+i);
@@ -129,6 +134,7 @@ public class SanManager {
 		}
 		// 任务执行完毕，关闭线程池
 		threadPool.shutdown();
+		System.gc();
 	}
 	
 	/**
@@ -139,8 +145,7 @@ public class SanManager {
 		//基础层；
 		int  oldBaseNum = this.companyDAO.getCountByType("0");
 		//创新层
-		int oldNewNum = this.companyDAO.getCountByType("1");		
-		
+		int oldNewNum = this.companyDAO.getCountByType("1");			
 		
 		System.out.println(LAG + "----------------基础i："+oldBaseNum+"  创新:  "+oldNewNum);
 		//获取股转网站最新数据
@@ -160,9 +165,6 @@ public class SanManager {
 			isNewPush = false;
 			for (int i=0;i<2;i++) {
 				System.out.println(LAG + "----------------抓取i："+pageIndex2);
-				// if(pageIndex<499){
-				// System.out.println(LAG + "----------------pageIndex："
-				// + pageIndex);
 				threadPool.execute(new Runnable() {
 					public void run() {
 						int page2 = getPageIndex2();
@@ -172,29 +174,8 @@ public class SanManager {
 				});
 			}
 		}
-//		if(nowNewNum>oldNewNum){
-//			int maxPage2 = (nowNewNum-nowNewNum)%20+2;
-//			pageIndex = -1;
-//			isNewPush = false;
-//			for (int i=0;i<maxPage2;i++) {
-//				System.out.println(LAG + "----------------抓取i："+pageIndex);
-//				// if(pageIndex<499){
-//				// System.out.println(LAG + "----------------pageIndex："
-//				// + pageIndex);
-//				threadPool.execute(new Runnable() {
-//					public void run() {
-//						int page = getPageIndex();
-//						String url = URL_SAN_LIST + page;
-//						pushJsonFromHttp(url);
-//					}
-//				});
-//			}
-//		}
-		
-		threadPool.shutdown();
-		
-		//执行操作；
-	
+		threadPool.shutdown();	
+		//执行操作；	
 
 	}
 	
@@ -242,31 +223,8 @@ public class SanManager {
 	}
 
 	public void deleteService() {
-		// TODO Auto-generated method stub
-
-		ExecutorService threadPool = Executors
-				.newFixedThreadPool(2);
-		int coutNum1 = getCompanyDAO().getCountByType(0);
-		int coutNum2 = getCompanyDAO().getCountByType(1);
-		final int page = (coutNum1+coutNum2)/10 +1;
-		System.out.println("allNum:"+(coutNum1+coutNum2)+";page:"+page);
-		threadPool.execute(new Runnable() {
-			public void run() {
-				List<SanCompany> compaynlist;
-				for(int i=0;i<page;i++){
-					compaynlist = getCompanyDAO().findListByPage(0);
-					for(SanCompany s: compaynlist){
-						getCompanyDAO().delete(s);
-					}
-				}
-				
-			}
-		});
 		
-		// 任务执行完毕，关闭线程池
-		threadPool.shutdown();
-		
-		//
+		getCompanyDAO().deleteAll();;
 	}
 	
 	public synchronized int  getPageIndex2() {
@@ -286,7 +244,6 @@ public class SanManager {
 	public void setPageIndex(int pageIndex) {
 		this.pageIndex = pageIndex;
 	}
-
 	/**
 	 * 抓取任务 
 	 * 线程 不同步
@@ -328,7 +285,6 @@ public class SanManager {
 				e.printStackTrace();
 				System.out.println(LAG + "--------error：");
 			}
-
 			// System.out.println(LAG + "--------companieList：" +
 			// companieList.size());
 			// 存储 数据
@@ -342,7 +298,6 @@ public class SanManager {
 				saveOrUpdate(companieList);
 			}
 		}
-
 		// isLastPage = true;
 
 	}
@@ -407,7 +362,6 @@ public class SanManager {
 						company.setSecuritiesTrader(baseinfo.getBroker());
 						// 转让方式： 做市
 						company.setAssignment(baseinfo.getTransferMode());
-
 						// 高管人员
 						List<ExecutivesBean> eBeans = detailBean
 								.getExecutives();
@@ -422,7 +376,6 @@ public class SanManager {
 							}
 							company.setSanManagementers(mList);
 						}
-
 						// 10大股东
 						List<TopTenHoldersBean> tHoldersBeans = detailBean
 								.getTopTenHolders();
@@ -438,20 +391,16 @@ public class SanManager {
 							}
 							company.setSanShareholders(hShareholders);
 						}
-
 						// desc
 						String desc = getCompanyDesc(company.getCCode());
 						company.setCDesc(desc);
-
 						// 财务报表
 						company = getFinanceDetail(company);
-
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
 				}
-
 			}
 		}
 		return company;
@@ -490,16 +439,13 @@ public class SanManager {
 				// System.out.println(LAG + "--------titlerow："+
 				// titlerow.toString());
 				Elements titleTextlist = titlerow.select(".table-col");
-
 				// if(titlelist.size()>1){
 				Elements rows = doc.select("div.table-row");
 				// System.out.println(LAG + "--------rows："+ rows.toString());
 				// for(int i=0;i<titlelist.size()-1;i++){
 				for (int j = 0; j < rows.size(); j++) {
 					Element tr = rows.get(j);
-
 					// System.out.println(LAG + "--------tr："+ tr.toString());
-
 					// for(int k = 0; k < td.size(); k++){
 					// }
 
@@ -751,35 +697,23 @@ public class SanManager {
 	
 
 	 public static String removeFourChar(String content) {
-		 try {
-			 if(content!=null){
-				  byte[] conbyte = content.getBytes();
-				  
-			        for (int i = 0; i < conbyte.length; i++) {
-			            if ((conbyte[i] & 0xF8) == 0xF0) {
-			                for (int j = 0; j < 4; j++) {                          
-			                    conbyte[i+j]=0x30;                     
-			                }  
-			                i += 3;
-			            }
-			        }
-			        content = new String(conbyte);
-			        return content.replaceAll("0000", "");
-			 }else{
-				 return "";
-			 }
-		} catch (Exception e) {
-			// TODO: handle exception、
-			e.printStackTrace();
-				System.out.print("字符转换错误：content:"+content);
-			return "";
-		}
-		
+		 if(content!=null){
+			  byte[] conbyte = content.getBytes();
+		        for (int i = 0; i < conbyte.length; i++) {
+		            if ((conbyte[i] & 0xF8) == 0xF0) {
+		                for (int j = 0; j < 4; j++) {                          
+		                    conbyte[i+j]=0x30;                     
+		                }  
+		                i += 3;
+		            }
+		        }
+		        content = new String(conbyte);
+		        return content.replaceAll("0000", "");
+		 }else{
+			 return "";
+		 }
 	      
 	    }
-	 
-	 
-	 
 
 	
 

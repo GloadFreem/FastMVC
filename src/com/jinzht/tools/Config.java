@@ -185,9 +185,7 @@ public class Config {
 			add("generateDetail.action");
 			add("generateCode.action");
 			add("userList.action");
-			
-			
-			
+
 			add("startCompanyService.action");
 			add("requestSanCompanyList.action");
 			add("requestSanCompanyDetail.action");
@@ -302,15 +300,15 @@ public class Config {
 	public static String STRING_SMS_PARTICIPATE_SUBMIT = "尊贵的金指投用户，您的[%s]来现场申请已提交。请打开【金指投】APP->个人中心->进度查看->来现场 查看详情。如有疑问请致电 18691883712";
 	public static String STRING_SMS_PARTICIPATE_VALID_TRUE = "尊贵的金指投用户，您于[%s]申请参加[%s]来现场申请通过审核。打开【金指投】APP->个人中心->进度查看->来现场 查看详情。如有疑问请致电 18691883712";
 	public static String STRING_SMS_PARTICIPATE_VALID_FALSE = "尊贵的金指投用户，您于[%s]申请参加[%s]来现场申请未通过审核。 请打开【金指投】APP->个人中心->进度查看->来现场 查看详情。如有疑问请致电 18691883712";
-	public static String STRING_SMS_INVEST_VALID_TRUE = "尊贵的金指投用户，您于[%s]投资[%s][%s]万。如有问题请致电 18681838312, 或致邮 kf@jinzht.com。我们的工作人员将会第一时间联系您，请您保持手机畅通。您也可以打开【金指投】APP->个人>中心->我的投融资->我投资的项目 查看详情。";
+	public static String STRING_SMS_INVEST_VALID_TRUE = "尊贵的金指投用户，您于[%s]投资[%s][%s]万。如有问题请致电 18681838312, 或致邮jinzhitou@yeah.net。我们的工作人员将会第一时间联系您，请您保持手机畅通。您也可以打开【金指投】APP->个人>中心->我的投融资->我投资的项目 查看详情。";
 
 	// 系统
 	public static String STRING_APPP_SHARE_TITLE = "【金指投投融资】";
 	public static String STRING_APPP_SHARE_CONTENT = "金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS = "http://www.jinzht.com/phone5/";
-	// public static String STRING_SYSTEM_ADDRESS
-	// ="http://192.168.10.174:8080/jinzht/";
-	public static String STRING_SYSTEM_ADDRESS = "http://www.jinzht.com:8080/jinzht/";
+	public static String STRING_SYSTEM_ADDRESS = "http://192.168.10.174:8080/jinzht/";
+	// public static String STRING_SYSTEM_ADDRESS =
+	// "http://www.jinzht.com:8080/jinzht/";
 	// public static String STRING_SYSTEM_INTRODUCE
 	// ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE = "http://www.jinzht.com:8080/jinzht/images/icon.jpg";
@@ -328,7 +326,7 @@ public class Config {
 	public static String STRING_USER_IDENTITY_PICTUREA_FORMAT = "jinzht_user_identiy_a_%d";
 	public static String STRING_USER_IDENTITY_PICTUREB_FORMAT = "jinzht_user_identiy_b_%d";
 	public static String STRING_USER__IDENTITY_BUINESS_FORMAT = "jinzht_user_identiy_buiness_%d";
-	public static String STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL = "kefu@jinzht.com";
+	public static String STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL = "jinzhitou@yeah.net";
 	public static String STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_TEL = "029-63687306";
 
 	// 分享

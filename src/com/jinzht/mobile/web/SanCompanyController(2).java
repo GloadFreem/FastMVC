@@ -24,6 +24,7 @@ import com.jinzht.web.entity.ProjectSearchBean;
 
 @Controller
 public class SanCompanyController extends BaseController {
+
 	@Autowired
 	private SanManager sanManager;
 	
@@ -51,7 +52,6 @@ public class SanCompanyController extends BaseController {
 			this.message = "更新数据库";
 		}
 		else if(pwd.equals("clear")){
-
 			sanManager.deleteService();
 			this.status = 203;
 		}
@@ -132,13 +132,11 @@ public class SanCompanyController extends BaseController {
 	}
 
 	private String changeNumPoint(String stock) {
-		System.out.println(stock);
 		if(stock==null||stock.equals("")){
 			stock = "0.00";	
 		}else {
 			double   stockNum = Double.valueOf(stock);
 			//
-			System.out.println(stock);
 			stockNum = stockNum*100;		
 			 NumberFormat nf = NumberFormat.getNumberInstance();
 		        // 保留两位小数
@@ -147,7 +145,6 @@ public class SanCompanyController extends BaseController {
 			if(stock.contains(".")&&stock.indexOf(".")==stock.length()-2){
 				stock = stock +"0";
 			}
-			System.out.println(stock);
 		}
 		return stock;
 	}
@@ -180,7 +177,26 @@ public class SanCompanyController extends BaseController {
 	 * @param size
 	 * @return
 	 */
-	private String changeNum(double size) {
+	private String changeNum(int size) {
+		String num = size+"";
+		String test  ="";
+		int length = num.length();
+		if(length>3){
+			NumberFormat nf = new DecimalFormat(",###");
+			   test = nf.format(size);
+		}else{
+			test = num;
+		}
+		return test;
+	}
+	
+	
+	/**
+	 * 转化
+	 * @param size
+	 * @return
+	 */
+	private String changeNum(Double size) {
 		String num = size+"";
 		String test  ="";
 		int length = num.length();

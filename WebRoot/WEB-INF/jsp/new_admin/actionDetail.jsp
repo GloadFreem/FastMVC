@@ -7,7 +7,7 @@
 			<p>团队内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editSourceDetail.action?menu=1&sortmenu=1&submenu=3"
+			<form action="adminAddAction.action?menu=5&sortmenu=1&submenu=2"
 				method="post" enctype="multipart/form-data">
 				<div class="">
 					<input name="contentId" value="${data.actionId}"
@@ -18,7 +18,7 @@
 				<li class="list-group-item">
 					<div class="clear">活动名称</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="name"
 					class="form-control alert-success" value="${data.name }"
 					placeholder="请输入活动名称">
 				</div>
@@ -27,7 +27,7 @@
 				<li class="list-group-item">
 					<div class="clear">地址</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="address"
 					class="form-control alert-success" value="${data.address }"
 					placeholder="请输入公司">
 					</div></li>
@@ -35,7 +35,7 @@
 				<li class="list-group-item">
 					<div class="clear">人数限制</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="limit"
 					class="form-control alert-success" value="${data.memberLimit }"
 					placeholder="请输入职位">
 					</div></li>
@@ -43,7 +43,7 @@
 				<li class="list-group-item">
 					<div class="clear">是否免费</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="type"
 					class="form-control alert-success" value="${data.type }"
 					placeholder="请输入是否免费">
 					</div></li>
@@ -51,7 +51,7 @@
 				<li class="list-group-item">
 					<div class="clear">开始时间</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="beginTime"
 					class="form-control alert-success" value="${data.startTime }"
 					placeholder="请输入开始时间">
 					</div></li>
@@ -59,7 +59,7 @@
 				<li class="list-group-item">
 					<div class="clear">结束时间</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="endTime"
 					class="form-control alert-success" value="${data.endTime }"
 					placeholder="请输入开始时间">
 					</div></li>
@@ -67,7 +67,7 @@
 				<li class="list-group-item">
 					<div class="clear">介绍</div>
 				</li>
-				<li class="list-group-item"><textarea name="vtimelong"
+				<li class="list-group-item"><textarea name="description"
 						class="form-control alert-success" placeholder="请输入描述"
 						style="height:300px;">${data.description }</textarea>
 					</div></li>
