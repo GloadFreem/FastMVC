@@ -8,7 +8,7 @@
 			<p>课程内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editSourceDetail.action?menu=1&sortmenu=1&submenu=3"
+			<form action="adminAddOriginal.action?menu=7&sortmenu=2&submenu=2"
 				method="post" enctype="multipart/form-data">
 				<ul>
 					<li class="list-group-item">
@@ -34,19 +34,33 @@
 					</li>
 
 					<li class="list-group-item">
+						<div class="clear">标题</div>
+					</li>
+					<li class="list-group-item"><input name="title"
+						class="form-control alert-success" value="${data.title }"
+						placeholder="请输入标题">
+						</div></li>
+					<li class="list-group-item">
 						<div class="clear">来源</div>
 					</li>
-					<li class="list-group-item"><input name="vtimelong"
+					<li class="list-group-item"><input name="original"
 						class="form-control alert-success" value="${data.oringl }"
 						placeholder="请输入来源">
 						</div></li>
 					<li class="list-group-item">
 						<div class="clear">发布时间</div>
 					</li>
-					<li class="list-group-item"><input name="vtimelong"
+					<li class="list-group-item"><input name="publicDate"
 						class="form-control alert-success" value="${data.publicDate }"
 						placeholder="请输入来源">
-						</div></li>
+						</li>
+					<li class="list-group-item">
+						<div class="clear">类型</div>
+					</li>
+					<li class="list-group-item"><input name="type"
+						class="form-control alert-success" value="${data.webcontenttype.typeId }"
+						placeholder="请输入类型">
+						</li>
 
 					<li class="list-group-item">
 						<div class="clear">图标</div>

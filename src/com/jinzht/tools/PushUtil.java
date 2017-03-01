@@ -99,7 +99,7 @@ public class PushUtil {
 										IosNotification.newBuilder()
 												.setAlert(title).setBadge(1)
 												.setSound("happy.caf")
-												.addExtra("type", this.contentType.toString())
+												.addExtra("type", getContentType().toString().toString())
 												.addExtra("content", content)
 												.addExtra("ext", "1").build())
 								.build()).build();
@@ -134,7 +134,7 @@ public class PushUtil {
 											AndroidNotification
 													.newBuilder()
 													.setAlert(title)
-													.addExtra("type", this.contentType.toString())
+													.addExtra("type", getContentType().toString().toString())
 													.addExtra("content",
 															content)
 													.addExtra("ext", title)
@@ -167,7 +167,7 @@ public class PushUtil {
 											AndroidNotification
 													.newBuilder()
 													.setAlert(title)
-													.addExtra("type", this.contentType.toString())
+													.addExtra("type", getContentType().toString().toString())
 													.addExtra("content",
 															content)
 													.addExtra("ext", "金日投条")
@@ -204,7 +204,7 @@ public class PushUtil {
 													.setAlert(title)
 													.setBadge(1)
 													.setSound("happy.caf")
-													.addExtra("type", this.contentType.toString())
+													.addExtra("type", getContentType().toString())
 													.addExtra("content",
 															content)
 													.addExtra("ext", "1")
@@ -239,7 +239,7 @@ public class PushUtil {
 													.setAlert(title)
 													.setBadge(1)
 													.setSound("happy.caf")
-													.addExtra("type", this.contentType.toString())
+													.addExtra("type", getContentType().toString().toString())
 													.addExtra("content", content)
 													.addExtra("ext", "1")
 													.addExtra("title",

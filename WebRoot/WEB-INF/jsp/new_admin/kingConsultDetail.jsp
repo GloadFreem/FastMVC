@@ -8,7 +8,7 @@
 			<p>课程内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editSourceDetail.action?menu=1&sortmenu=1&submenu=3"
+			<form action="adminAddKingCapital.action?menu=7&sortmenu=3&submenu=2"
 				method="post" enctype="multipart/form-data">
 				<ul>
 					<li class="list-group-item">
@@ -46,33 +46,54 @@
 					</li>
 
 					<li class="list-group-item">
+						<div class="clear">标题</div>
+					</li>
+					<li class="list-group-item"><input name="title"
+						class="form-control alert-success" value="${data.title }"
+						placeholder="请输入来源">
+						</li>
+					<li class="list-group-item">
 						<div class="clear">来源</div>
 					</li>
-					<li class="list-group-item"><input name="vtimelong"
+					<li class="list-group-item"><input name="orignal"
 						class="form-control alert-success" value="${data.orignal }"
 						placeholder="请输入来源">
-						</div></li>
+						</li>
 					<li class="list-group-item">
 						<div class="clear">标签</div>
 					</li>
-					<li class="list-group-item"><input name="vtimelong"
+					<li class="list-group-item"><input name="tag"
 						class="form-control alert-success" value="${data.tag }"
+						placeholder="请输入标签">
+						</div></li>
+					<li class="list-group-item">
+						<div class="clear">类型</div>
+					</li>
+					<li class="list-group-item"><input name="type"
+						class="form-control alert-success" value="${data.contenttype.typeId }"
 						placeholder="请输入标签">
 						</div></li>
 					<li class="list-group-item">
 						<div class="clear">发布时间</div>
 					</li>
-					<li class="list-group-item"><input name="vtimelong"
+					<li class="list-group-item"><input name="createDate"
 						class="form-control alert-success" value="${data.createDate }"
 						placeholder="请输入来源">
 						</div></li>
 					<li class="list-group-item">
 						<div class="clear">链接</div>
 					</li>
-					<li class="list-group-item"><input name="vtimelong"
+					<li class="list-group-item"><input name="url"
 						class="form-control alert-success" value="${data.url }"
-						placeholder="请输入来源" disabled="disabled">
-						</div></li>
+						placeholder="请输入来源">
+						</li>
+					<li class="list-group-item">
+						<div class="clear">图片模式</div>
+					</li>
+					<li class="list-group-item"><input name="flag"
+						class="form-control alert-success" value="${data.flag }"
+						placeholder="请输入来源">
+						</li>
 
 
 					<li class="list-group-item">

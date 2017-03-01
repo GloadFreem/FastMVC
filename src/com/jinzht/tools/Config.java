@@ -307,8 +307,7 @@ public class Config {
 	public static String STRING_APPP_SHARE_CONTENT = "金指投--专注于中国成长型企业股权投融资平台";
 	public static String STRING_PYTHON_SYSTEM_ADDRESS = "http://www.jinzht.com/phone5/";
 	public static String STRING_SYSTEM_ADDRESS = "http://192.168.10.174:8080/jinzht/";
-	// public static String STRING_SYSTEM_ADDRESS =
-	// "http://www.jinzht.com:8080/jinzht/";
+//	public static String STRING_SYSTEM_ADDRESS = "http://www.jinzht.com:8080/jinzht/";
 	// public static String STRING_SYSTEM_INTRODUCE
 	// ="http://www.jinzht.com:8080/jinzht/";
 	public static String STRING_SYSTEM_INTRODUCE_IMAGE = "http://www.jinzht.com:8080/jinzht/images/icon.jpg";

@@ -482,9 +482,9 @@ public class UserController extends BaseController {
 
 					// 返回结果
 					Map map = new HashMap();
-					map.put("userId", user.getUserId());
+					map.put("userId", user.getUserId()+"");
 					if (user.getExtUserId() != null) {
-						map.put("extUserId", user.getExtUserId());
+						map.put("extUserId", user.getExtUserId()+"");
 					} else {
 						map.put("extUserId", "");
 					}
@@ -505,7 +505,7 @@ public class UserController extends BaseController {
 					this.result.put("data", map);
 					this.message = Config.STRING_LOGING_SUCCESS;
 
-					session.setAttribute("userId", user.getUserId());
+					session.setAttribute("userId", user.getUserId()+"");
 					// session.setAttribute("userId", null);
 
 					// 金条奖励
@@ -799,7 +799,7 @@ public class UserController extends BaseController {
 		// 检测用户是否已登录
 		System.out.println("获取到Session :UserId："
 				+ session.getAttribute("userId"));
-		if (session.getAttribute("userId") == null) {
+		if (session.getAttribute("userId") == null || session.getAttribute("userId").toString().equals("5333")) {
 			this.status = 400;
 			this.message = Config.STRING_LOGING_STATUS_OFFLINE;
 		} else {

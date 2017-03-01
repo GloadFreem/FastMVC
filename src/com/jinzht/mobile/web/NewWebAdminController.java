@@ -1093,6 +1093,672 @@ public class NewWebAdminController extends BaseController {
 	 * return m; }
 	 */
 
+	@RequestMapping(value = "/newSystem/adminAddProjectFinanceStanding")
+	public String adminAddProjectFinanceStanding(
+
+	@RequestParam(value = "contentId", required = false) Integer financeId,
+
+	@RequestParam(value = "projectId", required = false) Integer projectId,
+
+	@RequestParam(value = "title", required = false) String title,
+
+	@RequestParam(value = "icon", required = false) String icon,
+
+	@RequestParam(value = "editorValue", required = false) String content,
+
+	@RequestParam(value = "menu", required = false) Integer menu,
+
+	@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+
+	@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map) {
+
+		Financialstanding standing;
+		Weburlrecord record;
+
+		if (content == null) {
+			content = "";
+		}
+		if (financeId != null) {
+			standing = this.projectManager.getFinanceStandingDao().findById(
+					financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				record = this.webManager.getWebUrlRecordDao().findById(
+						contentId);
+				record.setContent(content);
+
+				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+
+			} else {
+				record = new Weburlrecord();
+				record.setTitle(title);
+
+				// 财务状况
+				Contenttype type = new Contenttype();
+				type.setTypeId(9);
+
+				record.setContenttype(type);
+				record.setTag(title);
+				record.setUrl("");
+				record.setContent(content);
+				record.setCreateDate(new Date());
+
+				this.webManager.getWebUrlRecordDao().save(record);
+			}
+
+			url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(icon);
+			standing.setUrl(url);
+			standing.setContent(title);
+
+			this.projectManager.getFinanceStandingDao().saveOrUpdate(standing);
+
+		} else {
+			standing = new Financialstanding();
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
+				standing.setProject(project);
+			}
+
+			record = new Weburlrecord();
+			record.setTitle(title);
+
+			// 财务状况
+			Contenttype type = new Contenttype();
+			type.setTypeId(9);
+
+			record.setContenttype(type);
+			record.setTag(title);
+			record.setUrl("");
+			record.setContent(content);
+			record.setCreateDate(new Date());
+
+			this.webManager.getWebUrlRecordDao().save(record);
+
+			String url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(icon);
+			standing.setUrl(url);
+			standing.setContent(title);
+
+			this.projectManager.getFinanceStandingDao().save(standing);
+		}
+
+		// 添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+
+		map.put("style", l_style);
+
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+
+		map.put("js", l_style);
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("record", record);
+		map.put("content", "financeStandingDetail");
+		map.put("data", standing);
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	@RequestMapping(value = "/newSystem/adminAddProjectBussinessPlan")
+	public String adminAddProjectBussinessPlan(
+
+	@RequestParam(value = "contentId", required = false) Integer financeId,
+
+	@RequestParam(value = "projectId", required = false) Integer projectId,
+
+	@RequestParam(value = "title", required = false) String title,
+
+	@RequestParam(value = "icon", required = false) String icon,
+
+	@RequestParam(value = "editorValue", required = false) String content,
+
+	@RequestParam(value = "menu", required = false) Integer menu,
+
+	@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+
+	@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map) {
+
+		Businessplan standing;
+		Weburlrecord record;
+		if (content == null) {
+			content = "";
+		}
+		if (financeId != null) {
+			standing = this.projectManager.getBusinessPlanDao().findById(
+					financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				record = this.webManager.getWebUrlRecordDao().findById(
+						contentId);
+				record.setContent(content);
+
+				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+
+			} else {
+				record = new Weburlrecord();
+				record.setTitle(title);
+
+				// 财务状况
+				Contenttype type = new Contenttype();
+				type.setTypeId(9);
+
+				record.setContenttype(type);
+				record.setTag(title);
+				record.setUrl("");
+				record.setContent(content);
+				record.setCreateDate(new Date());
+
+				this.webManager.getWebUrlRecordDao().save(record);
+			}
+
+			url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			standing.setContent(title);
+
+			this.projectManager.getBusinessPlanDao().saveOrUpdate(standing);
+
+		} else {
+			standing = new Businessplan();
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
+				standing.setProject(project);
+			}
+
+			record = new Weburlrecord();
+			record.setTitle(title);
+
+			// 财务状况
+			Contenttype type = new Contenttype();
+			type.setTypeId(9);
+
+			record.setContenttype(type);
+			record.setTag(title);
+			record.setUrl("");
+			record.setContent(content);
+			record.setCreateDate(new Date());
+
+			this.webManager.getWebUrlRecordDao().save(record);
+
+			String url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			standing.setContent(title);
+
+			this.projectManager.getBusinessPlanDao().save(standing);
+		}
+
+		// 添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+
+		map.put("style", l_style);
+
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+
+		map.put("js", l_style);
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("record", record);
+		map.put("content", "businessPlanDetail");
+		map.put("data", standing);
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	@RequestMapping(value = "/newSystem/adminAddProjectFinanceCase")
+	public String adminAddProjectFinanceCase(
+
+	@RequestParam(value = "contentId", required = false) Integer financeId,
+
+	@RequestParam(value = "projectId", required = false) Integer projectId,
+
+	@RequestParam(value = "title", required = false) String title,
+
+	@RequestParam(value = "icon", required = false) String icon,
+
+	@RequestParam(value = "editorValue", required = false) String content,
+
+	@RequestParam(value = "menu", required = false) Integer menu,
+
+	@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+
+	@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map) {
+
+		Financingcase standing;
+		Weburlrecord record;
+		if (content == null) {
+			content = "";
+		}
+		if (financeId != null) {
+			standing = this.projectManager.getFinancingCaseDao().findById(
+					financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				record = this.webManager.getWebUrlRecordDao().findById(
+						contentId);
+				record.setContent(content);
+
+				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+
+			} else {
+				record = new Weburlrecord();
+				record.setTitle(title);
+
+				// 财务状况
+				Contenttype type = new Contenttype();
+				type.setTypeId(9);
+
+				record.setContenttype(type);
+				record.setTag(title);
+				record.setUrl("");
+				record.setContent(content);
+				record.setCreateDate(new Date());
+
+				this.webManager.getWebUrlRecordDao().save(record);
+			}
+
+			url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			standing.setContent(title);
+
+			this.projectManager.getFinancingCaseDao().saveOrUpdate(standing);
+
+		} else {
+			standing = new Financingcase();
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
+				standing.setProject(project);
+			}
+
+			record = new Weburlrecord();
+			record.setTitle(title);
+
+			// 财务状况
+			Contenttype type = new Contenttype();
+			type.setTypeId(9);
+
+			record.setContenttype(type);
+			record.setTag(title);
+			record.setUrl("");
+			record.setContent(content);
+			record.setCreateDate(new Date());
+
+			this.webManager.getWebUrlRecordDao().save(record);
+
+			String url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			standing.setContent(title);
+
+			this.projectManager.getFinancingCaseDao().save(standing);
+		}
+
+		// 添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+
+		map.put("style", l_style);
+
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+
+		map.put("js", l_style);
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("record", record);
+		map.put("content", "financeCaseDetail");
+		map.put("data", standing);
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	@RequestMapping(value = "/newSystem/adminAddProjectFinanceExit")
+	public String adminAddProjectFinanceExit(
+
+	@RequestParam(value = "contentId", required = false) Integer financeId,
+
+	@RequestParam(value = "projectId", required = false) Integer projectId,
+
+	@RequestParam(value = "title", required = false) String title,
+
+	@RequestParam(value = "icon", required = false) String icon,
+
+	@RequestParam(value = "editorValue", required = false) String content,
+
+	@RequestParam(value = "menu", required = false) Integer menu,
+
+	@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+
+	@RequestParam(value = "submenu", required = false) Integer submenu,
+			ModelMap map) {
+
+		Financingexit standing;
+		Weburlrecord record;
+		if (content == null) {
+			content = "";
+		}
+		if (financeId != null) {
+			standing = this.projectManager.getFinancingexitDao().findById(
+					financeId);
+			String url = standing.getUrl();
+			Integer index = url.indexOf("=");
+			if (index > 3) {
+				String contentIdStr = url.substring(index + 1);
+				Integer contentId = Integer.parseInt(contentIdStr);
+				record = this.webManager.getWebUrlRecordDao().findById(
+						contentId);
+				record.setContent(content);
+
+				this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+
+			} else {
+				record = new Weburlrecord();
+				record.setTitle(title);
+
+				// 财务状况
+				Contenttype type = new Contenttype();
+				type.setTypeId(9);
+
+				record.setContenttype(type);
+				record.setTag(title);
+				record.setUrl("");
+				record.setContent(content);
+				record.setCreateDate(new Date());
+
+				this.webManager.getWebUrlRecordDao().save(record);
+			}
+
+			url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			standing.setContent(title);
+
+			this.projectManager.getFinancingexitDao().saveOrUpdate(standing);
+
+		} else {
+			standing = new Financingexit();
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
+				standing.setProject(project);
+			}
+
+			record = new Weburlrecord();
+			record.setTitle(title);
+
+			// 财务状况
+			Contenttype type = new Contenttype();
+			type.setTypeId(9);
+
+			record.setContenttype(type);
+			record.setTag(title);
+			record.setUrl("");
+			record.setContent(content);
+			record.setCreateDate(new Date());
+
+			this.webManager.getWebUrlRecordDao().save(record);
+
+			String url = Tools.generateWebRecordUrl(record.getRecordId());
+			record.setUrl(url);
+
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+			standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
+			standing.setUrl(url);
+			standing.setContent(title);
+
+			this.projectManager.getFinancingexitDao().save(standing);
+		}
+
+		// 添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+
+		map.put("style", l_style);
+
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+
+		map.put("js", l_style);
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("record", record);
+		map.put("content", "financeExitDetail");
+		map.put("data", standing);
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	@RequestMapping(value = "newSystem/adminAddMember")
+	public String adminAddMember(
+
+	@RequestParam(value = "contentId", required = false) Integer memberId,
+
+	@RequestParam(value = "projectId", required = false) Integer projectId,
+
+	@RequestParam(value = "name", required = false) String name,
+
+	@RequestParam(value = "company", required = false) String company,
+
+	@RequestParam(value = "position", required = false) String position,
+
+	@RequestParam(value = "industory", required = false) String industory,
+
+	@RequestParam(value = "address", required = false) String address,
+
+	@RequestParam(value = "image", required = false) String image,
+
+	@RequestParam(value = "file", required = false) MultipartFile file,
+
+	@RequestParam(value = "menu", required = false) Integer menu,
+
+	@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+
+	@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session, ModelMap map) {
+		// 判断是否添加成员
+		Member member;
+		if (memberId != -1) {
+			// 获取成员
+			member = this.projectManager.getMemberDao().findById(memberId);
+			if (projectId != null
+					&& projectId != member.getProject().getProjectId()) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
+				member.setProject(project);
+			}
+			member.setName(name);
+			member.setIndustory(industory);
+			member.setCompany(company);
+			member.setPosition(position);
+			member.setAddress(address);
+			member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+			member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+
+			if (image != null && !image.equals(member.getIcon())) {
+				member.setIcon(image);
+			}
+
+			// 保存音频
+			String fileName = "";
+			String res = "";
+			if (file != null) {
+				fileName = String.format(Config.STRING_USER_AUDIO_FORMAT,
+						new Date().getTime(), 0);
+				res = FileUtil.savePicture(file, fileName, "upload/audio/");
+				if (!res.equals("")) {
+					fileName = Config.STRING_SYSTEM_ADDRESS + "upload/audio/"
+							+ res;
+				} else {
+					fileName = "";
+				}
+				if (!fileName.equals("")) {
+					member.setIcon(fileName);
+				}
+			}
+
+			this.projectManager.getMemberDao().saveOrUpdate(member);
+		} else {
+			// 新添加成员
+			if (projectId != null) {
+				Project project = this.projectManager
+						.findProjectById(projectId);
+				Object[] list = project.getMembers().toArray();
+				if (list != null && list.length > 0) {
+					member = (Member) list[0];
+					member.setProject(project);
+					member.setName(name);
+					member.setCompany(company);
+					member.setIndustory(industory);
+					member.setPosition(position);
+					member.setAddress(address);
+					member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+					member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+					if (image != null && !image.equals(member.getIcon())) {
+						member.setIcon(image);
+					}
+
+					// 保存音频
+					String fileName = "";
+					String res = "";
+					if (file != null) {
+						fileName = String.format(
+								Config.STRING_USER_AUDIO_FORMAT,
+								new Date().getTime(), 0);
+						res = FileUtil.savePicture(file, fileName,
+								"upload/audio/");
+						if (!res.equals("")) {
+							fileName = Config.STRING_SYSTEM_ADDRESS
+									+ "upload/audio/" + res;
+						} else {
+							fileName = "";
+						}
+						if (!fileName.equals("")) {
+							member.setIcon(fileName);
+						}
+					}
+					this.projectManager.getMemberDao().saveOrUpdate(member);
+				} else {
+					member = new Member();
+					member.setName(name);
+					member.setProject(project);
+					member.setCompany(company);
+					member.setIndustory(industory);
+					member.setPosition(position);
+					member.setAddress(address);
+					member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+					member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+					if (image != null && !image.equals(member.getIcon())) {
+						member.setIcon(image);
+					}
+
+					// 保存音频
+					String fileName = "";
+					String res = "";
+					if (file != null) {
+						fileName = String.format(
+								Config.STRING_USER_AUDIO_FORMAT,
+								new Date().getTime(), 0);
+						res = FileUtil.savePicture(file, fileName,
+								"upload/audio/");
+						if (!res.equals("")) {
+							fileName = Config.STRING_SYSTEM_ADDRESS
+									+ "upload/audio/" + res;
+						} else {
+							fileName = "";
+						}
+						if (!fileName.equals("")) {
+							member.setIcon(fileName);
+						}
+					}
+					this.projectManager.getMemberDao().save(member);
+				}
+			} else {
+				member = new Member();
+				member.setName(name);
+				member.setIndustory(industory);
+				member.setCompany(company);
+				member.setPosition(position);
+				member.setAddress(address);
+				member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+				member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
+				if (image != null && !image.equals(member.getIcon())) {
+					member.setIcon(image);
+				}
+
+				// 保存音频
+				String fileName = "";
+				String res = "";
+				if (file != null) {
+					fileName = String.format(Config.STRING_USER_AUDIO_FORMAT,
+							new Date().getTime(), 0);
+					res = FileUtil.savePicture(file, fileName, "upload/audio/");
+					if (!res.equals("")) {
+						fileName = Config.STRING_SYSTEM_ADDRESS
+								+ "upload/audio/" + res;
+					} else {
+						fileName = "";
+					}
+					if (!fileName.equals("")) {
+						member.setIcon(fileName);
+					}
+				}
+				this.projectManager.getMemberDao().save(member);
+			}
+
+		}
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "memberDetail");
+		map.put("data", member);
+		return Config.NEW_SERVER_CONTROL;
+	}
+
 	/***
 	 * 添加现场
 	 * 
@@ -2060,7 +2726,6 @@ public class NewWebAdminController extends BaseController {
 			}
 		}
 
-
 		if (actionId != -1) {
 			this.actionManaer.saveOrUpdate(action);
 		} else {
@@ -2081,10 +2746,546 @@ public class NewWebAdminController extends BaseController {
 		return Config.NEW_SERVER_CONTROL;
 	}
 
+	@RequestMapping(value = "/newSystem/adminAddActionContent")
+	public String adminAddActionContent(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "projectId", required = false) Integer actionId,
+			@RequestParam(value = "type", required = false) short type,
+			@RequestParam(value = "content", required = false) String content,
+			@RequestParam(value = "image", required = false) String image,
+			@RequestParam(value = "file", required = false) MultipartFile file,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			HttpSession session, ModelMap map) {
+		Actionintroduce introduce;
+		if (contentId != -1) {
+			introduce = this.actionManaer.getActionIntroduceDao().findById(
+					contentId);
+			introduce.setType(type);
+			introduce.setContent(content);
+
+			if (type != 0) {
+				// 更新图片
+				if (image != null) {
+					introduce.setContent(image);
+				}
+				if (file != null) {
+
+					String fileName = String.format(
+							Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+							new Date().getTime(), 0);
+					String res = FileUtil.savePicture(file, fileName,
+							"upload/uploadImages/");
+					if (!res.equals("")) {
+						fileName = Config.STRING_SYSTEM_ADDRESS
+								+ "upload/uploadImages/" + res;
+
+						introduce.setContent(fileName);
+					}
+				}
+			}
+
+			this.actionManaer.getActionIntroduceDao().saveOrUpdate(introduce);
+		} else {
+			Action action = this.actionManaer.findActionById(actionId);
+			introduce = new Actionintroduce();
+			introduce.setContent(content);
+			introduce.setAction(action);
+			introduce.setType(type);
+			if (type != 0) { // 更新身份证B面
+				// 更新图片
+				if (image != null) {
+					introduce.setContent(image);
+				}
+				if (file != null) {
+
+					String fileName = String.format(
+							Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+							new Date().getTime(), 0);
+					String res = FileUtil.savePicture(file, fileName,
+							"upload/uploadImages/");
+					if (!res.equals("")) {
+						fileName = Config.STRING_SYSTEM_ADDRESS
+								+ "upload/uploadImages/" + res;
+
+						introduce.setContent(fileName);
+					}
+				}
+			}
+
+			this.actionManaer.getActionIntroduceDao().save(introduce);
+		}
+
+		String[] list = { "文字", "图片" };
+		map.put("types", list);
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "actionContentDetail");
+		map.put("data", introduce);
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	@RequestMapping(value = "/newSystem/adminAddNewsInfo")
+	public String adminAddNewsInfo(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "image", required = false) String image,
+			@RequestParam(value = "type", required = false) Integer type,
+			@RequestParam(value = "file", required = false) MultipartFile[] files,
+			@RequestParam(value = "original", required = false) String original,
+			@RequestParam(value = "editorValue", required = false) String content,
+			@RequestParam(value = "publicDate", required = false) String publicDate,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			HttpSession session, ModelMap map) {
+		Msg msg;
+		if (contentId != null) {
+			msg = this.messageManager.getMsgDao().findById(contentId);
+		} else {
+			msg = new Msg();
+			this.messageManager.getMsgDao().save(msg);
+		}
+
+		Webcontenttype contentType = new Webcontenttype();
+		contentType.setTypeId(type);
+		msg.setTitle(title);
+		msg.setOringl(original);
+		msg.setPublicDate(new Date());
+		msg.setWebcontenttype(contentType);
+
+		MsgDetail detail;
+		if (msg.getMsgDetails() != null && msg.getMsgDetails().size() > 0) {
+			Object[] obj = msg.getMsgDetails().toArray();
+			detail = (MsgDetail) obj[0];
+			detail.setContent(content);
+		} else {
+			detail = new MsgDetail();
+			detail.setMsg(msg);
+			detail.setContent(content);
+
+			// 保存
+			this.messageManager.getMsgDetailDAO().save(detail);
+
+			// 保存关系
+			Set set = new HashSet();
+			set.add(detail);
+
+			msg.setMsgDetails(set);
+		}
+
+		Set set = new HashSet();
+		if (files != null && files.length > 0) {
+
+			int i = files.length >= 3 ? 3 : files.length;
+			for (int j = 0; j < i; j++) {
+
+				MsgImages images = new MsgImages();
+				String fileName = String.format(
+						Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+						new Date().getTime(), 0);
+				String res = FileUtil.savePicture(files[j], fileName,
+						"upload/uploadImages/");
+				if (!res.equals("")) {
+					if (type != 4 && type != 1) {
+						for (int ii = 0; ii < msg.getMsgImageses().size(); ii++) {
+							Object[] objs = msg.getMsgImageses().toArray();
+							MsgImages imgs = (MsgImages) objs[ii];
+							this.messageManager.getMsgImagesDao().delete(imgs);
+						}
+					} else {
+						if (msg.getMsgImageses().size() == 3) {
+							for (int ii = 0; ii < files.length; ii++) {
+								Object[] objs = msg.getMsgImageses().toArray();
+								MsgImages imgs = (MsgImages) objs[ii];
+								this.messageManager.getMsgImagesDao().delete(
+										imgs);
+							}
+						}
+					}
+
+					fileName = Config.STRING_SYSTEM_ADDRESS
+							+ "upload/uploadImages/" + res;
+					images.setUrl(fileName);
+					images.setMsg(msg);
+					this.messageManager.getMsgImagesDao().save(images);
+					set.add(images);
+					msg.setMsgImageses(set);
+				}
+			}
+		} else {
+			if (image != null && !image.equals("")) {
+
+				if (type != 4 && type != 1) {
+					Object[] objs = msg.getMsgImageses().toArray();
+					MsgImages images = (MsgImages) objs[0];
+					this.messageManager.getMsgImagesDao().delete(images);
+				} else {
+					if (msg.getMsgImageses().size() >= 3) {
+						Object[] objs = msg.getMsgImageses().toArray();
+						MsgImages images = (MsgImages) objs[0];
+						this.messageManager.getMsgImagesDao().delete(images);
+					}
+				}
+
+				MsgImages images = new MsgImages();
+				images.setMsg(msg);
+				images.setUrl(image);
+				this.messageManager.getMsgImagesDao().save(images);
+				set.add(images);
+				msg.setMsgImageses(set);
+			}
+		}
+
+		this.messageManager.getMsgDao().saveOrUpdate(msg);
+
+		session.setAttribute("News", null);
+
+		List list = new ArrayList();
+		Map dataMap = new HashMap();
+		dataMap.put("key", 1);
+		dataMap.put("value", "无图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 2);
+		dataMap.put("value", "小图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 3);
+		dataMap.put("value", "大图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 4);
+		dataMap.put("value", "多图模式");
+		list.add(dataMap);
+
+		map.put("options", list);
+
+		// 添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+
+		map.put("style", l_style);
+
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+
+		map.put("js", l_style);
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "consultDetail");
+		map.put("data", msg);
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	@RequestMapping(value = "/newSystem/adminAddOriginal")
+	public String adminAddOriginal(
+			@RequestParam(value = "contentId", required = false) Integer contentId,
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "original", required = false) String original,
+			@RequestParam(value = "image", required = false) String image,
+			@RequestParam(value = "type", required = false) Integer type,
+			@RequestParam(value = "file", required = false) MultipartFile[] files,
+			@RequestParam(value = "editorValue", required = false) String content,
+			@RequestParam(value = "publicDate", required = false) String publicDate,
+			@RequestParam(value = "menu", required = false) Integer menu,
+			@RequestParam(value = "submenu", required = false) Integer submenu,
+			@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			HttpSession session, ModelMap map) {
+		Original msg;
+		if (contentId != null) {
+			msg = this.mainManager.getOrigianlDao().findById(contentId);
+		} else {
+			msg = new Original();
+			this.mainManager.getOrigianlDao().save(msg);
+		}
+
+		Webcontenttype contentType = new Webcontenttype();
+		contentType.setTypeId(type);
+		msg.setTitle(title);
+		msg.setOringl(original);
+		msg.setPublicDate(publicDate);
+		msg.setWebcontenttype(contentType);
+
+		OriginalDetail detail;
+		if (msg.getOriginalDetails() != null
+				&& msg.getOriginalDetails().size() > 0) {
+			Object[] obj = msg.getOriginalDetails().toArray();
+			detail = (OriginalDetail) obj[0];
+			detail.setOriginal(msg);
+			detail.setContent(content);
+		} else {
+			detail = new OriginalDetail();
+			detail.setOriginal(msg);
+			detail.setContent(content);
+
+			// 保存
+			this.mainManager.getOriginalDetailDao().save(detail);
+
+			// 保存关系
+			Set set = new HashSet();
+			set.add(detail);
+
+			msg.setOriginalDetails(set);
+		}
+
+		Set set = new HashSet();
+		if (files != null && files.length > 0) {
+			if (type != 4 && type != 1) {
+				for (int i = 0; i < msg.getOriginalImgs().size(); i++) {
+					Object[] objs = msg.getOriginalImgs().toArray();
+					OriginalImg images = (OriginalImg) objs[i];
+					this.mainManager.getOriginalImgDao().delete(images);
+				}
+			} else {
+				if (msg.getOriginalImgs().size() == 3) {
+					for (int i = 0; i < files.length; i++) {
+						Object[] objs = msg.getOriginalImgs().toArray();
+						OriginalImg images = (OriginalImg) objs[i];
+						this.mainManager.getOriginalImgDao().delete(images);
+					}
+				}
+			}
+
+			int i = files.length >= 3 ? 3 : files.length;
+			for (int j = 0; j < i; j++) {
+
+				OriginalImg images = new OriginalImg();
+				String fileName = String.format(
+						Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+						new Date().getTime(), 0);
+				String res = FileUtil.savePicture(files[j], fileName,
+						"upload/uploadImages/");
+				if (!res.equals("")) {
+					if (type != 4 && type != 1) {
+						for (int ii = 0; ii < msg.getOriginalImgs().size(); ii++) {
+							Object[] objs = msg.getOriginalImgs().toArray();
+							OriginalImg imgs = (OriginalImg) objs[ii];
+							this.mainManager.getOriginalImgDao().delete(imgs);
+						}
+					} else {
+						if (msg.getOriginalImgs().size() == 3) {
+							for (int ii = 0; ii < files.length; ii++) {
+								Object[] objs = msg.getOriginalImgs().toArray();
+								OriginalImg imgs = (OriginalImg) objs[ii];
+								this.mainManager.getOriginalImgDao().delete(
+										imgs);
+							}
+						}
+					}
+
+					fileName = Config.STRING_SYSTEM_ADDRESS
+							+ "upload/uploadImages/" + res;
+					images.setUrl(fileName);
+					images.setOriginal(msg);
+					this.mainManager.getOriginalImgDao().save(images);
+					set.add(images);
+					msg.setOriginalImgs(set);
+				}
+			}
+		} else {
+			if (image != null && !image.equals("")
+					&& (files == null || (files != null && files.length == 0))) {
+
+				if (type != 4 && type != 1) {
+					Object[] objs = msg.getOriginalImgs().toArray();
+					OriginalImg images = (OriginalImg) objs[0];
+					this.mainManager.getOriginalImgDao().delete(images);
+				} else {
+					if (msg.getOriginalDetails().size() >= 3) {
+						Object[] objs = msg.getOriginalDetails().toArray();
+						OriginalImg images = (OriginalImg) objs[0];
+						this.mainManager.getOriginalImgDao().delete(images);
+					}
+				}
+
+				OriginalImg images = new OriginalImg();
+				images.setOriginal(msg);
+				images.setUrl(image);
+				this.mainManager.getOriginalImgDao().save(images);
+				set.add(images);
+			}
+		}
+
+		msg.setOriginalImgs(set);
+
+		this.mainManager.getOrigianlDao().saveOrUpdate(msg);
+
+		session.setAttribute("Original", null);
+
+		List list = new ArrayList();
+		Map dataMap = new HashMap();
+		dataMap.put("key", 1);
+		dataMap.put("value", "无图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 2);
+		dataMap.put("value", "小图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 3);
+		dataMap.put("value", "大图模式");
+		list.add(dataMap);
+
+		dataMap = new HashMap();
+		dataMap.put("key", 4);
+		dataMap.put("value", "多图模式");
+		list.add(dataMap);
+
+		map.put("msg", msg);
+		map.put("options", list);
+
+		// 添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+
+		map.put("style", l_style);
+
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+
+		map.put("js", l_style);
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "originalDetail");
+		map.put("data", msg);
+		return Config.NEW_SERVER_CONTROL;
+	}
+
+	@RequestMapping(value = "newSystem/adminAddKingCapital")
+	public String adminAddKingCapital(
+	@RequestParam(value = "contentId", required = false) Integer contentId,
+	@RequestParam(value = "type", required = false) Integer typeIndex,
+	@RequestParam(value = "title", required = false) String title,
+	@RequestParam(value = "tag", required = false) String tag,
+	@RequestParam(value = "url", required = false) String url,
+	@RequestParam(value = "flag", required = false) Boolean flag,   //小图、大图
+	@RequestParam(value = "image", required = false) String image,
+	@RequestParam(value = "orignal", required = false) String orignal,
+	@RequestParam(value = "file", required = false) MultipartFile file,
+	@RequestParam(value = "editorValue", required = false) String content,
+	@RequestParam(value = "createDate", required = false) String beginTime,
+	@RequestParam(value = "menu", required = false) Integer menu,
+	@RequestParam(value = "submenu", required = false) Integer submenu,
+	@RequestParam(value = "sortmenu", required = false) Integer sortmenu,
+			HttpSession session, ModelMap map) throws Exception {
+		Weburlrecord record;
+		Contenttype type = new Contenttype();
+		type.setTypeId(typeIndex);
+
+		if (session.getAttribute("images") != null) {
+			List images = (List) session.getAttribute("images");
+			image = images.get(0).toString();
+			session.setAttribute("images", null);
+		}
+
+		if (content == null) {
+			content = "";
+		}
+
+		if (contentId != null) {
+			record = this.webManager.findRecordById(contentId);
+			record.setUrl(url);
+			record.setTag(tag);
+			record.setFlag(flag);
+			record.setTitle(title);
+			record.setImage(image);
+			record.setContent(content);
+			record.setOrignal(orignal);
+			record.setContenttype(type);
+			if (beginTime != null) {
+				record.setCreateDate(DateUtils.stringToDate(beginTime,
+						"yyyy-MM-dd HH:mm:ss"));
+			} else {
+				record.setCreateDate(new Date());
+			}
+			
+			
+			//保存图片
+			if(file!=null)
+			{
+				String fileName = String.format(
+						Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+						new Date().getTime(), 0);
+				String res = FileUtil.savePicture(file, fileName,
+						"upload/uploadImages/");
+				if (!res.equals("")) {
+					fileName = Config.STRING_SYSTEM_ADDRESS
+							+ "upload/uploadImages/" + res;
+					record.setImage(fileName);
+				}
+			}
+			
+
+			this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
+		} else {
+			record = new Weburlrecord();
+			record.setTag(tag);
+			record.setUrl(url);
+			record.setFlag(flag);
+			record.setTitle(title);
+			record.setImage(image);
+			record.setOrignal(orignal);
+			record.setContent(content);
+			record.setContenttype(type);
+			if (beginTime != null) {
+				record.setCreateDate(DateUtils.stringToDate(beginTime,
+						"yyyy-MM-dd HH:mm:ss"));
+			} else {
+				record.setCreateDate(new Date());
+			}
+			
+			//保存图片
+			if(file!=null)
+			{
+				String fileName = String.format(
+						Config.STRING_USER_FEELING_PICTUREA_FORMAT,
+						new Date().getTime(), 0);
+				String res = FileUtil.savePicture(file, fileName,
+						"upload/uploadImages/");
+				if (!res.equals("")) {
+					fileName = Config.STRING_SYSTEM_ADDRESS
+							+ "upload/uploadImages/" + res;
+					record.setImage(fileName);
+				}
+			}
+
+			this.webManager.getWebUrlRecordDao().save(record);
+		}
+		
+		// 添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+
+		map.put("style", l_style);
+
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+
+		map.put("js", l_style);
+
+		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
+		map.put("content", "kingConsultDetail");
+		map.put("data", record);
+		return Config.NEW_SERVER_CONTROL;
+	}
+
 	/*
 	 * @RequestMapping(value = "/newSystem/adminAddCycle")
 	 *//***
-	 * 添加项目
+	 * 添加圈子
 	 * 
 	 * @return
 	 */
@@ -2599,462 +3800,9 @@ public class NewWebAdminController extends BaseController {
 	 * List<Action> actions = this.actionManaer.findProjectByName(name);
 	 * 
 	 * map.put("data", actions); return map; }
-	 * 
-	 * 
-	 * 
-	 * 
-	 * @RequestMapping(value = "/newSystem/adminAddProjectFinanceStanding")
-	 * public String adminAddProjectFinanceStanding(
-	 * 
-	 * @RequestParam(value = "contentId", required = false) Integer financeId,
-	 * 
-	 * @RequestParam(value = "projectId", required = false) Integer projectId,
-	 * 
-	 * @RequestParam(value = "title", required = false) String title,
-	 * 
-	 * @RequestParam(value = "icon", required = false) String icon,
-	 * 
-	 * @RequestParam(value = "editorValue", required = false) String content,
-	 * 
-	 * @RequestParam(value = "menu", required = false) Integer menu,
-	 * 
-	 * @RequestParam(value = "sortmenu", required = false) Integer sortmenu,
-	 * 
-	 * @RequestParam(value = "submenu", required = false) Integer submenu,
-	 * ModelMap map) {
-	 * 
-	 * Financialstanding standing; Weburlrecord record;
-	 * 
-	 * if (content == null) { content = ""; } if (financeId != null) { standing
-	 * = this.projectManager.getFinanceStandingDao().findById( financeId);
-	 * String url = standing.getUrl(); Integer index = url.indexOf("="); if
-	 * (index > 3) { String contentIdStr = url.substring(index + 1); Integer
-	 * contentId = Integer.parseInt(contentIdStr); record =
-	 * this.webManager.getWebUrlRecordDao().findById( contentId);
-	 * record.setContent(content);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * 
-	 * } else { record = new Weburlrecord(); record.setTitle(title);
-	 * 
-	 * // 财务状况 Contenttype type = new Contenttype(); type.setTypeId(9);
-	 * 
-	 * record.setContenttype(type); record.setTag(title); record.setUrl("");
-	 * record.setContent(content); record.setCreateDate(new Date());
-	 * 
-	 * this.webManager.getWebUrlRecordDao().save(record); }
-	 * 
-	 * url = Tools.generateWebRecordUrl(record.getRecordId());
-	 * record.setUrl(url);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * standing.setIcon(icon); standing.setUrl(url); standing.setContent(title);
-	 * 
-	 * this.projectManager.getFinanceStandingDao().saveOrUpdate(standing);
-	 * 
-	 * } else { standing = new Financialstanding(); if (projectId != null) {
-	 * Project project = this.projectManager .findProjectById(projectId);
-	 * standing.setProject(project); }
-	 * 
-	 * record = new Weburlrecord(); record.setTitle(title);
-	 * 
-	 * // 财务状况 Contenttype type = new Contenttype(); type.setTypeId(9);
-	 * 
-	 * record.setContenttype(type); record.setTag(title); record.setUrl("");
-	 * record.setContent(content); record.setCreateDate(new Date());
-	 * 
-	 * this.webManager.getWebUrlRecordDao().save(record);
-	 * 
-	 * String url = Tools.generateWebRecordUrl(record.getRecordId());
-	 * record.setUrl(url);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * standing.setIcon(icon); standing.setUrl(url); standing.setContent(title);
-	 * 
-	 * this.projectManager.getFinanceStandingDao().save(standing); }
-	 * 
-	 * // 添加样式表 List l_style = new ArrayList();
-	 * l_style.add("../admin/kindeditor-master/themes/default/style.css");
-	 * 
-	 * map.put("style", l_style);
-	 * 
-	 * l_style = new ArrayList();
-	 * l_style.add("../admin/ueditor/ueditor.config.js");
-	 * l_style.add("../admin/ueditor/ueditor.all.min.js");
-	 * l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
-	 * 
-	 * map.put("js", l_style);
-	 * 
-	 * Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
-	 * map.put("record", record); map.put("content", "financeStandingDetail");
-	 * map.put("data", standing); return Config.NEW_SERVER_CONTROL; }
-	 * 
-	 * @RequestMapping(value = "/newSystem/adminAddProjectBussinessPlan") public
-	 * String adminAddProjectBussinessPlan(
-	 * 
-	 * @RequestParam(value = "contentId", required = false) Integer financeId,
-	 * 
-	 * @RequestParam(value = "projectId", required = false) Integer projectId,
-	 * 
-	 * @RequestParam(value = "title", required = false) String title,
-	 * 
-	 * @RequestParam(value = "icon", required = false) String icon,
-	 * 
-	 * @RequestParam(value = "editorValue", required = false) String content,
-	 * 
-	 * @RequestParam(value = "menu", required = false) Integer menu,
-	 * 
-	 * @RequestParam(value = "sortmenu", required = false) Integer sortmenu,
-	 * 
-	 * @RequestParam(value = "submenu", required = false) Integer submenu,
-	 * ModelMap map) {
-	 * 
-	 * Businessplan standing; Weburlrecord record; if (content == null) {
-	 * content = ""; } if (financeId != null) { standing =
-	 * this.projectManager.getBusinessPlanDao().findById( financeId); String url
-	 * = standing.getUrl(); Integer index = url.indexOf("="); if (index > 3) {
-	 * String contentIdStr = url.substring(index + 1); Integer contentId =
-	 * Integer.parseInt(contentIdStr); record =
-	 * this.webManager.getWebUrlRecordDao().findById( contentId);
-	 * record.setContent(content);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * 
-	 * } else { record = new Weburlrecord(); record.setTitle(title);
-	 * 
-	 * // 财务状况 Contenttype type = new Contenttype(); type.setTypeId(9);
-	 * 
-	 * record.setContenttype(type); record.setTag(title); record.setUrl("");
-	 * record.setContent(content); record.setCreateDate(new Date());
-	 * 
-	 * this.webManager.getWebUrlRecordDao().save(record); }
-	 * 
-	 * url = Tools.generateWebRecordUrl(record.getRecordId());
-	 * record.setUrl(url);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
-	 * standing.setUrl(url); standing.setContent(title);
-	 * 
-	 * this.projectManager.getBusinessPlanDao().saveOrUpdate(standing);
-	 * 
-	 * } else { standing = new Businessplan(); if (projectId != null) { Project
-	 * project = this.projectManager .findProjectById(projectId);
-	 * standing.setProject(project); }
-	 * 
-	 * record = new Weburlrecord(); record.setTitle(title);
-	 * 
-	 * // 财务状况 Contenttype type = new Contenttype(); type.setTypeId(9);
-	 * 
-	 * record.setContenttype(type); record.setTag(title); record.setUrl("");
-	 * record.setContent(content); record.setCreateDate(new Date());
-	 * 
-	 * this.webManager.getWebUrlRecordDao().save(record);
-	 * 
-	 * String url = Tools.generateWebRecordUrl(record.getRecordId());
-	 * record.setUrl(url);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
-	 * standing.setUrl(url); standing.setContent(title);
-	 * 
-	 * this.projectManager.getBusinessPlanDao().save(standing); }
-	 * 
-	 * // 添加样式表 List l_style = new ArrayList();
-	 * l_style.add("../admin/kindeditor-master/themes/default/style.css");
-	 * 
-	 * map.put("style", l_style);
-	 * 
-	 * l_style = new ArrayList();
-	 * l_style.add("../admin/ueditor/ueditor.config.js");
-	 * l_style.add("../admin/ueditor/ueditor.all.min.js");
-	 * l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
-	 * 
-	 * map.put("js", l_style);
-	 * 
-	 * Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
-	 * map.put("record", record); map.put("content", "businessPlanDetail");
-	 * map.put("data", standing); return Config.NEW_SERVER_CONTROL; }
-	 * 
-	 * @RequestMapping(value = "/newSystem/adminAddProjectFinanceCase") public
-	 * String adminAddProjectFinanceCase(
-	 * 
-	 * @RequestParam(value = "contentId", required = false) Integer financeId,
-	 * 
-	 * @RequestParam(value = "projectId", required = false) Integer projectId,
-	 * 
-	 * @RequestParam(value = "title", required = false) String title,
-	 * 
-	 * @RequestParam(value = "icon", required = false) String icon,
-	 * 
-	 * @RequestParam(value = "editorValue", required = false) String content,
-	 * 
-	 * @RequestParam(value = "menu", required = false) Integer menu,
-	 * 
-	 * @RequestParam(value = "sortmenu", required = false) Integer sortmenu,
-	 * 
-	 * @RequestParam(value = "submenu", required = false) Integer submenu,
-	 * ModelMap map) {
-	 * 
-	 * Financingcase standing; Weburlrecord record; if (content == null) {
-	 * content = ""; } if (financeId != null) { standing =
-	 * this.projectManager.getFinancingCaseDao().findById( financeId); String
-	 * url = standing.getUrl(); Integer index = url.indexOf("="); if (index > 3)
-	 * { String contentIdStr = url.substring(index + 1); Integer contentId =
-	 * Integer.parseInt(contentIdStr); record =
-	 * this.webManager.getWebUrlRecordDao().findById( contentId);
-	 * record.setContent(content);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * 
-	 * } else { record = new Weburlrecord(); record.setTitle(title);
-	 * 
-	 * // 财务状况 Contenttype type = new Contenttype(); type.setTypeId(9);
-	 * 
-	 * record.setContenttype(type); record.setTag(title); record.setUrl("");
-	 * record.setContent(content); record.setCreateDate(new Date());
-	 * 
-	 * this.webManager.getWebUrlRecordDao().save(record); }
-	 * 
-	 * url = Tools.generateWebRecordUrl(record.getRecordId());
-	 * record.setUrl(url);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
-	 * standing.setUrl(url); standing.setContent(title);
-	 * 
-	 * this.projectManager.getFinancingCaseDao().saveOrUpdate(standing);
-	 * 
-	 * } else { standing = new Financingcase(); if (projectId != null) { Project
-	 * project = this.projectManager .findProjectById(projectId);
-	 * standing.setProject(project); }
-	 * 
-	 * record = new Weburlrecord(); record.setTitle(title);
-	 * 
-	 * // 财务状况 Contenttype type = new Contenttype(); type.setTypeId(9);
-	 * 
-	 * record.setContenttype(type); record.setTag(title); record.setUrl("");
-	 * record.setContent(content); record.setCreateDate(new Date());
-	 * 
-	 * this.webManager.getWebUrlRecordDao().save(record);
-	 * 
-	 * String url = Tools.generateWebRecordUrl(record.getRecordId());
-	 * record.setUrl(url);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
-	 * standing.setUrl(url); standing.setContent(title);
-	 * 
-	 * this.projectManager.getFinancingCaseDao().save(standing); }
-	 * 
-	 * // 添加样式表 List l_style = new ArrayList();
-	 * l_style.add("../admin/kindeditor-master/themes/default/style.css");
-	 * 
-	 * map.put("style", l_style);
-	 * 
-	 * l_style = new ArrayList();
-	 * l_style.add("../admin/ueditor/ueditor.config.js");
-	 * l_style.add("../admin/ueditor/ueditor.all.min.js");
-	 * l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
-	 * 
-	 * map.put("js", l_style);
-	 * 
-	 * Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
-	 * map.put("record", record); map.put("content", "financeCaseDetail");
-	 * map.put("data", standing); return Config.NEW_SERVER_CONTROL; }
-	 * 
-	 * @RequestMapping(value = "/newSystem/adminAddProjectFinanceExit") public
-	 * String adminAddProjectFinanceExit(
-	 * 
-	 * @RequestParam(value = "contentId", required = false) Integer financeId,
-	 * 
-	 * @RequestParam(value = "projectId", required = false) Integer projectId,
-	 * 
-	 * @RequestParam(value = "title", required = false) String title,
-	 * 
-	 * @RequestParam(value = "icon", required = false) String icon,
-	 * 
-	 * @RequestParam(value = "editorValue", required = false) String content,
-	 * 
-	 * @RequestParam(value = "menu", required = false) Integer menu,
-	 * 
-	 * @RequestParam(value = "sortmenu", required = false) Integer sortmenu,
-	 * 
-	 * @RequestParam(value = "submenu", required = false) Integer submenu,
-	 * ModelMap map) {
-	 * 
-	 * Financingexit standing; Weburlrecord record; if (content == null) {
-	 * content = ""; } if (financeId != null) { standing =
-	 * this.projectManager.getFinancingexitDao().findById( financeId); String
-	 * url = standing.getUrl(); Integer index = url.indexOf("="); if (index > 3)
-	 * { String contentIdStr = url.substring(index + 1); Integer contentId =
-	 * Integer.parseInt(contentIdStr); record =
-	 * this.webManager.getWebUrlRecordDao().findById( contentId);
-	 * record.setContent(content);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * 
-	 * } else { record = new Weburlrecord(); record.setTitle(title);
-	 * 
-	 * // 财务状况 Contenttype type = new Contenttype(); type.setTypeId(9);
-	 * 
-	 * record.setContenttype(type); record.setTag(title); record.setUrl("");
-	 * record.setContent(content); record.setCreateDate(new Date());
-	 * 
-	 * this.webManager.getWebUrlRecordDao().save(record); }
-	 * 
-	 * url = Tools.generateWebRecordUrl(record.getRecordId());
-	 * record.setUrl(url);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
-	 * standing.setUrl(url); standing.setContent(title);
-	 * 
-	 * this.projectManager.getFinancingexitDao().saveOrUpdate(standing);
-	 * 
-	 * } else { standing = new Financingexit(); if (projectId != null) { Project
-	 * project = this.projectManager .findProjectById(projectId);
-	 * standing.setProject(project); }
-	 * 
-	 * record = new Weburlrecord(); record.setTitle(title);
-	 * 
-	 * // 财务状况 Contenttype type = new Contenttype(); type.setTypeId(9);
-	 * 
-	 * record.setContenttype(type); record.setTag(title); record.setUrl("");
-	 * record.setContent(content); record.setCreateDate(new Date());
-	 * 
-	 * this.webManager.getWebUrlRecordDao().save(record);
-	 * 
-	 * String url = Tools.generateWebRecordUrl(record.getRecordId());
-	 * record.setUrl(url);
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record);
-	 * standing.setIcon(Config.STRING_PROJECT_FINANCESTANDING);
-	 * standing.setUrl(url); standing.setContent(title);
-	 * 
-	 * this.projectManager.getFinancingexitDao().save(standing); }
-	 * 
-	 * // 添加样式表 List l_style = new ArrayList();
-	 * l_style.add("../admin/kindeditor-master/themes/default/style.css");
-	 * 
-	 * map.put("style", l_style);
-	 * 
-	 * l_style = new ArrayList();
-	 * l_style.add("../admin/ueditor/ueditor.config.js");
-	 * l_style.add("../admin/ueditor/ueditor.all.min.js");
-	 * l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
-	 * 
-	 * map.put("js", l_style);
-	 * 
-	 * Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
-	 * map.put("record", record); map.put("content", "financeExitDetail");
-	 * map.put("data", standing); return Config.NEW_SERVER_CONTROL; }
-	 * 
-	 * @RequestMapping(value = "newSystem/adminAddMember") public String
-	 * adminAddMember(
-	 * 
-	 * @RequestParam(value = "contentId", required = false) Integer memberId,
-	 * 
-	 * @RequestParam(value = "projectId", required = false) Integer projectId,
-	 * 
-	 * @RequestParam(value = "name", required = false) String name,
-	 * 
-	 * @RequestParam(value = "company", required = false) String company,
-	 * 
-	 * @RequestParam(value = "position", required = false) String position,
-	 * 
-	 * @RequestParam(value = "industory", required = false) String industory,
-	 * 
-	 * @RequestParam(value = "address", required = false) String address,
-	 * 
-	 * @RequestParam(value = "image", required = false) String image,
-	 * 
-	 * @RequestParam(value = "file", required = false) MultipartFile file,
-	 * 
-	 * @RequestParam(value = "menu", required = false) Integer menu,
-	 * 
-	 * @RequestParam(value = "sortmenu", required = false) Integer sortmenu,
-	 * 
-	 * @RequestParam(value = "submenu", required = false) Integer submenu,
-	 * HttpSession session, ModelMap map) { // 判断是否添加成员 Member member; if
-	 * (memberId != -1) { // 获取成员 member =
-	 * this.projectManager.getMemberDao().findById(memberId); if (projectId !=
-	 * null && projectId != member.getProject().getProjectId()) { Project
-	 * project = this.projectManager .findProjectById(projectId);
-	 * member.setProject(project); } member.setName(name);
-	 * member.setIndustory(industory); member.setCompany(company);
-	 * member.setPosition(position); member.setAddress(address);
-	 * member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-	 * member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-	 * 
-	 * if (image != null && !image.equals(member.getIcon())) {
-	 * member.setIcon(image); }
-	 * 
-	 * // 保存音频 String fileName = ""; String res = ""; if (file != null) {
-	 * fileName = String.format(Config.STRING_USER_AUDIO_FORMAT, new
-	 * Date().getTime(), 0); res = FileUtil.savePicture(file, fileName,
-	 * "upload/audio/"); if (!res.equals("")) { fileName =
-	 * Config.STRING_SYSTEM_ADDRESS + "upload/audio/" + res; } else { fileName =
-	 * ""; } if (!fileName.equals("")) { member.setIcon(fileName); } }
-	 * 
-	 * this.projectManager.getMemberDao().saveOrUpdate(member); } else { //
-	 * 新添加成员 if (projectId != null) { Project project = this.projectManager
-	 * .findProjectById(projectId); Object[] list =
-	 * project.getMembers().toArray(); if (list != null && list.length > 0) {
-	 * member = (Member) list[0]; member.setProject(project);
-	 * member.setName(name); member.setCompany(company);
-	 * member.setIndustory(industory); member.setPosition(position);
-	 * member.setAddress(address);
-	 * member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-	 * member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-	 * if (image != null && !image.equals(member.getIcon())) {
-	 * member.setIcon(image); }
-	 * 
-	 * // 保存音频 String fileName = ""; String res = ""; if (file != null) {
-	 * fileName = String.format( Config.STRING_USER_AUDIO_FORMAT, new
-	 * Date().getTime(), 0); res = FileUtil.savePicture(file, fileName,
-	 * "upload/audio/"); if (!res.equals("")) { fileName =
-	 * Config.STRING_SYSTEM_ADDRESS + "upload/audio/" + res; } else { fileName =
-	 * ""; } if (!fileName.equals("")) { member.setIcon(fileName); } }
-	 * this.projectManager.getMemberDao().saveOrUpdate(member); } else { member
-	 * = new Member(); member.setName(name); member.setProject(project);
-	 * member.setCompany(company); member.setIndustory(industory);
-	 * member.setPosition(position); member.setAddress(address);
-	 * member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-	 * member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-	 * if (image != null && !image.equals(member.getIcon())) {
-	 * member.setIcon(image); }
-	 * 
-	 * // 保存音频 String fileName = ""; String res = ""; if (file != null) {
-	 * fileName = String.format( Config.STRING_USER_AUDIO_FORMAT, new
-	 * Date().getTime(), 0); res = FileUtil.savePicture(file, fileName,
-	 * "upload/audio/"); if (!res.equals("")) { fileName =
-	 * Config.STRING_SYSTEM_ADDRESS + "upload/audio/" + res; } else { fileName =
-	 * ""; } if (!fileName.equals("")) { member.setIcon(fileName); } }
-	 * this.projectManager.getMemberDao().save(member); } } else { member = new
-	 * Member(); member.setName(name); member.setIndustory(industory);
-	 * member.setCompany(company); member.setPosition(position);
-	 * member.setAddress(address);
-	 * member.setEmial(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-	 * member.setTelephone(Config.STRING_SYSTEM_SERVICE_PROJECT_UPLOAD_EMAIL);
-	 * if (image != null && !image.equals(member.getIcon())) {
-	 * member.setIcon(image); }
-	 * 
-	 * 
-	 * // 保存音频 String fileName = ""; String res = ""; if (file != null) {
-	 * fileName = String.format(Config.STRING_USER_AUDIO_FORMAT, new
-	 * Date().getTime(), 0); res = FileUtil.savePicture(file, fileName,
-	 * "upload/audio/"); if (!res.equals("")) { fileName =
-	 * Config.STRING_SYSTEM_ADDRESS + "upload/audio/" + res; } else { fileName =
-	 * ""; } if (!fileName.equals("")) { member.setIcon(fileName); } }
-	 * this.projectManager.getMemberDao().save(member); }
-	 * 
-	 * }
-	 * 
-	 * Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
-	 * map.put("content", "memberDetail"); map.put("data", member); return
-	 * Config.NEW_SERVER_CONTROL; }
-	 * 
+	 */
+
+	/*
 	 * /** 活动内容
 	 */
 	/*
@@ -3098,47 +3846,6 @@ public class NewWebAdminController extends BaseController {
 	 * 
 	 * map.put("content", introduce); } String[] list = { "文字", "图片" };
 	 * map.put("types", list); return "newSystem/action/editorActionContent"; }
-	 * 
-	 * @RequestMapping(value = "/newSystem/adminAddActionContent") public String
-	 * adminAddActionContent(
-	 * 
-	 * @RequestParam(value = "contentId", required = false) Integer contentId,
-	 * 
-	 * @RequestParam(value = "actionId", required = false) Integer actionId,
-	 * 
-	 * @RequestParam(value = "type", required = false) short type,
-	 * 
-	 * @RequestParam(value = "content", required = false) String content,
-	 * HttpSession session, ModelMap map) { Actionintroduce introduce; if
-	 * (contentId != -1) { introduce =
-	 * this.actionManaer.getActionIntroduceDao().findById( contentId);
-	 * introduce.setType(type); introduce.setContent(content);
-	 * 
-	 * if (type != 0) { // 更新身份证B面 if (session.getAttribute("images") != null) {
-	 * List images = (List) session.getAttribute("images");
-	 * introduce.setContent(images.get(0).toString());
-	 * 
-	 * session.setAttribute("images", null);
-	 * 
-	 * } }
-	 * 
-	 * this.actionManaer.getActionIntroduceDao().saveOrUpdate(introduce); } else
-	 * { Action action = this.actionManaer.findActionById(actionId); introduce =
-	 * new Actionintroduce(); introduce.setContent(content);
-	 * introduce.setAction(action); introduce.setType(type); if (type != 0) { //
-	 * 更新身份证B面 if (session.getAttribute("images") != null) { List images =
-	 * (List) session.getAttribute("images");
-	 * introduce.setContent(images.get(0).toString());
-	 * 
-	 * session.setAttribute("images", null);
-	 * 
-	 * } }
-	 * 
-	 * this.actionManaer.getActionIntroduceDao().save(introduce); }
-	 * 
-	 * String[] list = { "文字", "图片" }; map.put("types", list);
-	 * map.put("content", introduce); return
-	 * "newSystem/action/editorActionContent"; }
 	 *//***
 	 * 金日投条
 	 * 
@@ -3182,61 +3889,9 @@ public class NewWebAdminController extends BaseController {
 	 * ModelMap map) { if (contentId != null) { Weburlrecord record =
 	 * this.webManager.findRecordById(contentId); map.put("content", record); }
 	 * return "test/editorKingCapital"; }
-	 *//***
-	 * 添加金日投条
-	 * 
-	 * @return
-	 * @throws Exception
 	 */
-	/*
-	 * @RequestMapping(value = "newSystem/adminAddKingCapital") public String
-	 * adminAddKingCapital(
-	 * 
-	 * @RequestParam(value = "contentId", required = false) Integer contentId,
-	 * 
-	 * @RequestParam(value = "title", required = false) String title,
-	 * 
-	 * @RequestParam(value = "tag", required = false) String tag,
-	 * 
-	 * @RequestParam(value = "url", required = false) String url,
-	 * 
-	 * @RequestParam(value = "image", required = false) String image,
-	 * 
-	 * @RequestParam(value = "editorValue", required = false) String content,
-	 * 
-	 * @RequestParam(value = "orignal", required = false) String orignal,
-	 * 
-	 * @RequestParam(value = "flag", required = false) Boolean flag,
-	 * 
-	 * @RequestParam(value = "beginTime", required = false) String beginTime,
-	 * HttpSession session, ModelMap map) throws Exception { Weburlrecord
-	 * record; Contenttype type = new Contenttype(); type.setTypeId(1);
-	 * 
-	 * if (session.getAttribute("images") != null) { List images = (List)
-	 * session.getAttribute("images"); image = images.get(0).toString();
-	 * session.setAttribute("images", null); }
-	 * 
-	 * if (content == null) { content = ""; }
-	 * 
-	 * if (contentId != null) { record =
-	 * this.webManager.findRecordById(contentId); record.setUrl(url);
-	 * record.setTag(tag); record.setFlag(flag); record.setTitle(title);
-	 * record.setImage(image); record.setContent(content);
-	 * record.setOrignal(orignal); record.setContenttype(type); if (beginTime !=
-	 * null) { record.setCreateDate(DateUtils.stringToDate(beginTime,
-	 * "yyyy-MM-dd HH:mm:ss")); } else { record.setCreateDate(new Date()); }
-	 * 
-	 * this.webManager.getWebUrlRecordDao().saveOrUpdate(record); } else {
-	 * record = new Weburlrecord(); record.setTag(tag); record.setUrl(url);
-	 * record.setFlag(flag); record.setTitle(title); record.setImage(image);
-	 * record.setOrignal(orignal); record.setContent(content);
-	 * record.setContenttype(type); if (beginTime != null) {
-	 * record.setCreateDate(DateUtils.stringToDate(beginTime,
-	 * "yyyy-MM-dd HH:mm:ss")); } else { record.setCreateDate(new Date()); }
-	 * 
-	 * this.webManager.getWebUrlRecordDao().save(record); } map.put("content",
-	 * record); return "test/editorKingCapital"; }
-	 *//***
+
+	/***
 	 * 提交项目
 	 * 
 	 * @return
@@ -3490,191 +4145,9 @@ public class NewWebAdminController extends BaseController {
 	 * "多图模式"); list.add(dataMap);
 	 * 
 	 * map.put("options", list); return "test/editNewsContent"; }
-	 *//***
-	 * 编辑资讯内容
-	 * 
-	 * @return
 	 */
-	/*
-	 * @RequestMapping(value = "/newSystem/adminAddNewsInfo") public String
-	 * adminAddNewsInfo(
-	 * 
-	 * @RequestParam(value = "contentId", required = false) Integer contentId,
-	 * 
-	 * @RequestParam(value = "title", required = false) String title,
-	 * 
-	 * @RequestParam(value = "original", required = false) String original,
-	 * 
-	 * @RequestParam(value = "image", required = false) String image,
-	 * 
-	 * @RequestParam(value = "type", required = false) Integer type,
-	 * 
-	 * @RequestParam(value = "editorValue", required = false) String content,
-	 * 
-	 * @RequestParam(value = "publicDate", required = false) String publicDate,
-	 * HttpSession session, ModelMap map) { Msg msg; if (contentId != null) {
-	 * msg = this.messageManager.getMsgDao().findById(contentId); } else { msg =
-	 * new Msg(); this.messageManager.getMsgDao().save(msg); }
-	 * 
-	 * Webcontenttype contentType = new Webcontenttype();
-	 * contentType.setTypeId(type); msg.setTitle(title);
-	 * msg.setOringl(original); msg.setPublicDate(new Date());
-	 * msg.setWebcontenttype(contentType);
-	 * 
-	 * MsgDetail detail; if (msg.getMsgDetails() != null &&
-	 * msg.getMsgDetails().size() > 0) { Object[] obj =
-	 * msg.getMsgDetails().toArray(); detail = (MsgDetail) obj[0];
-	 * detail.setContent(content); } else { detail = new MsgDetail();
-	 * detail.setMsg(msg); detail.setContent(content);
-	 * 
-	 * // 保存 this.messageManager.getMsgDetailDAO().save(detail);
-	 * 
-	 * // 保存关系 Set set = new HashSet(); set.add(detail);
-	 * 
-	 * msg.setMsgDetails(set); }
-	 * 
-	 * List l = (List) session.getAttribute("News");
-	 * 
-	 * Set set = new HashSet(); if (l != null && l.size() > 0) { if (type != 4
-	 * && type != 1) { for (int i = 0; i < msg.getMsgImageses().size(); i++) {
-	 * Object[] objs = msg.getMsgImageses().toArray(); MsgImages images =
-	 * (MsgImages) objs[i];
-	 * this.messageManager.getMsgImagesDao().delete(images); } } else { if
-	 * (msg.getMsgImageses().size() == 3) { for (int i = 0; i < l.size(); i++) {
-	 * Object[] objs = msg.getMsgImageses().toArray(); MsgImages images =
-	 * (MsgImages) objs[i];
-	 * this.messageManager.getMsgImagesDao().delete(images); } } }
-	 * 
-	 * int i = l.size() >= 3 ? 3 : l.size(); for (int j = 0; j < i; j++) {
-	 * MsgImages images = new MsgImages(); images.setUrl(l.get(j).toString());
-	 * images.setMsg(msg); this.messageManager.getMsgImagesDao().save(images);
-	 * set.add(images); } } else { if (image != null && !image.equals("")) {
-	 * 
-	 * if (type != 4 && type != 1) { Object[] objs =
-	 * msg.getMsgImageses().toArray(); MsgImages images = (MsgImages) objs[0];
-	 * this.messageManager.getMsgImagesDao().delete(images); } else { if
-	 * (msg.getMsgImageses().size() >= 3) { Object[] objs =
-	 * msg.getMsgImageses().toArray(); MsgImages images = (MsgImages) objs[0];
-	 * this.messageManager.getMsgImagesDao().delete(images); } }
-	 * 
-	 * MsgImages images = new MsgImages(); images.setMsg(msg);
-	 * images.setUrl(image); this.messageManager.getMsgImagesDao().save(images);
-	 * set.add(images); } }
-	 * 
-	 * msg.setMsgImageses(set);
-	 * this.messageManager.getMsgDao().saveOrUpdate(msg);
-	 * 
-	 * session.setAttribute("News", null);
-	 * 
-	 * List list = new ArrayList(); Map dataMap = new HashMap();
-	 * dataMap.put("key", 1); dataMap.put("value", "无图模式"); list.add(dataMap);
-	 * 
-	 * dataMap = new HashMap(); dataMap.put("key", 2); dataMap.put("value",
-	 * "小图模式"); list.add(dataMap);
-	 * 
-	 * dataMap = new HashMap(); dataMap.put("key", 3); dataMap.put("value",
-	 * "大图模式"); list.add(dataMap);
-	 * 
-	 * dataMap = new HashMap(); dataMap.put("key", 4); dataMap.put("value",
-	 * "多图模式"); list.add(dataMap);
-	 * 
-	 * map.put("msg", msg); map.put("options", list); return
-	 * "test/editNewsContent"; }
-	 *//***
-	 * 编辑资讯内容
-	 * 
-	 * @return
-	 */
-	/*
-	 * @RequestMapping(value = "/newSystem/adminAddOriginal") public String
-	 * adminAddOriginal(
-	 * 
-	 * @RequestParam(value = "contentId", required = false) Integer contentId,
-	 * 
-	 * @RequestParam(value = "title", required = false) String title,
-	 * 
-	 * @RequestParam(value = "original", required = false) String original,
-	 * 
-	 * @RequestParam(value = "image", required = false) String image,
-	 * 
-	 * @RequestParam(value = "type", required = false) Integer type,
-	 * 
-	 * @RequestParam(value = "editorValue", required = false) String content,
-	 * 
-	 * @RequestParam(value = "publicDate", required = false) String publicDate,
-	 * HttpSession session, ModelMap map) { Original msg; if (contentId != null)
-	 * { msg = this.mainManager.getOrigianlDao().findById(contentId); } else {
-	 * msg = new Original(); this.mainManager.getOrigianlDao().save(msg); }
-	 * 
-	 * Webcontenttype contentType = new Webcontenttype();
-	 * contentType.setTypeId(type); msg.setTitle(title);
-	 * msg.setOringl(original); msg.setPublicDate(publicDate);
-	 * msg.setWebcontenttype(contentType);
-	 * 
-	 * OriginalDetail detail; if (msg.getOriginalDetails() != null &&
-	 * msg.getOriginalDetails().size() > 0) { Object[] obj =
-	 * msg.getOriginalDetails().toArray(); detail = (OriginalDetail) obj[0];
-	 * detail.setOriginal(msg); detail.setContent(content); } else { detail =
-	 * new OriginalDetail(); detail.setOriginal(msg);
-	 * detail.setContent(content);
-	 * 
-	 * // 保存 this.mainManager.getOriginalDetailDao().save(detail);
-	 * 
-	 * // 保存关系 Set set = new HashSet(); set.add(detail);
-	 * 
-	 * msg.setOriginalDetails(set); }
-	 * 
-	 * List l = (List) session.getAttribute("Original");
-	 * 
-	 * Set set = new HashSet(); if (l != null && l.size() > 0) { if (type != 4
-	 * && type != 1) { for (int i = 0; i < msg.getOriginalImgs().size(); i++) {
-	 * Object[] objs = msg.getOriginalImgs().toArray(); OriginalImg images =
-	 * (OriginalImg) objs[i];
-	 * this.mainManager.getOriginalImgDao().delete(images); } } else { if
-	 * (msg.getOriginalImgs().size() == 3) { for (int i = 0; i < l.size(); i++)
-	 * { Object[] objs = msg.getOriginalImgs().toArray(); OriginalImg images =
-	 * (OriginalImg) objs[i];
-	 * this.mainManager.getOriginalImgDao().delete(images); } } }
-	 * 
-	 * int i = l.size() >= 3 ? 3 : l.size(); for (int j = 0; j < i; j++) {
-	 * OriginalImg images = new OriginalImg();
-	 * images.setUrl(l.get(j).toString()); images.setOriginal(msg);
-	 * this.mainManager.getOriginalImgDao().save(images); set.add(images); } }
-	 * else { if (image != null && !image.equals("") && (l == null || (l != null
-	 * && l.size() == 0))) {
-	 * 
-	 * if (type != 4 && type != 1) { Object[] objs =
-	 * msg.getOriginalImgs().toArray(); OriginalImg images = (OriginalImg)
-	 * objs[0]; this.mainManager.getOriginalImgDao().delete(images); } else { if
-	 * (msg.getOriginalDetails().size() >= 3) { Object[] objs =
-	 * msg.getOriginalDetails().toArray(); OriginalImg images = (OriginalImg)
-	 * objs[0]; this.mainManager.getOriginalImgDao().delete(images); } }
-	 * 
-	 * OriginalImg images = new OriginalImg(); images.setOriginal(msg);
-	 * images.setUrl(image); this.mainManager.getOriginalImgDao().save(images);
-	 * set.add(images); } }
-	 * 
-	 * msg.setOriginalImgs(set);
-	 * 
-	 * this.mainManager.getOrigianlDao().saveOrUpdate(msg);
-	 * 
-	 * session.setAttribute("Original", null);
-	 * 
-	 * List list = new ArrayList(); Map dataMap = new HashMap();
-	 * dataMap.put("key", 1); dataMap.put("value", "无图模式"); list.add(dataMap);
-	 * 
-	 * dataMap = new HashMap(); dataMap.put("key", 2); dataMap.put("value",
-	 * "小图模式"); list.add(dataMap);
-	 * 
-	 * dataMap = new HashMap(); dataMap.put("key", 3); dataMap.put("value",
-	 * "大图模式"); list.add(dataMap);
-	 * 
-	 * dataMap = new HashMap(); dataMap.put("key", 4); dataMap.put("value",
-	 * "多图模式"); list.add(dataMap);
-	 * 
-	 * map.put("msg", msg); map.put("options", list); return "test/editArtices";
-	 * }
-	 *//***
+
+	/***
 	 * 编辑资讯内容
 	 * 
 	 * @return
@@ -3766,6 +4239,17 @@ public class NewWebAdminController extends BaseController {
 	 * 
 	 * return "newSystem/NewsContent/articesList"; }
 	 *//***
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
 	 * 
 	 * 
 	 * 

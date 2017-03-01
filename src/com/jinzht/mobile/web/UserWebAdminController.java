@@ -1477,21 +1477,21 @@ public class UserWebAdminController extends BaseController {
 			Msg content = this.messageManager.getMsgDao().findById(contentId);
 			
 			
-			//添加样式表
-			List l_style = new ArrayList();
-			l_style.add("../admin/kindeditor-master/themes/default/style.css");
 			
-			map.put("style", l_style);
-			
-			l_style = new ArrayList();
-			l_style.add("../admin/ueditor/ueditor.config.js");
-			l_style.add("../admin/ueditor/ueditor.all.min.js");
-			l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
-			
-			map.put("js", l_style);
 			map.put("data", content);
 		}
 		
+		//添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+		map.put("style", l_style);
+		
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+		
+		map.put("js", l_style);
 		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
 		map.put("content", "consultDetail");
 		return Config.NEW_SERVER_CONTROL;
@@ -1518,20 +1518,23 @@ public class UserWebAdminController extends BaseController {
 			
 			Original content = this.mainManager.getOrigianlDao().findById(contentId);
 			
-			//添加样式表
-			List l_style = new ArrayList();
-			l_style.add("../admin/kindeditor-master/themes/default/style.css");
-			
-			map.put("style", l_style);
-			
-			l_style = new ArrayList();
-			l_style.add("../admin/ueditor/ueditor.config.js");
-			l_style.add("../admin/ueditor/ueditor.all.min.js");
-			l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
-			
-			map.put("js", l_style);
+
 			map.put("data", content);
 		}
+		
+		//添加样式表
+		List l_style = new ArrayList();
+		l_style.add("../admin/kindeditor-master/themes/default/style.css");
+		
+		map.put("style", l_style);
+		
+		l_style = new ArrayList();
+		l_style.add("../admin/ueditor/ueditor.config.js");
+		l_style.add("../admin/ueditor/ueditor.all.min.js");
+		l_style.add("../admin/ueditor/lang/zh-cn/zh-cn.js");
+		
+		map.put("js", l_style);
+		
 		
 		Tools.setValueOfWebPage(map, 0, 0, 0, sortmenu, menu, submenu);
 		map.put("content", "originalDetail");

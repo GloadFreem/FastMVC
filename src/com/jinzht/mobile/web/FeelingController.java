@@ -463,16 +463,8 @@ public class FeelingController extends BaseController {
 				public void run() {
 					
 					Systemmessage message = new Systemmessage();
-					if(u2==null)
-					{
-						message.setUsers(cc.getUsers());
-						message.setTitle("【有人回复了您的圈子】");
-						
-					}else{
-						message.setUsers(u2);
-						message.setTitle("【有人@了您】");
-					}
-					
+					message.setUsers(cc.getUsers());
+					message.setTitle("【有人回复了您的圈子】");
 					message.setContent(c.getContent());
 					message.setIsRead(false);
 					message.setMessageDate(new Date());
@@ -483,12 +475,15 @@ public class FeelingController extends BaseController {
 					
 					message.setMessagetype(type);
 					
+					//保存
+					self.systemManager.getSystemMessageDao().save(message);
+					
 					
 					//推送消息
 					PushUtil pushUtil = new PushUtil();
 					pushUtil.setTitle(message.getTitle()+":"+c.getContent());
-					pushUtil.setShareUrl("");
 					pushUtil.setContent(message.getContent());
+					pushUtil.setShareUrl("");
 					pushUtil.setWebViewTitle("");
 					pushUtil.setShareImage("");
 					pushUtil.setShareIntroduce("");  
@@ -503,19 +498,34 @@ public class FeelingController extends BaseController {
 						{
 							if(!u2.getRegId().equals(null))
 							{
+								message = new Systemmessage();
+								message.setUsers(u2);
+								message.setTitle("【有人@了您】");
+								
+								message.setContent(c.getContent());
+								message.setIsRead(false);
+								message.setMessageDate(new Date());
+								message.setValid(true);
+								
+								type = new Messagetype();
+								type.setMessageTypeId(5);
+								
+								message.setMessagetype(type);
+								
 								pushUtil.setRegId(u2.getRegId());
 								pushUtil.setPlatform(u2.getPlatform());
+								pushUtil.setContent(message.getContent());
+								pushUtil.setTitle(message.getTitle()+":"+c.getContent());
 								pushUtil.send();
 								u2.setPlatform(null);
+								
+
+								
+								self.systemManager.getSystemMessageDao().save(message);
+								
 							}
 						}
-					} else {
-						pushUtil.setIsAllPush(true);
-						pushUtil.send();
 					}
-					
-					//保存
-					self.systemManager.getSystemMessageDao().save(message);
 				};
 			}.start();
 			

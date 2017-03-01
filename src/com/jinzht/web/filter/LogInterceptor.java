@@ -36,6 +36,9 @@ public class LogInterceptor implements HandlerInterceptor {
 		// 获取session会话
 		HttpSession session = hrequest.getSession(true);
 		
+		// 输出请求信息
+		System.out.println("Filter 截获到用户倾听求地址:  " + hrequest.getServletPath());
+		
 		//如果带有直连接口属性，直接通过
 		if(hrequest.getParameter("requestType")!=null)
 		{
@@ -45,9 +48,6 @@ public class LogInterceptor implements HandlerInterceptor {
 				return true;
 			}
 		}
-		
-		// 输出请求信息
-		System.out.println("Filter 截获到用户倾听求地址:  " + hrequest.getServletPath());
 		
 		long after = System.currentTimeMillis();
 

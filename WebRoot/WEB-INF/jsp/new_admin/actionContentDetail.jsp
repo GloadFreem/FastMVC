@@ -7,7 +7,7 @@
 			<p>团队内容</p>
 		</header>
 		<section class="scrollable wrapper">
-			<form action="editSourceDetail.action?menu=1&sortmenu=1&submenu=3"
+			<form action="adminAddActionContent.action?menu=5&sortmenu=2&submenu=2"
 				method="post" enctype="multipart/form-data">
 				<div class="">
 					<input name="contentId" value="${data.introduceId}"
@@ -35,7 +35,7 @@
 				<li class="list-group-item">
 					<div class="clear">内容类型</div>
 				</li>
-				<li class="list-group-item"><input name="vtimelong"
+				<li class="list-group-item"><input name="type"
 					class="form-control alert-success" value="${data.type }"
 					placeholder="请输入类型">
 					</div></li>
@@ -46,7 +46,7 @@
 				</li>
 				<li class="list-group-item"><c:choose>
 						<c:when test="${data.type==0 }">
-							<textarea name="vtimelong" class="form-control alert-success"
+							<textarea name="content" class="form-control alert-success"
 								placeholder="请输入描述" style="height:300px;">${data.content }</textarea>
 							</div>
 						</c:when>
